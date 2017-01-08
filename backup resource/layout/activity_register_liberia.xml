@@ -1,0 +1,2731 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.siddiquinoor.restclient.activity.RegisterLiberia">
+    <include layout="@layout/header" />
+
+
+    <!-- TITLE PAGE   -->
+    <RelativeLayout android:id="@+id/page_title"
+        android:layout_below="@id/header"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/green"
+                android:text="@string/btn_house_label"
+                android:textSize="@dimen/abc_text_size_large_material"
+                android:padding="10dp"
+                android:textAlignment="center"
+                android:gravity="center" />
+    </RelativeLayout>
+<ScrollView
+    android:layout_below="@+id/page_title"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        
+        <LinearLayout
+            android:weightSum="1"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <!-- Label Container -->
+            <LinearLayout
+                android:layout_weight=".7"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_marginBottom="5dp"
+                    android:id="@+id/tv_hh_district"
+                    android:paddingLeft="4dp"
+
+                    android:paddingTop="15dp"
+                    android:paddingBottom="5dp"
+                    android:text="Select District"
+                    android:layout_width="match_parent"
+                    android:textSize="16sp"
+                    android:layout_height="@dimen/spinner_height" />
+
+                <TextView
+                    android:layout_marginBottom="5dp"
+                    android:id="@+id/tv_hh_upazilla"
+                    android:paddingLeft="4dp"
+
+                    android:paddingTop="15dp"
+                    android:paddingBottom="5dp"
+                    
+                    android:text="Select Ta"
+                    android:layout_width="match_parent"
+                    android:textSize="16sp"
+                    android:layout_height="@dimen/spinner_height" />
+
+                <TextView
+                    android:layout_marginBottom="5dp"
+
+                    android:paddingLeft="4dp"
+
+                    android:paddingTop="15dp"
+                    android:paddingBottom="5dp"
+                    android:text="Select GVH"
+                    android:layout_width="match_parent"
+                    android:textSize="16sp"
+                    android:layout_height="@dimen/spinner_height" />
+
+                <TextView
+                    android:layout_marginBottom="5dp"
+                    android:paddingLeft="4dp"
+
+                    android:paddingTop="15dp"
+                    android:paddingBottom="5dp"
+                    android:text="Select Village"
+                    android:layout_width="match_parent"
+                    android:textSize="16sp"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:layout_marginBottom="5dp"
+                    android:paddingLeft="4dp"
+                    android:paddingTop="15dp"
+                    android:paddingBottom="5dp"
+                    android:text="Household ID"
+                    android:layout_width="match_parent"
+                    android:textSize="16sp"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:paddingLeft="4dp"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
+                    android:text="Reg. Date"
+                    android:layout_width="match_parent"
+                    android:textSize="16sp"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:paddingLeft="4dp"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
+                    android:text="Household"
+                    android:layout_width="match_parent"
+                    android:textSize="16sp"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
+            <!-- Control Container -->
+            <LinearLayout
+                android:layout_weight=".3"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <Spinner
+                    android:id="@+id/sp_lb_District"
+                    style="@style/registration_spinner_style"/>
+
+                <Spinner
+                    android:id="@+id/sp_lb_Upazilla"
+                    style="@style/registration_spinner_style" />
+
+                <Spinner
+                    android:id="@+id/sp_LB_Union"
+                    style="@style/registration_spinner_style" />
+                <!-- Village -->
+                <Spinner
+                    android:id="@+id/sp_LB_Village"
+
+                    style="@style/registration_spinner_style" />
+                <EditText
+                    android:id="@+id/edt_LB_reg_id"
+                    android:hint="ID [auto generated]"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:singleLine="true"
+                    android:padding="10dp"
+                    android:background="@color/white"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/gray"
+                    android:layout_marginBottom="5dp"
+                    android:textSize="14dp"
+                    android:focusable="false"
+                    android:cursorVisible="false"/>
+
+                <!-- Registration Date -->
+                <RelativeLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginBottom="5dp"
+                    android:background="@color/white"
+                    android:padding="10dp">
+
+
+                    <TextView
+                        android:id="@+id/tv_LB_hh_reg_date"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:text="Date"
+                        android:textSize="14dp"
+                        android:hint="Registration Date"
+                        android:textColor="@color/input_label_hint"
+                        android:layout_alignParentTop="true"
+                        android:layout_centerHorizontal="true" />
+                </RelativeLayout>
+
+                <EditText android:id="@+id/edt_LB_reg_name"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Name of the Person"
+                    android:singleLine="true"
+                    android:background="@color/white"
+                    android:padding="10dp"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/gray"
+                    android:layout_marginBottom="5dp"
+                    android:textSize="14dp"
+                    android:inputType="textPersonName"
+                    />
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+        <!-- District Label layer -->
+
+        <LinearLayout
+            android:weightSum="1"
+            android:layout_width="fill_parent"
+            android:orientation="horizontal"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                style="@style/liberia_reg_label_container">
+
+
+            </LinearLayout>
+            <LinearLayout
+              style="@style/liberia_reg_view_container">
+                <!-- Past here -->
+                <!-- District -->
+
+
+            </LinearLayout>
+        </LinearLayout>
+
+
+
+        <!-- Upazilla Label layer -->
+
+        <LinearLayout
+            android:weightSum="1"
+            android:layout_width="fill_parent"
+            android:orientation="horizontal"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                style="@style/liberia_reg_label_container">
+
+
+            </LinearLayout>
+            <LinearLayout
+                style="@style/liberia_reg_view_container">
+                <!-- Past here -->
+                <!--  District Label -->
+
+
+            </LinearLayout>
+        </LinearLayout>
+
+
+
+        <!-- Union Label layer -->
+
+        <LinearLayout
+            android:weightSum="1"
+            android:layout_width="fill_parent"
+            android:orientation="horizontal"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                style="@style/liberia_reg_label_container">
+
+
+            </LinearLayout>
+            <LinearLayout
+                style="@style/liberia_reg_view_container">
+                <!-- Past here -->
+                <!--  Union -->
+
+
+            </LinearLayout>
+        </LinearLayout>
+
+
+        <!-- Village Label layer -->
+
+        <LinearLayout
+            android:weightSum="1"
+            android:layout_width="fill_parent"
+            android:orientation="horizontal"
+            android:layout_height="wrap_content">
+                <LinearLayout
+                    style="@style/liberia_reg_label_container">
+
+                </LinearLayout>
+                <LinearLayout
+                    style="@style/liberia_reg_view_container">
+                        <!-- Past here -->
+
+                    </LinearLayout>
+        </LinearLayout>
+
+
+        <!-- Registration ID Label layer -->
+
+        <LinearLayout
+            android:weightSum="1"
+            android:layout_width="fill_parent"
+            android:orientation="horizontal"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                style="@style/liberia_reg_label_container">
+
+
+            </LinearLayout>
+            <LinearLayout
+                style="@style/liberia_reg_view_container">
+                <!-- Past here -->
+                <!-- Registration ID Label -->
+
+
+            </LinearLayout>
+        </LinearLayout>
+        <LinearLayout
+            android:weightSum="1"
+            android:layout_width="fill_parent"
+            android:orientation="horizontal"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                style="@style/liberia_reg_label_container">
+
+
+            </LinearLayout>
+            <LinearLayout
+                style="@style/liberia_reg_view_container">
+                <!-- Past here -->
+
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Name -->
+        <LinearLayout
+            android:weightSum="1"
+            android:layout_width="fill_parent"
+            android:orientation="horizontal"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                style="@style/liberia_reg_label_container">
+
+
+            </LinearLayout>
+            <LinearLayout
+                style="@style/liberia_reg_view_container">
+                <!-- Past here -->
+                <!-- Name -->
+
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- cetagroies  -->
+
+        <LinearLayout
+
+            android:paddingLeft="10dp"
+            android:weightSum="1"
+            android:layout_width="fill_parent"
+            android:orientation="horizontal"
+
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+                <TextView
+                    android:textColor="@color/red"
+                    android:paddingLeft="4dp"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
+                    android:text="@string/title_catagories"
+                    android:textStyle="bold"
+                    android:layout_width="match_parent"
+                    android:textSize="16sp"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <!-- house hold type  Spinner layer -->
+
+        <LinearLayout
+            android:layout_marginTop="5dp"
+            android:weightSum="1"
+            android:layout_width="fill_parent"
+            android:orientation="horizontal"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                style="@style/liberia_reg_label_container">
+                <TextView
+                    android:paddingLeft="4dp"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
+                    android:text="HH TYPE"
+                    android:layout_width="match_parent"
+                    android:textSize="16sp"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+            <LinearLayout
+                style="@style/liberia_reg_view_container">
+                <!-- Past here -->
+                <!-- Gender Spinner -->
+                    <Spinner
+                        android:id="@+id/sp_LB_hh_type"
+                        style="@style/registration_spinner_style" />
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <!--  Title  -->
+
+        <LinearLayout
+
+            android:paddingLeft="10dp"
+            android:weightSum="1"
+            android:layout_width="fill_parent"
+            android:orientation="horizontal"
+
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+                <TextView
+                    android:textColor="@color/red"
+                    android:paddingLeft="4dp"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
+                    android:text="AGE SPECIFIC DISTRIBUTION OF MEMBERS"
+                    android:textStyle="bold"
+                    android:layout_width="match_parent"
+                    android:textSize="16sp"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <!-- Age Section  -->
+        <LinearLayout
+            android:weightSum="1"
+            android:layout_width="fill_parent"
+            android:orientation="horizontal"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                style="@style/liberia_reg_age_label_container">
+              <!--  <TextView
+                    android:paddingLeft="4dp"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
+                    android:text="Household"
+                    android:layout_width="match_parent"
+                    android:textSize="16sp"
+                    android:layout_height="wrap_content" />-->
+
+            </LinearLayout>
+            <LinearLayout
+                style="@style/liberia_reg_age_view_container">
+                <!-- Past here -->
+                <!-- Name -->
+                <TextView
+                    android:gravity="center_horizontal"
+                    android:layout_weight=".4"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="Male"
+                    android:singleLine="true"
+
+                    android:padding="10dp"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/gray"
+                    android:layout_marginBottom="5dp"
+                    android:textSize="14dp"
+                    android:inputType="textPersonName"
+                    />
+
+                <!-- Name -->
+                <TextView
+                    android:gravity="center_horizontal"
+                    android:layout_weight=".4"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="Female"
+                    android:singleLine="true"
+
+                    android:padding="10dp"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/gray"
+                    android:layout_marginBottom="5dp"
+                    android:textSize="14dp"
+                    android:inputType="textPersonName"
+                    />
+
+            </LinearLayout>
+        </LinearLayout>
+
+
+        <!-- Children (< 2 Yrs) Section  -->
+        <LinearLayout
+            android:weightSum="1"
+            android:layout_width="fill_parent"
+            android:orientation="horizontal"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                style="@style/liberia_reg_age_label_container"
+               >
+                  <TextView
+                     style="@style/lb_reg_label"
+
+
+                      android:text="Children 2 Yrs)"
+
+                      />
+
+            </LinearLayout>
+            <LinearLayout
+                style="@style/liberia_reg_age_view_container">
+                <!-- Past here -->
+
+                <EditText
+                    android:id="@+id/edt_lb_reg_LT2yrsM"
+                    style="@style/lb_reg_age_l_edt"
+
+                    android:hint="LT2yrsM"
+
+                    />
+
+                <!-- Name -->
+                <EditText
+                    android:id="@+id/edt_lb_reg_LT2yrsF"
+                    style="@style/lb_reg_age_r_edt"
+
+                    android:hint="LT2yrsF"
+                    />
+
+            </LinearLayout>
+        </LinearLayout>
+
+
+        <!-- Children (< 2 Yrs) Section  -->
+        <LinearLayout
+            android:weightSum="1"
+            android:layout_width="fill_parent"
+            android:orientation="horizontal"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                style="@style/liberia_reg_age_label_container"
+                >
+                <TextView
+                    style="@style/lb_reg_label"
+
+
+                    android:text="Children (2 to 5 yrs)"
+
+                    />
+
+            </LinearLayout>
+            <LinearLayout
+                style="@style/liberia_reg_age_view_container">
+                <!-- Past here -->
+
+                <EditText
+                    android:id="@+id/edt_lb_reg_M2to5yrs"
+                    style="@style/lb_reg_age_l_edt"
+                    android:hint="M2to5yrs"
+
+                    />
+
+                <!-- Male age  -->
+                <EditText
+                    android:id="@+id/edt_lb_reg_F2to5yrs"
+                    style="@style/lb_reg_age_r_edt"
+                   android:hint="F2to5yrs"
+                   />
+
+            </LinearLayout>
+        </LinearLayout>
+
+
+        <!-- Children (< 2 Yrs) Section  -->
+        <LinearLayout
+            android:weightSum="1"
+            android:layout_width="fill_parent"
+            android:orientation="horizontal"
+            android:layout_height="wrap_content">
+            <LinearLayout
+
+                style="@style/liberia_reg_age_label_container"
+                >
+                <TextView
+                    style="@style/lb_reg_label"
+
+                    android:text="Children (6 to 12 yrs)"
+
+                    />
+
+            </LinearLayout>
+            <LinearLayout
+
+                style="@style/liberia_reg_age_view_container">
+                <!-- Past here -->
+
+                <EditText
+                    android:id="@+id/edt_lb_reg_M6to12yrs"
+                    style="@style/lb_reg_age_l_edt"
+                    android:hint="M6to12yrs"
+
+                    />
+
+                <!-- Male age  -->
+                <EditText
+                    android:id="@+id/edt_lb_reg_F6to12yrs"
+                    android:hint="F6to12yrs"
+                    style="@style/lb_reg_age_r_edt"
+                    />
+
+            </LinearLayout>
+        </LinearLayout>
+        <!-- M13to17yrs  Section  -->
+        <LinearLayout
+            android:weightSum="1"
+            android:layout_width="fill_parent"
+            android:orientation="horizontal"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                style="@style/liberia_reg_age_label_container"
+                >
+                <TextView
+                    style="@style/lb_reg_label"
+
+                    android:text="Children (13 to 17 yrs)"
+
+
+                    />
+
+            </LinearLayout>
+            <LinearLayout
+                style="@style/liberia_reg_age_view_container">
+                <!-- Past here -->
+
+                <EditText
+                    android:id="@+id/edt_lb_reg_M13to17yrs"
+                    style="@style/lb_reg_age_l_edt"
+                    android:hint="M13to17yrs"
+
+                    />
+
+                <!-- Female age  -->
+                <EditText
+                    android:id="@+id/edt_lb_reg_F13to17yrs"
+                    android:hint="F13to17yrs"
+                    style="@style/lb_reg_age_r_edt"
+                    />
+
+            </LinearLayout>
+        </LinearLayout>
+        <!-- Children (< 2 Yrs) Section  -->
+        <LinearLayout
+            android:weightSum="1"
+            android:layout_width="fill_parent"
+            android:orientation="horizontal"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                style="@style/liberia_reg_age_label_container"
+                >
+                <TextView
+                    style="@style/lb_reg_label"
+
+
+                    android:text="Orphans (18 yrs)"
+
+                    />
+
+            </LinearLayout>
+            <LinearLayout
+                style="@style/liberia_reg_age_view_container">
+                <!-- Past here -->
+
+                <EditText
+                    android:id="@+id/edt_lb_reg_Orphn_LT18yrsM"
+                    android:hint="Orphn_LT18yrsM"
+                    style="@style/lb_reg_age_l_edt"
+                    />
+
+                <!-- Female age  -->
+                <EditText
+                    android:id="@+id/edt_lb_reg_Orphn_LT18yrsF"
+                    android:hint="Orphn_LT18yrsF"
+                    style="@style/lb_reg_age_r_edt"
+                    />
+
+            </LinearLayout>
+        </LinearLayout>
+        <!-- Adults (18 - 59 yrs) Section  -->
+        <LinearLayout
+            android:weightSum="1"
+            android:layout_width="fill_parent"
+            android:orientation="horizontal"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                style="@style/liberia_reg_age_label_container"
+                >
+                <TextView
+                    style="@style/lb_reg_label"
+
+
+                    android:text="Adults (18 - 59 yrs)"
+
+                    />
+
+            </LinearLayout>
+            <LinearLayout
+                style="@style/liberia_reg_age_view_container">
+                <!-- Past here -->
+
+                <EditText
+                    android:id="@+id/edt_lb_reg_Adlt_18to59M"
+                    style="@style/lb_reg_age_l_edt"
+                    android:hint="Adlt_18to59M"
+
+                    />
+
+                <!-- Male age  -->
+                <EditText
+                    android:id="@+id/edt_lb_reg_Adlt_18to59F"
+                    style="@style/lb_reg_age_r_edt"
+
+                    android:hint="Adlt_18to59F"
+                    />
+
+            </LinearLayout>
+        </LinearLayout>
+        <!-- Children (< 2 Yrs) Section  -->
+        <LinearLayout
+            android:weightSum="1"
+            android:layout_width="fill_parent"
+            android:orientation="horizontal"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                style="@style/liberia_reg_age_label_container"
+                >
+                <TextView
+                    style="@style/lb_reg_label"
+                    android:text="Elderly (60+ yrs)"
+
+                    />
+
+            </LinearLayout>
+            <LinearLayout
+                style="@style/liberia_reg_age_view_container">
+                <!-- Past here -->
+
+                <EditText
+                    android:id="@+id/edt_lb_reg_Eld_60pM"
+                    style="@style/lb_reg_age_l_edt"
+                    android:hint="Eld_60pM"
+
+                    />
+
+                <!-- Female age  -->
+                <EditText
+
+                    android:id="@+id/edt_lb_reg_Eld_60pF"
+                    style="@style/lb_reg_age_r_edt"
+                    android:hint="Eld_60pF"
+
+                    />
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- cetagroies  -->
+
+        <LinearLayout
+
+            android:paddingLeft="10dp"
+            android:weightSum="1"
+            android:layout_width="fill_parent"
+            android:orientation="horizontal"
+
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+                <TextView
+                    android:textColor="@color/red"
+                    android:paddingLeft="4dp"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
+                    android:text="AGE SPECIFIC DISTRIBUTION OF MEMBERSPREGNANT AND LACTATING STATUS"
+                    android:textStyle="bold"
+                    android:layout_width="match_parent"
+                    android:textSize="16sp"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <!-- Name -->
+        <LinearLayout
+            android:weightSum="1"
+            android:layout_width="fill_parent"
+            android:orientation="horizontal"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:layout_weight=".3"
+                style="@style/liberia_reg_label_container">
+                <TextView
+                    android:paddingLeft="4dp"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
+                    android:text="Number of PLW in HH"
+                    android:layout_width="match_parent"
+                    android:textSize="16sp"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_weight=".7"
+                style="@style/liberia_reg_view_container">
+                <!-- Past here -->
+                <!-- Name -->
+                <EditText
+                    android:id="@+id/edt_lb_reg_PLW_no"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="PLW"
+                    android:singleLine="true"
+                    android:background="@color/white"
+                    android:padding="10dp"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/gray"
+                    android:layout_marginBottom="5dp"
+                    android:textSize="14dp"
+                    android:inputType="number"
+                    />
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- cetagroies  -->
+
+        <LinearLayout
+
+            android:paddingLeft="10dp"
+            android:weightSum="1"
+            android:layout_width="fill_parent"
+            android:orientation="horizontal"
+
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+                <TextView
+                    android:textColor="@color/red"
+                    android:paddingLeft="4dp"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
+                    android:text="CHRONICALLY ILL IN HH (ANY AGE)"
+                    android:textStyle="bold"
+                    android:layout_width="match_parent"
+                    android:textSize="16sp"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+        <!-- Name -->
+        <LinearLayout
+            android:weightSum="1"
+            android:layout_width="fill_parent"
+            android:orientation="horizontal"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:layout_weight=".3"
+                style="@style/liberia_reg_label_container">
+                <TextView
+                    android:paddingLeft="4dp"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
+                    android:text="CHRONICALLY ILL"
+                    android:layout_width="match_parent"
+                    android:textSize="16sp"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_weight=".7"
+                style="@style/liberia_reg_view_container">
+                <!-- Past here -->
+                <!-- CHRONICALLY ill number -->
+                <EditText
+                    android:id="@+id/edt_lb_reg_Chro_ill_no"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="ChronicallyIll"
+                    android:singleLine="true"
+                    android:background="@color/white"
+                    android:padding="10dp"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/gray"
+                    android:layout_marginBottom="5dp"
+                    android:textSize="14dp"
+                    android:inputType="number"
+                    />
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- cetagroies  -->
+
+        <LinearLayout
+
+            android:paddingLeft="10dp"
+            android:weightSum="1"
+            android:layout_width="fill_parent"
+            android:orientation="horizontal"
+
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+                <TextView
+                    android:textColor="@color/red"
+                    android:paddingLeft="4dp"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
+                    android:text="EBOLA AFFECTED HOUSEHOLDS"
+                    android:textStyle="bold"
+                    android:layout_width="match_parent"
+                    android:textSize="16sp"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <!--Check Box label_DidContractEbola -->
+        <LinearLayout
+            android:weightSum="1"
+            android:layout_width="fill_parent"
+            android:orientation="horizontal"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_weight="1"
+                style="@style/liberia_reg_view_container">
+                <!-- Past here -->
+                <!-- Name -->
+                <CheckBox
+                    android:id="@+id/cb_lb_hh_contractEbola"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/label_DidContractEbola"
+                    android:singleLine="true"
+
+                    android:padding="10dp"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/gray"
+                    android:layout_marginBottom="5dp"
+                    android:textSize="14dp"
+                    android:inputType="textPersonName"
+                    />
+
+            </LinearLayout>
+        </LinearLayout>
+
+
+        <!-- CheckBox label_hasTake Child ForEbola_ -->
+        <LinearLayout
+            android:weightSum="1"
+            android:layout_width="fill_parent"
+            android:orientation="horizontal"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_weight="1"
+                style="@style/liberia_reg_view_container">
+                <!-- Past here -->
+                <!-- Name -->
+                <CheckBox android:id="@+id/cb_LB_ExChBcaseEboloa"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/label_hasTakeCForEbola_"
+                    android:singleLine="true"
+                    android:padding="10dp"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/gray"
+                    android:layout_marginBottom="5dp"
+                    android:textSize="14dp"
+
+                    />
+
+            </LinearLayout>
+        </LinearLayout>
+
+
+        <!-- Check box  lable_cb_hasTakeElder ForEbola -->
+        <LinearLayout
+            android:weightSum="1"
+            android:layout_width="fill_parent"
+            android:orientation="horizontal"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_weight="1"
+                style="@style/liberia_reg_view_container">
+                <!-- Past here -->
+                <!-- Name -->
+                <CheckBox
+                    android:id="@+id/cb_LB_hasTakeEForEbola"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/label_hasTakeEForEbola"
+                    android:singleLine="true"
+
+                    android:padding="10dp"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/gray"
+                    android:layout_marginBottom="5dp"
+                    android:textSize="14dp"
+
+                    />
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Check Box_hasTakeChronicallyIllForEbola -->
+        <LinearLayout
+            android:weightSum="1"
+            android:layout_width="fill_parent"
+            android:orientation="horizontal"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_weight="1"
+                style="@style/liberia_reg_view_container">
+                <!-- Past here -->
+                <!-- Name -->
+                <CheckBox
+                    android:id="@+id/cb_LB_hasTkOldIllForEbola"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/label_hasTakeChronicallyIllForEbola"
+                    android:singleLine="true"
+                    android:padding="10dp"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/gray"
+                    android:layout_marginBottom="5dp"
+                    android:textSize="14dp"
+
+                    />
+
+            </LinearLayout>
+        </LinearLayout>
+<!-- Complex designe now  -->
+        <!-- cetagroies Title   -->
+
+        <LinearLayout
+
+            android:paddingLeft="10dp"
+            android:weightSum="1"
+            android:layout_width="fill_parent"
+            android:orientation="horizontal"
+
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+                <TextView
+                    android:textColor="@color/red"
+                    android:paddingLeft="4dp"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
+                    android:text="FAMILY ASSETS"
+                    android:textStyle="bold"
+                    android:layout_width="match_parent"
+                    android:textSize="16sp"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <!-- title of before & after  -->
+        <LinearLayout
+            android:weightSum="1"
+            android:layout_width="fill_parent"
+            android:orientation="horizontal"
+            android:layout_height="wrap_content">
+           <LinearLayout
+               android:layout_weight=".15"
+                style="@style/liberia_reg_label_container">
+
+
+           </LinearLayout>
+            <LinearLayout
+                android:layout_weight=".85"
+
+                style="@style/liberia_reg_view_container">
+                <!-- Past here -->
+                <!-- Name -->
+                <LinearLayout
+                    style="@style/liberia_reg_view_container"
+                    android:layout_weight=".425"
+                    >
+                      <!--  <LinearLayout
+                            style="@style/liberia_reg_view_container"
+                            android:layout_weight=".2">-->
+                            <TextView
+                                android:gravity="center_horizontal"
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Before"
+                                android:singleLine="true"
+
+                                android:padding="10dp"
+                                android:textColor="@color/black"
+                                android:textColorHint="@color/gray"
+                                android:layout_marginBottom="5dp"
+                                android:textSize="14dp"
+
+                                />
+
+
+                </LinearLayout>
+                <LinearLayout
+                    style="@style/liberia_reg_view_container"
+                    android:layout_weight=".425"
+                    >
+                    <!--  <LinearLayout
+                          style="@style/liberia_reg_view_container"
+                          android:layout_weight=".2">-->
+                    <TextView
+                        android:gravity="center_horizontal"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:text="After"
+                        android:singleLine="true"
+
+                        android:padding="10dp"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/gray"
+                        android:layout_marginBottom="5dp"
+                        android:textSize="14dp"
+
+                        />
+
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- LIVESTOCK title  -->
+
+        <LinearLayout
+            android:weightSum="1"
+            android:layout_width="fill_parent"
+            android:orientation="horizontal"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:layout_weight=".15"
+                style="@style/liberia_reg_label_container">
+                <TextView
+                    android:paddingLeft="4dp"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
+                    android:text="LIVESTOCK"
+                    android:layout_width="match_parent"
+                    android:textSize="16sp"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_weight=".85"
+
+                style="@style/liberia_reg_view_container">
+                <!-- Past here -->
+                <!-- Name -->
+                <LinearLayout
+                    style="@style/liberia_reg_view_container"
+                    android:layout_weight=".425"
+                    >
+                     <LinearLayout
+                          style="@style/liberia_reg_view_container"
+                          android:layout_weight=".2125">
+                        <TextView
+                            android:gravity="center_horizontal"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Count"
+                            android:singleLine="true"
+                            android:padding="10dp"
+                            android:textColor="@color/black"
+                            android:textColorHint="@color/gray"
+                            android:layout_marginBottom="5dp"
+                            android:textSize="14dp"
+
+                            />
+
+                     </LinearLayout>
+
+                    <LinearLayout
+                             style="@style/liberia_reg_view_container"
+                             android:layout_weight=".2125">
+                         <TextView
+                             android:gravity="center_horizontal"
+                             android:layout_width="fill_parent"
+                             android:layout_height="wrap_content"
+                             android:text="Value LD"
+                             android:singleLine="true"
+
+                             android:padding="10dp"
+                             android:textColor="@color/black"
+                             android:textColorHint="@color/gray"
+                             android:layout_marginBottom="5dp"
+                             android:textSize="14dp"
+                             />
+                       </LinearLayout>
+                </LinearLayout>
+                <LinearLayout
+                    style="@style/liberia_reg_view_container"
+                    android:layout_weight=".425"
+                    >
+                    <LinearLayout
+                        style="@style/liberia_reg_view_container"
+                        android:layout_weight=".2125">
+                        <TextView
+                            android:gravity="center_horizontal"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Count"
+                            android:singleLine="true"
+
+                            android:padding="10dp"
+                            android:textColor="@color/black"
+                            android:textColorHint="@color/gray"
+                            android:layout_marginBottom="5dp"
+                            android:textSize="14dp"
+
+                            />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        style="@style/liberia_reg_view_container"
+                        android:layout_weight=".2125">
+                        <TextView
+                            android:gravity="center_horizontal"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Value LD"
+                            android:singleLine="true"
+
+                            android:padding="10dp"
+                            android:textColor="@color/black"
+                            android:textColorHint="@color/gray"
+                            android:layout_marginBottom="5dp"
+                            android:textSize="14dp"
+                            />
+                    </LinearLayout>
+                </LinearLayout>
+
+
+            </LinearLayout>
+        </LinearLayout>
+
+
+        <!-- Cattle title  -->
+
+        <LinearLayout
+            android:weightSum="1"
+            android:layout_width="fill_parent"
+            android:orientation="horizontal"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:layout_weight=".15"
+                style="@style/liberia_reg_label_container">
+                <TextView
+                    android:paddingLeft="4dp"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
+                    android:text="Cattle"
+                    android:layout_width="match_parent"
+                    android:textSize="16sp"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_weight=".85"
+
+                style="@style/liberia_reg_view_container">
+                <!-- Past here -->
+                <!-- Cattle Before  -->
+                <LinearLayout
+                    style="@style/liberia_reg_view_container"
+                    android:layout_weight=".425"
+                    >
+                    <!-- before Cattle Count-->
+                    <LinearLayout
+                        style="@style/liberia_reg_view_container"
+                        android:layout_weight=".2125">
+                        <EditText
+                            android:id="@+id/edt_lb_BRFCntCattle"
+                            android:gravity="center_horizontal"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="BRFCntCattle"
+                            android:singleLine="true"
+                            android:background="@color/white"
+                            android:padding="10dp"
+                            android:textColor="@color/black"
+                            android:textColorHint="@color/gray"
+                            android:layout_marginBottom="5dp"
+                            android:textSize="14dp"
+                            android:inputType="number"                          />
+
+                    </LinearLayout>
+
+                    <!-- before Cattle value-->
+                    <LinearLayout
+                        style="@style/liberia_reg_view_container"
+                        android:layout_weight=".2125">
+                        <EditText
+                            android:id="@+id/edt_lb_BRFValCattle"
+                            android:gravity="center_horizontal"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:hint ="BRFValCattle"
+                            android:singleLine="true"
+                            android:background="@color/white"
+                            android:padding="10dp"
+                            android:textColor="@color/black"
+                            android:textColorHint="@color/gray"
+                            android:layout_marginBottom="5dp"
+                            android:textSize="14dp"
+                            />
+                    </LinearLayout>
+                </LinearLayout>
+                <LinearLayout
+                    style="@style/liberia_reg_view_container"
+                    android:layout_weight=".425"
+                    >
+                    <LinearLayout
+                        style="@style/liberia_reg_view_container"
+                        android:layout_weight=".2125">
+                        <EditText
+                            android:id="@+id/edt_lb_AFTCntCattle"
+                            android:gravity="center_horizontal"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="AFTCntCattle"
+                            android:singleLine="true"
+                            android:background="@color/white"
+                            android:padding="10dp"
+                            android:textColor="@color/black"
+                            android:textColorHint="@color/gray"
+                            android:layout_marginBottom="5dp"
+                            android:textSize="14dp"
+                            android:inputType="number"
+
+                            />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        style="@style/liberia_reg_view_container"
+                        android:layout_weight=".2125">
+                        <EditText
+                            android:gravity="center_horizontal"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="AFTValCattle"
+                            android:singleLine="true"
+                            android:background="@color/white"
+                            android:padding="10dp"
+                            android:textColor="@color/black"
+                            android:textColorHint="@color/gray"
+                            android:layout_marginBottom="5dp"
+                            android:textSize="14dp"
+                            android:id="@+id/edt_lb_AFTValCattle"
+                            android:inputType="numberDecimal"
+                            />
+                    </LinearLayout>
+                </LinearLayout>
+
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Sheep/goats title  -->
+
+        <LinearLayout
+            android:weightSum="1"
+            android:layout_width="fill_parent"
+            android:orientation="horizontal"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:layout_weight=".15"
+                style="@style/liberia_reg_label_container">
+                <TextView
+                    android:paddingLeft="4dp"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
+                    android:text="Sheep/goats"
+                    android:layout_width="match_parent"
+                    android:textSize="16sp"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_weight=".85"
+
+                style="@style/liberia_reg_view_container">
+                <!-- Past here -->
+                <!-- Name -->
+                <LinearLayout
+                    style="@style/liberia_reg_view_container"
+                    android:layout_weight=".425"
+                    >
+                    <LinearLayout
+                        style="@style/liberia_reg_view_container"
+                        android:layout_weight=".2125">
+                        <EditText
+                            android:id="@+id/edt_lb_BRFCntSheepGoats"
+                            android:gravity="center_horizontal"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="BRFCntSheepGoats"
+                            android:singleLine="true"
+                            android:background="@color/white"
+                            android:padding="10dp"
+                            android:textColor="@color/black"
+                            android:textColorHint="@color/gray"
+                            android:layout_marginBottom="5dp"
+                            android:textSize="14dp"
+                            android:inputType="number"
+
+                            />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        style="@style/liberia_reg_view_container"
+                        android:layout_weight=".2125">
+                        <EditText
+                            android:id="@+id/edt_lb_BRFValSheepGoat"
+                            android:gravity="center_horizontal"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:hint ="BRFValSheepGoat"
+                            android:singleLine="true"
+                            android:background="@color/white"
+                            android:padding="10dp"
+                            android:textColor="@color/black"
+                            android:textColorHint="@color/gray"
+                            android:layout_marginBottom="5dp"
+                            android:textSize="14dp"
+                            android:inputType="numberDecimal"
+                            />
+                    </LinearLayout>
+                </LinearLayout>
+                <LinearLayout
+                    style="@style/liberia_reg_view_container"
+                    android:layout_weight=".425"
+                    >
+                    <LinearLayout
+                        style="@style/liberia_reg_view_container"
+                        android:layout_weight=".2125">
+                        <EditText
+                            android:id="@+id/edt_lb_AFTCntSheepGoats"
+                            android:gravity="center_horizontal"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="AFTCntSheepGoats
+"
+                            android:singleLine="true"
+                            android:background="@color/white"
+                            android:padding="10dp"
+                            android:textColor="@color/black"
+                            android:textColorHint="@color/gray"
+                            android:layout_marginBottom="5dp"
+                            android:textSize="14dp"
+                            android:inputType="number"
+
+                            />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        style="@style/liberia_reg_view_container"
+                        android:layout_weight=".2125">
+                        <EditText
+                            android:id="@+id/edt_lb_AFTValSheepGoats"
+                            android:gravity="center_horizontal"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="AFTValSheepGoats"
+                            android:singleLine="true"
+                            android:background="@color/white"
+                            android:padding="10dp"
+                            android:textColor="@color/black"
+                            android:textColorHint="@color/gray"
+                            android:layout_marginBottom="5dp"
+                            android:textSize="14dp"
+                            android:inputType="numberDecimal"
+                            />
+                    </LinearLayout>
+                </LinearLayout>
+
+
+            </LinearLayout>
+        </LinearLayout>
+
+
+        <!-- Poultry title  -->
+
+        <LinearLayout
+            android:weightSum="1"
+            android:layout_width="fill_parent"
+            android:orientation="horizontal"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:layout_weight=".15"
+                style="@style/liberia_reg_label_container">
+                <TextView
+                    android:paddingLeft="4dp"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
+                    android:text="Poultr"
+                    android:layout_width="match_parent"
+                    android:textSize="16sp"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_weight=".85"
+
+                style="@style/liberia_reg_view_container">
+                <!-- Past here -->
+                <!-- Name -->
+                <LinearLayout
+                    style="@style/liberia_reg_view_container"
+                    android:layout_weight=".425"
+                    >
+                    <LinearLayout
+                        style="@style/liberia_reg_view_container"
+                        android:layout_weight=".2125">
+                        <!-- BRFCntPoultry input -->
+                        <EditText
+
+                            android:id="@+id/edt_lb_BrfCntPoultry"
+                            android:gravity="center_horizontal"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="BRFCntPoultry"
+                            android:singleLine="true"
+                            android:background="@color/white"
+                            android:padding="10dp"
+                            android:textColor="@color/black"
+                            android:textColorHint="@color/gray"
+                            android:layout_marginBottom="5dp"
+                            android:textSize="14dp"
+                            android:inputType="number"
+
+                            />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        style="@style/liberia_reg_view_container"
+                        android:layout_weight=".2125">
+                        <EditText
+                            android:id="@+id/edt_lb_BRFValPoultry"
+                            android:gravity="center_horizontal"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:hint ="BRFValPoultry"
+                            android:singleLine="true"
+                            android:background="@color/white"
+                            android:padding="10dp"
+                            android:textColor="@color/black"
+                            android:textColorHint="@color/gray"
+                            android:layout_marginBottom="5dp"
+                            android:textSize="14dp"
+                            android:inputType="numberDecimal"
+                            />
+                    </LinearLayout>
+                </LinearLayout>
+                <LinearLayout
+                    style="@style/liberia_reg_view_container"
+                    android:layout_weight=".425"
+                    >
+                    <LinearLayout
+                        style="@style/liberia_reg_view_container"
+                        android:layout_weight=".2125">
+                        <EditText
+                            android:id="@+id/edt_lb_AFTCntPoultry"
+                            android:gravity="center_horizontal"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="AFTCntPoultry"
+                            android:singleLine="true"
+                            android:background="@color/white"
+                            android:padding="10dp"
+                            android:textColor="@color/black"
+                            android:textColorHint="@color/gray"
+                            android:layout_marginBottom="5dp"
+                            android:textSize="14dp"
+                            android:inputType="number"
+
+                            />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        style="@style/liberia_reg_view_container"
+                        android:layout_weight=".2125">
+                        <EditText
+                            android:id="@+id/edt_lb_AFTValPoultry"
+                            android:gravity="center_horizontal"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="AFTValPoultry"
+                            android:singleLine="true"
+                            android:background="@color/white"
+                            android:padding="10dp"
+                            android:textColor="@color/black"
+                            android:textColorHint="@color/gray"
+                            android:layout_marginBottom="5dp"
+                            android:textSize="14dp"
+                            android:inputType="numberDecimal"
+                            />
+                    </LinearLayout>
+                </LinearLayout>
+
+
+            </LinearLayout>
+        </LinearLayout>
+
+
+
+        <!-- Other EditText  -->
+
+        <LinearLayout
+            android:weightSum="1"
+            android:layout_width="fill_parent"
+            android:orientation="horizontal"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:layout_weight=".15"
+                style="@style/liberia_reg_label_container">
+                <TextView
+                    android:paddingLeft="4dp"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
+                    android:text="Other"
+                    android:layout_width="match_parent"
+                    android:textSize="16sp"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_weight=".85"
+
+                style="@style/liberia_reg_view_container">
+                <!-- Past here -->
+                <!-- Name -->
+                <LinearLayout
+                    style="@style/liberia_reg_view_container"
+                    android:layout_weight=".425"
+                    >
+                    <LinearLayout
+                        style="@style/liberia_reg_view_container"
+                        android:layout_weight=".2125">
+                        <EditText
+                            android:id="@+id/edt_lb_BRFCntOrther"
+                            android:gravity="center_horizontal"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="BRFCntOther"
+                            android:singleLine="true"
+                            android:background="@color/white"
+                            android:padding="10dp"
+                            android:textColor="@color/black"
+                            android:textColorHint="@color/gray"
+                            android:layout_marginBottom="5dp"
+                            android:textSize="14dp"
+                            android:inputType="number"
+
+                            />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        style="@style/liberia_reg_view_container"
+                        android:layout_weight=".2125">
+                        <EditText
+                            android:id="@+id/edt_lb_BRFValOrther"
+                            android:gravity="center_horizontal"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:hint ="BRFValOther"
+                            android:singleLine="true"
+                            android:background="@color/white"
+                            android:padding="10dp"
+                            android:textColor="@color/black"
+                            android:textColorHint="@color/gray"
+                            android:layout_marginBottom="5dp"
+                            android:textSize="14dp"
+                            android:inputType="numberDecimal"
+                            />
+                    </LinearLayout>
+                </LinearLayout>
+                <LinearLayout
+                    style="@style/liberia_reg_view_container"
+                    android:layout_weight=".425"
+                    >
+                    <LinearLayout
+                        style="@style/liberia_reg_view_container"
+                        android:layout_weight=".2125">
+                        <EditText
+                            android:id="@+id/edt_lb_AFTCntOrther"
+                            android:gravity="center_horizontal"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="AFTCntOther"
+                            android:singleLine="true"
+                            android:background="@color/white"
+                            android:padding="10dp"
+                            android:textColor="@color/black"
+                            android:textColorHint="@color/gray"
+                            android:layout_marginBottom="5dp"
+                            android:textSize="14dp"
+                            android:inputType="number"
+
+                            />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        style="@style/liberia_reg_view_container"
+                        android:layout_weight=".2125">
+                        <EditText
+                            android:id="@+id/edt_lb_AFTValOrther"
+                            android:gravity="center_horizontal"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="AFTValOther"
+                            android:singleLine="true"
+                            android:background="@color/white"
+                            android:padding="10dp"
+                            android:textColor="@color/black"
+                            android:textColorHint="@color/gray"
+                            android:layout_marginBottom="5dp"
+                            android:textSize="14dp"
+                            android:inputType="numberDecimal"
+                            />
+                    </LinearLayout>
+                </LinearLayout>
+
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- AGRICULTURE LAND title  -->
+
+        <LinearLayout
+            android:weightSum="1"
+            android:layout_width="fill_parent"
+            android:orientation="horizontal"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:layout_weight=".15"
+                style="@style/liberia_reg_label_container">
+                <TextView
+                    android:paddingLeft="4dp"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
+                    android:text="AGRICULTURE LAND"
+                    android:layout_width="match_parent"
+                    android:textSize="16sp"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_weight=".85"
+
+                style="@style/liberia_reg_view_container">
+                <!-- Past here -->
+                <!-- Name -->
+                <LinearLayout
+                    style="@style/liberia_reg_view_container"
+                    android:layout_weight=".425"
+                    >
+                    <LinearLayout
+                        style="@style/liberia_reg_view_container"
+                        android:layout_weight=".2125">
+                        <TextView
+                            android:gravity="center_horizontal"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:text="ha/Acre"
+                            android:textStyle="bold"
+                            android:singleLine="true"
+
+                            android:padding="10dp"
+                            android:textColor="@color/black"
+                            android:textColorHint="@color/gray"
+                            android:layout_marginBottom="5dp"
+                            android:textSize="14dp"
+
+                            />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        style="@style/liberia_reg_view_container"
+                        android:layout_weight=".2125">
+                        <TextView
+                            android:gravity="center_horizontal"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:text ="Value LD"
+                            android:textStyle="bold"
+                            android:singleLine="true"
+
+                            android:padding="10dp"
+                            android:textColor="@color/black"
+                            android:textColorHint="@color/gray"
+                            android:layout_marginBottom="5dp"
+                            android:textSize="14dp"
+                            />
+                    </LinearLayout>
+                </LinearLayout>
+                <LinearLayout
+                    style="@style/liberia_reg_view_container"
+                    android:layout_weight=".425"
+                    >
+                    <LinearLayout
+                        style="@style/liberia_reg_view_container"
+                        android:layout_weight=".2125">
+                        <TextView
+                            android:gravity="center_horizontal"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:text="ha/Acre"
+                            android:textStyle="bold"
+                            android:singleLine="true"
+
+                            android:padding="10dp"
+                            android:textColor="@color/black"
+                            android:textColorHint="@color/gray"
+                            android:layout_marginBottom="5dp"
+                            android:textSize="14dp"
+
+                            />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        style="@style/liberia_reg_view_container"
+                        android:layout_weight=".2125">
+                        <TextView
+                            android:gravity="center_horizontal"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Value LD"
+                            android:textStyle="bold"
+                            android:singleLine="true"
+                            android:padding="10dp"
+                            android:textColor="@color/black"
+                            android:textColorHint="@color/gray"
+                            android:layout_marginBottom="5dp"
+                            android:textSize="14dp"
+                            />
+                    </LinearLayout>
+                </LinearLayout>
+
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Cultivable LAND input  -->
+
+        <LinearLayout
+            android:weightSum="1"
+            android:layout_width="fill_parent"
+            android:orientation="horizontal"
+            android:layout_height="wrap_content">
+            <!-- Lable -->
+            <LinearLayout
+                android:layout_weight=".15"
+                style="@style/liberia_reg_label_container">
+
+                <TextView
+                    android:paddingLeft="4dp"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
+                    android:text="Cultivable"
+                    android:layout_width="match_parent"
+                    android:textSize="16sp"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_weight=".85"
+
+                style="@style/liberia_reg_view_container">
+                <!-- Past here -->
+                <!-- Name -->
+                <LinearLayout
+                    style="@style/liberia_reg_view_container"
+                    android:layout_weight=".425"
+                    >
+                    <LinearLayout
+                        style="@style/liberia_reg_view_container"
+                        android:layout_weight=".2125">
+
+                        <EditText
+                            android:id="@+id/edt_lb_BRFAcreCultivable"
+                            android:hint="BRFAcreCultivable"
+                            style="@style/lb_reg_acre_edt"
+
+
+                            />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        style="@style/liberia_reg_view_container"
+                        android:layout_weight=".2125">
+                        <EditText
+                            android:id="@+id/edt_lb_BRFValCultivable"
+                            android:hint ="BRFValCultivable"
+                            android:gravity="center_horizontal"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+
+                            android:singleLine="true"
+                            android:background="@color/white"
+                            android:padding="10dp"
+                            android:textColor="@color/black"
+                            android:textColorHint="@color/gray"
+                            android:layout_marginBottom="5dp"
+                            android:textSize="14dp"
+                            android:inputType="numberDecimal"
+                            />
+                    </LinearLayout>
+                </LinearLayout>
+                <LinearLayout
+                    style="@style/liberia_reg_view_container"
+                    android:layout_weight=".425"
+                    >
+                    <LinearLayout
+                        style="@style/liberia_reg_view_container"
+                        android:layout_weight=".2125">
+                        <EditText
+                            android:id="@+id/edt_lb_AFTAcreCultivable"
+                            android:hint="AFTAcreCultivable"
+                            style="@style/lb_reg_acre_edt"
+
+
+                            />
+
+                    </LinearLayout>
+                    <!-- money input-->
+
+                    <LinearLayout
+                        style="@style/liberia_reg_view_container"
+                        android:layout_weight=".2125">
+                        <EditText
+
+                            android:id="@+id/edt_lb_AFTValCultivable"
+                            android:gravity="center_horizontal"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="AFTValCultivable"
+                            android:singleLine="true"
+                            android:background="@color/white"
+                            android:padding="10dp"
+                            android:textColor="@color/black"
+                            android:textColorHint="@color/gray"
+                            android:layout_marginBottom="5dp"
+                            android:textSize="14dp"
+                            android:inputType="numberDecimal"
+                            />
+                    </LinearLayout>
+                </LinearLayout>
+
+
+            </LinearLayout>
+        </LinearLayout>
+
+
+        <!-- Non Cultivable input  -->
+
+        <LinearLayout
+            android:weightSum="1"
+            android:layout_width="fill_parent"
+            android:orientation="horizontal"
+            android:layout_height="wrap_content">
+            <!-- Lable -->
+            <LinearLayout
+                android:layout_weight=".15"
+                style="@style/liberia_reg_label_container">
+
+                <TextView
+                    android:paddingLeft="4dp"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
+                    android:text="Non Cultivable"
+                    android:layout_width="match_parent"
+                    android:textSize="16sp"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_weight=".85"
+
+                style="@style/liberia_reg_view_container">
+                <!-- Past here -->
+                <!-- Name -->
+                <LinearLayout
+                    style="@style/liberia_reg_view_container"
+                    android:layout_weight=".425"
+                    >
+                    <LinearLayout
+                        style="@style/liberia_reg_view_container"
+                        android:layout_weight=".2125">
+                        <EditText
+                            android:id="@+id/edt_lb_BRFAcreNonCultivable"
+                            android:hint="BRFAcreNonCultivable"
+                            style="@style/lb_reg_acre_edt"
+
+
+                            />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        style="@style/liberia_reg_view_container"
+                        android:layout_weight=".2125">
+                        <EditText
+                            android:id="@+id/edt_lb_BRFValNonCultivable"
+                            android:gravity="center_horizontal"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:hint ="BRFValNonCultivable"
+                            android:singleLine="true"
+                            android:background="@color/white"
+                            android:padding="10dp"
+                            android:textColor="@color/black"
+                            android:textColorHint="@color/gray"
+                            android:layout_marginBottom="5dp"
+                            android:textSize="14dp"
+                            android:inputType="numberDecimal"
+                            />
+                    </LinearLayout>
+                </LinearLayout>
+                <LinearLayout
+                    style="@style/liberia_reg_view_container"
+                    android:layout_weight=".425"
+                    >
+                    <LinearLayout
+                        style="@style/liberia_reg_view_container"
+                        android:layout_weight=".2125">
+                        <EditText
+                            android:id="@+id/edt_lb_AFTAcreNonCultivable"
+                            android:hint="AFTAcreNonCultivable"
+                            style="@style/lb_reg_acre_edt"
+
+
+                            />
+
+                    </LinearLayout>
+                    <!-- money input-->
+
+                    <LinearLayout
+                        style="@style/liberia_reg_view_container"
+                        android:layout_weight=".2125">
+                        <EditText
+                            android:id="@+id/edt_lb_AFTValNonCultivable"
+                            android:gravity="center_horizontal"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="AFTValNonCultivable"
+                            android:singleLine="true"
+                            android:background="@color/white"
+                            android:padding="10dp"
+                            android:textColor="@color/black"
+                            android:textColorHint="@color/gray"
+                            android:layout_marginBottom="5dp"
+                            android:textSize="14dp"
+                            android:inputType="numberDecimal"
+                            />
+                    </LinearLayout>
+                </LinearLayout>
+
+
+            </LinearLayout>
+        </LinearLayout>
+
+
+        <!-- Orther titile  -->
+
+        <LinearLayout
+            android:weightSum="1"
+            android:layout_width="fill_parent"
+            android:orientation="horizontal"
+            android:layout_height="wrap_content">
+            <!-- Lable -->
+            <LinearLayout
+                android:layout_weight=".15"
+                style="@style/liberia_reg_label_container">
+
+                <TextView
+                    android:paddingLeft="4dp"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
+                    android:text="Orther"
+                    android:layout_width="match_parent"
+                    android:textSize="16sp"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_weight=".85"
+
+                style="@style/liberia_reg_view_container">
+                <!-- Past here -->
+                <!-- Name -->
+                <LinearLayout
+                    style="@style/liberia_reg_view_container"
+                    android:layout_weight=".425"
+                    >
+                    <LinearLayout
+                        style="@style/liberia_reg_view_container"
+                        android:layout_weight=".2125">
+                        <!--- <EditText
+                          android:gravity="center_horizontal"
+                          android:layout_width="fill_parent"
+                          android:layout_height="wrap_content"
+                          android:hint="BRFAcreNonCultivable"
+                          android:textStyle="bold"
+                          android:singleLine="true"
+                          android:background="@color/white"
+                          android:padding="10dp"
+                          android:textColor="@color/black"
+                          android:textColorHint="@color/gray"
+                          android:layout_marginBottom="5dp"
+                          android:textSize="14dp"
+
+                          />-->
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        style="@style/liberia_reg_view_container"
+                        android:layout_weight=".2125">
+                      <!--  <EditText
+                            android:gravity="center_horizontal"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:hint ="BRFValNonCultivable"
+                            android:singleLine="true"
+                            android:background="@color/white"
+                            android:padding="10dp"
+                            android:textColor="@color/black"
+                            android:textColorHint="@color/gray"
+                            android:layout_marginBottom="5dp"
+                            android:textSize="14dp"
+                            />-->
+                    </LinearLayout>
+                </LinearLayout>
+                <LinearLayout
+                    style="@style/liberia_reg_view_container"
+                    android:layout_weight=".425"
+                    >
+                    <LinearLayout
+                        style="@style/liberia_reg_view_container"
+                        android:layout_weight=".2125">
+                        <!--  <TextView
+                            android:gravity="center_horizontal"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="AFTAcreNonCultivable"
+                            android:singleLine="true"
+                            android:background="@color/white"
+                            android:padding="10dp"
+                            android:textColor="@color/black"
+                            android:textColorHint="@color/gray"
+                            android:layout_marginBottom="5dp"
+                            android:textSize="14dp"
+
+                            />-->
+
+                    </LinearLayout>
+                    <!-- money input-->
+
+                    <LinearLayout
+                        style="@style/liberia_reg_view_container"
+                        android:layout_weight=".2125">
+                      <!--  <TextView
+                            android:gravity="center_horizontal"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="AFTValNonCultivable"
+                            android:singleLine="true"
+                            android:background="@color/white"
+                            android:padding="10dp"
+                            android:textColor="@color/black"
+                            android:textColorHint="@color/gray"
+                            android:layout_marginBottom="5dp"
+                            android:textSize="14dp"
+                            />-->
+                    </LinearLayout>
+                </LinearLayout>
+
+
+            </LinearLayout>
+        </LinearLayout>
+
+
+        <!-- Orchards input  -->
+
+        <LinearLayout
+            android:weightSum="1"
+            android:layout_width="fill_parent"
+            android:orientation="horizontal"
+            android:layout_height="wrap_content">
+            <!-- Lable -->
+            <LinearLayout
+                android:layout_weight=".15"
+                style="@style/liberia_reg_label_container">
+
+                <TextView
+                    android:paddingLeft="4dp"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
+                    android:text="Orchards"
+                    android:layout_width="match_parent"
+                    android:textSize="16sp"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_weight=".85"
+
+                style="@style/liberia_reg_view_container">
+                <!-- Past here -->
+                <!-- Name -->
+                <LinearLayout
+                    style="@style/liberia_reg_view_container"
+                    android:layout_weight=".425"
+                    >
+                    <LinearLayout
+                        style="@style/liberia_reg_view_container"
+                        android:layout_weight=".2125">
+                        <EditText
+                            android:id="@+id/edt_lb_BRFAcreOrchards"
+                            android:hint="BRFAcreOrchards"
+                            style="@style/lb_reg_acre_edt"
+
+
+                            />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        style="@style/liberia_reg_view_container"
+                        android:layout_weight=".2125">
+                        <EditText
+                            android:id="@+id/edt_lb_BRFValOrchards"
+                            android:gravity="center_horizontal"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:hint ="BRFValOrchards"
+                            android:singleLine="true"
+                            android:background="@color/white"
+                            android:padding="10dp"
+                            android:textColor="@color/black"
+                            android:textColorHint="@color/gray"
+                            android:layout_marginBottom="5dp"
+                            android:textSize="14dp"
+                            android:inputType="numberDecimal"
+                            />
+                    </LinearLayout>
+                </LinearLayout>
+                <LinearLayout
+                    style="@style/liberia_reg_view_container"
+                    android:layout_weight=".425"
+                    >
+                    <LinearLayout
+                        style="@style/liberia_reg_view_container"
+                        android:layout_weight=".2125">
+                        <EditText
+                            android:id="@+id/edt_lb_AFTAcreOrchards"
+                            android:hint="AFTAcreOrchards"
+                            style="@style/lb_reg_acre_edt"
+
+                            />
+
+                    </LinearLayout>
+                    <!-- money input-->
+
+                    <LinearLayout
+                        style="@style/liberia_reg_view_container"
+                        android:layout_weight=".2125">
+                        <EditText
+                            android:id="@+id/edt_lb_AFTValOrchards"
+                            android:gravity="center_horizontal"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="AFTValOrchards"
+                            android:singleLine="true"
+                            android:background="@color/white"
+                            android:padding="10dp"
+                            android:textColor="@color/black"
+                            android:textColorHint="@color/gray"
+                            android:layout_marginBottom="5dp"
+                            android:textSize="14dp"
+                            android:inputType="numberDecimal"
+                            />
+                    </LinearLayout>
+                </LinearLayout>
+
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- SOURCES OF HOUSEHOLD INCOME/MONTH IN LD  Title  -->
+
+        <LinearLayout
+
+            android:paddingLeft="10dp"
+            android:weightSum="1"
+            android:layout_width="fill_parent"
+            android:orientation="horizontal"
+
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+                <TextView
+                    android:textColor="@color/red"
+                    android:paddingLeft="4dp"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
+                    android:text="SOURCES OF HOUSEHOLD INCOME/MONTH IN LD"
+                    android:textStyle="bold"
+                    android:layout_width="match_parent"
+                    android:textSize="16sp"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <!-- SOURCE Section  -->
+        <LinearLayout
+            android:weightSum="1"
+            android:layout_width="fill_parent"
+            android:orientation="horizontal"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:layout_weight=".3"
+                style="@style/liberia_reg_label_container"
+                >
+                <TextView
+                    style="@style/lb_reg_label"
+
+                    android:text="SOURCE"
+
+                    />
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_weight=".7"
+                style="@style/liberia_reg_view_container">
+                <!-- Past here -->
+
+                <TextView
+                    android:layout_marginRight="2.5dp"
+                    android:gravity="center_horizontal"
+                    android:layout_weight=".4"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="Before LD"
+                    android:singleLine="true"
+
+                    android:padding="10dp"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/gray"
+                    android:layout_marginBottom="5dp"
+                    android:textSize="14dp"
+                    android:inputType="textPersonName"
+                    />
+
+                <!-- Name -->
+                <TextView
+                    android:layout_marginLeft="2.5dp"
+                    android:gravity="center_horizontal"
+                    android:layout_weight=".4"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="After LD"
+                    android:singleLine="true"
+
+                    android:padding="10dp"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/gray"
+                    android:layout_marginBottom="5dp"
+                    android:textSize="14dp"
+                    android:inputType="textPersonName"
+                    />
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Crop Section input -->
+        <LinearLayout
+            android:weightSum="1"
+            android:layout_width="fill_parent"
+            android:orientation="horizontal"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:layout_weight=".3"
+                style="@style/liberia_reg_label_container"
+                >
+                <TextView
+                    style="@style/lb_reg_label"
+                  android:text="Crop"
+
+                    />
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_weight=".7"
+                style="@style/liberia_reg_view_container">
+                <!-- Past here -->
+
+                <EditText
+                    android:id="@+id/edt_lb_BRFValCrop"
+                    android:hint="BRFValCrop"
+                    style="@style/lb_reg_dollar_l_edt"
+
+                    />
+
+                <!-- Name -->
+                <EditText
+                    android:id="@+id/edt_lb_AFTValCrop"
+                    android:hint="AFTValCrop"
+                    style="@style/lb_reg_dollar_r_edt"
+
+                    />
+
+            </LinearLayout>
+        </LinearLayout>
+
+
+        <!-- Livestock Section input -->
+        <LinearLayout
+            android:weightSum="1"
+            android:layout_width="fill_parent"
+            android:orientation="horizontal"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:layout_weight=".3"
+                style="@style/liberia_reg_label_container"
+                >
+                <TextView
+
+                    style="@style/lb_reg_label"
+                 android:text="Livestock"
+
+                    />
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_weight=".7"
+                style="@style/liberia_reg_view_container">
+                <!-- Past here -->
+
+                <EditText
+                    android:id="@+id/edt_lb_BRFValLivestock"
+                    android:hint="BRFValLivestock"
+                    style="@style/lb_reg_dollar_l_edt"
+                    />
+
+                <!-- Name -->
+                <EditText
+                    android:id="@+id/edt_lb_AFTValLivestock"
+                    android:hint="AFTValLivestock"
+                    style="@style/lb_reg_dollar_r_edt"
+                    />
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Small Business Section input -->
+        <LinearLayout
+            android:weightSum="1"
+            android:layout_width="fill_parent"
+            android:orientation="horizontal"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:layout_weight=".3"
+                style="@style/liberia_reg_label_container"
+                >
+                <TextView
+                    style="@style/lb_reg_label"
+                  android:text="Small Business"
+
+                    />
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_weight=".7"
+                style="@style/liberia_reg_view_container">
+                <!-- Past here -->
+
+                <EditText
+                    android:id="@+id/edt_lb_BRFValSmallBusiness"
+                    android:hint="BRFValSmallBusiness"
+                    style="@style/lb_reg_dollar_l_edt"
+
+                    />
+
+                <!-- Name -->
+                <EditText
+                    android:id="@+id/edt_lb_AFTValSmallBusiness"
+                    android:hint="AFTValSmallBusiness"
+                    style="@style/lb_reg_dollar_r_edt"
+
+                    />
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Employment/Labour Section input -->
+        <LinearLayout
+            android:weightSum="1"
+            android:layout_width="fill_parent"
+            android:orientation="horizontal"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:layout_weight=".3"
+                style="@style/liberia_reg_label_container"
+                >
+                <TextView
+                    style="@style/lb_reg_label"
+                    android:text="Employment/Labour"
+
+                    />
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_weight=".7"
+                style="@style/liberia_reg_view_container">
+                <!-- Past here -->
+
+                <EditText
+                    android:id="@+id/edt_lb_BRFValEmployment"
+                    android:hint="BRFValEmployment"
+                    style="@style/lb_reg_dollar_l_edt"
+
+                    />
+
+                <!-- Name -->
+                <EditText
+                    android:id="@+id/edt_lb_AFTValEmployment"
+                    android:hint="AFTValEmployment"
+                    style="@style/lb_reg_dollar_r_edt"
+
+
+                    />
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Remittances/Gift Section input -->
+        <LinearLayout
+            android:weightSum="1"
+            android:layout_width="fill_parent"
+            android:orientation="horizontal"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:layout_weight=".3"
+                style="@style/liberia_reg_label_container"
+                >
+                <TextView
+                    style="@style/lb_reg_label"
+                  android:text="Remittances/Gift"
+
+                    />
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_weight=".7"
+                style="@style/liberia_reg_view_container">
+                <!-- Past here -->
+
+                <EditText
+                    android:id="@+id/edt_lb_BRFValRemittances"
+                    android:hint="BRFValRemittances"
+                    style="@style/lb_reg_dollar_l_edt"
+
+                    />
+
+                <!-- Name -->
+                <EditText
+                    android:id="@+id/edt_lb_AFTValRemittances"
+                    android:hint="AFTValRemittances"
+                    style="@style/lb_reg_dollar_r_edt"
+
+                    />
+
+            </LinearLayout>
+        </LinearLayout>
+
+
+
+        <!-- Number of Wage Earners Section input -->
+        <LinearLayout
+            android:weightSum="1"
+            android:layout_width="fill_parent"
+            android:orientation="horizontal"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:layout_weight=".3"
+                style="@style/liberia_reg_label_container"
+                >
+                <TextView
+                    style="@style/lb_reg_label"
+                   android:text="Number of Wage Earners"
+
+                    />
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_weight=".7"
+                style="@style/liberia_reg_view_container">
+                <!-- Past here -->
+
+                <EditText
+                    android:id="@+id/edt_lb_BRFCntWageEnr"
+                    android:hint="BRFCntWageEnr"
+                    style="@style/lb_reg_dollar_l_edt"
+
+                    />
+
+                <!-- Name -->
+                <EditText
+                    android:id="@+id/edt_lb_AFTCntWageEnr"
+                    android:hint="AFTCntWageEnr"
+                    style="@style/lb_reg_dollar_r_edt"
+
+                    />
+
+            </LinearLayout>
+        </LinearLayout> <!-- end  value -->
+
+        <!-- Save Button -->
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="bottom">
+
+            <!-- Save Button -->
+            <Button android:id="@+id/btn_lb_rgSaveData"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:text="@string/btn_label_submit"
+                android:textSize="12dp"
+                android:background="@drawable/button_style_inner"
+                android:textColor="@color/green" />
+
+            <Button
+                android:id="@+id/btn_lb_rgClearData"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:text="@string/btn_label_clear"
+                android:textSize="12dp"
+                android:background="@drawable/button_style_inner"
+                android:textColor="@color/green"/>
+
+        </LinearLayout>
+        <!-- Extra Check Box to show upper view  -->
+        <LinearLayout
+            android:weightSum="1"
+            android:layout_width="fill_parent"
+            android:orientation="horizontal"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_weight="1"
+                style="@style/liberia_reg_view_container">
+                <!-- Past here -->
+                <!-- Name -->
+                <CheckBox
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:singleLine="true"
+
+                    android:padding="10dp"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/gray"
+                    android:layout_marginBottom="5dp"
+                    android:textSize="14dp"
+
+                    />
+
+            </LinearLayout>
+        </LinearLayout><!-- end of extra view which is needed-->
+
+
+
+    </LinearLayout> <!-- end of contanner -->
+</ScrollView>
+
+    <include layout="@layout/footer" />
+
+
+</RelativeLayout>

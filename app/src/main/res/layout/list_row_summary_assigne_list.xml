@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingTop="10dp"
+    android:paddingBottom="10dp">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:weightSum="1.5"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight=".5"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_marginLeft="5dp"
+                android:padding="5dp"
+                android:hint="010502010000903"
+                android:id="@+id/tv_row_assign_id"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/title"
+                android:clickable="true"
+
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <!--  <LinearLayout
+              android:layout_width="0dp"
+              android:layout_weight=".3"
+              android:layout_height="wrap_content">
+              <TextView
+
+                  android:hint="0002"
+                  android:id="@+id/tv_hh_mm_id_ss"
+                  android:layout_width="fill_parent"
+                  android:layout_height="25dp"
+                  android:textSize="@dimen/title"
+                  android:clickable="true"
+                  android:paddingLeft="10dp"
+                  android:textStyle="bold" />
+          </LinearLayout>-->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight=".5"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_marginLeft="25dp"
+                android:padding="5dp"
+                android:hint="komba ultako.."
+                android:id="@+id/tv_row_assign_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/title"
+                android:clickable="true"
+
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <LinearLayout
+             android:layout_width="0dp"
+             android:layout_weight=".5"
+             android:layout_height="wrap_content">
+             <TextView
+
+                 android:hint="2015-10-16"
+
+                 android:id="@+id/tv_row_assign_regDate"
+                 android:layout_width="fill_parent"
+                 android:layout_height="wrap_content"
+               android:padding="5dp"
+                 android:layout_marginLeft="30dp"
+                 android:textSize="@dimen/title"
+
+                 android:textStyle="bold" />
+         </LinearLayout>
+    </LinearLayout>
+
+
+</LinearLayout>
