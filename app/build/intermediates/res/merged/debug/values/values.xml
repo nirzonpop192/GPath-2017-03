@@ -794,6 +794,7 @@
     <string name="hint_password">Password</string>
     <string name="hint_username">Username</string>
     <string name="hit_15digitId">000105030002315</string>
+    <string name="labe_op_mode">Operation Mode</string>
     <string name="label_ANCVisit">ANC Visits Attended</string>
     <string name="label_CMAM_add">Mother currently exclusively breast-feeding </string>
     <string name="label_CMAM_ref">Mother currently exclusively breast-feeding </string>
@@ -816,12 +817,14 @@
     <string name="label_corp_type">Type of Crop</string>
     <string name="label_date_comp_feeding">Child age at start of complementary feeding </string>
     <string name="label_exclusive_currentlyBF">Mother currently exclusively breast-feeding </string>
+    <string name="label_geo_data">GEO-DATA</string>
     <string name="label_gmp_attendance">GMP Attendance Status </string>
     <string name="label_group">Group</string>
     <string name="label_hasTakeCForEbola_">Has this HH taken in an extra child because of Ebola? <br/> (ExtraChildBecauseEbola)</string>
     <string name="label_hasTakeChronicallyIllForEbola"> Has this HH taken in an extra chronically ill or disabled person because of Ebola? (ExtraChronicallyIllDisabledPersonBecauseEbola)
         </string>
     <string name="label_hasTakeEForEbola"> Has this HH taken in an extra elderly person because of Ebola?</string>
+    <string name="label_last_sync">Last Sync</string>
     <string name="label_lat">Latitude</string>
     <string name="label_location">Location</string>
     <string name="label_long">Longitude</string>

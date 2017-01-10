@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.siddiquinoor.restclient.activity.sub_activity.assign_program.agr.AssignAGR">
+    tools:context="com.siddiquinoor.restclient.activity.sub_activity.assign_program.agr.AGR">
 
     <include
         android:id="@+id/header"

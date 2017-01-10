@@ -2,29 +2,14 @@ package com.siddiquinoor.restclient.views.adapters;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.siddiquinoor.restclient.R;
-import com.siddiquinoor.restclient.activity.sub_activity.assign_program.ddr.AssignForDDRMalwaiFFA;
-import com.siddiquinoor.restclient.activity.sub_activity.assign_program.ddr.AssignForDDRMalwaiVUL;
-import com.siddiquinoor.restclient.activity.sub_activity.assign_program.mchn.AssignCA2;
-import com.siddiquinoor.restclient.activity.sub_activity.assign_program.mchn.AssignCU2;
-import com.siddiquinoor.restclient.activity.sub_activity.assign_program.agr.AssignAGR;
-import com.siddiquinoor.restclient.activity.sub_activity.assign_program.peer.AssignForLiberiaAIV;
-import com.siddiquinoor.restclient.activity.sub_activity.assign_program.peer.AssignForLiberiaCFW;
-import com.siddiquinoor.restclient.activity.sub_activity.assign_program.peer.AssignForLiberiaUCT;
-import com.siddiquinoor.restclient.activity.sub_activity.assign_program.mchn.AssignLM;
-
-import com.siddiquinoor.restclient.activity.sub_activity.assign_program.mchn.AssignPW;
-import com.siddiquinoor.restclient.manager.SQLiteHandler;
-import com.siddiquinoor.restclient.utils.KEY;
 
 import java.util.ArrayList;
 
@@ -227,16 +212,16 @@ public class AssignDataModelAdapter extends BaseAdapter {
                                     case MCHN: //PROGRAM CODE MCHN OPEN
                                         switch (criteriaId) {
                                             case PREGNANT_WOMEN:
-                                                iSubAssignClass = new Intent(activity, AssignPW.class);
+                                                iSubAssignClass = new Intent(activity, PW.class);
                                                 break;
                                             case LACTATING_MOTHER:
-                                                iSubAssignClass = new Intent(activity, AssignLM.class);
+                                                iSubAssignClass = new Intent(activity, LM.class);
                                                 break;
                                             case CHILDEN_UNDER_2:
-                                                iSubAssignClass = new Intent(activity, AssignCU2.class);
+                                                iSubAssignClass = new Intent(activity, CU2.class);
                                                 break;
                                             case CHILD_ABOVE_2:
-                                                iSubAssignClass = new Intent(activity, AssignCA2.class);
+                                                iSubAssignClass = new Intent(activity, CA2.class);
                                                 break;
                                         }
                                         break;//PROGRAM CODE MCHN CLOSE
@@ -248,7 +233,7 @@ public class AssignDataModelAdapter extends BaseAdapter {
                                                 iSubAssignClass = new Intent(activity, AssignForDDRMalwaiVUL.class);
                                                 break;
                                             case FFA:
-                                                iSubAssignClass = new Intent(activity, AssignForDDRMalwaiFFA.class);
+                                                iSubAssignClass = new Intent(activity, FFA.class);
                                                 break;
                                         }
                                         break;//PROGRAM CODE DDR CLOSE
@@ -256,19 +241,19 @@ public class AssignDataModelAdapter extends BaseAdapter {
                                     case AGRP://program code AGRP OPEN
                                         switch (srvCode) {
                                             case AGR:
-                                                iSubAssignClass = new Intent(activity, AssignAGR.class);
+                                                iSubAssignClass = new Intent(activity, AGR.class);
                                                 break;
                                             case PG:
-                                                iSubAssignClass = new Intent(activity, AssignAGR.class);
+                                                iSubAssignClass = new Intent(activity, AGR.class);
                                                 break;
                                             case IG:
-                                                iSubAssignClass = new Intent(activity, AssignAGR.class);
+                                                iSubAssignClass = new Intent(activity, AGR.class);
                                                 break;
                                             case LG:
-                                                iSubAssignClass = new Intent(activity, AssignAGR.class);
+                                                iSubAssignClass = new Intent(activity, AGR.class);
                                                 break;
                                             case MG:
-                                                iSubAssignClass = new Intent(activity, AssignAGR.class);
+                                                iSubAssignClass = new Intent(activity, AGR.class);
                                                 break;
                                         }
                                         break;//program code AGRP ClOSE

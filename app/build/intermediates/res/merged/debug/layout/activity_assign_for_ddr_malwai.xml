@@ -4,7 +4,7 @@
     android:id="@+id/rel"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.siddiquinoor.restclient.activity.sub_activity.assign_program.ddr.AssignForDDRMalwaiFFA">
+    tools:context="com.siddiquinoor.restclient.activity.sub_activity.assign_program.ddr.FFA">
 
     <include
         android:id="@+id/header"

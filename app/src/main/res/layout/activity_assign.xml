@@ -35,26 +35,7 @@
         android:paddingLeft="10dp"
         android:paddingRight="10dp">
 
-        <!-- search id field -->
-        <!--      <RelativeLayout
-                  android:layout_width="match_parent"
-                  android:layout_height="wrap_content"
-                  android:orientation="horizontal"
-                  android:weightSum="1">
 
-
-
-
-                  &lt;!&ndash; search member id Button &ndash;&gt;
-                  <Button
-                      android:id="@+id/btn_assign_search"
-                      android:layout_width="30dp"
-                      android:layout_height="30dp"
-                      android:layout_alignParentRight="true"
-                      android:background="@drawable/search_20_20"
-
-                      android:padding="5dp" />
-              </RelativeLayout>-->
 
 
         <!-- Award list spinner-->
@@ -96,12 +77,7 @@
 
                     />
 
-                <!--     <TextView
-                         android:id="@+id/tv_assign_ac_layR4Label"
-                         style="@style/txt_label"
 
-                         android:text="@string/village_label"
-                         />-->
 
             </LinearLayout>
 
@@ -194,6 +170,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:layout_marginRight="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:weightSum="1">
@@ -202,7 +179,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_weight="0.70"
+
                 android:paddingTop="10dp"
                 android:text="Assign"
                 android:textColor="@color/white"
@@ -211,22 +188,7 @@
                 android:textSize="13sp" />
         </LinearLayout>
 
-        <!-- <LinearLayout
-             android:layout_width="0dp"
-             android:layout_height="wrap_content"
-             android:layout_weight=".3">
 
-             <TextView
-                 android:layout_width="match_parent"
-                 android:layout_height="wrap_content"
-                 android:layout_gravity="center_horizontal"
-                 android:gravity="center_horizontal"
-                 android:padding="10dp"
-                 android:text="Edit"
-                 android:textColor="@color/white"
-
-                 android:textSize="13sp" />
-         </LinearLayout>-->
 
     </LinearLayout>
 

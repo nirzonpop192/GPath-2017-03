@@ -20,13 +20,11 @@ import android.widget.ListView;
 import android.widget.Spinner;
 
 import com.siddiquinoor.restclient.R;
-import com.siddiquinoor.restclient.activity.sub_activity.assign_program.agr.AssignAGR;
-import com.siddiquinoor.restclient.activity.sub_activity.assign_program.ddr.AssignForDDRMalwaiFFA;
 import com.siddiquinoor.restclient.activity.sub_activity.assign_program.ddr.AssignForDDRMalwaiVUL;
-import com.siddiquinoor.restclient.activity.sub_activity.assign_program.mchn.AssignCA2;
-import com.siddiquinoor.restclient.activity.sub_activity.assign_program.mchn.AssignCU2;
-import com.siddiquinoor.restclient.activity.sub_activity.assign_program.mchn.AssignLM;
-import com.siddiquinoor.restclient.activity.sub_activity.assign_program.mchn.AssignPW;
+import com.siddiquinoor.restclient.activity.sub_activity.assign_program.mchn.CA2;
+import com.siddiquinoor.restclient.activity.sub_activity.assign_program.mchn.CU2;
+import com.siddiquinoor.restclient.activity.sub_activity.assign_program.mchn.LM;
+import com.siddiquinoor.restclient.activity.sub_activity.assign_program.mchn.PW;
 import com.siddiquinoor.restclient.activity.sub_activity.assign_program.peer.AssignForLiberiaAIV;
 import com.siddiquinoor.restclient.activity.sub_activity.assign_program.peer.AssignForLiberiaCFW;
 import com.siddiquinoor.restclient.activity.sub_activity.assign_program.peer.AssignForLiberiaUCT;
@@ -400,16 +398,16 @@ public class AssignActivity extends BaseActivity {
                             case MCHN: //PROGRAM CODE MCHN OPEN
                                 switch (srvCode) {
                                     case PREGNANT_WOMEN:
-                                        iSubAssignClass = new Intent(mContext, AssignPW.class);
+                                        iSubAssignClass = new Intent(mContext, PW.class);
                                         break;
                                     case LACTATING_MOTHER:
-                                        iSubAssignClass = new Intent(mContext, AssignLM.class);
+                                        iSubAssignClass = new Intent(mContext, LM.class);
                                         break;
                                     case CHILDEN_UNDER_2:
-                                        iSubAssignClass = new Intent(mContext, AssignCU2.class);
+                                        iSubAssignClass = new Intent(mContext, CU2.class);
                                         break;
                                     case CHILD_ABOVE_2:
-                                        iSubAssignClass = new Intent(mContext, AssignCA2.class);
+                                        iSubAssignClass = new Intent(mContext, CA2.class);
                                         break;
                                 }
                                 break;//PROGRAM CODE MCHN CLOSE
@@ -420,7 +418,7 @@ public class AssignActivity extends BaseActivity {
                                         iSubAssignClass = new Intent(mContext, AssignForDDRMalwaiVUL.class);
                                         break;
                                     case FFA:
-                                        iSubAssignClass = new Intent(mContext, AssignForDDRMalwaiFFA.class);
+                                        iSubAssignClass = new Intent(mContext, com.siddiquinoor.restclient.activity.sub_activity.assign_program.ddr.FFA.class);
                                         break;
                                 }
                                 break;//PROGRAM CODE DDR CLOSE
@@ -428,19 +426,19 @@ public class AssignActivity extends BaseActivity {
                             case AGRP://program code AGRP OPEN
                                 switch (srvCode) {
                                     case AGR:
-                                        iSubAssignClass = new Intent(mContext, AssignAGR.class);
+                                        iSubAssignClass = new Intent(mContext, com.siddiquinoor.restclient.activity.sub_activity.assign_program.agr.AGR.class);
                                         break;
                                     case PG:
-                                        iSubAssignClass = new Intent(mContext, AssignAGR.class);
+                                        iSubAssignClass = new Intent(mContext, com.siddiquinoor.restclient.activity.sub_activity.assign_program.agr.AGR.class);
                                         break;
                                     case IG:
-                                        iSubAssignClass = new Intent(mContext, AssignAGR.class);
+                                        iSubAssignClass = new Intent(mContext, com.siddiquinoor.restclient.activity.sub_activity.assign_program.agr.AGR.class);
                                         break;
                                     case LG:
-                                        iSubAssignClass = new Intent(mContext, AssignAGR.class);
+                                        iSubAssignClass = new Intent(mContext, com.siddiquinoor.restclient.activity.sub_activity.assign_program.agr.AGR.class);
                                         break;
                                     case MG:
-                                        iSubAssignClass = new Intent(mContext, AssignAGR.class);
+                                        iSubAssignClass = new Intent(mContext, com.siddiquinoor.restclient.activity.sub_activity.assign_program.agr.AGR.class);
                                         break;
                                 }
                                 break;//program code AGRP ClOSE
@@ -647,7 +645,7 @@ public class AssignActivity extends BaseActivity {
         // Spinner Drop down elements for District
         List<SpinnerHelper> listProgram = sqlH.getListAndID(SQLiteHandler.COUNTRY_PROGRAM_TABLE, criteria, null, false);
 
-        // Creating adapter for spinner
+
         ArrayAdapter<SpinnerHelper> dataAdapter = new ArrayAdapter<SpinnerHelper>(this, R.layout.spinner_layout, listProgram);
 
         dataAdapter.setDropDownViewResource(R.layout.spinner_layout);
@@ -752,9 +750,9 @@ public class AssignActivity extends BaseActivity {
 
 
     private void loadAssignedListData(String cCode, String dCode, String upCode, String uCode, String vCode, String donorCode, String awardCode, String progCode, String srvCode, String memSId) { // mwmSId = memeber searchin variable
-        //listViewAss.setAdapter(null);
+
         List<AssignDataModel> assDatalist = sqlH.getSingleMemberForAssign(cCode, dCode, upCode, uCode, vCode, idHH, idMember, donorCode, awardCode, progCode, srvCode);
-        // listViewAss.setAdapter(null);
+
         if (assDatalist.size() != 0) {
             assignedArray.clear();
             for (AssignDataModel asdata : assDatalist) {
@@ -774,7 +772,7 @@ public class AssignActivity extends BaseActivity {
 
             adapter = new AssignDataModelAdapter((Activity) AssignActivity.this, assignedArray, awardCode, strAward, progCode, strProgram, srvCode, idDonor, strCriteria, idCriteria, strCriteria, strVillage, entryBy, entryDate);
 
-            if (adapter != null) {
+            if (adapter.getCount()>0 ) {
 
                 adapter.notifyDataSetChanged();
                 listViewAss.setAdapter(adapter);

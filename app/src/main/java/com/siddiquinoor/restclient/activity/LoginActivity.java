@@ -269,7 +269,7 @@ public class LoginActivity extends BaseActivity {
                     } else {
 /**
  * This block determine is Internet available
-*/
+ */
                         isInternetAvailable = cd.isConnectingToInternet();
                         if (isInternetAvailable) {
 /***
@@ -791,7 +791,6 @@ public class LoginActivity extends BaseActivity {
 
 
                                 FDPItem fdpItem = new FDPItem();
-
                                 fdpItem.setAdmCountryCode(AdmCountryCode);
                                 fdpItem.setFDPCode(FDPCode);
                                 fdpItem.setFDPName(FDPName);
@@ -856,9 +855,7 @@ public class LoginActivity extends BaseActivity {
     }
 
     public void checkCountrySelection(final String user_name, final String password, final String operationMode) {
-        // Tag used to cancel the request
-        String tag_string_req = "req_login";
-
+        String tag_string_req = "req_country";
 
         StringRequest strReq = new StringRequest(Method.POST,
                 AppConfig.API_LINK, new Response.Listener<String>() {
@@ -935,7 +932,7 @@ public class LoginActivity extends BaseActivity {
                         String errorMsg = response.substring(response.indexOf("error_msg") + 11);
                         Toast.makeText(getApplicationContext(),
                                 errorMsg, Toast.LENGTH_LONG).show();
-                        // hideDialog();
+
                     }
 
                 } catch (JSONException e) {
@@ -949,7 +946,7 @@ public class LoginActivity extends BaseActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.e(TAG, "Login Error: " + error + " Stack Tracr = " + error.getStackTrace() + " Detail = " + error.getMessage());
-                // hide the mdialog
+
                 hideDialog();
                 showAlert("Failed to retrieve data\r\nPlease try again checking your internet connectivity, Username and Password.");
 
@@ -1093,7 +1090,8 @@ public class LoginActivity extends BaseActivity {
                 params.put("key", "PhEUT5R251");
                 params.put("task", "is_down_load_village_name");
                 params.put("user_name", user_name);
-                params.put("password", password);params.put("password", password);
+                params.put("password", password);
+                params.put("password", password);
                 params.put("operation_mode", operationMode);
 
                 return params;
@@ -1686,8 +1684,6 @@ public class LoginActivity extends BaseActivity {
                         public void onClick(DialogInterface dialog, int id) {
 
 
-                       
-
                         }
                     });
             mdialog = builder.create();
@@ -1798,9 +1794,7 @@ public class LoginActivity extends BaseActivity {
                 AppController.getInstance().getRequestQueue().getCache().clear();
                 writeJSONToTextFile(response, ALL_DATA);
 
-
                 // DOING STRING OPERATION TO AVOID ALLOCATE CACHE MEMORY
-
                 String errorResult = response.substring(9, 14);
 
 
@@ -1812,10 +1806,8 @@ public class LoginActivity extends BaseActivity {
 
                 boolean error = !errorResult.equals("false");
                 if (!error) {
-
                     Log.d("TAG", "Before downLoad RegNHouseHold 6" + "  user_name:" + user_name + " password :" + password + " selectedVilJArry:" + selectedVilJArry + "operationMode:" + operationMode);
                     downLoadRegNHouseHold(user_name, password, selectedVilJArry, operationMode);
-
 
                 } else {
                     // Error in login. Invalid UserName or Password
@@ -1823,7 +1815,7 @@ public class LoginActivity extends BaseActivity {
                     String errorMsg = response.substring(response.indexOf("error_msg") + 11);
                     Toast.makeText(getApplicationContext(),
                             errorMsg, Toast.LENGTH_LONG).show();
-                    // hideDialog();
+
                 }
 
 
@@ -1833,7 +1825,6 @@ public class LoginActivity extends BaseActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.e(TAG, "Login Error: " + error + " Stack Tracr = " + error.getStackTrace() + " Detail = " + error.getMessage());
-                // hide the mdialog
                 hideDialog();
                 showAlert("Failed to retrieve data\r\nPlease try again checking your internet connectivity, Username and Password.");
 
@@ -1882,9 +1873,6 @@ public class LoginActivity extends BaseActivity {
                 AppController.getInstance().getRequestQueue().getCache().clear();
                 writeJSONToTextFile(response, REG_HOUSE_HOLD_DATA);
 
-//                Log.d("DIM", " After RegN HouseHold data in txt  stape:2");
-
-
                 /**
                  *  DOING STRING OPERATION TO AVOID ALLOCATE CACHE MEMORY
                  */
@@ -1914,7 +1902,6 @@ public class LoginActivity extends BaseActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.e(TAG, "Login Error: " + error + " Stack Tracr = " + error.getStackTrace() + " Detail = " + error.getMessage());
-                // hide the mdialog
                 hideDialog();
                 showAlert("Failed to retrieve data\r\nPlease try again checking your internet connectivity, Username and Password.");
 
@@ -1958,12 +1945,9 @@ public class LoginActivity extends BaseActivity {
             public void onResponse(String response) {
                 /***
                  * @deis: IN THIS STRING RESPONSE WRITE THE JSON DATA
-                 *
                  */
                 AppController.getInstance().getRequestQueue().getCache().clear();
                 writeJSONToTextFile(response, REG_MEMBER_DATA);
-
-                Log.d("DIM", " After Reg N Members in txt  stape :3");
 
 
                 // DOING STRING OPERATION TO AVOID ALLOCATE CACHE MEMORY
@@ -2154,11 +2138,9 @@ public class LoginActivity extends BaseActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.e(TAG, "Login Error: " + error + " Stack Tracr = " + error.getStackTrace() + " Detail = " + error.getMessage());
-                // hide the mdialog
+
                 hideDialog();
                 showAlert("Failed to retrieve data\r\nPlease try again checking your internet connectivity, Username and Password.");
-
-
             }
         }) {
 
@@ -2294,7 +2276,7 @@ public class LoginActivity extends BaseActivity {
                 Log.d(TAG, " After Loading Dynamic Table in txt last stap :7");
 
 
-               // hideDialog();
+                // hideDialog();
 
 
                 /**

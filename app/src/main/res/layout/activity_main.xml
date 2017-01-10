@@ -61,7 +61,7 @@
 
         <LinearLayout
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
             android:paddingBottom="40dp"
             android:paddingLeft="40dp"
@@ -267,127 +267,109 @@
                         android:textSize="18sp"
                         android:textStyle="bold" />
 
-                    <LinearLayout
+                    <TextView
+                        android:layout_marginTop="15dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="15dp"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginBottom="5dp"
-                            android:gravity="center_horizontal"
-                            android:text="Version Name"
-                            android:textSize="15sp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/textTitle"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="center_horizontal"
-                            android:text="@string/log_in_version_lable" />
-                    </LinearLayout>
-
-                    <LinearLayout
+                        android:layout_marginBottom="5dp"
+                        android:gravity="center_horizontal"
+                        android:text="Version Name"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
+                    <TextView
+                        android:id="@+id/textTitle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="15dp"
-                        android:orientation="vertical">
+                        android:gravity="center_horizontal"
+                        android:text="@string/log_in_version_lable" />
 
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="5dp"
-                            android:gravity="center_horizontal"
-                            android:text="Operation Mode"
-                            android:textSize="15sp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/tv_operation_mode"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="5dp"
-                            android:gravity="center_horizontal"
-                            android:text="" />
-                    </LinearLayout>
-
-                    <LinearLayout
+                    <TextView
+                        android:layout_marginTop="20dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="15dp"
-                        android:orientation="vertical">
 
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_marginTop="5dp"
-                            android:gravity="center_horizontal"
-                            android:text="GEO-DATA"
-                            android:textSize="15sp"
-                            android:textStyle="bold" />
+                        android:gravity="center_horizontal"
+                        android:text="@string/labe_op_mode"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
 
-                        <TextView
-                            android:id="@+id/tv_geo_data_1"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="5dp"
-                            android:gravity="center_horizontal"
-                            android:text="XXXXXX-XXXXXXXX" />
+                    <TextView
+                        android:id="@+id/tv_operation_mode"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:gravity="center_horizontal"
+                        android:text="" />
 
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="15dp"
-                            android:orientation="vertical">
 
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="5dp"
-                                android:gravity="center_horizontal"
-                                android:text="Last Sync"
-                                android:textSize="15sp"
-                                android:textStyle="bold" />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="20dp"
+                        android:gravity="center_horizontal"
+                        android:text="@string/label_geo_data"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
 
-                            <TextView
-                                android:id="@+id/tv_last_sync"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="5dp"
-                                android:gravity="center_horizontal"
-                                android:text="N/A" />
+                    <TextView
+                        android:id="@+id/tv_geo_data_1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:gravity="center_horizontal"
+                        android:text="XXXXXX-XXXXXXXX" />
 
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="15dp"
-                                android:orientation="vertical">
 
-                                <TextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="5dp"
-                                    android:gravity="center_horizontal"
-                                    android:text="Sync Required"
-                                    android:textSize="15sp"
-                                    android:textStyle="bold" />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:gravity="center_horizontal"
+                        android:text="@string/label_last_sync"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
 
-                                <TextView
-                                    android:id="@+id/tv_sync_required"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="5dp"
-                                    android:gravity="center_horizontal"
-                                    android:text="" />
+                    <TextView
+                        android:id="@+id/tv_last_sync"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:gravity="center_horizontal"
+                        android:text="N/A" />
 
-                            </LinearLayout>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:gravity="center_horizontal"
+                        android:text="Sync Required"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
 
-                        </LinearLayout>
-                    </LinearLayout>
+                    <TextView
+                        android:id="@+id/tv_sync_required"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:gravity="center_horizontal"
+                        android:text="" />
+
+
+                    <Button
+                        android:layout_gravity="center_horizontal"
+                        android:layout_width="match_parent"
+                        android:id="@+id/btnRestoreDB"
+                        style="@style/btn_main_page"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginEnd="4dp"
+                        android:layout_marginRight="4dp"
+                        android:drawableLeft="@drawable/database_import_32"
+                        android:drawableStart="@drawable/database_import_32"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="15dp"
+                        android:text="  Restore DB" />
+
                 </LinearLayout>
             </LinearLayout>
 
@@ -422,18 +404,7 @@
                     android:textSize="15sp" />
             </LinearLayout>
 
-            <Button
-                android:layout_width="310dp"
-                android:id="@+id/btnRestoreDB"
-                style="@style/btn_main_page"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="4dp"
-                android:layout_marginRight="4dp"
 
-                android:drawableLeft="@drawable/database_import_32"
-                android:gravity="center_vertical"
-                android:paddingLeft="15dp"
-                android:text="  Restore DB" />
         </LinearLayout>
 
     </ScrollView>

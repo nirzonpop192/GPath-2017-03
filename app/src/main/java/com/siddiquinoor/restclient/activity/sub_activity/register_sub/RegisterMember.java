@@ -754,7 +754,7 @@ public class RegisterMember extends BaseActivity {
         btn_mem_gotoHhDetails.setText("");
         Drawable imageHHDetails = getResources().getDrawable(R.drawable.hh_details);
         btn_mem_gotoHhDetails.setCompoundDrawablesRelativeWithIntrinsicBounds(imageHHDetails, null, null, null);
-        setPaddingButton(mContext, imageHHDetails, btnHome);
+        setPaddingButton(mContext, imageHHDetails, btn_mem_gotoHhDetails);
     }
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)

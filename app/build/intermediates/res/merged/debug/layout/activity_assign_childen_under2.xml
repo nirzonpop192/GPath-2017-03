@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.sub_activity.assign_program.mchn.AssignCU2">
+    tools:context=".activity.sub_activity.assign_program.mchn.CU2">
 
     <!-- Header aligned to top -->
     <include layout="@layout/header" />

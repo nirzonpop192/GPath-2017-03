@@ -9,7 +9,6 @@ import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -19,7 +18,7 @@ import android.widget.ListView;
 import android.widget.Spinner;
 
 import com.siddiquinoor.restclient.R;
-import com.siddiquinoor.restclient.activity.sub_activity.commu_group_sub.GroupDetails;
+import com.siddiquinoor.restclient.activity.sub_activity.commu_group_sub.CommunityGroupNDetailsRecodes;
 import com.siddiquinoor.restclient.fragments.BaseActivity;
 import com.siddiquinoor.restclient.manager.SQLiteHandler;
 import com.siddiquinoor.restclient.utils.KEY;
@@ -35,9 +34,8 @@ public class GroupSearchPage extends BaseActivity {
     private static final String TAG = "GroupSearchPage";
     private SQLiteHandler sqlH;
     private static ProgressDialog pDialog;
-    private Button btnAddGroup;
-    private Button btnHome;
-    private Button btn_searchGroup;
+    private Button btnAddGroup,btnHome,btn_searchGroup;
+
     private EditText edt_groupSearch;
     private ListView listOfGroup;
     private CommunityGroupAdapter adapter;
@@ -45,9 +43,8 @@ public class GroupSearchPage extends BaseActivity {
     private Spinner spCriteria;
     private String strCriteria;
     private String idCriteria;
-    private String idAward;
-    private String idDonor;
-    private String idProgram;
+    private String idAward,idDonor,idProgram;
+
     //   private String idService;
 
     @Override
@@ -57,7 +54,7 @@ public class GroupSearchPage extends BaseActivity {
         initialize();
 
         idCountry = getIntent().getStringExtra(KEY.COUNTRY_ID);
-        loadCriteria(idCountry);
+        loadProgram(idCountry);
         setListener();
 
     }
@@ -79,12 +76,7 @@ public class GroupSearchPage extends BaseActivity {
                 String grpName = edt_groupSearch.getText().toString();
                 if (grpName.length() > 0) {
                     if (idCriteria.length() > 2) {
-       /*             idDonor = idCriteria.substring(0, 2);
-                    idAward = idCriteria.substring(2, 4);
-                    idProgram = idCriteria.substring(4, 7);
-                    idService = idCriteria.substring(7);*/
-
-                        LoadListView loading = new LoadListView(idCountry, idDonor, idAward, idProgram, "");
+                        LoadListView loading = new LoadListView(idCountry, idDonor, idAward, idProgram,grpName);
                         loading.execute();
                     }
                 }
@@ -96,7 +88,7 @@ public class GroupSearchPage extends BaseActivity {
         btnAddGroup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(GroupSearchPage.this, GroupDetails.class);
+                Intent intent = new Intent(GroupSearchPage.this, CommunityGroupNDetailsRecodes.class);
 
                 intent.putExtra(KEY.ADD_FLAG_KEY, true);
                 intent.putExtra(KEY.DONOR_CODE, idDonor);
@@ -122,7 +114,7 @@ public class GroupSearchPage extends BaseActivity {
      *
      * @param cCode Country Code
      */
-    private void loadCriteria(final String cCode) {
+    private void loadProgram(final String cCode) {
 
         int position = 0;
         String criteria = "SELECT " +
@@ -143,12 +135,9 @@ public class GroupSearchPage extends BaseActivity {
                 + " ORDER BY Criteria ";
 
 
-        // Spinner Drop down elements for District
+
         List<SpinnerHelper> listCriteria = sqlH.getListAndID(SQLiteHandler.CUSTOM_QUERY, criteria, null, false);
-
-
         ArrayAdapter<SpinnerHelper> dataAdapter = new ArrayAdapter<SpinnerHelper>(this, R.layout.spinner_layout, listCriteria);
-
         dataAdapter.setDropDownViewResource(R.layout.spinner_layout);
 
         spCriteria.setAdapter(dataAdapter);
@@ -171,20 +160,17 @@ public class GroupSearchPage extends BaseActivity {
                 strCriteria = ((SpinnerHelper) spCriteria.getSelectedItem()).getValue();
                 idCriteria = ((SpinnerHelper) spCriteria.getSelectedItem()).getId();
                 if (idCriteria.length() > 2) {
-                    // Log.d(TAG, "load servece data " + idCriteria);
 
                     if (idCriteria.length() > 2) {
                         idDonor = idCriteria.substring(0, 2);
                         idAward = idCriteria.substring(2, 4);
                         idProgram = idCriteria.substring(4, 7);
                         // idService = idCriteria.substring(7);
-
+                        /**                         * for test purpose (to check error )   {@link GroupSearchPage#loadAssignedListData(String, String, String, String, String) method}                   */
+                       // loadAssignedListData(idCountry, idDonor, idAward, idProgram, "");
                         LoadListView loading = new LoadListView(idCountry, idDonor, idAward, idProgram, "");
                         loading.execute();
                     }
-
-                    Log.d("MOR", "idCountry" + idCountry + " idAward " + idAward +
-                            "  idDonor " + idDonor + "  idProgram " + idProgram);
 
 
                 }
@@ -203,7 +189,7 @@ public class GroupSearchPage extends BaseActivity {
 
 
     /**
-     * Refere the XML views with java object
+     * Refer the XML views with java object
      */
     private void viewReference() {
 
@@ -211,8 +197,6 @@ public class GroupSearchPage extends BaseActivity {
         btnHome = (Button) findViewById(R.id.btnRegisterFooter);
         btnAddGroup = (Button) findViewById(R.id.btnHomeFooter);
         spCriteria = (Spinner) findViewById(R.id.search_Group_spCriteria);
-
-
         btn_searchGroup = (Button) findViewById(R.id.btn_groupSearch);
         edt_groupSearch = (EditText) findViewById(R.id.edt_groupSearch);
 
@@ -220,22 +204,18 @@ public class GroupSearchPage extends BaseActivity {
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     private void addIconHomeButton() {
-
         btnHome.setText("");
         Drawable imageHome = getResources().getDrawable(R.drawable.home_b);
         btnHome.setCompoundDrawablesRelativeWithIntrinsicBounds(imageHome, null, null, null);
-
         setPaddingButton(GroupSearchPage.this, imageHome, btnHome);
 
     }
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     private void addIconAddGroupButton() {
-
         btnAddGroup.setText("");
         Drawable addImage = getResources().getDrawable(R.drawable.add);
         btnAddGroup.setCompoundDrawablesRelativeWithIntrinsicBounds(addImage, null, null, null);
-
         setPaddingButton(GroupSearchPage.this, addImage, btnAddGroup);
 
     }
@@ -329,7 +309,6 @@ public class GroupSearchPage extends BaseActivity {
         pDialog.setMessage(msg);
         pDialog.setCancelable(true);
         pDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-
         pDialog.show();
     }
 
@@ -342,12 +321,9 @@ public class GroupSearchPage extends BaseActivity {
         if (groupList.size() != 0) {
             groupArray.clear();
             for (CommunityGroupDataModel asdata : groupList) {
-                // add contacts data in arrayList
 
                 groupArray.add(asdata);
             }
-
-
             adapter = new CommunityGroupAdapter((Activity) GroupSearchPage.this, groupArray);
         }
     }

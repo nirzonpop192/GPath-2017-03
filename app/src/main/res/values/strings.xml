@@ -590,4 +590,7 @@ Otherwise, initiate to sync and login again.</string>
     <string name="google_maps_key" translatable="false" templateMergeStrategy="preserve">
         AIzaSyB6R6Saou2TpmqGKcuZwbnUvhJhlv6nSls
     </string>
+    <string name="labe_op_mode">Operation Mode</string>
+    <string name="label_geo_data">GEO-DATA</string>
+    <string name="label_last_sync">Last Sync</string>
 </resources>

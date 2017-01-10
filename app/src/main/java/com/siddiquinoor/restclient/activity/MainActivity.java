@@ -637,46 +637,14 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
                 publishProgress(++progressIncremental);
 
-                if (!jObj.isNull(Parser.REGN_PW_JSON_A)) {// this is not servie
-                    JSONArray regn_pws = jObj.getJSONArray(Parser.REGN_PW_JSON_A);
+                if (!jObj.isNull(Parser.REGN_PW_JSON_A)) {
 
+                    Parser.regNPWParser(jObj.getJSONArray(Parser.REGN_PW_JSON_A), db);
 
-                    String AdmCountryCode;
-                    String LayR1ListCode;
-                    String LayR2ListCode;
-                    String LayR3ListCode;
-                    String LayR4ListCode;
-                    String HHID;
-                    String MemID;
-                    String RegNDate;
-                    String LMPDate;
-                    String AdmProgCode;
-                    String AdmSrvCode;
-                    String GRDCode;
-                    String PWGRDDate;
-                    size = regn_pws.length();
-                    for (int i = 0; i < size; i++) {
-                        JSONObject regn_pw = regn_pws.getJSONObject(i);
-
-                        AdmCountryCode = regn_pw.getString(Parser.ADM_COUNTRY_CODE);
-                        LayR1ListCode = regn_pw.getString(Parser.LAY_R_1_LIST_CODE);
-                        LayR2ListCode = regn_pw.getString(Parser.LAY_R_2_LIST_CODE);
-                        LayR3ListCode = regn_pw.getString(Parser.LAY_R_3_LIST_CODE);
-                        LayR4ListCode = regn_pw.getString(Parser.LAY_R_4_LIST_CODE);
-                        HHID = regn_pw.getString(Parser.HHID);
-                        MemID = regn_pw.getString(Parser.MEM_ID);
-                        RegNDate = regn_pw.getString(Parser.REG_N_DATE);
-                        LMPDate = regn_pw.getString(Parser.LMP_DATE);
-                        AdmProgCode = regn_pw.getString(Parser.ADM_PROG_CODE);
-                        AdmSrvCode = regn_pw.getString(Parser.ADM_SRV_CODE);
-                        GRDCode = regn_pw.getString(Parser.GRD_CODE);
-                        PWGRDDate = regn_pw.getString(Parser.PWGRD_DATE);
-
-
-                        sqlH.addRegNPWFromOnLine(AdmCountryCode, LayR1ListCode, LayR2ListCode, LayR3ListCode, LayR4ListCode, HHID, MemID, AdmProgCode, AdmSrvCode, RegNDate, GRDCode, LMPDate, PWGRDDate);//, SrvCenterCatCode, FDPCode);
-                        //  Log.d(TAG, "Insert  into Pregnant women table" );
-                    }
                 }
+
+
+
                 publishProgress(++progressIncremental);
 
 
@@ -754,7 +722,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                     String CU2GRDDate;
                     String ChildName;
                     String ChildSex;
-//                    Log.d("nir", "Size of RegN CU 2 : " + size);
+
                     for (int i = 0; i < size; i++) {
                         JSONObject regn_cu2 = regn_cu2s.getJSONObject(i);
 
@@ -783,17 +751,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 }
 
                 publishProgress(++progressIncremental);
-
-
-                //regn_ca2 Table
-
-
-                //* Adding data into  regn_ca2  Table
-
-
                 if (!jObj.isNull(Parser.REGN_CA_2)) {
-//                    Log.d("NIR", "in DTA");
-
                     Parser.RegN_CA2Parser(jObj.getJSONArray(Parser.REGN_CA_2), db);
                 }
 
@@ -872,8 +830,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
                         db.addMemIntoCT_Table(data);
 
-                        //  Log.d(TAG, "In Reg Mem Card Request Table: AdmCountryCode : " + AdmCountryCode + " AdmDonorCode : " + AdmDonorCode + " LayR1ListCode : " + LayR1ListCode + " LayR2ListCode : "
-                        //        + LayR2ListCode + " LayR3ListCode : " + LayR3ListCode + " LayR4ListCode : " + LayR4ListCode+ " HHID : " + HHID);
                     }
                 }
 
@@ -886,7 +842,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 }
 
             } catch (Exception e) {
-                Log.d(TAG, "Expetion : " + e);
+                Log.e(TAG, "Exception : " + e);
                 e.printStackTrace();
             }
             return null;
@@ -902,13 +858,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
             new Inject_EnuTableIntoSQLite().execute();
-//            hideDialog();
-//
-//
-//            loadCountry();
-//
-//            // set the user name
-//            txtName.setText(getUserName());
+
         }
 
         @Override
@@ -992,6 +942,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
 
             } catch (Exception e) {
+                Log.e(TAG, "Exception : " + e);
             }
             return null;
         }
@@ -1040,7 +991,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 publishProgress(++progressIncremental);
 
                 if (!jObj.isNull("enu_table")) {
-//                    Log.d("NIR", "in DTA");
+
 
                     Parser.DTEnu_Parser(jObj.getJSONArray("enu_table"), db);
                 }

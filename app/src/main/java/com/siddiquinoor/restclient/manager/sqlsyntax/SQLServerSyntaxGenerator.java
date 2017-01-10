@@ -4655,6 +4655,7 @@ public class SQLServerSyntaxGenerator {
 
     private String GrpLayR1ListCode;
     private String GrpLayR2ListCode;
+    private String GrpLayR3ListCode;
 
     public String getGrpLayR1ListCode() {
         return GrpLayR1ListCode;
@@ -4670,6 +4671,14 @@ public class SQLServerSyntaxGenerator {
 
     public void setGrpLayR2ListCode(String grpLayR2ListCode) {
         GrpLayR2ListCode = checkStringNull(grpLayR2ListCode);
+    }
+
+    public String getGrpLayR3ListCode() {
+        return GrpLayR3ListCode;
+    }
+
+    public void setGrpLayR3ListCode(String grpLayR3ListCode) {
+        GrpLayR3ListCode = checkStringNull(grpLayR3ListCode);
     }
 
     public String insertInToRegNMemProgGrp() {
@@ -4691,6 +4700,7 @@ public class SQLServerSyntaxGenerator {
                 + " ,[EntryDate]"
                 + " ,[GrpLayR1ListCode] "
                 + " ,[GrpLayR2ListCode] "
+                + " ,[GrpLayR3ListCode] "
                 + " ) "
                 + "  VALUES "
                 + "          (" + getAdmCountryCode()
@@ -4710,6 +4720,7 @@ public class SQLServerSyntaxGenerator {
                 + " , " + getEntryDate()
                 + " , " + getGrpLayR1ListCode()
                 + " , " + getGrpLayR2ListCode()
+                + " , " + getGrpLayR3ListCode()
                 + " ) ";
     }
 

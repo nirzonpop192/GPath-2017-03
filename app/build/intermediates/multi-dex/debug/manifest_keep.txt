@@ -17,10 +17,10 @@
 -keep class com.siddiquinoor.restclient.activity.sub_activity.service_sub.ServiceRecord { <init>(); }
 -keep class com.siddiquinoor.restclient.activity.sub_activity.summary_sub.SumSrvOrDistAttendance { <init>(); }
 -keep class com.siddiquinoor.restclient.activity.GraduationActivity { <init>(); }
--keep class com.siddiquinoor.restclient.activity.sub_activity.assign_program.mchn.AssignLM { <init>(); }
--keep class com.siddiquinoor.restclient.activity.sub_activity.assign_program.mchn.AssignPW { <init>(); }
--keep class com.siddiquinoor.restclient.activity.sub_activity.assign_program.mchn.AssignCU2 { <init>(); }
--keep class com.siddiquinoor.restclient.activity.sub_activity.assign_program.mchn.AssignCA2 { <init>(); }
+-keep class com.siddiquinoor.restclient.activity.sub_activity.assign_program.mchn.LM { <init>(); }
+-keep class com.siddiquinoor.restclient.activity.sub_activity.assign_program.mchn.PW { <init>(); }
+-keep class com.siddiquinoor.restclient.activity.sub_activity.assign_program.mchn.CU2 { <init>(); }
+-keep class com.siddiquinoor.restclient.activity.sub_activity.assign_program.mchn.CA2 { <init>(); }
 -keep class com.siddiquinoor.restclient.activity.RegisterLiberia { <init>(); }
 -keep class com.siddiquinoor.restclient.activity.sub_activity.graduation_sub.GraduationUpdate { <init>(); }
 -keep class com.siddiquinoor.restclient.activity.sub_activity.summary_sub.SummaryAssignCriteria { <init>(); }
@@ -32,7 +32,7 @@
 -keep class com.siddiquinoor.restclient.activity.sub_activity.assign_program.peer.AssignForLiberiaAIV { <init>(); }
 -keep class com.siddiquinoor.restclient.activity.sub_activity.assign_program.peer.AssignForLiberiaCFW { <init>(); }
 -keep class com.siddiquinoor.restclient.activity.sub_activity.assign_program.peer.AssignForLiberiaUCT { <init>(); }
--keep class com.siddiquinoor.restclient.activity.sub_activity.assign_program.agr.AssignAGR { <init>(); }
+-keep class com.siddiquinoor.restclient.activity.sub_activity.assign_program.agr.AGR { <init>(); }
 -keep class com.siddiquinoor.restclient.activity.sub_activity.service_sub.ServiceVoucherDetails { <init>(); }
 -keep class com.siddiquinoor.restclient.activity.sub_activity.dist_sub.DistrubutionVoucherActivity { <init>(); }
 -keep class com.siddiquinoor.restclient.activity.sub_activity.summary_sub.ServiceSummaryMenu { <init>(); }
@@ -43,10 +43,10 @@
 -keep class com.siddiquinoor.restclient.activity.sub_activity.gps_sub.SearchLocation { <init>(); }
 -keep class com.siddiquinoor.restclient.activity.MemberSearchPage { <init>(); }
 -keep class com.siddiquinoor.restclient.activity.AssignActivity { <init>(); }
--keep class com.siddiquinoor.restclient.activity.sub_activity.assign_program.ddr.AssignForDDRMalwaiFFA { <init>(); }
+-keep class com.siddiquinoor.restclient.activity.sub_activity.assign_program.ddr.FFA { <init>(); }
 -keep class com.siddiquinoor.restclient.activity.sub_activity.assign_program.ddr.AssignForDDRMalwaiVUL { <init>(); }
 -keep class com.siddiquinoor.restclient.activity.GroupSearchPage { <init>(); }
--keep class com.siddiquinoor.restclient.activity.sub_activity.commu_group_sub.GroupDetails { <init>(); }
+-keep class com.siddiquinoor.restclient.activity.sub_activity.commu_group_sub.CommunityGroupNDetailsRecodes { <init>(); }
 -keep class com.siddiquinoor.restclient.activity.sub_activity.summary_sub.GroupSummary { <init>(); }
 -keep class com.siddiquinoor.restclient.activity.sub_activity.summary_sub.IdListInGroupSummary { <init>(); }
 -keep class com.siddiquinoor.restclient.activity.DynamicData { <init>(); }

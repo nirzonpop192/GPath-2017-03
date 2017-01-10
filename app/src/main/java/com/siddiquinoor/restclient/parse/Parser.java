@@ -1002,6 +1002,9 @@ public class Parser {
             String SrvCode;
             String GrpCode;
             String Active;
+            String GrpLayR1ListCode = "";
+            String GrpLayR2ListCode = "";
+            String GrpLayR3ListCode = "";
 
             /**
              * The total string Convert into JSON object
@@ -1037,24 +1040,12 @@ public class Parser {
                     SrvCode = reg_n_mem_prog_grp.getString(SRV_CODE);
                     GrpCode = reg_n_mem_prog_grp.getString("GrpCode");
                     Active = reg_n_mem_prog_grp.getString("Active");
+                    GrpLayR1ListCode = reg_n_mem_prog_grp.getString("GrpLayR1ListCode");
+                    GrpLayR2ListCode = reg_n_mem_prog_grp.getString("GrpLayR2ListCode");
+                    GrpLayR3ListCode = reg_n_mem_prog_grp.getString("GrpLayR3ListCode");
 
 
-                    sqlH.addRegNmemProgGroupFromOnline(AdmCountryCode, AdmDonorCode, AdmAwardCode
-                            , LayR1ListCode, LayR2ListCode, LayR3ListCode, LayR4ListCode
-                            , hhID, MemID, ProgCode, SrvCode, GrpCode, Active
-
-                    );
-
-
-                    Log.d(TAG, " Member Prog group  : id:" + i + " values : AdmCountryCode:" + AdmCountryCode
-                            + "  AdmDonorCode:" + AdmDonorCode + "  AdmAwardCode:" + AdmAwardCode
-                            + "  LayR1ListCode:" + LayR1ListCode + "  LayR2ListCode:" + LayR2ListCode
-                            + "  LayR3ListCode:" + LayR3ListCode + "  LayR4ListCode:" + LayR4ListCode
-                            + "  hhID:" + hhID + "  MemID:" + MemID
-                            + "  ProgCode:" + ProgCode + "  SrvCode:" + SrvCode
-                            + "  GrpCode:" + GrpCode + "  Active:" + Active
-
-                    );
+                    sqlH.addRegNmemProgGroupFromOnline(AdmCountryCode, AdmDonorCode, AdmAwardCode, LayR1ListCode, LayR2ListCode, LayR3ListCode, LayR4ListCode, hhID, MemID, ProgCode, SrvCode, GrpCode, Active, GrpLayR1ListCode, GrpLayR2ListCode, GrpLayR3ListCode);
 
 
                 }
@@ -1088,60 +1079,9 @@ public class Parser {
                 JSONArray members = jObj.getJSONArray(MEMBERS_JSON_A);
 
 
-                String AdmCountryCode;
-                String DistrictName;
-                String UpazillaName;
-                String UnitName;
-                String VillageName;
-                String hhID;
-                String HHMemID;
-                String MemName;
-                String MemSex;
-                String HHRelation;
-                String EntryBy;
-                String EntryDate;
-                String lmp_date;
-                String child_dob;
-                String elderly;
-                String disabled;
-                String MemAge;
-                String RegNDate;
-                String BirthYear;
-                String MaritalStatus;
-                String ContactNo;
-                String MemOtherID;
-                String MemName_First;
-                String MemName_Middle;
-                String MemName_Last;
-                String Photo;
-                String Type_ID;
+                String AdmCountryCode, DistrictName, UpazillaName, UnitName, VillageName, hhID, HHMemID, MemName, MemSex, HHRelation, EntryBy, EntryDate, lmp_date, child_dob, elderly, disabled, MemAge, RegNDate, BirthYear, MaritalStatus, ContactNo, MemOtherID, MemName_First, MemName_Middle, MemName_Last, Photo, Type_ID;
 
-                String TypeID_NO;
-                String V_BSCMemName1_First;
-                String V_BSCMemName1_Middle;
-                String V_BSCMemName1_Last;
-                String V_BSCMem1_TitlePosition;
-                String V_BSCMemName2_First;
-                String V_BSCMemName2_Middle;
-                String V_BSCMemName2_Last;
-                String V_BSCMem2_TitlePosition;
-                String Proxy_Designation;
-                String Proxy_Name_First;
-                String Proxy_Name_Middle;
-                String Proxy_Name_Last;
-                String Proxy_BirthYear;
-                String Proxy_Photo;
-                String Proxy_Type_ID;
-                String Proxy_ID_NO;
-                String P_BSCMemName1_First;
-                String P_BSCMemName1_Middle;
-                String P_BSCMemName1_Last;
-                String P_BSCMem1_TitlePosition;
-                String P_BSCMemName2_First;
-                String P_BSCMemName2_Middle;
-                String P_BSCMemName2_Last;
-                String P_BSCMem2_TitlePosition;
-                String GrpCode;
+                String TypeID_NO, V_BSCMemName1_First, V_BSCMemName1_Middle, V_BSCMemName1_Last, V_BSCMem1_TitlePosition, V_BSCMemName2_First, V_BSCMemName2_Middle, V_BSCMemName2_Last, V_BSCMem2_TitlePosition, Proxy_Designation, Proxy_Name_First, Proxy_Name_Middle, Proxy_Name_Last, Proxy_BirthYear, Proxy_Photo, Proxy_Type_ID, Proxy_ID_NO, P_BSCMemName1_First, P_BSCMemName1_Middle, P_BSCMemName1_Last, P_BSCMem1_TitlePosition, P_BSCMemName2_First, P_BSCMemName2_Middle, P_BSCMemName2_Last, P_BSCMem2_TitlePosition, GrpCode;
 
 
                 // Adding data into Registration Table
@@ -1209,14 +1149,7 @@ public class Parser {
 
 
                     sqlH.addMemberData(AdmCountryCode, DistrictName, UpazillaName, UnitName, VillageName, hhID, HHMemID, MemName, MemSex, HHRelation, EntryBy, EntryDate, lmp_date, child_dob, elderly, disabled, MemAge, RegNDate, BirthYear, MaritalStatus, ContactNo, MemOtherID, MemName_First, MemName_Middle, MemName_Last, Photo,
-                            Type_ID, TypeID_NO, V_BSCMemName1_First, V_BSCMemName1_Middle, V_BSCMemName1_Last, V_BSCMem1_TitlePosition, V_BSCMemName2_First, V_BSCMemName2_Middle, V_BSCMemName2_Last, V_BSCMem2_TitlePosition,
-                            Proxy_Designation, Proxy_Name_First, Proxy_Name_Middle, Proxy_Name_Last, Proxy_BirthYear, Proxy_Photo
-                            , Proxy_Type_ID, Proxy_ID_NO, P_BSCMemName1_First, P_BSCMemName1_Middle, P_BSCMemName1_Last, P_BSCMem1_TitlePosition, P_BSCMemName2_First, P_BSCMemName2_Middle, P_BSCMemName2_Last, P_BSCMem2_TitlePosition, GrpCode);
-
-//                    Log.d(TAG, " Member table data : id:" + i + " valiues :" + AdmCountryCode + DistrictName + UpazillaName + UnitName + VillageName + hhID + HHMemID + MemName + MemSex + HHRelation + EntryBy + EntryDate + lmp_date + child_dob + elderly + disabled + MemAge + " RegNDate : " + RegNDate + "BirthYear: " + BirthYear + MaritalStatus + ContactNo + MemOtherID + MemName_First + MemName_Middle + MemName_Last + " Photo :" + Photo +
-//                            Type_ID + TypeID_NO + V_BSCMemName1_First + V_BSCMemName1_Middle + V_BSCMemName1_Last + V_BSCMem1_TitlePosition + V_BSCMemName2_First + V_BSCMemName2_Middle + V_BSCMemName2_Last + V_BSCMem2_TitlePosition +
-//                            Proxy_Designation + Proxy_Name_First);//, Proxy_Name_Middle, Proxy_Name_Last, Proxy_BirthYear //,Proxy_Photo
-                    // , Proxy_Type_ID, Proxy_ID_NO, P_BSCMemName1_First, P_BSCMemName1_Middle, P_BSCMemName1_Last, P_BSCMem1_TitlePosition, P_BSCMemName2_First, P_BSCMemName2_Middle, P_BSCMemName2_Last, P_BSCMem2_TitlePosition);
+                            Type_ID, TypeID_NO, V_BSCMemName1_First, V_BSCMemName1_Middle, V_BSCMemName1_Last, V_BSCMem1_TitlePosition, V_BSCMemName2_First, V_BSCMemName2_Middle, V_BSCMemName2_Last, V_BSCMem2_TitlePosition, Proxy_Designation, Proxy_Name_First, Proxy_Name_Middle, Proxy_Name_Last, Proxy_BirthYear, Proxy_Photo, Proxy_Type_ID, Proxy_ID_NO, P_BSCMemName1_First, P_BSCMemName1_Middle, P_BSCMemName1_Last, P_BSCMem1_TitlePosition, P_BSCMemName2_First, P_BSCMemName2_Middle, P_BSCMemName2_Last, P_BSCMem2_TitlePosition, GrpCode);
 
 
                 }
@@ -1364,54 +1297,81 @@ public class Parser {
 
 
     public static void regNAssignProgSrvParser(JSONArray jsonArrayData, SQLiteHandler sqlH) {
-        int size;
-        String AdmCountryCode;
-        String LayR1ListCode;
-        String LayR2ListCode;
-        String LayR3ListCode;
-        String LayR4ListCode;
-        String AdmDonorCode;
-        String AdmAwardCode;
-        String hhID;
-        String MemID;
-        String ProgCode;
-        String SrvCode;
-        String RegNDate;
-        String GRDCode;
-        String GRDDate;
-        String SrvMin;
-        String SrvMax;
-        // JSONArray reg_m_assign_prog_srvs = jObj.getJSONArray(REG_M_ASSIGN_PROG_SRV_JSON_A);
-        size = jsonArrayData.length();
+
+        String AdmCountryCode, LayR1ListCode, LayR2ListCode, LayR3ListCode,
+                LayR4ListCode, AdmDonorCode, AdmAwardCode, hhID, MemID, ProgCode, SrvCode, RegNDate, GRDCode, GRDDate, SrvMin, SrvMax;
+
+        int size = jsonArrayData.length();
         for (int i = 0; i < size; i++) {
             try {
 
-                JSONObject reg_m_assign_prog_srv = jsonArrayData.getJSONObject(i);
-                AdmCountryCode = reg_m_assign_prog_srv.getString(ADM_COUNTRY_CODE);
-                LayR1ListCode = reg_m_assign_prog_srv.getString(LAY_R_1_LIST_CODE);
-                LayR2ListCode = reg_m_assign_prog_srv.getString(LAY_R_2_LIST_CODE);
-                LayR3ListCode = reg_m_assign_prog_srv.getString(LAY_R_3_LIST_CODE);
-                LayR4ListCode = reg_m_assign_prog_srv.getString(LAY_R_4_LIST_CODE);
-                AdmDonorCode = reg_m_assign_prog_srv.getString(ADM_DONOR_CODE);
-                AdmAwardCode = reg_m_assign_prog_srv.getString(ADM_AWARD_CODE);
-                hhID = reg_m_assign_prog_srv.getString(HHID);
-                MemID = reg_m_assign_prog_srv.getString(MEM_ID);
-                ProgCode = reg_m_assign_prog_srv.getString(PROG_CODE);
-                SrvCode = reg_m_assign_prog_srv.getString(SRV_CODE);
-                RegNDate = reg_m_assign_prog_srv.getString(REG_N_DATE);
-                GRDCode = reg_m_assign_prog_srv.getString(GRD_CODE);
-                GRDDate = reg_m_assign_prog_srv.getString(GRD_DATE);
-                SrvMin = reg_m_assign_prog_srv.getString("SrvMin");
-                SrvMax = reg_m_assign_prog_srv.getString("SrvMax");
+                JSONObject asgProgSrv = jsonArrayData.getJSONObject(i);
+                AdmCountryCode = asgProgSrv.getString(ADM_COUNTRY_CODE);
+                LayR1ListCode = asgProgSrv.getString(LAY_R_1_LIST_CODE);
+                LayR2ListCode = asgProgSrv.getString(LAY_R_2_LIST_CODE);
+                LayR3ListCode = asgProgSrv.getString(LAY_R_3_LIST_CODE);
+                LayR4ListCode = asgProgSrv.getString(LAY_R_4_LIST_CODE);
+                AdmDonorCode = asgProgSrv.getString(ADM_DONOR_CODE);
+                AdmAwardCode = asgProgSrv.getString(ADM_AWARD_CODE);
+                hhID = asgProgSrv.getString(HHID);
+                MemID = asgProgSrv.getString(MEM_ID);
+                ProgCode = asgProgSrv.getString(PROG_CODE);
+                SrvCode = asgProgSrv.getString(SRV_CODE);
+                RegNDate = asgProgSrv.getString(REG_N_DATE);
+                GRDCode = asgProgSrv.getString(GRD_CODE);
+                GRDDate = asgProgSrv.getString(GRD_DATE);
+                SrvMin = asgProgSrv.getString("SrvMin");
+                SrvMax = asgProgSrv.getString("SrvMax");
 
 
                 sqlH.addRegNassignProgServiceFromOnline(AdmCountryCode, LayR1ListCode, LayR2ListCode, LayR3ListCode, LayR4ListCode, AdmDonorCode, AdmAwardCode, hhID, MemID, ProgCode, SrvCode, RegNDate, GRDCode, GRDDate, SrvMin, SrvMax);
 
 
-               /* Log.d(TAG, "RegNAss- AdmCountryCode :" + AdmCountryCode + " AdmDonorCode : " + AdmDonorCode + " AdmAwardCode : " + AdmAwardCode + " LayR1ListCode : " + LayR1ListCode + " LayR2ListCode : " + LayR2ListCode + " LayR3ListCode : " + LayR3ListCode
-                        + " LayR4ListCode : " + LayR4ListCode + " hhID : " + hhID + " MemID : " + MemID + " ProgCode : " + ProgCode + " SrvCode : " + SrvCode +
-                        " RegNDate : " + RegNDate + "GRDCode: " + GRDCode + " GDRDate : " + GRDDate);
-*/
+            } catch (Exception e) {
+                Log.d(TAG, "Expetion : " + e);
+                e.printStackTrace();
+            }
+        }
+
+    }
+
+    public static void regNPWParser(JSONArray jsonArrayData, SQLiteHandler sqlH) {
+
+        String AdmCountryCode;
+        String LayR1ListCode;
+        String LayR2ListCode;
+        String LayR3ListCode;
+        String LayR4ListCode;
+        String HHID;
+        String MemID;
+        String RegNDate;
+        String LMPDate;
+        String AdmProgCode;
+        String AdmSrvCode;
+        String GRDCode;
+        String PWGRDDate;
+
+        int size = jsonArrayData.length();
+        for (int i = 0; i < size; i++) {
+            try {
+                JSONObject regn_pw = jsonArrayData.getJSONObject(i);
+
+                AdmCountryCode = regn_pw.getString(Parser.ADM_COUNTRY_CODE);
+                LayR1ListCode = regn_pw.getString(Parser.LAY_R_1_LIST_CODE);
+                LayR2ListCode = regn_pw.getString(Parser.LAY_R_2_LIST_CODE);
+                LayR3ListCode = regn_pw.getString(Parser.LAY_R_3_LIST_CODE);
+                LayR4ListCode = regn_pw.getString(Parser.LAY_R_4_LIST_CODE);
+                HHID = regn_pw.getString(Parser.HHID);
+                MemID = regn_pw.getString(Parser.MEM_ID);
+                RegNDate = regn_pw.getString(Parser.REG_N_DATE);
+                LMPDate = regn_pw.getString(Parser.LMP_DATE);
+                AdmProgCode = regn_pw.getString(Parser.ADM_PROG_CODE);
+                AdmSrvCode = regn_pw.getString(Parser.ADM_SRV_CODE);
+                GRDCode = regn_pw.getString(Parser.GRD_CODE);
+                PWGRDDate = regn_pw.getString(Parser.PWGRD_DATE);
+
+
+                sqlH.addRegNPWFromOnLine(AdmCountryCode, LayR1ListCode, LayR2ListCode, LayR3ListCode, LayR4ListCode, HHID, MemID, AdmProgCode, AdmSrvCode, RegNDate, GRDCode, LMPDate, PWGRDDate);//, SrvCenterCatCode, FDPCode);
 
             } catch (Exception e) {
                 Log.d(TAG, "Expetion : " + e);
@@ -1499,7 +1459,7 @@ public class Parser {
         String DataType;
         String MarkOnGrid;
 
-
+        Log.d(TAG, "The Number of the data inserted in DTable :" + size);
         for (int i = 0; i < size; i++) {
             try {
 
@@ -1521,30 +1481,8 @@ public class Parser {
                 DataType = jsonObject.getString("DataType");
                 MarkOnGrid = jsonObject.getString("MarkOnGrid");
 
+                sqlH.addIntoDTATable(DTBasic, DTQCode, DTACode, DTALabel, DTAValue, StringToLongNullCheck(DTSeq), DTAShort, DTScoreCode, DTSkipDTQCode, DTACompareCode, ShowHide, StringToLongNullCheck(MaxValue), StringToLongNullCheck(MinValue), DataType, MarkOnGrid, "", "");
 
-                Log.d("NIR_192",
-                        "in DTA table  DTBasic :" + DTBasic +
-                                " DTQCode :" + DTQCode +
-                                " DTACode :" + DTACode +
-                                " DTALabel :" + DTALabel +
-                                " DTAValue :" + DTAValue +
-                                " DTSeq :" + DTSeq +
-                                " DTAShort :" + DTAShort +
-                                " DTScoreCode :" + DTScoreCode +
-                                " DTSkipDTQCode :" + DTSkipDTQCode +
-                                " DTACompareCode :" + DTACompareCode +
-                                " ShowHide :" + ShowHide +
-                                " MaxValue :" + MaxValue +
-                                " MinValue :" + MinValue +
-                                " DataType :" + DataType +
-                                " MarkOnGrid :" + MarkOnGrid
-                );
-
-
-                sqlH.addIntoDTATable(DTBasic, DTQCode, DTACode, DTALabel, DTAValue, StringToLongNullCheck(DTSeq), DTAShort, DTScoreCode, DTSkipDTQCode, DTACompareCode, ShowHide
-                        , StringToLongNullCheck(MaxValue), StringToLongNullCheck(MinValue), DataType, MarkOnGrid, "", "");
-
-                Log.d(TAG, "DT Ans Table");
 
             } catch (Exception e) {
                 Log.e(TAG, "Exception : " + e);
@@ -1590,7 +1528,7 @@ public class Parser {
 
                 sqlH.addIntoDtEnuTable(dtStfCoe, admCountryCode, dtBasicCol, dtBtnSave, entryBy, usaEntryDate);
 
-                Log.d(TAG, "DT Enu Table index "+i);
+                Log.d(TAG, "DT Enu Table index " + i);
 
             } catch (Exception e) {
                 Log.e(TAG, "Exception : " + e);
@@ -1773,7 +1711,6 @@ public class Parser {
             }
 
 
-            // Log.d(TAG, "Country Code : " + AdmCountryCode + " Country hhName : " + AdmCountryName);
         }
 
     }
@@ -1811,9 +1748,6 @@ public class Parser {
                 Log.e(TAG, "Exception : " + e);
                 e.printStackTrace();
             }
-
-
-            // Log.d(TAG, "Country Code : " + AdmCountryCode + " Country hhName : " + AdmCountryName);
         }
 
     }
@@ -1859,10 +1793,8 @@ public class Parser {
                 OpMonthCode = jsonObject.getString("OpMonthCode");
                 DataType = jsonObject.getString("DataType");
 
-                sqlH.addIntoDTResponseTable(DTBasic, AdmCountryCode, AdmDonorCode, AdmAwardCode, AdmProgCode, DTEnuID, DTQCode, DTACode,
-                        DTRSeq, DTAValue, ProgActivityCode, DTTimeString, OpMode, OpMonthCode, DataType);
+                sqlH.addIntoDTResponseTable(DTBasic, AdmCountryCode, AdmDonorCode, AdmAwardCode, AdmProgCode, DTEnuID, DTQCode, DTACode, DTRSeq, DTAValue, ProgActivityCode, DTTimeString, OpMode, OpMonthCode, DataType);
 
-//                Log.d(TAG, "DT Ans Table");
 
             } catch (Exception e) {
                 Log.e(TAG, "Exception : " + e);
@@ -1936,7 +1868,6 @@ public class Parser {
 
                 sqlH.addIntoDTQTable(DTBasic, DTQCode, QText, QResMode, QSeq, AllowNull, LUPTableName);
 
-//                Log.d(TAG, "DT Ans Table");
 
             } catch (Exception e) {
                 Log.e(TAG, "Exception : " + e);
@@ -2066,29 +1997,9 @@ public class Parser {
 
         int size = jsonArrayData.length();
 
-        String AdmCountryCode;
-        String AdmDonorCode;
-        String AdmAwardCode;
-        String AdmProgCode;
-        String GrpCode;
-        String OrgCode;
-        String StfCode;
-        String LandSizeUnderIrrigation;
-        String IrrigationSystemUsed;
-        String FundSupport;
-        String ActiveStatus;
-        String RepName;
-        String RepPhoneNumber;
-        String FormationDate;
-        String TypeOfGroup;
-        String Status;
-        String EntryBy;
-        String EntryDate;
-        String ProjectNo;
-        String ProjectTitle;
-        String LayR1Code;
-        String LayR2Code;
-        String LayR3Code;
+        String AdmCountryCode, AdmDonorCode, AdmAwardCode, AdmProgCode, GrpCode, OrgCode,
+                StfCode, LandSizeUnderIrrigation, IrrigationSystemUsed, FundSupport, ActiveStatus, RepName, RepPhoneNumber, FormationDate,
+                TypeOfGroup, Status, EntryBy, EntryDate, ProjectNo, ProjectTitle, LayR1Code, LayR2Code, LayR3Code;
 
 
         for (int i = 0; i < size; i++) {
@@ -2124,19 +2035,8 @@ public class Parser {
                 EntryBy = "";
                 EntryDate = "";
 
-            /*    Log.d(TAG, "AdmCountryCode:" + AdmCountryCode + "AdmDonorCode:" + AdmDonorCode + "AdmAwardCode:" + AdmAwardCode +
-                                "AdmProgCode:" + AdmProgCode + "GrpCode:" + GrpCode + "OrgCode:" + OrgCode + "StfCode:" + StfCode + "LandSizeUnderIrrigation:" + LandSizeUnderIrrigation +
-                                "IrrigationSystemUsed:" + IrrigationSystemUsed + "FundSupport:" + FundSupport + "ActiveStatus:" + ActiveStatus +
-                                "RepName:" + RepName + "RepPhoneNumber:" + RepPhoneNumber + "FormationDate:" + FormationDate + "TypeOfGroup:" + TypeOfGroup +
-                                "Status" + Status + "EntryBy:" + EntryBy + "EntryDate:" + EntryDate + "ProjectNo:" + ProjectNo + "ProjectTitle:" + ProjectTitle
-                        + "/n LayR1Code:"+ LayR1Code + "LayR2Code:"+ LayR2Code+"LayR3Code:" + LayR3Code
-                );*/
 
-
-                sqlH.addIntoGroupDetails(AdmCountryCode, AdmDonorCode, AdmAwardCode, AdmProgCode, GrpCode,
-                        OrgCode, StfCode, LandSizeUnderIrrigation, IrrigationSystemUsed, FundSupport,
-                        ActiveStatus, RepName, RepPhoneNumber, FormationDate, TypeOfGroup, Status,
-                        EntryBy, EntryDate, ProjectNo, ProjectTitle, LayR1Code, LayR2Code, LayR3Code);
+                sqlH.addIntoGroupDetails(AdmCountryCode, AdmDonorCode, AdmAwardCode, AdmProgCode, GrpCode, OrgCode, StfCode, LandSizeUnderIrrigation, IrrigationSystemUsed, FundSupport, ActiveStatus, RepName, RepPhoneNumber, FormationDate, TypeOfGroup, Status, EntryBy, EntryDate, ProjectNo, ProjectTitle, LayR1Code, LayR2Code, LayR3Code);
 
 
             } catch (Exception e) {
@@ -2193,12 +2093,7 @@ public class Parser {
                 ChildSex = jsonObject.getString("ChildSex");
 
 
-                sqlH.addRegNCA2_FromOnLine(AdmCountryCode, LayR1ListCode, LayR2ListCode, LayR3ListCode, LayR4ListCode,
-                        hhId, MemID, AdmProgCode, AdmSrvCode, RegNDate, GRDCode, CA2DOB, CA2GRDDate, ChildName, ChildSex);
-
-
-                Log.d(TAG, "In RegNCA2 Table- AdmCountryCode :" + AdmCountryCode + " LayR1ListCode : " + LayR1ListCode + " LayR2ListCode : " + LayR2ListCode + " LayR3ListCode : " + LayR3ListCode + " LayR4ListCode : " + LayR4ListCode + " hhID : " + hhId + " MemID  : " + MemID + " AdmProgCode : " + AdmProgCode + " AdmSrvCode : " + AdmSrvCode + " RegNDate : " + RegNDate + " GRDCode : " + GRDCode + /*" EntryBy : " + EntryBy + " EntryDate : " + EntryDate +*/ " LMDOB : " + CA2DOB + " LMGRDDate : " + CA2GRDDate);// + " FDPCode  : " + FDPCode );
-
+                sqlH.addRegNCA2_FromOnLine(AdmCountryCode, LayR1ListCode, LayR2ListCode, LayR3ListCode, LayR4ListCode, hhId, MemID, AdmProgCode, AdmSrvCode, RegNDate, GRDCode, CA2DOB, CA2GRDDate, ChildName, ChildSex);
 
             } catch (Exception e) {
                 Log.e(TAG, "Exception : " + e);
@@ -2236,7 +2131,7 @@ public class Parser {
         int size = jsonArrayData.length();
 
 /**
- * to see the log use those tep veriable
+ * to see the log use those tep variable
  */
         String AdmCountryCode;
         String AdmCountryName;
@@ -2248,15 +2143,13 @@ public class Parser {
 
                 AdmCountryCode = jsonObject.getString(Parser.ADM_COUNTRY_CODE);
                 AdmCountryName = jsonObject.getString(Parser.ADM_COUNTRY_NAME);
-
                 AdmCountryDataModel dataModel = new AdmCountryDataModel();
-
                 dataModel.setAdmCountryCode(AdmCountryCode);
                 dataModel.setAdmCountryName(AdmCountryName);
 
                 arrayList.add(dataModel);
 
-                Log.d(TAG, "In Adm country Table- AdmCountryCode :" + AdmCountryCode + " AdmCountryName : " + AdmCountryName);
+
             } catch (Exception e) {
                 Log.e(TAG, "Exception : " + e);
                 e.printStackTrace();
