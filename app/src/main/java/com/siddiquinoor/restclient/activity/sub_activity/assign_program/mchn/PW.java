@@ -1,9 +1,11 @@
 package com.siddiquinoor.restclient.activity.sub_activity.assign_program.mchn;
 
+import android.annotation.TargetApi;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -430,8 +432,6 @@ public class PW extends BaseActivity {
                     assignMem.setEntryDate(entryDate);
 
 
-
-
                     /**
                      * insert for server */
                     SQLServerSyntaxGenerator assign_pw = new SQLServerSyntaxGenerator();
@@ -550,7 +550,7 @@ public class PW extends BaseActivity {
                     assign_pw.setGrpCode(idGroup);
 
                     /**                  * get Group layR  list Code from Community Group                 */
-                    LayRCodes grpLayRListCode = sqlH.getLayRListFromCommunityGroup(assignMem.getCountryCode(), assignMem.getDonor_code(), assignMem.getAward_code(), assignMem.getProgram_code(), idGroup);
+                    LayRCodes grpLayRListCode = sqlH.getLayRListFromCommunityGroup(assignMem.getCountryCode(), assignMem.getDonor_code(), assignMem.getAward_code(), assignMem.getProgram_code(), idGroup, strGroup);
                     assign_pw.setGrpLayR1ListCode(grpLayRListCode.getLayR1Code());
                     assign_pw.setGrpLayR2ListCode(grpLayRListCode.getLayR2Code());
                     assign_pw.setGrpLayR3ListCode(grpLayRListCode.getLayR3Code());
@@ -569,7 +569,7 @@ public class PW extends BaseActivity {
                     } else {
                         sqlH.insertIntoUploadTable(assign_pw.insertInToRegNMemProgGrp());
 
-                        sqlH.addRegNmemProgGroup(assignMem.getCountryCode(), assignMem.getDonor_code(), assignMem.getAward_code(), assignMem.getDistrictCode(), assignMem.getUpazillaCode(), assignMem.getUnitCode(), assignMem.getVillageCode(), assignMem.getHh_id(), assignMem.getMemId(), assignMem.getProgram_code(), assignMem.getService_code(), idGroup,strGroup, idActive, entryBy, entryDate, grpLayRListCode.getLayR1Code(), grpLayRListCode.getLayR2Code(), grpLayRListCode.getLayR3Code());
+                        sqlH.addRegNmemProgGroup(assignMem.getCountryCode(), assignMem.getDonor_code(), assignMem.getAward_code(), assignMem.getDistrictCode(), assignMem.getUpazillaCode(), assignMem.getUnitCode(), assignMem.getVillageCode(), assignMem.getHh_id(), assignMem.getMemId(), assignMem.getProgram_code(), assignMem.getService_code(), idGroup, strGroup, idActive, entryBy, entryDate, grpLayRListCode.getLayR1Code(), grpLayRListCode.getLayR2Code(), grpLayRListCode.getLayR3Code());
                     }
                     sqlH.insertIntoUploadTable(assign_pw.sqlSpRegNMemAwardProgCombN_Save());
                     Toast.makeText(mContext, "Saved Successfully", Toast.LENGTH_SHORT).show();
@@ -585,8 +585,7 @@ public class PW extends BaseActivity {
 
 
     private void gotoAssignBeneficiaryPage() {
-        /** @date : 2016-02-23 */
-        /** @date : 2017-01-09 */
+
 
 
         Intent iAssign = new Intent(mContext, AssignActivity.class);
@@ -672,49 +671,53 @@ public class PW extends BaseActivity {
         btnHome = (Button) findViewById(R.id.btnHomeFooter);
         btnSummary = (Button) findViewById(R.id.btnRegisterFooter);
         btnBackToAssign = (Button) findViewById(R.id.btn_PW_goAssignePage);
-        /**
-         * 3 Spinner
-         */
+        /**         * 3 Spinner         */
         spGroupCategories = (Spinner) findViewById(R.id.sp_ass_pwGroupCategories);
         spGroup = (Spinner) findViewById(R.id.sp_ass_pwGroup);
         spActive = (Spinner) findViewById(R.id.sp_ass_pwActive);
 
+    }
 
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
         setUpHomeButton();
         setUpSummaryButton();
         setUpSaveButton();
         setUpGoToServiceButton();
-
     }
 
-
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     private void setUpHomeButton() {
 
         btnHome.setText("");
         Drawable imageHome = getResources().getDrawable(R.drawable.home_b);
         btnHome.setCompoundDrawablesRelativeWithIntrinsicBounds(imageHome, null, null, null);
-        btnHome.setPadding(180, 10, 180, 10);
+        setPaddingButton(mContext, imageHome, btnHome);
     }
 
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     private void setUpSummaryButton() {
         btnSummary.setText("");
         Drawable summeryImage = getResources().getDrawable(R.drawable.summession_b);
         btnSummary.setCompoundDrawablesRelativeWithIntrinsicBounds(summeryImage, null, null, null);
-        btnSummary.setPadding(180, 10, 180, 10);
+        setPaddingButton(mContext, summeryImage, btnSummary);
     }
 
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     private void setUpSaveButton() {
         btnSave.setText("");
         Drawable saveImage = getResources().getDrawable(R.drawable.save_b);
         btnSave.setCompoundDrawablesRelativeWithIntrinsicBounds(saveImage, null, null, null);
-        btnSave.setPadding(180, 10, 180, 10);
+        setPaddingButton(mContext, saveImage, btnSave);
     }
 
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     private void setUpGoToServiceButton() {
         btnBackToAssign.setText("");
-        Drawable saveImage = getResources().getDrawable(R.drawable.goto_back);
-        btnBackToAssign.setCompoundDrawablesRelativeWithIntrinsicBounds(saveImage, null, null, null);
-        btnBackToAssign.setPadding(180, 10, 180, 10);
+        Drawable gotoBackImage = getResources().getDrawable(R.drawable.goto_back);
+        btnBackToAssign.setCompoundDrawablesRelativeWithIntrinsicBounds(gotoBackImage, null, null, null);
+        setPaddingButton(mContext, gotoBackImage, btnBackToAssign);
     }
 
 

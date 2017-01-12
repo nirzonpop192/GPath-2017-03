@@ -31,14 +31,13 @@ import com.siddiquinoor.restclient.data_model.AGR_DataModel;
 import com.siddiquinoor.restclient.data_model.LayRCodes;
 import com.siddiquinoor.restclient.fragments.BaseActivity;
 import com.siddiquinoor.restclient.manager.SQLiteHandler;
-
 import com.siddiquinoor.restclient.manager.sqlsyntax.SQLServerSyntaxGenerator;
 import com.siddiquinoor.restclient.utils.KEY;
-
 import com.siddiquinoor.restclient.views.adapters.AssignDataModel;
 import com.siddiquinoor.restclient.views.helper.SpinnerHelper;
 import com.siddiquinoor.restclient.views.notifications.ADNotificationManager;
 import com.siddiquinoor.restclient.views.notifications.AlertDialogManager;
+import com.siddiquinoor.restclient.views.spinner.SpinnerLoader;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -208,7 +207,7 @@ public class AGR extends BaseActivity {
         viewReference();
         Intent intent = getIntent();
         getDataFromIntent(intent);
-        visibality();
+        visibility();
         dateProcessing();
 
         setTextForOwnLivestock();
@@ -221,7 +220,7 @@ public class AGR extends BaseActivity {
         loadVcCrop();
         if (sqlH.ifDataExistIn_RegN_AGR(assignDataModel.getCountryCode(), assignDataModel.getDistrictCode(), assignDataModel.getUpazillaCode(), assignDataModel.getUnitCode(),
                 assignDataModel.getVillageCode(), assignDataModel.getHh_id(), assignDataModel.getMemId())) {
-            setVisibilityifDataExists();
+            setVisibilityDataExists();
         }
 
         tvRegDate.setOnClickListener(new View.OnClickListener() {
@@ -283,7 +282,7 @@ public class AGR extends BaseActivity {
                     erroDialog.showErrorDialog(mContext, "Enter Registration Date ");
                 } else {
                     // TODO: 11/6/2016  add Registration Validation  in all assigne  
-                    saveAssignBeneficiary();
+                    save();
                 }
 
             }
@@ -331,34 +330,13 @@ public class AGR extends BaseActivity {
      * @param cCode     Adm Country Code
      * @param donorCode Adm Donor Code
      * @param awardCode Adm Award Code
-     * @param progCode  Adm Program Cod e
+     * @param progCode  Adm Program Code
      */
     private void loadGroupCategory(final String cCode, final String donorCode, final String awardCode,
                                    final String progCode) {
 
-        int position = 0;
-        String criteria = " WHERE " + SQLiteHandler.COUNTRY_CODE_COL + " = '" + cCode + "' "
-                + " AND " + SQLiteHandler.DONOR_CODE_COL + " = '" + donorCode + "' "
-                + " AND " + SQLiteHandler.AWARD_CODE_COL + " = '" + awardCode + "' "
-                + " AND " + SQLiteHandler.PROGRAM_CODE_COL + " = '" + progCode + "' ";
 
-
-        List<SpinnerHelper> listAward = sqlH.getListAndID(SQLiteHandler.COMMUNITY_GROUP_CATEGORY_TABLE, criteria, null, false);
-        ArrayAdapter<SpinnerHelper> dataAdapter = new ArrayAdapter<SpinnerHelper>(this, R.layout.spinner_layout, listAward);
-        dataAdapter.setDropDownViewResource(R.layout.spinner_layout);
-        spGroupCategories.setAdapter(dataAdapter);
-
-
-        if (idGroupCat != null) {
-            for (int i = 0; i < spGroupCategories.getCount(); i++) {
-                String groupCategory = spGroupCategories.getItemAtPosition(i).toString();
-                if (groupCategory.equals(strGroupCat)) {
-                    position = i;
-                }
-            }
-            spGroupCategories.setSelection(position);
-        }
-
+        SpinnerLoader.loadGroupCatLoader(mContext, sqlH, spGroupCategories, cCode, donorCode, awardCode, progCode, idGroupCat, strGroupCat);
 
         spGroupCategories.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -390,37 +368,9 @@ public class AGR extends BaseActivity {
      * @param progCode    Program Code
      * @param grpCateCode Group Categories Code
      */
-    private void loadGroup(final String cCode, final String donorCode, final String awardCode
-            , final String progCode, final String grpCateCode) {
+    private void loadGroup(final String cCode, final String donorCode, final String awardCode, final String progCode, final String grpCateCode) {
 
-        int position = 0;
-        String criteria = " WHERE " + SQLiteHandler.COUNTRY_CODE_COL + " = '" + cCode + "' "
-                + " AND " + SQLiteHandler.DONOR_CODE_COL + " = '" + donorCode + "' "
-                + " AND " + SQLiteHandler.AWARD_CODE_COL + " = '" + awardCode + "' "
-                + " AND " + SQLiteHandler.PROGRAM_CODE_COL + " = '" + progCode + "' "
-                + " AND " + SQLiteHandler.GROUP_CAT_CODE_COL + " = '" + grpCateCode + "' "
-                + " ORDER BY  " + SQLiteHandler.GROUP_NAME_COL
-                //    + " AND " + SQLiteHandler.SERVICE_CENTER_CODE_COL + " = '" + idSrvCenter + "' "
-                ;
-
-
-
-        List<SpinnerHelper> listAward = sqlH.getListAndID(SQLiteHandler.COMMUNITY_GROUP_TABLE, criteria, null, false);
-        ArrayAdapter<SpinnerHelper> dataAdapter = new ArrayAdapter<SpinnerHelper>(this, R.layout.spinner_layout, listAward);
-        dataAdapter.setDropDownViewResource(R.layout.spinner_layout);
-
-        spGroup.setAdapter(dataAdapter);
-
-
-        if (idGroup != null) {
-            for (int i = 0; i < spGroup.getCount(); i++) {
-                String groupCategory = spGroup.getItemAtPosition(i).toString();
-                if (groupCategory.equals(strGroup)) {
-                    position = i;
-                }
-            }
-            spGroup.setSelection(position);
-        }
+        SpinnerLoader.loadGroupLoader(mContext, sqlH, spGroup, cCode, donorCode, awardCode, progCode, grpCateCode, idGroup, strGroup);
 
 
         spGroup.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -431,8 +381,6 @@ public class AGR extends BaseActivity {
 
                 if (idGroup.length() > 2)
                     loadActiveStatus();
-
-
 
 
             }
@@ -450,23 +398,9 @@ public class AGR extends BaseActivity {
      * ** LOAD: Active Status
      */
     private void loadActiveStatus() {
-        int pos = 0;
-
-        ArrayAdapter<CharSequence> adptMartial = ArrayAdapter.createFromResource(
-                this, R.array.arrActive, R.layout.spinner_layout);
-
-        adptMartial.setDropDownViewResource(R.layout.spinner_layout);
-        spActive.setAdapter(adptMartial);
 
 
-        if (idActive != null) {
-            if (idActive.equals("Y"))
-                pos = 0;
-            else
-                pos = 1;
-
-            spActive.setSelection(pos);
-        }
+        SpinnerLoader.loadActiveStatusLoader(mContext, spActive, idActive);
         spActive.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -490,7 +424,6 @@ public class AGR extends BaseActivity {
 
     private void viewReference() {
         tvHouseholdName = (TextView) findViewById(R.id.tv_as_agr_mlwai_hhName);
-
         tvMemberName = (TextView) findViewById(R.id.tv_as_agr_mlwai_MemberName);
         tvMemberId = (TextView) findViewById(R.id.tv_as_agr_mlwai_MemberID);
         tvCriteria = (TextView) findViewById(R.id.tv_as_agr_mlwai_asCriteria);
@@ -498,18 +431,15 @@ public class AGR extends BaseActivity {
         edtLandSize = (EditText) findViewById(R.id.edt_as_agr_mlwai_landSize);
         tvPageTitle = (TextView) findViewById(R.id.tv_ass_pageTitle);
 
-
         edtGoat = (EditText) findViewById(R.id.edt_as_agr_mlwai_O_L_s_goat);
         edtChicken = (EditText) findViewById(R.id.edt_as_agr_mlwai_O_L_s_chicken);
         edtPigions = (EditText) findViewById(R.id.edt_as_agr_mlwai_O_L_s_Pigeons);
         edtOther = (EditText) findViewById(R.id.edt_as_agr_mlwai_O_L_s_other_specify);
 
-
         switchElderly = (Switch) findViewById(R.id.tog_as_agr_mlwai_elderley);
         switchWillingness = (Switch) findViewById(R.id.tog_as_agr_mlwai_willings);
         switchWinterCultivation = (Switch) findViewById(R.id.tog_as_agr_mlwai_winterCultivation);
         switchVurnaableHousehold = (Switch) findViewById(R.id.tog_as_agr_mlwai_vurnerablehh);
-
         switchDisable = (Switch) findViewById(R.id.tog_as_agr_mlwai_disable);
         switchDependonGunyu = (Switch) findViewById(R.id.tog_as_agr_mlwai_dependonganyu);
         labelElderly = (TextView) findViewById(R.id.tv_label_as_agr_mlwai_elderley);
@@ -522,14 +452,11 @@ public class AGR extends BaseActivity {
         labelDependonGunyu = (TextView) findViewById(R.id.tv_label_as_agr_mlwai_dependonGanyu);
         spVcCrop = (Spinner) findViewById(R.id.spiner_as_agr_mlwai_vcCrop);
 
-        /**
-         * 4 button
-         */
+        /**         * 4 button         */
         btnSave = (Button) findViewById(R.id.btn_assign_agr_save);
         btnBackToAssign = (Button) findViewById(R.id.btn_agr_goAssignePage);
         btnHome = (Button) findViewById(R.id.btnHomeFooter);
         btnSummary = (Button) findViewById(R.id.btnRegisterFooter);
-
 
         lblGroupCategories = (TextView) findViewById(R.id.lbl_ass_agrGroupCategories);
         lblGroup = (TextView) findViewById(R.id.lbl_ass_agrGroup);
@@ -540,20 +467,14 @@ public class AGR extends BaseActivity {
         lblChicken = (TextView) findViewById(R.id.lbl_ass_agr_O_L_S_Chicken);
         lblPigeons = (TextView) findViewById(R.id.lbl_ass_agr_O_L_S_Pigeons);
         lblOther = (TextView) findViewById(R.id.lbl_ass_agr_O_L_S_other_specify);
-
-
         spGroupCategories = (Spinner) findViewById(R.id.sp_ass_agrGroupCategories);
         spGroup = (Spinner) findViewById(R.id.sp_ass_agrGroup);
         spActive = (Spinner) findViewById(R.id.sp_ass_agrActive);
         agOtherLinearLayout = (LinearLayout) findViewById(R.id.other_ag_activity_ll);
         cbINVC = (CheckBox) findViewById(R.id.o_ag_ac_invc);
-        //cbINVC.setOnClickListener(checkboxClickListener);
         cbNASFAM = (CheckBox) findViewById(R.id.o_ag_ac_nasfam);
-        //  cbNASFAM.setOnClickListener(checkboxClickListener);
         cbCU = (CheckBox) findViewById(R.id.o_ag_ac_cu);
-        //  cbCU.setOnClickListener(checkboxClickListener);
         cbOTHER = (CheckBox) findViewById(R.id.o_ag_ac_other);
-        //  cbOTHER.setOnClickListener(checkboxClickListener);
 
 
     }
@@ -563,7 +484,6 @@ public class AGR extends BaseActivity {
         btnSummary.setText("");
         Drawable summeryImage = getResources().getDrawable(R.drawable.summession_b);
         btnSummary.setCompoundDrawablesRelativeWithIntrinsicBounds(summeryImage, null, null, null);
-
         setPaddingButton(mContext, summeryImage, btnSummary);
 
     }
@@ -581,7 +501,6 @@ public class AGR extends BaseActivity {
         btnBackToAssign.setText("");
         Drawable backImage = getResources().getDrawable(R.drawable.goto_back);
         btnBackToAssign.setCompoundDrawablesRelativeWithIntrinsicBounds(backImage, null, null, null);
-
         setPaddingButton(mContext, backImage, btnBackToAssign);
 
     }
@@ -592,7 +511,6 @@ public class AGR extends BaseActivity {
         btnHome.setText("");
         Drawable imageHome = getResources().getDrawable(R.drawable.home_b);
         btnHome.setCompoundDrawablesRelativeWithIntrinsicBounds(imageHome, null, null, null);
-
         setPaddingButton(mContext, imageHome, btnHome);
 
     }
@@ -612,18 +530,15 @@ public class AGR extends BaseActivity {
         //SQLiteQuery query = new SQLiteQuery();
 
         if (sqlH.ifExistsInRegNAssProgSrv(assignDataModel)) {
-            /**
-             * TODO: DO SOME CALCULATION IF NEEDED
-             */
+            /**             * TODO: DO SOME CALCULATION IF NEEDED             */
             assignDataModel.setRegNDate(strRegDate);
             int id = sqlH.editMemberDataIn_RegNAsgProgSrv(assignDataModel);
 
             sqlH.insertIntoUploadTable(assign_agr.updateRegAssProgSrvForAssign());
         }
 
-        if (sqlH.ifDataExistIn_RegN_AGR(assignDataModel.getCountryCode(), assignDataModel.getDistrictCode(), assignDataModel.getUpazillaCode(), assignDataModel.getUnitCode(),
-                assignDataModel.getVillageCode(), assignDataModel.getHh_id(), assignDataModel.getMemId())) {
-            Log.d(TAG, " data exits in AGR table ");
+        if (sqlH.ifDataExistIn_RegN_AGR(assignDataModel.getCountryCode(), assignDataModel.getDistrictCode(), assignDataModel.getUpazillaCode(), assignDataModel.getUnitCode(), assignDataModel.getVillageCode(), assignDataModel.getHh_id(), assignDataModel.getMemId())) {
+
             //TODO:: UPDATE TABLE TO SQLITE
         }
 
@@ -631,10 +546,6 @@ public class AGR extends BaseActivity {
     }
 
 
-    /**
-     * @since : 2015-11-23
-     * calculate the the graduation date
-     */
     private String calculateGRDDate(String cCode, String donorCode, String awardCode) {
         return sqlH.getAwardGraduation(cCode, donorCode, awardCode);
 
@@ -644,7 +555,7 @@ public class AGR extends BaseActivity {
     /**
      * save data
      */
-    private void saveAssignBeneficiary() {
+    private void save() {
 
         data.setStrOtherAgActivitiesINVC(NO);
         data.setStrOtherAgActivitiesNASFAM(NO);
@@ -669,7 +580,7 @@ public class AGR extends BaseActivity {
 
 
         setTextForOwnLivestock();
-        // Save Data to send Data to the SQl Server
+
         if (sqlH.get_ProgramMultipleSrv(temAssignMemData.getDonor_code(), temAssignMemData.getAward_code(), temAssignMemData.getProgram_code()).equals("N")
                 && sqlH.get_MemOthCriteriaLive(temAssignMemData.getCountryCode(), temAssignMemData.getDistrictCode(), temAssignMemData.getUpazillaCode(), temAssignMemData.getUnitCode(), temAssignMemData.getVillageCode(), temAssignMemData.getHh_id(), temAssignMemData.getMemId(), temAssignMemData.getDonor_code(), temAssignMemData.getAward_code(), temAssignMemData.getProgram_code(), temAssignMemData.getService_code())) {
             erroDialog.showErrorDialog(mContext, "Member remains active in other criteria. Save attempt denied.");
@@ -703,34 +614,31 @@ public class AGR extends BaseActivity {
                  *  for upload
                  */
 
-                // assignMem.setRegNDate(regDate);
+
                 assignMem.setGrdCode(sqlH.getGRDDefaultActiveReason(assignMem.getProgram_code(), assignMem.getService_code()));
                 assignMem.setGrdDate(calculateGRDDate(assignMem.getCountryCode(), assignMem.getDonor_code(), assignMem.getAward_code()));
                 saveDataForSqlServer();
 
                 assign_agr.setGRDDate(assignMem.getGrdDate());
+                assignDataModel.setRegNDate(strRegDate);
 
-
+                /**                 * check RegNAssProgSrv                 */
                 if (sqlH.ifExistsInRegNAssProgSrv(assignDataModel)) {
 
-
-                    assignDataModel.setRegNDate(strRegDate);
-                    int id = sqlH.editMemberDataIn_RegNAsgProgSrv(assignDataModel);
-                    //Syntax Generator
-
-
+                    sqlH.editMemberDataIn_RegNAsgProgSrv(assignDataModel);
+                    /**                     * Upload Syntax ( update )                     */
                     sqlH.insertIntoUploadTable(assign_agr.updateRegAssProgSrvForAssign());
 
                 } else {
                     sqlH.addMemberDataInto_RegNAsgProgSrv(assignDataModel);
+                    /**                     * Upload Syntax ( insert )                     */
                     sqlH.insertIntoUploadTable(assign_agr.insertIntoRegAssProgSrv());
 
                 }
 
+                /**                 * check RegN_AGR                 */
+                if (sqlH.ifDataExistIn_RegN_AGR(assignDataModel.getCountryCode(), assignDataModel.getDistrictCode(), assignDataModel.getUpazillaCode(), assignDataModel.getUnitCode(), assignDataModel.getVillageCode(), assignDataModel.getHh_id(), assignDataModel.getMemId())) {
 
-                if (sqlH.ifDataExistIn_RegN_AGR(assignDataModel.getCountryCode(), assignDataModel.getDistrictCode(), assignDataModel.getUpazillaCode(), assignDataModel.getUnitCode(),
-                        assignDataModel.getVillageCode(), assignDataModel.getHh_id(), assignDataModel.getMemId())) {
-                    Log.d(TAG, " data exits in AGR table ");
 
                     int srvCode = Integer.parseInt(assignDataModel.getService_code());
                     String land = edtLandSize.getText().toString();
@@ -785,9 +693,9 @@ public class AGR extends BaseActivity {
                     sqlH.insertIntoUploadTable(assign_agr.insertIntoRegN_Agr_Table());
 
 
-                }// end of else
+                }/**                 * end of else                             */
                 /**                  * get Group layR  list Code from Community Group                 */
-                LayRCodes grpLayRListCode = sqlH.getLayRListFromCommunityGroup(temAssignMemData.getCountryCode(), temAssignMemData.getDonor_code(), temAssignMemData.getAward_code(), temAssignMemData.getProgram_code(), idGroup);
+                LayRCodes grpLayRListCode = sqlH.getLayRListFromCommunityGroup(temAssignMemData.getCountryCode(), temAssignMemData.getDonor_code(), temAssignMemData.getAward_code(), temAssignMemData.getProgram_code(), idGroup, strGroup);
                 assign_agr.setGrpLayR1ListCode(grpLayRListCode.getLayR1Code());
                 assign_agr.setGrpLayR2ListCode(grpLayRListCode.getLayR2Code());
                 assign_agr.setGrpLayR3ListCode(grpLayRListCode.getLayR3Code());
@@ -846,10 +754,6 @@ public class AGR extends BaseActivity {
         assign_agr.setWinterCultivation(getWinterCultivation());
         assign_agr.setVulnerableHH(getVurnableHousehold());
         assign_agr.setPlantingValueChainCrop(idVcCrop);
-        /**
-         * new added column */
-
-
         assign_agr.setAgoInvc(data.getStrOtherAgActivitiesINVC());
         assign_agr.setAgoNasfam(data.getStrOtherAgActivitiesNASFAM());
         assign_agr.setAgoCu(data.getStrOtherAgActivitiesCU());
@@ -894,7 +798,6 @@ public class AGR extends BaseActivity {
         assignDataModel.setHh_name(intent.getStringExtra(KEY.ASSIGN_HOUSEHOLD_NAME));
         assignDataModel.setHh_mm_name(intent.getStringExtra(KEY.ASSIGN_HOUSEHOLD_NAME));
         assignDataModel.setAssign_criteria(intent.getStringExtra(KEY.ASSIGN_CRITERIA_STRING));
-        //tViewCriteria.setText(intent.getStringExtra(AssignDataModelAdapter.ASSIGN_CRITERIA_STRING));
 
         assignDataModel.setHh_id(intent.getStringExtra(KEY.ASSIGN_HOUSEHOLD_ID));
         assignDataModel.setMemId(intent.getStringExtra(KEY.ASSIGN_HOUSEHOLD_MEMBER_ID));
@@ -905,26 +808,22 @@ public class AGR extends BaseActivity {
         assignDataModel.setVillageCode(intent.getStringExtra(KEY.ASSIGN_VILLAGE_CODE));
         assignDataModel.setHh_id(intent.getStringExtra(KEY.ASSIGN_HOUSEHOLD_ID));
         assignDataModel.setMemId(intent.getStringExtra(KEY.ASSIGN_HOUSEHOLD_MEMBER_ID));
-        //assignDataModel.setEntryBy(intent.getStringExtra(KEY.ASSIGN_ENTRY_BY));
+
 
         assignDataModel.setAward_code(intent.getStringExtra(KEY.ASSIGN_AWARD_CODE));
         assignDataModel.setProgram_code(intent.getStringExtra(KEY.ASSIGN_PROGRAM_CODE));
         assignDataModel.setService_code(intent.getStringExtra(KEY.ASSIGN_SERVICE_CODE));
-      /*  Log.d(TAG, " Service Code :+ " + assignDataModel.getService_code());
-        Log.d(TAG, " Criteria  Code :+ " + assignDataModel.getAssign_criteria());*/
+
 
         assignDataModel.setDonor_code(intent.getStringExtra(KEY.ASSIGN_DONER_CODE));
-        //assignDataModel.setEntryDate(intent.getStringExtra(KEY.ASSIGN_ENTRY_DATE));
-        ///assignDataModel.setRegNDate(intent.getStringExtra(KEY.ASSIGN_REGISTRATION_DATE));
-        //holderStrAward = KEY.ASSIGN_AWARD_STRING;
-        // holderStrProgram = KEY.ASSIGN_PROGRAM_STRING;
+
         holderStrAward = intent.getStringExtra(KEY.ASSIGN_AWARD_STRING);
         holderStrProgram = intent.getStringExtra(KEY.ASSIGN_PROGRAM_STRING);
         holderStrCriteria = intent.getStringExtra(KEY.ASSIGN_CRITERIA_STRING);
         holderStrVillage = intent.getStringExtra(KEY.ASSIGN_VILLAGE_STRING);
 
 
-        assignDataModel.setRegNDate(sqlH.getMemberRegNDate(assignDataModel));//db
+        assignDataModel.setRegNDate(sqlH.getMemberRegNDate(assignDataModel));
 
         temAssignMemData = intent.getExtras().getParcelable(KEY.ASSIGN_DATA_OBJECT_KEY);
 
@@ -1008,12 +907,8 @@ public class AGR extends BaseActivity {
         }
     }
 
-    public void visibality() {
-
-
+    public void visibility() {
         int srvCode = Integer.parseInt(assignDataModel.getService_code());
-
-
         labelLandSize.setVisibility(View.GONE);
         labelWillingness.setVisibility(View.GONE);
         labelWinterCultivation.setVisibility(View.GONE);
@@ -1027,14 +922,10 @@ public class AGR extends BaseActivity {
         lblOther.setVisibility(View.GONE);
         lblPigeons.setVisibility(View.GONE);
         lblOtherAgActivities.setVisibility(View.GONE);
-
-
         edtGoat.setVisibility(View.GONE);
         edtChicken.setVisibility(View.GONE);
         edtPigions.setVisibility(View.GONE);
         edtOther.setVisibility(View.GONE);
-
-
         switchWillingness.setVisibility(View.GONE);
         switchWinterCultivation.setVisibility(View.GONE);
         switchDisable.setVisibility(View.GONE);
@@ -1043,8 +934,6 @@ public class AGR extends BaseActivity {
         switchDependonGunyu.setVisibility(View.GONE);
         switchElderly.setVisibility(View.GONE);
         edtLandSize.setVisibility(View.GONE);
-
-
         lblGroupCategories.setVisibility(View.GONE);
         lblGroup.setVisibility(View.GONE);
         lblActive.setVisibility(View.GONE);
@@ -1106,7 +995,6 @@ public class AGR extends BaseActivity {
                 switchWillingness.setVisibility(View.VISIBLE);
                 labelPlantingVcCrop.setVisibility(View.VISIBLE);
                 spVcCrop.setVisibility(View.VISIBLE);
-
                 activeGroupSpinner();
 
                 break;
@@ -1136,7 +1024,7 @@ public class AGR extends BaseActivity {
     /**
      * todo restore group code
      */
-    private void setVisibilityifDataExists() {
+    private void setVisibilityDataExists() {
         AGR_DataModel agr_dataModel = sqlH.checkAssignCriteriaInAGR_TableForMalwai(assignDataModel.getCountryCode(), assignDataModel.getDistrictCode(),
                 assignDataModel.getUpazillaCode(), assignDataModel.getUnitCode(), assignDataModel.getVillageCode(),
                 assignDataModel.getHh_id(), assignDataModel.getMemId(), false);
@@ -1259,12 +1147,12 @@ public class AGR extends BaseActivity {
     private void loadVcCrop() {
 
         int position = 0;
-        Log.d(TAG, "IN lOAD vc Crop ");
+
         String criteria = " WHERE " + SQLiteHandler.COUNTRY_CODE_COL + " = '" + assignDataModel.getCountryCode() + "'"
                 + " AND " + SQLiteHandler.PROGRAM_CODE_COL + " = '" + assignDataModel.getProgram_code() + "' "
                 + " AND " + SQLiteHandler.SERVICE_CODE_COL + " = '" + assignDataModel.getService_code() + "' ";
-        Log.d(TAG, "IN lOAD vc where codition " + criteria);
-        // Spinner Drop down elements for District
+
+
         List<SpinnerHelper> listOfVcCrop = sqlH.getListAndID(SQLiteHandler.LUP_SRV_OPTION_LIST_TABLE, criteria, null, false);
 
 
@@ -1289,10 +1177,9 @@ public class AGR extends BaseActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 strVcCrop = ((SpinnerHelper) spVcCrop.getSelectedItem()).getValue();
                 idVcCrop = ((SpinnerHelper) spVcCrop.getSelectedItem()).getId();
-                // cretae method load the .
-                //    loadDistrict(idCountry);
-                Log.d(TAG, "strVcCrop : " + strVcCrop + " idVcCrop : " + idVcCrop);
-                //Log.d(TAG, "ID is: " + idDist);
+
+                /** no dependence */
+
             }
 
             @Override
@@ -1304,18 +1191,7 @@ public class AGR extends BaseActivity {
     } // end Load Spinner
 
     private void gotoAssignBeneficiaryPage() {
-/* @date : 2016-02-23 */
 
-       /* Intent iAssign = new Intent(mContext, OldAssignActivity.class);
-        finish();
-// todo: use Constant
-
-        iAssign.putExtra(OldAssignActivity.ASSIGN_DISTRICT_CODE, assignDataModel.getDistrictCode());
-        iAssign.putExtra(OldAssignActivity.ASSIGN_UPZELA_CODE, assignDataModel.getUpazillaCode());
-        iAssign.putExtra(OldAssignActivity.ASSIGN_UNIT_CODE, assignDataModel.getUnitCode());
-// iAssign.putExtra("Ass_DIR", true);
-
-        startActivity(iAssign);*/
 
         Intent iAssign = new Intent(mContext, AssignActivity.class);
         finish();
@@ -1345,7 +1221,6 @@ public class AGR extends BaseActivity {
         lblOther.setVisibility(View.VISIBLE);
         lblPigeons.setVisibility(View.VISIBLE);
         lblOtherAgActivities.setVisibility(View.VISIBLE);
-
         edtGoat.setVisibility(View.VISIBLE);
         edtChicken.setVisibility(View.VISIBLE);
         edtPigions.setVisibility(View.VISIBLE);
@@ -1358,76 +1233,6 @@ public class AGR extends BaseActivity {
 
     }
 
-    /*private void setValueCheckbox()
-    {
-
-    }*/
-
-    /*View.OnClickListener checkboxClickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            boolean checked = ((CheckBox) view).isChecked();
-
-            if (checked) {
-                data.setStrOtherAgActivitiesINVC(NO);
-                data.setStrOtherAgActivitiesNASFAM(NO);
-                data.setStrOtherAgActivitiesCU(NO);
-                data.setStrOtherAgActivitiesOther(NO);
-
-                switch (view.getId()) {
-                    case R.id.o_ag_ac_invc:
-                        data.setStrOtherAgActivitiesINVC(YES);
-                        break;
-                    case R.id.o_ag_ac_nasfam:
-                        data.setStrOtherAgActivitiesNASFAM(YES);
-                        break;
-                    case R.id.o_ag_ac_cu:
-                        data.setStrOtherAgActivitiesCU(YES);
-                        break;
-                    case R.id.o_ag_ac_other:
-                        data.setStrOtherAgActivitiesOther(YES);
-                        break;
-                    default:
-                        data.setStrOtherAgActivitiesINVC(NO);
-                        data.setStrOtherAgActivitiesNASFAM(NO);
-                        data.setStrOtherAgActivitiesCU(NO);
-                        data.setStrOtherAgActivitiesOther(NO);
-                        break;
-                }
-            }
-
-        }
-    };*/
-
-    /*View.OnClickListener checkboxClickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            boolean checked = ((CheckBox) view).isChecked();
-
-            if (checked) {
-
-
-                switch (view.getId()) {
-                    case R.id.o_ag_ac_invc:
-                        data.setStrOtherAgActivitiesINVC(YES);
-                        break;
-                    case R.id.o_ag_ac_nasfam:
-                        data.setStrOtherAgActivitiesNASFAM(YES);
-                        break;
-                    case R.id.o_ag_ac_cu:
-                        data.setStrOtherAgActivitiesCU(YES);
-                        break;
-                    case R.id.o_ag_ac_other:
-                        data.setStrOtherAgActivitiesOther(YES);
-                        break;
-                    default:
-
-                        break;
-                }
-            }
-
-        }
-    };*/
 
     private void setTextForOwnLivestock() {
         strGoat = edtGoat.getText().toString();

@@ -1,9 +1,11 @@
 package com.siddiquinoor.restclient.activity.sub_activity.assign_program.mchn;
 
+import android.annotation.TargetApi;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -30,6 +32,7 @@ import com.siddiquinoor.restclient.utils.KEY;
 import com.siddiquinoor.restclient.views.adapters.AssignDataModel;
 import com.siddiquinoor.restclient.views.helper.SpinnerHelper;
 import com.siddiquinoor.restclient.views.notifications.ADNotificationManager;
+import com.siddiquinoor.restclient.views.spinner.SpinnerLoader;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -118,11 +121,11 @@ public class CU2 extends BaseActivity {
         memberId15D = mIntent.getExtras().getString(KEY.MEMBER_ID);
         if (assignMem != null) {
 
-            idGroupCat=assignMem.getGroupCatCode();
-            strGroupCat=assignMem.getGroupCatName();
-            idGroup=assignMem.getGroupCode();
-            strGroup=assignMem.getGroupName();
-            idActive=assignMem.getActiveCode();
+            idGroupCat = assignMem.getGroupCatCode();
+            strGroupCat = assignMem.getGroupCatName();
+            idGroup = assignMem.getGroupCode();
+            strGroup = assignMem.getGroupName();
+            idActive = assignMem.getActiveCode();
 
             setTextToTextViews();
             loadGroupCategory(assignMem.getCountryCode(), assignMem.getDonor_code(), assignMem.getAward_code(), assignMem.getProgram_code());
@@ -185,31 +188,7 @@ public class CU2 extends BaseActivity {
     private void loadGroupCategory(final String cCode, final String donorCode, final String awardCode,
                                    final String progCode) {
 
-        int position = 0;
-        String criteria = " WHERE " + SQLiteHandler.COUNTRY_CODE_COL + " = '" + cCode + "' "
-                + " AND " + SQLiteHandler.DONOR_CODE_COL + " = '" + donorCode + "' "
-                + " AND " + SQLiteHandler.AWARD_CODE_COL + " = '" + awardCode + "' "
-                + " AND " + SQLiteHandler.PROGRAM_CODE_COL + " = '" + progCode + "' ";
-
-
-        List<SpinnerHelper> listAward = sqlH.getListAndID(SQLiteHandler.COMMUNITY_GROUP_CATEGORY_TABLE, criteria, null, false);
-
-
-        ArrayAdapter<SpinnerHelper> dataAdapter = new ArrayAdapter<SpinnerHelper>(this, R.layout.spinner_layout, listAward);
-        dataAdapter.setDropDownViewResource(R.layout.spinner_layout);
-
-        spGroupCategories.setAdapter(dataAdapter);
-
-
-        if (idGroupCat != null) {
-            for (int i = 0; i < spGroupCategories.getCount(); i++) {
-                String groupCategory = spGroupCategories.getItemAtPosition(i).toString();
-                if (groupCategory.equals(strGroupCat)) {
-                    position = i;
-                }
-            }
-            spGroupCategories.setSelection(position);
-        }
+        SpinnerLoader.loadGroupCatLoader(mContext, sqlH, spGroupCategories, cCode, donorCode, awardCode, progCode, idGroupCat, strGroupCat);
 
 
         spGroupCategories.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -221,7 +200,6 @@ public class CU2 extends BaseActivity {
                 if (idGroupCat.length() > 2)
                     loadGroup(cCode, donorCode, awardCode, progCode, idGroupCat);
 
-                Log.d(TAG, "Group Category ,idGroupCat:" + idGroupCat + " strGroupCat : " + strGroupCat);
 
             }
 
@@ -246,32 +224,7 @@ public class CU2 extends BaseActivity {
     private void loadGroup(final String cCode, final String donorCode, final String awardCode
             , final String progCode, final String grpCateCode) {
 
-        int position = 0;
-        String criteria = " WHERE " + SQLiteHandler.COUNTRY_CODE_COL + " = '" + cCode + "' "
-                + " AND " + SQLiteHandler.DONOR_CODE_COL + " = '" + donorCode + "' "
-                + " AND " + SQLiteHandler.AWARD_CODE_COL + " = '" + awardCode + "' "
-                + " AND " + SQLiteHandler.PROGRAM_CODE_COL + " = '" + progCode + "' "
-                + " AND " + SQLiteHandler.GROUP_CAT_CODE_COL + " = '" + grpCateCode + "' "
-                //    + " AND " + SQLiteHandler.SERVICE_CENTER_CODE_COL + " = '" + idSrvCenter + "' "
-                ;
-
-
-
-        List<SpinnerHelper> listAward = sqlH.getListAndID(SQLiteHandler.COMMUNITY_GROUP_TABLE, criteria, null, false);
-        ArrayAdapter<SpinnerHelper> dataAdapter = new ArrayAdapter<SpinnerHelper>(this, R.layout.spinner_layout, listAward);
-        dataAdapter.setDropDownViewResource(R.layout.spinner_layout);
-        spGroup.setAdapter(dataAdapter);
-
-
-        if (idGroup != null) {
-            for (int i = 0; i < spGroup.getCount(); i++) {
-                String groupCategory = spGroup.getItemAtPosition(i).toString();
-                if (groupCategory.equals(strGroup)) {
-                    position = i;
-                }
-            }
-            spGroup.setSelection(position);
-        }
+        SpinnerLoader.loadGroupLoader(mContext, sqlH, spGroup, cCode, donorCode, awardCode, progCode, grpCateCode, idGroup, strGroup);
 
 
         spGroup.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -279,7 +232,7 @@ public class CU2 extends BaseActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 strGroup = ((SpinnerHelper) spGroup.getSelectedItem()).getValue();
                 idGroup = ((SpinnerHelper) spGroup.getSelectedItem()).getId();
-                Log.d("HEO", "Group  ,idGroup:" + idGroup + " strGroup : " + strGroup);
+
                 if (idGroup.length() > 2) {
                     loadActiveStatus();
                 }
@@ -299,7 +252,7 @@ public class CU2 extends BaseActivity {
      * ** LOAD: Active Status
      */
     private void loadActiveStatus() {
-        int pos=0;
+        int pos = 0;
 
         ArrayAdapter<CharSequence> adptMartial = ArrayAdapter.createFromResource(
                 this, R.array.arrActive, R.layout.spinner_layout);
@@ -375,7 +328,6 @@ public class CU2 extends BaseActivity {
             public void onClick(View v) {
 
 
-
                 gotoAssignBeneficiaryPage();
             }
         });
@@ -419,14 +371,10 @@ public class CU2 extends BaseActivity {
     }
 
 
-
-
-
     /**
-     * @since  2016-02-23
+     * @since 2016-02-23
      */
     private void gotoAssignBeneficiaryPage() {
-
 
 
         Intent iAssign = new Intent(mContext, AssignActivity.class);
@@ -441,7 +389,7 @@ public class CU2 extends BaseActivity {
         iAssign.putExtra(AssignActivity.ASSIGN_DONOR_CODE, assignMem.getDonor_code());
         iAssign.putExtra(AssignActivity.ASSIGN_CRITERIA_CODE, assignMem.getService_code());
         iAssign.putExtra(AssignActivity.ASSIGN_CRITERIA_STR, assignMem.getTemCriteriaString());
-        iAssign.putExtra(KEY.MEMBER_ID,memberId15D);
+        iAssign.putExtra(KEY.MEMBER_ID, memberId15D);
 
 
         startActivity(iAssign);
@@ -549,13 +497,13 @@ public class CU2 extends BaseActivity {
                     if (sqlH.ifExistsInRegNAssProgSrv(assignMem)) {
 
 
-                        int id = sqlH.editMemberDataIn_RegNAsgProgSrv(assignMem);
+                        sqlH.editMemberDataIn_RegNAsgProgSrv(assignMem);
 
                         sqlH.insertIntoUploadTable(assign_cu2.updateRegAssProgSrvForAssign());
 
                     } else {
 
-                        long id = sqlH.addMemberDataInto_RegNAsgProgSrv(assignMem);
+                        sqlH.addMemberDataInto_RegNAsgProgSrv(assignMem);
 
                         sqlH.insertIntoUploadTable(assign_cu2.insertIntoRegAssProgSrv());
 
@@ -580,7 +528,7 @@ public class CU2 extends BaseActivity {
                         long id = sqlH.addMemIntoRegN_CU2(assignMem.getCountryCode(), assignMem.getDistrictCode()
                                 , assignMem.getUpazillaCode(), assignMem.getUnitCode(), assignMem.getVillageCode(), assignMem.getHh_id()
                                 , assignMem.getMemId(), assignMem.getProgram_code(), assignMem.getService_code(), assignMem.getRegNDate()
-                                , assignMem.getGrdCode(),dobDate, assignMem.getGrdDate(),childName,strChildGender,entryBy,entryDate,"0");
+                                , assignMem.getGrdCode(), dobDate, assignMem.getGrdDate(), childName, strChildGender, entryBy, entryDate, "0");
                         /**
                          * Upload: Insert  syntax
                          */
@@ -589,7 +537,7 @@ public class CU2 extends BaseActivity {
                     }
 
                     /**                  * get Group layR  list Code from Community Group                 */
-                    LayRCodes grpLayRListCode = sqlH.getLayRListFromCommunityGroup(assignMem.getCountryCode(), assignMem.getDonor_code(), assignMem.getAward_code(), assignMem.getProgram_code(), idGroup);
+                    LayRCodes grpLayRListCode = sqlH.getLayRListFromCommunityGroup(assignMem.getCountryCode(), assignMem.getDonor_code(), assignMem.getAward_code(), assignMem.getProgram_code(), idGroup, strGroup);
                     assign_cu2.setGrpLayR1ListCode(grpLayRListCode.getLayR1Code());
                     assign_cu2.setGrpLayR2ListCode(grpLayRListCode.getLayR2Code());
                     assign_cu2.setGrpLayR3ListCode(grpLayRListCode.getLayR3Code());
@@ -598,17 +546,13 @@ public class CU2 extends BaseActivity {
                     if (sqlH.ifExistsInRegNmemProgGroup(assignMem.getCountryCode(), assignMem.getDonor_code(), assignMem.getAward_code(), assignMem.getDistrictCode(), assignMem.getUpazillaCode(), assignMem.getUnitCode(), assignMem.getVillageCode(), assignMem.getHh_id(), assignMem.getMemId(), assignMem.getProgram_code(), assignMem.getService_code())) {
                         sqlH.editMemberIn_RegNmemProgGroup(assignMem.getCountryCode(), assignMem.getDonor_code(), assignMem.getAward_code(), assignMem.getDistrictCode(), assignMem.getUpazillaCode(), assignMem.getUnitCode(), assignMem.getVillageCode(), assignMem.getHh_id(), assignMem.getMemId(), assignMem.getProgram_code(), assignMem.getService_code(), idGroup, idActive, entryBy, entryDate, grpLayRListCode.getLayR1Code(), grpLayRListCode.getLayR2Code(), grpLayRListCode.getLayR3Code());
 
-                        /**
-                         * Upload: Update Syntax
-                         */
+                        /**                         * Upload: Update Syntax                         */
                         sqlH.insertIntoUploadTable(assign_cu2.UpdateRegNMemProgGrp());
 
 
                     } else {
-                        sqlH.addRegNmemProgGroup(assignMem.getCountryCode(), assignMem.getDonor_code(), assignMem.getAward_code(), assignMem.getDistrictCode(), assignMem.getUpazillaCode(), assignMem.getUnitCode(), assignMem.getVillageCode(), assignMem.getHh_id(), assignMem.getMemId(), assignMem.getProgram_code(), assignMem.getService_code(), idGroup,strGroup, idActive, entryBy, entryDate, grpLayRListCode.getLayR1Code(), grpLayRListCode.getLayR2Code(), grpLayRListCode.getLayR3Code());
-                        /**
-                         * Upload: Insert Syntax
-                         */
+                        sqlH.addRegNmemProgGroup(assignMem.getCountryCode(), assignMem.getDonor_code(), assignMem.getAward_code(), assignMem.getDistrictCode(), assignMem.getUpazillaCode(), assignMem.getUnitCode(), assignMem.getVillageCode(), assignMem.getHh_id(), assignMem.getMemId(), assignMem.getProgram_code(), assignMem.getService_code(), idGroup, strGroup, idActive, entryBy, entryDate, grpLayRListCode.getLayR1Code(), grpLayRListCode.getLayR2Code(), grpLayRListCode.getLayR3Code());
+                        /**                         * Upload: Insert Syntax                         */
                         sqlH.insertIntoUploadTable(assign_cu2.insertInToRegNMemProgGrp());
 
 
@@ -686,18 +630,14 @@ public class CU2 extends BaseActivity {
         tv_regDate = (TextView) findViewById(R.id.as_CU2_edt_regD);
         tv_dobDate = (TextView) findViewById(R.id.as_CU2_ed_dobDate);
 
-        /**
-         * 4 Button
-         */
+        /**         * 4 Button         */
 
         btnSave = (Button) findViewById(R.id.btn_assign_cu2_save);
         btnHome = (Button) findViewById(R.id.btnHomeFooter);
         btnSummary = (Button) findViewById(R.id.btnRegisterFooter);
         btnBackToAssign = (Button) findViewById(R.id.btn_cu2_goAssignePage);
 
-        /**
-         * 4 Spinner
-         */
+        /**         * 4 Spinner         */
 
         spGroupCategories = (Spinner) findViewById(R.id.sp_ass_cu2GroupCategories);
         spGroup = (Spinner) findViewById(R.id.sp_ass_cu2Group);
@@ -706,47 +646,58 @@ public class CU2 extends BaseActivity {
 
         edtChildName = (EditText) findViewById(R.id.as_cu2_edt_ChildName);
 
-        setUpHomeButton();
-        setUpSummaryButton();
-        setUpSaveButton();
-        setUpGoToServiceButton();
 
     }
 
 
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        setUpHomeButton();
+        setUpSummaryButton();
+        setUpSaveButton();
+        setUpGoToServiceButton();
+    }
+
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     private void setUpHomeButton() {
 
         btnHome.setText("");
         Drawable imageHome = getResources().getDrawable(R.drawable.home_b);
         btnHome.setCompoundDrawablesRelativeWithIntrinsicBounds(imageHome, null, null, null);
-        btnHome.setPadding(180, 10, 180, 10);
+        setPaddingButton(mContext, imageHome, btnHome);
     }
 
-
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     private void setUpSummaryButton() {
         btnSummary.setText("");
         Drawable summeryImage = getResources().getDrawable(R.drawable.summession_b);
         btnSummary.setCompoundDrawablesRelativeWithIntrinsicBounds(summeryImage, null, null, null);
-        btnSummary.setPadding(180, 10, 180, 10);
+        setPaddingButton(mContext, summeryImage, btnSummary);
+
     }
 
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     private void setUpSaveButton() {
         btnSave.setText("");
         Drawable saveImage = getResources().getDrawable(R.drawable.save_b);
         btnSave.setCompoundDrawablesRelativeWithIntrinsicBounds(saveImage, null, null, null);
-        btnSave.setPadding(180, 10, 180, 10);
+
+        setPaddingButton(mContext, saveImage, btnSave);
     }
 
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     private void setUpGoToServiceButton() {
         btnBackToAssign.setText("");
-        Drawable saveImage = getResources().getDrawable(R.drawable.goto_back);
-        btnBackToAssign.setCompoundDrawablesRelativeWithIntrinsicBounds(saveImage, null, null, null);
-        btnBackToAssign.setPadding(180, 10, 180, 10);
+        Drawable gotoBackImage = getResources().getDrawable(R.drawable.goto_back);
+        btnBackToAssign.setCompoundDrawablesRelativeWithIntrinsicBounds(gotoBackImage, null, null, null);
+
+        setPaddingButton(mContext, gotoBackImage, btnBackToAssign);
     }
 
     private long getDateDifference(String from, String to) {
         long days = 0;
-        SimpleDateFormat myFormat = new SimpleDateFormat("MM-dd-yyyy");
+        SimpleDateFormat myFormat = new SimpleDateFormat("MM-dd-yyyy", Locale.ENGLISH);
         try {
             Date dateFrom = myFormat.parse(from);
             Date dateTo = myFormat.parse(to);
@@ -760,14 +711,14 @@ public class CU2 extends BaseActivity {
     }
 
     /**
-     *  2015-11-23
-     *  calculate the the graduation date
-     *  todo amar ek ta geniric method tori korte hobe
+     * 2015-11-23
+     * calculate the the graduation date
+     * todo amar ek ta geniric method tori korte hobe
      */
     private String calculateGRDDate(String inputDate) {
         String outputDate = "";
-        SimpleDateFormat inputFormat = new SimpleDateFormat("MM-dd-yyyy",Locale.ENGLISH);
-        SimpleDateFormat saveFormat = new SimpleDateFormat("yyyy-MM-dd",Locale.ENGLISH);
+        SimpleDateFormat inputFormat = new SimpleDateFormat("MM-dd-yyyy", Locale.ENGLISH);
+        SimpleDateFormat saveFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
         Calendar calendar = Calendar.getInstance();
         try {
             calendar.setTime(inputFormat.parse(inputDate));

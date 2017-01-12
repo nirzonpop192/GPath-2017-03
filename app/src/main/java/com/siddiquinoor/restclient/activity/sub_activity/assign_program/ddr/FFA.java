@@ -31,6 +31,7 @@ import com.siddiquinoor.restclient.utils.UtilClass;
 import com.siddiquinoor.restclient.views.adapters.AssignDataModel;
 import com.siddiquinoor.restclient.views.helper.SpinnerHelper;
 import com.siddiquinoor.restclient.views.notifications.ADNotificationManager;
+import com.siddiquinoor.restclient.views.spinner.SpinnerLoader;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -472,9 +473,7 @@ public class FFA extends BaseActivity {
                     sqlH.insertIntoUploadTable(assignFfa.insertIntoRegAssProgSrv());
                     Log.d(TAG, "Insert Into Upload Table");
                 }
-/**
- * FFA Table
- */
+                /**                * FFA Table                */
 
                 if (sqlH.ifDataExistIn_RegN_FFA(assignMem.getCountryCode(), assignMem.getDistrictCode(), assignMem.getUpazillaCode(), assignMem.getUnitCode(), assignMem.getVillageCode(), assignMem.getHh_id(), assignMem.getMemId())) {
 
@@ -495,7 +494,7 @@ public class FFA extends BaseActivity {
                 }// end of else
 
                 /**                  * get Group layR  list Code from Community Group                 */
-                LayRCodes grpLayRListCode = sqlH.getLayRListFromCommunityGroup(assignMem.getCountryCode(), assignMem.getDonor_code(), assignMem.getAward_code(), assignMem.getProgram_code(), idGroup);
+                LayRCodes grpLayRListCode = sqlH.getLayRListFromCommunityGroup(assignMem.getCountryCode(), assignMem.getDonor_code(), assignMem.getAward_code(), assignMem.getProgram_code(), idGroup,strGroup);
                 assignFfa.setGrpLayR1ListCode(grpLayRListCode.getLayR1Code());
                 assignFfa.setGrpLayR2ListCode(grpLayRListCode.getLayR2Code());
                 assignFfa.setGrpLayR3ListCode(grpLayRListCode.getLayR3Code());
@@ -605,34 +604,7 @@ public class FFA extends BaseActivity {
      */
     private void loadGroupCategory(final String cCode, final String donorCode, final String awardCode, final String progCode) {
 
-        int position = 0;
-        String criteria = " WHERE " + SQLiteHandler.COUNTRY_CODE_COL + " = '" + cCode + "' "
-                + " AND " + SQLiteHandler.DONOR_CODE_COL + " = '" + donorCode + "' "
-                + " AND " + SQLiteHandler.AWARD_CODE_COL + " = '" + awardCode + "' "
-                + " AND " + SQLiteHandler.PROGRAM_CODE_COL + " = '" + progCode + "' ";
-
-
-        // Spinner Drop down elements for District
-
-        List<SpinnerHelper> listAward = sqlH.getListAndID(SQLiteHandler.COMMUNITY_GROUP_CATEGORY_TABLE, criteria, null, false);
-
-
-        ArrayAdapter<SpinnerHelper> dataAdapter = new ArrayAdapter<SpinnerHelper>(this, R.layout.spinner_layout, listAward);
-
-        dataAdapter.setDropDownViewResource(R.layout.spinner_layout);
-
-        spGroupCategories.setAdapter(dataAdapter);
-
-
-        if (idGroupCat != null) {
-            for (int i = 0; i < spGroupCategories.getCount(); i++) {
-                String groupCategory = spGroupCategories.getItemAtPosition(i).toString();
-                if (groupCategory.equals(strGroupCat)) {
-                    position = i;
-                }
-            }
-            spGroupCategories.setSelection(position);
-        }
+        SpinnerLoader.loadGroupCatLoader(mContext, sqlH, spGroupCategories, cCode, donorCode, awardCode, progCode, idGroupCat, strGroupCat);
 
 
         spGroupCategories.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -657,29 +629,8 @@ public class FFA extends BaseActivity {
 
     private void loadGroup(final String cCode, final String donorCode, final String awardCode, final String progCode, final String grpCateCode) {
 
-        int position = 0;
-        String criteria = " WHERE " + SQLiteHandler.COUNTRY_CODE_COL + " = '" + cCode + "' "
-                + " AND " + SQLiteHandler.DONOR_CODE_COL + " = '" + donorCode + "' "
-                + " AND " + SQLiteHandler.AWARD_CODE_COL + " = '" + awardCode + "' "
-                + " AND " + SQLiteHandler.PROGRAM_CODE_COL + " = '" + progCode + "' "
-                + " AND " + SQLiteHandler.GROUP_CAT_CODE_COL + " = '" + grpCateCode + "' ";
 
-
-        List<SpinnerHelper> listAward = sqlH.getListAndID(SQLiteHandler.COMMUNITY_GROUP_TABLE, criteria, null, false);
-
-        ArrayAdapter<SpinnerHelper> dataAdapter = new ArrayAdapter<SpinnerHelper>(this, R.layout.spinner_layout, listAward);
-        dataAdapter.setDropDownViewResource(R.layout.spinner_layout);
-        spGroup.setAdapter(dataAdapter);
-
-        if (idGroup != null) {
-            for (int i = 0; i < spGroup.getCount(); i++) {
-                String groupCategory = spGroup.getItemAtPosition(i).toString();
-                if (groupCategory.equals(strGroup)) {
-                    position = i;
-                }
-            }
-            spGroup.setSelection(position);
-        }
+        SpinnerLoader.loadGroupLoader(mContext, sqlH, spGroup, cCode, donorCode, awardCode, progCode, grpCateCode, idGroup, strGroup);
 
         spGroup.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -687,9 +638,9 @@ public class FFA extends BaseActivity {
                 strGroup = ((SpinnerHelper) spGroup.getSelectedItem()).getValue();
                 idGroup = ((SpinnerHelper) spGroup.getSelectedItem()).getId();
 
-                if (idGroup.length() > 2) {
+                if (idGroup.length() > 2)
                     loadActiveStatus();
-                }
+
             }
 
             @Override

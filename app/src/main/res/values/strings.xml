@@ -193,7 +193,7 @@
     <string name="srv_summary_TitleLable">Service Summary </string>
     <string name="tv_criteria">Criteria</string>
     <!-- LOG IN SCREEN -->
-    <string name="log_in_version_lable">GPath-UAT-02040237</string>
+    <string name="log_in_version_lable">GPath-UAT-03</string>
     <!-- VERSION -->
 
 
@@ -204,7 +204,7 @@
     <string name="title_activity_assign_childen_under2">AssignChildenUnder2</string>
     <string name="title_activity_assign_child_above2">AssignChildAbove2</string>
     <string name="title_activity_register_liberia">RegisterLiberia</string>
-    <string name="title_catagories">FAMILY COMPOSITION AND  HOUSING</string>
+    <string name="title_categories">FAMILY COMPOSITION AND  HOUSING</string>
 
     <!-- FOR LIBERIA  REGISTRATION -->
     <string name="label_hasTakeCForEbola_">Has this HH taken in an extra child because of Ebola? <br /> (ExtraChildBecauseEbola)</string>
@@ -430,7 +430,7 @@
     <string name="cb_label_HomeSupport_xxH_60d">60 days</string>
     <string name="cb_label_HomeSupport_xxH_90d">90 days</string>
 
-    <string name="label_HomeSupport48H">Home support visit PT/LBW within 25-48 hours</string>
+    <string name="label_HomeSupport48H">Home support visit PT/LBW within 25 — 48 hours</string>
 
     <string name="label_MaternalComplications">Maternal Complications</string>
     <string name="cb_label_Maternal_Bleeding">Bleeding</string>

@@ -32,6 +32,7 @@ import com.siddiquinoor.restclient.manager.sqlsyntax.SQLServerSyntaxGenerator;
 import com.siddiquinoor.restclient.views.adapters.AssignDataModel;
 import com.siddiquinoor.restclient.views.helper.SpinnerHelper;
 import com.siddiquinoor.restclient.views.notifications.ADNotificationManager;
+import com.siddiquinoor.restclient.views.spinner.SpinnerLoader;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -181,37 +182,9 @@ public class CA2 extends BaseActivity {
      * @param awardCode Adm Award Code
      * @param progCode  Adm Program Cod e
      */
-    private void loadGroupCategory(final String cCode, final String donorCode, final String awardCode,
-                                   final String progCode) {
+    private void loadGroupCategory(final String cCode, final String donorCode, final String awardCode, final String progCode) {
 
-        int position = 0;
-        String criteria = " WHERE " + SQLiteHandler.COUNTRY_CODE_COL + " = '" + cCode + "' "
-                + " AND " + SQLiteHandler.DONOR_CODE_COL + " = '" + donorCode + "' "
-                + " AND " + SQLiteHandler.AWARD_CODE_COL + " = '" + awardCode + "' "
-                + " AND " + SQLiteHandler.PROGRAM_CODE_COL + " = '" + progCode + "' ";
-
-
-        // Spinner Drop down elements for District
-        List<SpinnerHelper> listAward = sqlH.getListAndID(SQLiteHandler.COMMUNITY_GROUP_CATEGORY_TABLE, criteria, null, false);
-
-        // Creating adapter for spinner
-        ArrayAdapter<SpinnerHelper> dataAdapter = new ArrayAdapter<SpinnerHelper>(this, R.layout.spinner_layout, listAward);
-        // Drop down layout style
-        dataAdapter.setDropDownViewResource(R.layout.spinner_layout);
-        // attaching data adapter to spinner
-        spGroupCategories.setAdapter(dataAdapter);
-
-
-        if (idGroupCat != null) {
-            for (int i = 0; i < spGroupCategories.getCount(); i++) {
-                String groupCategory = spGroupCategories.getItemAtPosition(i).toString();
-                if (groupCategory.equals(strGroupCat)) {
-                    position = i;
-                }
-            }
-            spGroupCategories.setSelection(position);
-        }
-
+        SpinnerLoader.loadGroupCatLoader(mContext, sqlH, spGroupCategories, cCode, donorCode, awardCode, progCode, idGroupCat, strGroupCat);
 
         spGroupCategories.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -222,7 +195,6 @@ public class CA2 extends BaseActivity {
                 if (idGroupCat.length() > 2)
                     loadGroup(cCode, donorCode, awardCode, progCode, idGroupCat);
 
-                Log.d(TAG, "Group Category ,idGroupCat:" + idGroupCat + " strGroupCat : " + strGroupCat);
 
             }
 
@@ -244,39 +216,9 @@ public class CA2 extends BaseActivity {
      * @param progCode    Program Code
      * @param grpCateCode Group Categories Code
      */
-    private void loadGroup(final String cCode, final String donorCode, final String awardCode
-            , final String progCode, final String grpCateCode) {
+    private void loadGroup(final String cCode, final String donorCode, final String awardCode, final String progCode, final String grpCateCode) {
 
-        int position = 0;
-        String criteria = " WHERE " + SQLiteHandler.COUNTRY_CODE_COL + " = '" + cCode + "' "
-                + " AND " + SQLiteHandler.DONOR_CODE_COL + " = '" + donorCode + "' "
-                + " AND " + SQLiteHandler.AWARD_CODE_COL + " = '" + awardCode + "' "
-                + " AND " + SQLiteHandler.PROGRAM_CODE_COL + " = '" + progCode + "' "
-                + " AND " + SQLiteHandler.GROUP_CAT_CODE_COL + " = '" + grpCateCode + "' "
-                //    + " AND " + SQLiteHandler.SERVICE_CENTER_CODE_COL + " = '" + idSrvCenter + "' "
-                ;
-
-
-        // Spinner Drop down elements for District
-        List<SpinnerHelper> listAward = sqlH.getListAndID(SQLiteHandler.COMMUNITY_GROUP_TABLE, criteria, null, false);
-
-        // Creating adapter for spinner
-        ArrayAdapter<SpinnerHelper> dataAdapter = new ArrayAdapter<SpinnerHelper>(this, R.layout.spinner_layout, listAward);
-        // Drop down layout style
-        dataAdapter.setDropDownViewResource(R.layout.spinner_layout);
-        // attaching data adapter to spinner
-        spGroup.setAdapter(dataAdapter);
-
-
-        if (idGroup != null) {
-            for (int i = 0; i < spGroup.getCount(); i++) {
-                String groupCategory = spGroup.getItemAtPosition(i).toString();
-                if (groupCategory.equals(strGroup)) {
-                    position = i;
-                }
-            }
-            spGroup.setSelection(position);
-        }
+        SpinnerLoader.loadGroupLoader(mContext, sqlH, spGroup, cCode, donorCode, awardCode, progCode, grpCateCode, idGroup, strGroup);
 
 
         spGroup.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -284,13 +226,9 @@ public class CA2 extends BaseActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 strGroup = ((SpinnerHelper) spGroup.getSelectedItem()).getValue();
                 idGroup = ((SpinnerHelper) spGroup.getSelectedItem()).getId();
-                Log.d("HEO", "Group  ,idGroup:" + idGroup + " strGroup : " + strGroup);
-                if (idGroup.length() > 2) {
 
-
+                if (idGroup.length() > 2)
                     loadActiveStatus();
-
-                }
 
 
             }
@@ -347,7 +285,7 @@ public class CA2 extends BaseActivity {
 
 
     /**
-     * @date: 2015-11-29
+     * date: 2015-11-29
      */
     private void setListeners() {
         tv_regDate.setOnClickListener(new View.OnClickListener() {
@@ -564,7 +502,7 @@ public class CA2 extends BaseActivity {
 
 
                     /**                  * get Group layR  list Code from Community Group                 */
-                    LayRCodes grpLayRListCode = sqlH.getLayRListFromCommunityGroup(assignMem.getCountryCode(), assignMem.getDonor_code(), assignMem.getAward_code(), assignMem.getProgram_code(), idGroup);
+                    LayRCodes grpLayRListCode = sqlH.getLayRListFromCommunityGroup(assignMem.getCountryCode(), assignMem.getDonor_code(), assignMem.getAward_code(), assignMem.getProgram_code(), idGroup,strGroup);
                     assign_ca2.setGrpLayR1ListCode(grpLayRListCode.getLayR1Code());
                     assign_ca2.setGrpLayR2ListCode(grpLayRListCode.getLayR2Code());
                     assign_ca2.setGrpLayR3ListCode(grpLayRListCode.getLayR3Code());
@@ -676,25 +614,17 @@ public class CA2 extends BaseActivity {
         tv_AsCriteria = (TextView) findViewById(R.id.as_CA2_ed_asCriteria);
         tv_regDate = (TextView) findViewById(R.id.as_CA2_edt_regD);
         tv_dobDate = (TextView) findViewById(R.id.as_CA2_ed_dobDate);
-
         /**         * 4 Button         */
-
         btnSave = (Button) findViewById(R.id.btn_assign_ca2_save);
         btnHome = (Button) findViewById(R.id.btnHomeFooter);
         btnSummary = (Button) findViewById(R.id.btnRegisterFooter);
         btnBackToAssign = (Button) findViewById(R.id.btn_ca2_goAssignePage);
-
         /**         * 4 Spinner         */
-
         spGroupCategories = (Spinner) findViewById(R.id.sp_ass_ca2GroupCategories);
         spGroup = (Spinner) findViewById(R.id.sp_ass_ca2Group);
         spActive = (Spinner) findViewById(R.id.sp_ass_ca2Active);
         spChildGender = (Spinner) findViewById(R.id.sp_ca2ChildGender);
-
         edtChildName = (EditText) findViewById(R.id.as_ca2_edt_ChildName);
-
-
-        ;
     }
 
     /**

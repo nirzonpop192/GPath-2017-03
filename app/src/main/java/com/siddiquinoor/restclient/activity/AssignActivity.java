@@ -18,6 +18,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.siddiquinoor.restclient.R;
 import com.siddiquinoor.restclient.activity.sub_activity.assign_program.ddr.AssignForDDRMalwaiVUL;
@@ -79,7 +80,7 @@ public class AssignActivity extends BaseActivity {
     private String idVillage;
     private String strVillage;
 
-    private EditText edt_mmSearch;
+    private TextView tv_memberID;
     String entryBy;
     String entryDate;
 
@@ -207,7 +208,7 @@ public class AssignActivity extends BaseActivity {
 
 
             memberId15D = intent.getStringExtra(KEY.MEMBER_ID);
-            edt_mmSearch.setText(memberId15D);
+            tv_memberID.setText(memberId15D);
             if (memberId15D.length() > 7) {
                 idDistrictC = memberId15D.substring(0, 2);
                 idUpazilaC = memberId15D.substring(2, 4);
@@ -228,7 +229,7 @@ public class AssignActivity extends BaseActivity {
             tempSpinVillageCode = intent.getStringExtra(KEY.VILLAGE_CODE);
             loadAward(idCountry);
             memberId15D = intent.getStringExtra(KEY.MEMBER_ID);
-            edt_mmSearch.setText(memberId15D);
+            tv_memberID.setText(memberId15D);
             if (memberId15D.length() > 7) {
                 idDistrictC = memberId15D.substring(0, 2);
                 idUpazilaC = memberId15D.substring(2, 4);
@@ -237,20 +238,14 @@ public class AssignActivity extends BaseActivity {
                 idHH = memberId15D.substring(8, 13);
                 idMember = memberId15D.substring(13);
             }
-            //  String temId = edt_mmSearch.getText().toString().trim();
+            //  String temId = tv_memberID.getText().toString().trim();
 
 
         }
     }
 
 
-    public void showSoftKeyboard(View view) {
-        if (view.requestFocus()) {
-            InputMethodManager imm = (InputMethodManager)
-                    getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT);
-        }
-    }
+
 
 
     private void viewReference() {
@@ -260,8 +255,8 @@ public class AssignActivity extends BaseActivity {
 
 
         listViewAss = (ListView) findViewById(R.id.lv_assign);
-        // btnSearch = (Button) findViewById(R.id.btn_assign_search);
-        edt_mmSearch = (EditText) findViewById(R.id.edt_assign_memberSearch);
+
+        tv_memberID = (TextView) findViewById(R.id.tv_memberId);
 
         btnGoTo = (Button) findViewById(R.id.btnHomeFooter);
 
@@ -349,12 +344,12 @@ public class AssignActivity extends BaseActivity {
         pDialog = new ProgressDialog(this);
 
 
-        edt_mmSearch.setOnClickListener(new View.OnClickListener() {
+     /*   tv_memberID.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showSoftKeyboard(edt_mmSearch);
+                showSoftKeyboard(tv_memberID);
             }
-        });
+        });*/
 
         btnGoTo.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -642,7 +637,7 @@ public class AssignActivity extends BaseActivity {
         int position = 0;
         String criteria = " WHERE " + SQLiteHandler.COUNTRY_PROGRAM_TABLE + "." + SQLiteHandler.AWARD_CODE_COL + "='" + awardCode + "'"
                 + " AND " + SQLiteHandler.COUNTRY_PROGRAM_TABLE + "." + SQLiteHandler.DONOR_CODE_COL + "='" + donorCode + "'";
-        // Spinner Drop down elements for District
+
         List<SpinnerHelper> listProgram = sqlH.getListAndID(SQLiteHandler.COUNTRY_PROGRAM_TABLE, criteria, null, false);
 
 
@@ -789,63 +784,4 @@ public class AssignActivity extends BaseActivity {
     }
 
 
-    /*public void goToAlert() {
-        final CharSequence[] items = getResources().getStringArray(R.array.assign_got_array);
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(AssignActivity.this, android.R.style.Theme_Holo_Light_Dialog));
-
-        builder.setTitle("GO TO:");
-
-
-        builder.setIcon(R.drawable.navigation_icon);
-        builder.setSingleChoiceItems(items, -1, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int item) {
-                switch (item) {
-                    case 0:
-                        finish();
-                        intent = new Intent(AssignActivity.this, MainActivity.class);
-                        startActivity(intent);
-                        break;
-
-                    case 1:
-                        finish();
-                        intent = new Intent(AssignActivity.this, DistributionActivity.class);
-                        intent.putExtra(KEY.DIR_CLASS_NAME_KEY, "AssignActivity");
-                        intent.putExtra(KEY.COUNTRY_ID, sqlH.selectCountryCode());
-                        startActivity(intent);
-                        break;
-                    case 2:
-                        finish();
-                        intent = new Intent(AssignActivity.this, ServiceActivity.class);
-                        intent.putExtra(KEY.DIR_CLASS_NAME_KEY, "AssignActivity");
-                        intent.putExtra(KEY.COUNTRY_ID, sqlH.selectCountryCode());
-                        startActivity(intent);
-                        break;
-                    case 3:
-                        finish();
-                        intent = new Intent(AssignActivity.this, AllSummaryActivity.class);
-                        intent.putExtra(KEY.COUNTRY_ID, sqlH.selectCountryCode());
-                        startActivity(intent);
-                        break;
-                    case 4:h heloo world he
-                        finish();
-                        intent = new Intent(AssignActivity.this, RegisterLiberia.class);
-                        startActivity(intent);
-                        break;
-                }
-                goToDialog.dismiss();
-            }
-        });
-        goToDialog = builder.create();
-        goToDialog.show();
-        int titleDividerId = goToDialog.getContext().getResources().getIdentifier("titleDivider", "id", "android");//("android:id/titleDivider",null,null);
-        //   View titleDivider = activityDialog.findViewById(titleDividerId);
-        View titleDivider = goToDialog.getWindow().getDecorView().findViewById(titleDividerId);
-        if (titleDivider != null) {
-            titleDivider.setBackgroundColor(getResources().getColor(R.color.blue));
-        }
-// setAlertDevider();
-
-    }*/
 }

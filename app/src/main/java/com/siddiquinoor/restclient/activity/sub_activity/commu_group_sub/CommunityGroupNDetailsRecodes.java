@@ -803,7 +803,7 @@ public class CommunityGroupNDetailsRecodes extends BaseActivity {
                  *  basic Community Group
                  */
                 sqlH.editCommunityGroup(idCountry, idDonor, idAward, idProgram, idGroup, GrpName, idGroupCat, idLayR1Code, idLayR2Code, idLayR3Code, entryBy, entryDate, oldLayR1Code, oldLayR2Code, oldLayR3Code);
-                LayRCodes layRCodes_group = sqlH.getLayRListFromCommunityGroup(idCountry, idDonor, idAward, idProgram, idGroup);
+                LayRCodes layRCodes_group = sqlH.getLayRListFromCommunityGroup(idCountry, idDonor, idAward, idProgram, idGroup,strGroup);
 
                 sqlH.insertIntoUploadTable(syntax.updateIntoCommunityGroupTable(layRCodes_group));
 

@@ -130,8 +130,9 @@
                         android:layout_marginBottom="5dp"
                         android:layout_marginEnd="4dp"
                         android:layout_marginRight="4dp"
-                        android:layout_weight="0.125"
+
                         android:drawableLeft="@drawable/group_unite"
+                        android:drawableStart="@drawable/group_unite"
                         android:gravity="center_vertical"
                         android:paddingLeft="15dp"
                         android:text="  Group" />
@@ -142,8 +143,9 @@
                         android:layout_marginBottom="5dp"
                         android:layout_marginEnd="4dp"
                         android:layout_marginRight="4dp"
-                        android:layout_weight="0.125"
+
                         android:drawableLeft="@drawable/registration"
+                        android:drawableStart="@drawable/registration"
                         android:gravity="center_vertical"
                         android:paddingLeft="15dp"
 
@@ -155,8 +157,9 @@
                         android:layout_marginBottom="5dp"
                         android:layout_marginEnd="4dp"
                         android:layout_marginRight="4dp"
-                        android:layout_weight="0.125"
+
                         android:drawableLeft="@drawable/assign"
+                        android:drawableStart="@drawable/assign"
                         android:gravity="center_vertical"
                         android:paddingLeft="15dp"
                         android:text="  Assign" />
@@ -167,8 +170,9 @@
                         android:layout_marginBottom="5dp"
                         android:layout_marginEnd="4dp"
                         android:layout_marginRight="4dp"
-                        android:layout_weight="0.125"
+
                         android:drawableLeft="@drawable/exit"
+                        android:drawableStart="@drawable/exit"
                         android:gravity="center_vertical"
                         android:paddingLeft="15dp"
                         android:text="  Graduation" />
@@ -179,8 +183,9 @@
                         android:layout_marginBottom="5dp"
                         android:layout_marginEnd="4dp"
                         android:layout_marginRight="4dp"
-                        android:layout_weight="0.125"
+
                         android:drawableLeft="@drawable/card_request"
+                        android:drawableStart="@drawable/card_request"
 
                         android:gravity="center_vertical"
                         android:paddingLeft="15dp"
@@ -192,8 +197,9 @@
                         android:layout_marginBottom="5dp"
                         android:layout_marginEnd="4dp"
                         android:layout_marginRight="4dp"
-                        android:layout_weight="0.125"
+
                         android:drawableLeft="@drawable/service"
+                        android:drawableStart="@drawable/service"
                         android:gravity="center_vertical"
                         android:paddingLeft="15dp"
                         android:text="  Service" />
@@ -204,8 +210,9 @@
                         android:layout_marginBottom="5dp"
                         android:layout_marginEnd="4dp"
                         android:layout_marginRight="4dp"
-                        android:layout_weight="0.125"
+
                         android:drawableLeft="@drawable/distribution"
+                        android:drawableStart="@drawable/distribution"
                         android:gravity="center_vertical"
                         android:paddingLeft="15dp"
                         android:text="  Distribution" />
@@ -216,7 +223,7 @@
                         android:layout_marginBottom="5dp"
                         android:layout_marginEnd="4dp"
                         android:layout_marginRight="4dp"
-                        android:layout_weight="0.125"
+
                         android:drawableLeft="@drawable/map_btn_icon"
                         android:gravity="center_vertical"
                         android:paddingLeft="15dp"
@@ -229,8 +236,9 @@
                         android:layout_marginBottom="5dp"
                         android:layout_marginEnd="4dp"
                         android:layout_marginRight="4dp"
-                        android:layout_weight="0.125"
+
                         android:drawableLeft="@drawable/summession_b"
+                        android:drawableStart="@drawable/summession_b"
                         android:gravity="center_vertical"
                         android:paddingLeft="15dp"
                         android:text="  Summary" />
@@ -242,11 +250,13 @@
                         android:layout_marginBottom="5dp"
                         android:layout_marginEnd="4dp"
                         android:layout_marginRight="4dp"
-                        android:layout_weight="0.125"
+
                         android:drawableLeft="@drawable/dynamic_icon_42"
+                        android:drawableStart="@drawable/dynamic_icon_42"
                         android:gravity="center_vertical"
-                        android:paddingLeft="15dp"
-                        android:paddingStart="15dp"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
+                        android:paddingStart="5dp"
                         android:text="  Dynamic Data" />
                 </LinearLayout>
 
@@ -268,14 +278,15 @@
                         android:textStyle="bold" />
 
                     <TextView
-                        android:layout_marginTop="15dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="5dp"
+                        android:layout_marginTop="15dp"
                         android:gravity="center_horizontal"
                         android:text="Version Name"
                         android:textSize="15sp"
                         android:textStyle="bold" />
+
                     <TextView
                         android:id="@+id/textTitle"
                         android:layout_width="match_parent"
@@ -284,9 +295,9 @@
                         android:text="@string/log_in_version_lable" />
 
                     <TextView
-                        android:layout_marginTop="20dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
 
                         android:gravity="center_horizontal"
                         android:text="@string/labe_op_mode"
@@ -357,13 +368,13 @@
 
 
                     <Button
-                        android:layout_gravity="center_horizontal"
-                        android:layout_width="match_parent"
                         android:id="@+id/btnRestoreDB"
                         style="@style/btn_main_page"
-                        android:layout_marginTop="20dp"
+                        android:layout_width="match_parent"
+                        android:layout_gravity="center_horizontal"
                         android:layout_marginEnd="4dp"
                         android:layout_marginRight="4dp"
+                        android:layout_marginTop="30dp"
                         android:drawableLeft="@drawable/database_import_32"
                         android:drawableStart="@drawable/database_import_32"
                         android:gravity="center_vertical"

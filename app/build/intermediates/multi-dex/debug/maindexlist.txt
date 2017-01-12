@@ -1108,6 +1108,7 @@ android/support/v4/media/session/MediaSessionCompat$SessionFlags.class
 com/siddiquinoor/restclient/views/notifications/ADNotificationManager$3.class
 com/google/android/gms/common/data/DataBuffer.class
 com/siddiquinoor/restclient/activity/sub_activity/summary_sub/ServiceSummaryMenu$2.class
+com/siddiquinoor/restclient/views/spinner/SpinnerLoader.class
 com/siddiquinoor/restclient/activity/Register$16.class
 com/google/android/gms/ads/internal/client/zzd.class
 com/google/android/gms/common/zzc.class
@@ -1580,7 +1581,6 @@ com/google/android/gms/internal/zzfe.class
 android/support/v7/widget/SimpleItemAnimator.class
 com/siddiquinoor/restclient/activity/ServiceActivity$ServiceDataListAdapter.class
 android/support/v7/app/ActionBar$LayoutParams.class
-com/siddiquinoor/restclient/activity/AssignActivity$7.class
 com/siddiquinoor/restclient/activity/sub_activity/service_sub/ServiceRecord$2.class
 com/siddiquinoor/restclient/activity/LoginActivity$55.class
 com/google/firebase/messaging/zzb.class

@@ -1065,7 +1065,6 @@ public class Schema {
 
         return CREATE_TABLE_IF_NOT_EXISTS + SQLiteHandler.COMMUNITY_GROUP_TABLE + " ("
 
-
                 + SQLiteHandler.COUNTRY_CODE_COL + " VARCHAR(4) "
                 + " , " + SQLiteHandler.DONOR_CODE_COL + " VARCHAR(4) "
                 + " , " + SQLiteHandler.AWARD_CODE_COL + " VARCHAR(4) "
@@ -1437,7 +1436,7 @@ public class Schema {
                 + " ) ";
     }
 
-    public static String lastSyncTime() {
+    public static String createTableLastSyncTime() {
         return CREATE_TABLE_IF_NOT_EXISTS + SQLiteHandler.LAST_SYNC_TYRACE_TABLE
                 + " ( "
                 + SQLiteHandler.ID_COL + " INTEGER " + PRIMARY_KEY + " AUTOINCREMENT, "
@@ -1485,9 +1484,7 @@ public class Schema {
                 + SQLiteHandler.DIST_FLAG_COL + " VARCHAR(10), "
                 + SQLiteHandler.ORG_CODE_COL + " VARCHAR(10), "
                 + SQLiteHandler.DISTRIBUTOR_COL + " VARCHAR(10), "
-
                 + SQLiteHandler.DISTRIBUTION_DATE_COL + " VARCHAR(50)  , "
-
                 + SQLiteHandler.DELIVERY_DATE_COL + " VARCHAR(50)  , "
                 + SQLiteHandler.STATUS + " VARCHAR(50)  , "
                 + SQLiteHandler.PREPARED_BY_COL + " VARCHAR(20) , "

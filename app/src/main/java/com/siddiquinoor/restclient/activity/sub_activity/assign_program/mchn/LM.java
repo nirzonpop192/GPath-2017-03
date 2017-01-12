@@ -1,9 +1,11 @@
 package com.siddiquinoor.restclient.activity.sub_activity.assign_program.mchn;
 
+import android.annotation.TargetApi;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -30,6 +32,7 @@ import com.siddiquinoor.restclient.manager.sqlsyntax.SQLServerSyntaxGenerator;
 import com.siddiquinoor.restclient.views.adapters.AssignDataModel;
 import com.siddiquinoor.restclient.views.helper.SpinnerHelper;
 import com.siddiquinoor.restclient.views.notifications.ADNotificationManager;
+import com.siddiquinoor.restclient.views.spinner.SpinnerLoader;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -352,53 +355,19 @@ public class LM extends BaseActivity {
      * @param progCode    Program Code
      * @param grpCateCode Group Categories Code
      */
-    private void loadGroup(final String cCode, final String donorCode, final String awardCode
-            , final String progCode, final String grpCateCode) {
-
-        int position = 0;
-        String criteria = " WHERE " + SQLiteHandler.COUNTRY_CODE_COL + " = '" + cCode + "' "
-                + " AND " + SQLiteHandler.DONOR_CODE_COL + " = '" + donorCode + "' "
-                + " AND " + SQLiteHandler.AWARD_CODE_COL + " = '" + awardCode + "' "
-                + " AND " + SQLiteHandler.PROGRAM_CODE_COL + " = '" + progCode + "' "
-                + " AND " + SQLiteHandler.GROUP_CAT_CODE_COL + " = '" + grpCateCode + "' "
-                //    + " AND " + SQLiteHandler.SERVICE_CENTER_CODE_COL + " = '" + idSrvCenter + "' "
-                ;
+    private void loadGroup(final String cCode, final String donorCode, final String awardCode, final String progCode, final String grpCateCode) {
 
 
-        // Spinner Drop down elements for District
-        List<SpinnerHelper> listAward = sqlH.getListAndID(SQLiteHandler.COMMUNITY_GROUP_TABLE, criteria, null, false);
-
-        // Creating adapter for spinner
-        ArrayAdapter<SpinnerHelper> dataAdapter = new ArrayAdapter<SpinnerHelper>(this, R.layout.spinner_layout, listAward);
-        // Drop down layout style
-        dataAdapter.setDropDownViewResource(R.layout.spinner_layout);
-        // attaching data adapter to spinner
-        spGroup.setAdapter(dataAdapter);
-
-
-        if (idGroup != null) {
-            for (int i = 0; i < spGroup.getCount(); i++) {
-                String groupCategory = spGroup.getItemAtPosition(i).toString();
-                if (groupCategory.equals(strGroup)) {
-                    position = i;
-                }
-            }
-            spGroup.setSelection(position);
-        }
-
+        SpinnerLoader.loadGroupLoader(mContext, sqlH, spGroup, cCode, donorCode, awardCode, progCode, grpCateCode, idGroup, strGroup);
 
         spGroup.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 strGroup = ((SpinnerHelper) spGroup.getSelectedItem()).getValue();
                 idGroup = ((SpinnerHelper) spGroup.getSelectedItem()).getId();
-                Log.d("HEO", "Group  ,idGroup:" + idGroup + " strGroup : " + strGroup);
-                if (idGroup.length() > 2) {
 
-
+                if (idGroup.length() > 2)
                     loadActiveStatus();
-
-                }
 
 
             }
@@ -594,7 +563,7 @@ public class LM extends BaseActivity {
                     assign_lm.setGrpCode(idGroup);
 
                     /**                  * get Group layR  list Code from Community Group                 */
-                    LayRCodes grpLayRListCode = sqlH.getLayRListFromCommunityGroup(assignMem.getCountryCode(), assignMem.getDonor_code(), assignMem.getAward_code(), assignMem.getProgram_code(), idGroup);
+                    LayRCodes grpLayRListCode = sqlH.getLayRListFromCommunityGroup(assignMem.getCountryCode(), assignMem.getDonor_code(), assignMem.getAward_code(), assignMem.getProgram_code(), idGroup, strGroup);
                     assign_lm.setGrpLayR1ListCode(grpLayRListCode.getLayR1Code());
                     assign_lm.setGrpLayR2ListCode(grpLayRListCode.getLayR2Code());
                     assign_lm.setGrpLayR3ListCode(grpLayRListCode.getLayR3Code());
@@ -619,7 +588,7 @@ public class LM extends BaseActivity {
 
                 }// end of  if (days > 0 && days < 180) block
                 else {
-                    erroDialog.showErrorDialog(mContext, "  DOB is invalid or exceeds allowable age range under this category ");
+                    erroDialog.showErrorDialog(mContext, "DOB is invalid or exceeds allowable age range under this category ");
                 }// end of else
 
             }// end of else
@@ -632,7 +601,7 @@ public class LM extends BaseActivity {
 
     private long getDateDifference(String from, String to) {
         long days = 0;
-        SimpleDateFormat myFormat = new SimpleDateFormat("MM-dd-yyyy",Locale.ENGLISH);
+        SimpleDateFormat myFormat = new SimpleDateFormat("MM-dd-yyyy", Locale.ENGLISH);
         try {
             Date dateFrom = myFormat.parse(from);
             Date dateTo = myFormat.parse(to);
@@ -647,12 +616,12 @@ public class LM extends BaseActivity {
 
     /**
      * date: 2015-11-23
-     *  calculate the the graduation date
+     * calculate the the graduation date
      */
     private String calculateGRDDate(String inputDate) {
         String outputDate = "";
-        SimpleDateFormat myFormat = new SimpleDateFormat("MM-dd-yyyy",Locale.ENGLISH);
-        SimpleDateFormat saveFormat = new SimpleDateFormat("MM-dd-yyyy",Locale.ENGLISH);
+        SimpleDateFormat myFormat = new SimpleDateFormat("MM-dd-yyyy", Locale.ENGLISH);
+        SimpleDateFormat saveFormat = new SimpleDateFormat("MM-dd-yyyy", Locale.ENGLISH);
         Calendar calendar = Calendar.getInstance();
         try {
             calendar.setTime(myFormat.parse(inputDate));
@@ -696,41 +665,48 @@ public class LM extends BaseActivity {
         spChildGender = (Spinner) findViewById(R.id.spChildGender);
 
 
+    }
+
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
         setUpHomeButton();
         setUpSummaryButton();
         setUpSaveButton();
         setUpGoToServiceButton();
     }
 
-
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     private void setUpHomeButton() {
 
         btnHome.setText("");
         Drawable imageHome = getResources().getDrawable(R.drawable.home_b);
         btnHome.setCompoundDrawablesRelativeWithIntrinsicBounds(imageHome, null, null, null);
-        btnHome.setPadding(180, 10, 180, 10);
+        setPaddingButton(mContext, imageHome, btnHome);
     }
 
-
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     private void setUpSummaryButton() {
         btnSummary.setText("");
         Drawable summeryImage = getResources().getDrawable(R.drawable.summession_b);
         btnSummary.setCompoundDrawablesRelativeWithIntrinsicBounds(summeryImage, null, null, null);
-        btnSummary.setPadding(180, 10, 180, 10);
+        setPaddingButton(mContext, summeryImage, btnSummary);
     }
 
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     private void setUpSaveButton() {
         btnSave.setText("");
         Drawable saveImage = getResources().getDrawable(R.drawable.save_b);
         btnSave.setCompoundDrawablesRelativeWithIntrinsicBounds(saveImage, null, null, null);
-        btnSave.setPadding(180, 10, 180, 10);
+        setPaddingButton(mContext, saveImage, btnSave);
     }
 
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     private void setUpGoToServiceButton() {
         btnBackToAssign.setText("");
-        Drawable saveImage = getResources().getDrawable(R.drawable.goto_back);
-        btnBackToAssign.setCompoundDrawablesRelativeWithIntrinsicBounds(saveImage, null, null, null);
-        btnBackToAssign.setPadding(180, 10, 180, 10);
+        Drawable gotoBackImage = getResources().getDrawable(R.drawable.goto_back);
+        btnBackToAssign.setCompoundDrawablesRelativeWithIntrinsicBounds(gotoBackImage, null, null, null);
+        setPaddingButton(mContext, gotoBackImage, btnBackToAssign);
     }
 
 
