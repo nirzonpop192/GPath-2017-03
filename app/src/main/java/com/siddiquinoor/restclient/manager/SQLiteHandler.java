@@ -4946,9 +4946,9 @@ public class SQLiteHandler extends SQLiteOpenHelper {
      * @param grpName   Group Name
      * @return Group Layer List
      */
-    public LayRCodes getLayRListFromCommunityGroup(String cCode, String donorCode, String awardCode, String progCode, String grpCode,String grpName) {
+    public LayRCodes getLayRListFromCommunityGroup(String cCode, String donorCode, String awardCode, String progCode, String grpCode, String grpName) {
 
-        return getLayRListFromCommunityORGroupDetails(cCode, donorCode, awardCode, progCode, grpCode, grpName,COMMUNITY_GROUP_TABLE);
+        return getLayRListFromCommunityORGroupDetails(cCode, donorCode, awardCode, progCode, grpCode, grpName, COMMUNITY_GROUP_TABLE);
 
 
     }
@@ -7471,29 +7471,9 @@ public class SQLiteHandler extends SQLiteOpenHelper {
                     distbutedPerson.setService_code(cursor.getString(cursor.getColumnIndex("service")));
                 }
 
-              /*  distbutedPerson.setHh_id(cursor.getString(cursor.getColumnIndex("HHID")));
-                distbutedPerson.setHh_name(cursor.getString(cursor.getColumnIndex("HhName")));
-                distbutedPerson.setMem_id(cursor.getString(cursor.getColumnIndex("MEMBERID")));
-                //final String  memberId=cursor_1.getString(cursor_1.getColumnIndex(HH_MEM_ID));
-                distbutedPerson.setMem_name(cursor.getString(cursor.getColumnIndex("MemName")));
-                distbutedPerson.setServiceShortName(cursor.getString(cursor.getColumnIndex("srvName")));*/
+
                 distbutedPerson.setProgram_code(cursor.getString(cursor.getColumnIndex("program")));
                 distbutedPerson.setWd(cursor.getString(cursor.getColumnIndex("wd")));
-
-
-                // distbutedPerson.setMember_age(cursor.getString(5));
-
-
-                // distbutedPerson.setHHID(cursor.getString(cursor.getColumnIndex(HHID_COL)));
-                // sperson.setMEMID(cursor_1.getString(cursor_1.getColumnIndex(HH_MEM_ID)));
-                // distbutedPerson.setProgram_code(cursor.getString(cursor.getColumnIndex(PROGRAM_CODE_COL)));
-                //  distbutedPerson.setService_code(cursor.getString(cursor.getColumnIndex(SERVICE_CODE_COL)));
-                // distbutedPerson.setGetSrvMemCount(cursor.getString(cursor.getColumnIndex("SrvRecieved")));
-                //   distbutedPerson.setNewID(cursor.getString(cursor.getColumnIndex("NewID")));
-                //ToString()
-                // Log.d(TAG, DatabaseUtils.dumpCursorToString(cursor_1));
-                //  Log.d(TAG, cursor_1.getString(1) + " , " + cursor_1.getString(2) + " , " + cursor_1.getString(3) + " , " + cursor_1.getString(4) + " , " + cursor_1.getString(5) + " , " +
-                //        cursor_1.getString(6) + " , " + cursor_1.getString(7) + " , " + cursor_1.getString(8) + " , " + cursor_1.getString(9));
                 distributedList.add(distbutedPerson);
                 i++;
 
@@ -7561,7 +7541,6 @@ public class SQLiteHandler extends SQLiteOpenHelper {
                                                                         String memId
             , String donorCode, String awardCode, String programCode, String serviceCode, String opMonthCode, String fdpCode, boolean dataExitstsInDistTable) {
 
-        Log.d(TAG, "In get data Service ");
 
         List<VouItemServiceExtDataModel> srvExtListItem = new ArrayList<VouItemServiceExtDataModel>();
         SQLiteDatabase db = this.getReadableDatabase();
@@ -7571,69 +7550,16 @@ public class SQLiteHandler extends SQLiteOpenHelper {
         if (dataExitstsInDistTable) {
 // todo : testing
 // Grid data will load from DistExtended table
-            selectQuery = "SELECT " + COUNTRY_CODE_COL
-                    + "  , " + DONOR_CODE_COL + " , " + AWARD_CODE_COL +
-                    " , " + LAY_R1_LIST_CODE_COL + " , " + LAY_R2_LIST_CODE_COL +
-                    " , " + LAY_R3_LIST_CODE_COL + " , " + LAY_R4_LIST_CODE_COL +
-                    " , " + PROGRAM_CODE_COL + " , " + SERVICE_CODE_COL +
-                    " , " + OP_MONTH_CODE_COL +
-                    " , (Select " + ITEM_NAME_COL + " from " + VOUCHER_ITEM_TABLE +
-                    " where " + CATEGORY_CODE_COL + " || " + ITEM_CODE_COL + " = substr(" + VOUCHER_ITEM_SPEC_COL + ",0,8)) AS ItemName " +
-                    " , (Select " + UNITE_MEAS_COL + " ||' '|| " + MEASE_TITLE_COL + " from " + VOUCHER_ITEM__MEAS_TABLE +
-                    " where " + MEAS_R_CODE_COL + " = substr(" + VOUCHER_ITEM_SPEC_COL + ",8,3) ) as measerment " +
-                    " , " + VOUCHER_REFERENCE_NUMBER_COL +
-                    " , " + VOUCHER_UNIT_COL +
-                    " , " + VOUCHER_ITEM_SPEC_COL +
-                    " FROM  " + DISTRIBUTION_EXTENDED_TABLE +
-                    " WHERE  " + COUNTRY_CODE_COL + " = '" + cCode + "' " +
-                    " AND  " + DONOR_CODE_COL + " = '" + donorCode + "' " +
-                    " AND  " + AWARD_CODE_COL + " = '" + awardCode + "' " +
-                    " AND  " + LAY_R1_LIST_CODE_COL + " = '" + discode + "' " +
-                    " AND  " + LAY_R2_LIST_CODE_COL + " = '" + upCode + "' " +
-                    " AND  " + LAY_R3_LIST_CODE_COL + " = '" + unCode + "' " +
-                    " AND  " + LAY_R4_LIST_CODE_COL + " = '" + vCode + "' " +
-                    " AND  " + PROGRAM_CODE_COL + " = '" + programCode + "' " +
-                    " AND  " + SERVICE_CODE_COL + " = '" + serviceCode + "' " +
-                    " AND  " + OP_MONTH_CODE_COL + " = '" + opMonthCode + "' " +
-                    " AND  " + MEM_ID_15_D_COL + " = '" + memId + "' " +
-                    " AND  " + FDP_CODE_COL + " = '" + fdpCode + "' "
-            ;
+            selectQuery = SQLiteQuery.getDistributionExtedVoucherSummaryDataList_sql(cCode, discode, upCode, unCode, vCode, memId, donorCode, awardCode, programCode, serviceCode, opMonthCode, fdpCode);
+
 
         } else {
             // Grid data will load from SrvExtended table table
 
 
-            selectQuery = "SELECT " + COUNTRY_CODE_COL
-                    + "  , " + DONOR_CODE_COL + " , " + AWARD_CODE_COL +
-                    " , " + LAY_R1_LIST_CODE_COL + " , " + LAY_R2_LIST_CODE_COL +
-                    " , " + LAY_R3_LIST_CODE_COL + " , " + LAY_R4_LIST_CODE_COL +
-                    " , " + PROGRAM_CODE_COL + " , " + SERVICE_CODE_COL +
-                    " , " + OP_MONTH_CODE_COL +
-                    " , "
-                    + VOUCHER_ITEM_TABLE + "." + ITEM_NAME_COL
-                    + " AS ItemName " +
-                    " , "
-                    + VOUCHER_ITEM__MEAS_TABLE + "." + UNITE_MEAS_COL + " ||' '|| " + MEASE_TITLE_COL
-                    + " AS measerment " +
-                    " , " + VOUCHER_REFERENCE_NUMBER_COL +
-                    " , " + VOUCHER_UNIT_COL +
-                    " , " + VOUCHER_ITEM_SPEC_COL +
-                    " FROM  " + SERVICE_EXTENDED_TABLE +
-                    " INNER JOIN " + VOUCHER_ITEM_TABLE
-                    + " ON " + VOUCHER_ITEM_TABLE + "." + CATEGORY_CODE_COL + " || " + VOUCHER_ITEM_TABLE + "." + ITEM_CODE_COL + " = substr(" + SERVICE_EXTENDED_TABLE + "." + VOUCHER_ITEM_SPEC_COL + ",0,8)"
-                    + " INNER JOIN " + VOUCHER_ITEM__MEAS_TABLE
-                    + " ON " + VOUCHER_ITEM__MEAS_TABLE + "." + MEAS_R_CODE_COL + " = substr(" + SERVICE_EXTENDED_TABLE + "." + VOUCHER_ITEM_SPEC_COL + ",8,3)  "
-                    + " WHERE  " + COUNTRY_CODE_COL + " = '" + cCode + "' " +
-                    " AND  " + DONOR_CODE_COL + " = '" + donorCode + "' " +
-                    " AND  " + AWARD_CODE_COL + " = '" + awardCode + "' " +
-                    " AND  " + LAY_R1_LIST_CODE_COL + " = '" + discode + "' " +
-                    " AND  " + LAY_R2_LIST_CODE_COL + " = '" + upCode + "' " +
-                    " AND  " + LAY_R3_LIST_CODE_COL + " = '" + unCode + "' " +
-                    " AND  " + LAY_R4_LIST_CODE_COL + " = '" + vCode + "' " +
-                    " AND  " + PROGRAM_CODE_COL + " = '" + programCode + "' " +
-                    " AND  " + SERVICE_CODE_COL + " = '" + serviceCode + "' " +
-                    " AND  " + OP_MONTH_CODE_COL + " = '" + opMonthCode + "' " +
-                    " AND  " + LAY_R1_LIST_CODE_COL + " || " + LAY_R2_LIST_CODE_COL + " || " + LAY_R3_LIST_CODE_COL + " || " + LAY_R4_LIST_CODE_COL + " || " + HHID_COL + " || " + HH_MEM_ID + " = '" + memId + "' ";
+            selectQuery = SQLiteQuery.getServiceExtedVoucherSummaryDataList_sql(cCode, discode, upCode, unCode, vCode, memId, donorCode, awardCode, programCode, serviceCode, opMonthCode);
+
+
         }
 
         Cursor cursor = db.rawQuery(selectQuery, null);
@@ -7942,18 +7868,8 @@ public class SQLiteHandler extends SQLiteOpenHelper {
      * @param entryDate   seasson Date
      * @param is_online   is it come from online
      */
-    public void addServiceExtendedTable(String cCode, String discode, String upCode, String unCode, String vCode,
-                                        String hhId, String memId, String donorCode, String awardCode, String prgCode,
-                                        String srvCode, String opCode, String opMonthCode, String voItmSpec, String voUnit, String voRefeNo,
-                                        String voItmCost, String distFlag, String entryBy, String entryDate, String is_online) {
+    public void addServiceExtendedTable(String cCode, String discode, String upCode, String unCode, String vCode, String hhId, String memId, String donorCode, String awardCode, String prgCode, String srvCode, String opCode, String opMonthCode, String voItmSpec, String voUnit, String voRefeNo, String voItmCost, String distFlag, String entryBy, String entryDate, String is_online) {
 
-
-/*      for test  Log.d(TAG, "Service Extended Value befor SQLite :"
-                + "cCode :" + cCode + " discode : " + discode + "upCode : " + upCode + "unCode : " + unCode +
-                "vCode :" + vCode + "hhId :" + hhId + "memId : " + memId + "donorCode : " + donorCode + "awardCode : " + awardCode
-                + "programCode :" + programCode + "serviceCode :" + serviceCode + "opCode :" + opCode + "opMonthCode:" + opMonthCode
-                + "voItmSpec: " + voItmSpec + "voUnit :" + voUnit + "voRefeNo:" + voRefeNo
-                + "voItmCost :" + voItmCost + "entryBy :" + entryBy + "entryDate: " + entryDate);*/
 
         SQLiteDatabase db = this.getWritableDatabase();
 

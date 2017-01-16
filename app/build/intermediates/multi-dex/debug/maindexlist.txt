@@ -741,7 +741,6 @@ android/support/v4/widget/ResourceCursorAdapter.class
 com/siddiquinoor/restclient/activity/DistributionActivity$14.class
 android/support/v4/app/ActivityCompatApi23$RequestPermissionsRequestCodeValidator.class
 android/support/v4/app/BaseFragmentActivityHoneycomb.class
-com/siddiquinoor/restclient/activity/ServiceActivity$13.class
 com/google/android/gms/internal/zzfj.class
 android/support/annotation/Size.class
 com/siddiquinoor/restclient/activity/sub_activity/summary_sub/SummaryServiceOrDistributionItemizeAttendance$1.class

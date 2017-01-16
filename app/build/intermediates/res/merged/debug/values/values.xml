@@ -804,7 +804,7 @@
     <string name="label_FPCounsel">FP counseling</string>
     <string name="label_FaciPostnatal">Facility Postnatal Visit (DD/MM)</string>
     <string name="label_HomeSupport24H">Home support visit PT/LBW within 24 hours after hospital</string>
-    <string name="label_HomeSupport48H">Home support visit PT/LBW within 25-48 hours</string>
+    <string name="label_HomeSupport48H">Home support visit PT/LBW within 25 — 48 hours</string>
     <string name="label_Immunizations">Immunizations</string>
     <string name="label_LeadPosition">Leadership Position</string>
     <string name="label_LoanAMT">Amount of Loan (MK)</string>
@@ -861,7 +861,7 @@
     <string name="livestock">LIVESTOCK</string>
     <string name="lmp_date">LMP Date</string>
     <string name="location_name">Location Name</string>
-    <string name="log_in_version_lable">GPath-LIV-03</string>
+    <string name="log_in_version_lable">GPath-UAT-03</string>
     <string name="longTitle">Longitude</string>
     <string name="map_mode">Map Source</string>
     <string name="mapbox">MapBox</string>
@@ -973,7 +973,7 @@
     <string name="title_activity_service_summary_list">ServiceSummaryList</string>
     <string name="title_activity_summary_assign_base_criteria">SummaryAssignBaseCriteria</string>
     <string name="title_activity_summary_service">SummaryService</string>
-    <string name="title_catagories">FAMILY COMPOSITION AND  HOUSING</string>
+    <string name="title_categories">FAMILY COMPOSITION AND  HOUSING</string>
     <string name="title_grp_summary">Group Summary</string>
     <string name="title_id_list_in_grp_summary">ID List in Group </string>
     <string name="title_register">HHRegistration</string>
@@ -983,6 +983,7 @@
     <string name="tv_GraduationTitleLabel">Graduation</string>
     <string name="tv_criteria">Criteria</string>
     <string name="txt_title_summaryOp">Summary Option</string>
+    <string name="type">Type</string>
     <string name="types">types</string>
     <string name="unknown">Unknown</string>
     <string name="unsyn_msg">Login with the same user for whom the device was configured.

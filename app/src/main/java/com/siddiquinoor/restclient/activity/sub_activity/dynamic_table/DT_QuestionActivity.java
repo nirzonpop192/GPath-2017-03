@@ -71,6 +71,7 @@ public class DT_QuestionActivity extends BaseActivity implements CompoundButton.
     public static final String CHECK_BOX = "Checkbox";
     public static final String RADIO_BUTTON = "Radio Button";
     public static final String DATE_TIME = "Datetime";
+    public static final String PHOTO = "Photo";
     public static final String DATE = "Date";
     public static final String RADIO_BUTTON_N_TEXTBOX = "Radio Button, Textbox";
     public static final String CHECKBOX_N_TEXTBOX = "Checkbox, Textbox";
@@ -386,15 +387,9 @@ public class DT_QuestionActivity extends BaseActivity implements CompoundButton.
                         displayError("Insert  Text");
 
 
-                        /**
-                         * todo : show Dialog
-                         */
-
 
                     } else {
                         normalIndicator();
-
-
                         saveData(edtInput, mDTATableList.get(0));
                         // NEXT QUESTION
 
@@ -408,18 +403,14 @@ public class DT_QuestionActivity extends BaseActivity implements CompoundButton.
                 case Date_OR_Time:
 
                     if (_dt_tv_DatePicker.getText().toString().equals("Click for Date")) {
-//                        Toast.makeText(DT_QuestionActivity.this, "Set Date First ", Toast.LENGTH_SHORT).show();
+
                         errorIndicator();
                         displayError("Set Date First");
-                        /**
-                         * todo : show Dialog
-                         */
+
                     } else {
                         normalIndicator();
 
-                        /**
-                         * mDTATableList.get(0) wil be single
-                         */
+                        /**                         * mDTATableList.get(0) wil be single                         */
                         saveData(_dt_tv_DatePicker.getText().toString(), mDTATableList.get(0));
                         nextQuestion();
                     }
@@ -429,7 +420,7 @@ public class DT_QuestionActivity extends BaseActivity implements CompoundButton.
                 case COMBO_BOX:
 
                     if (idSpinner.equals("00")) {
-//                        Toast.makeText(mContext, "Select Item", Toast.LENGTH_SHORT).show();
+
                         errorIndicator();
                         displayError("Select Item");
                         /**
@@ -444,9 +435,7 @@ public class DT_QuestionActivity extends BaseActivity implements CompoundButton.
                          */
                         saveData(strSpinner, mDTATableList.get(0));
 
-                        /**
-                         * NEXT QUESTION
-                         */
+                        /**                         * NEXT QUESTION                         */
                         nextQuestion();
                     }
 
@@ -455,7 +444,7 @@ public class DT_QuestionActivity extends BaseActivity implements CompoundButton.
                 case CHECK_BOX:
 
                     if (countChecked <= 0) {
-//                        Toast.makeText(DT_QuestionActivity.this, " Please select a option.", Toast.LENGTH_SHORT).show();
+
                         errorIndicator();
                         displayError("Select a option.");
 
@@ -465,7 +454,7 @@ public class DT_QuestionActivity extends BaseActivity implements CompoundButton.
                         i = 0;
                         for (CheckBox cb : mCheckBox_List) {
                             if (cb.isChecked()) {
-//
+
                                 saveData("", mDTATableList.get(i));
                             }// end of if condition
                             i++;

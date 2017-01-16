@@ -8,6 +8,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
@@ -52,6 +53,7 @@ import com.siddiquinoor.restclient.views.adapters.ServiceDataModel;
 import com.siddiquinoor.restclient.views.adapters.VouItemServiceExtDataModel;
 import com.siddiquinoor.restclient.views.helper.SpinnerHelper;
 import com.siddiquinoor.restclient.views.notifications.ADNotificationManager;
+import com.siddiquinoor.restclient.views.spinner.SpinnerLoader;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -61,6 +63,10 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+
+import static com.siddiquinoor.restclient.manager.SQLiteHandler.AWARD_CODE_COL;
+import static com.siddiquinoor.restclient.manager.SQLiteHandler.COUNTRY_CODE_COL;
+import static com.siddiquinoor.restclient.manager.SQLiteHandler.DONOR_CODE_COL;
 
 
 public class ServiceActivity extends BaseActivity implements View.OnClickListener, AdapterView.OnItemClickListener {
@@ -208,16 +214,7 @@ public class ServiceActivity extends BaseActivity implements View.OnClickListene
 
             loadAward(countryId);
             loadindingLog(countryId, srDate);
-/*
-            Log.d("NIR2", "From redrirect from service Record\n"
-                    + "countryId : " + countryId + " idAward : " + idAward
-                    + " strAward :" + strAward + " idDonor :" + idDonor
-                    + " strCriteria: " + strCriteria + " idCriteria : " + idCriteria
-                    + " idSrvCenter: " + idSrvCenter + " strServiceCenter : " + strServiceCenter
-                    + " serviceDate: " + srDate + " opMonthLable : " + opMonthLable
-                    + " serviceDate: " + idOpMonthCode + " idOpCode : " + idOpCode
-                    + "\n idServiceMonth: " + idServiceMonth + " strSrvMonth : " + strSrvMonth
-            );*/
+
             String memSearchId = "";
 
 
@@ -527,7 +524,7 @@ public class ServiceActivity extends BaseActivity implements View.OnClickListene
     private void addIconHomeButton() {
 
         btnHome.setText("");
-        Drawable imageHome = getResources().getDrawable(R.drawable.goto_forward);
+        Drawable imageHome = getResources().getDrawable(R.drawable.home_b);
         btnHome.setCompoundDrawablesRelativeWithIntrinsicBounds(imageHome, null, null, null);
 
 
@@ -945,7 +942,7 @@ public class ServiceActivity extends BaseActivity implements View.OnClickListene
         int position = 0;
         String criteria = " WHERE " + SQLiteHandler.COUNTRY_CODE_COL + " = '" + cCode + "' "
                 + " AND " + SQLiteHandler.DONOR_CODE_COL + " = '" + donorCode + "' "
-                + " AND " + SQLiteHandler.AWARD_CODE_COL + " = '" + awardCode + "' "
+                + " AND " + AWARD_CODE_COL + " = '" + awardCode + "' "
                 + " AND " + SQLiteHandler.PROGRAM_CODE_COL + " = '" + progCode + "' "
                 + " AND " + SQLiteHandler.GROUP_CAT_CODE_COL + " = '" + grpCateCode + "' "
                 + " AND " + SQLiteHandler.SERVICE_CENTER_CODE_COL + " = '" + srvCenterCode + "' ";
@@ -1014,7 +1011,7 @@ public class ServiceActivity extends BaseActivity implements View.OnClickListene
         int position = 0;
         String criteria = " WHERE " + SQLiteHandler.COUNTRY_CODE_COL + " = '" + cCode + "' "
                 + " AND " + SQLiteHandler.DONOR_CODE_COL + " = '" + donorCode + "' "
-                + " AND " + SQLiteHandler.AWARD_CODE_COL + " = '" + awardCode + "' "
+                + " AND " + AWARD_CODE_COL + " = '" + awardCode + "' "
                 + " AND " + SQLiteHandler.PROGRAM_CODE_COL + " = '" + progCode + "' " +
                 " GROUP BY " + SQLiteHandler.GROUP_CAT_CODE_COL;
 
@@ -1062,66 +1059,6 @@ public class ServiceActivity extends BaseActivity implements View.OnClickListene
 
     } // end Load Spinner
 
-    /**
-     * ** LOAD:: DistributionType
-     */
-    private void loadDistributionType(final String cCode, final String donorCode, final String awardCode) {
-        int position = 0;
-
-        ArrayAdapter<CharSequence> adptMartial = ArrayAdapter.createFromResource(
-                this, R.array.arrDistributionType, R.layout.spinner_layout);
-
-        adptMartial.setDropDownViewResource(R.layout.spinner_layout);
-        spDistributionType.setAdapter(adptMartial);
-
-
-        if (idDistributionType != null) {
-            for (int i = 0; i < spDistributionType.getCount(); i++) {
-                String type = spDistributionType.getItemAtPosition(i).toString();
-                if (type.equals(strDistType)) {
-                    position = i;
-                }
-            }
-            spDistributionType.setSelection(position);
-        }
-
-
-        /*** Experiments*/
-
-        spDistributionType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
-                String type = parent.getItemAtPosition(position).toString();
-
-                if (type.equals("None")) {
-                    strDistType = "None";
-                    idDistributionType = DistributionActivity.NONE;
-                } else if (type.equals("Food")) {
-                    strDistType = "Food";
-                    idDistributionType = DistributionActivity.FOOD_TYPE;
-                } else if (type.equals("Non Food")) {
-                    strDistType = "Non Food";
-                    idDistributionType = DistributionActivity.NON_FOOD_TYPE;
-                } else if (type.equals("Cash")) {
-                    strDistType = "Cash";
-                    idDistributionType = DistributionActivity.CASH_TYPE;
-                } else {
-                    strDistType = "Voucher";
-                    idDistributionType = DistributionActivity.VOUCHER_TYPE;
-                }
-                loadServiceCenter(cCode, donorCode, awardCode);
-
-
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-    }
-
 
     /**
      * LOAD :: Award
@@ -1130,28 +1067,7 @@ public class ServiceActivity extends BaseActivity implements View.OnClickListene
      */
     private void loadAward(final String cCode) {
 
-        int position = 0;
-        String criteria = " WHERE " + SQLiteHandler.ADM_AWARD_TABLE + "." + SQLiteHandler.COUNTRY_CODE_COL + "='" + cCode + "'";
-        // Spinner Drop down elements for District
-        List<SpinnerHelper> listAward = sqlH.getListAndID(SQLiteHandler.ADM_AWARD_TABLE, criteria, null, false);
-
-        // Creating adapter for spinner
-        ArrayAdapter<SpinnerHelper> dataAdapter = new ArrayAdapter<SpinnerHelper>(this, R.layout.spinner_layout, listAward);
-        // Drop down layout style
-        dataAdapter.setDropDownViewResource(R.layout.spinner_layout);
-        // attaching data adapter to spinner
-        spAward.setAdapter(dataAdapter);
-
-
-        if (idAward != null) {
-            for (int i = 0; i < spAward.getCount(); i++) {
-                String award = spAward.getItemAtPosition(i).toString();
-                if (award.equals(strAward)) {
-                    position = i;
-                }
-            }
-            spAward.setSelection(position);
-        }
+        SpinnerLoader.loadAwardLoader(mContext, sqlH, spAward, cCode, idAward, strAward);
 
 
         spAward.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -1159,16 +1075,16 @@ public class ServiceActivity extends BaseActivity implements View.OnClickListene
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 strAward = ((SpinnerHelper) spAward.getSelectedItem()).getValue();
                 String awardID = ((SpinnerHelper) spAward.getSelectedItem()).getId();
-                idAward = awardID.substring(2);
-                idDonor = awardID.substring(0, 2);
-                idCountry = cCode;
-                if (awardID.length() > 2)
 
+                if (awardID.length() > 2) {
+                    idAward = awardID.substring(2);
+                    idDonor = awardID.substring(0, 2);
+                    idCountry = cCode;
 
-                    loadDistributionType(idCountry, idDonor, idAward);
+                    loadServiceCenter(cCode, idDonor, idAward);
 
+                }
 
-                Log.d(TAG, "in service page award donor code awardDonor Code " + awardID + " awardID : " + idAward + " donor id :" + idDonor);
 
             }
 
@@ -1317,7 +1233,9 @@ public class ServiceActivity extends BaseActivity implements View.OnClickListene
                     idOpMonthCode = idServiceMonth.substring(8);
                     Log.d("In Service", " In the service month the fdpCode : " + fdpCode +
                             "\n private global veriable : idFdpCode :" + idFdpCode);
-                    loadCriteria(cCode, donorCode, awardCode, SrvCenterCode, idFdpCode, idOpMonthCode);
+                    //loadDistributionType(idCountry, idDonor, idAward);
+                    loadDistributionType(cCode, donorCode, awardCode, SrvCenterCode, idFdpCode, idOpMonthCode);
+
                 }
 
                 Log.d(TAG, "idServiceMonth : " + idServiceMonth + " strSrvMonth :" + strSrvMonth);
@@ -1334,6 +1252,84 @@ public class ServiceActivity extends BaseActivity implements View.OnClickListene
 
 
     /**
+     * ** LOAD:: DistributionType
+     */
+    private void loadDistributionType(final String cCode, final String donorCode, final String awardCode, final String srvCenterCode, final String fdpCode, final String srvMonthCode) {
+        int position = 0;
+
+        ArrayAdapter<CharSequence> adptMartial = ArrayAdapter.createFromResource(
+                this, R.array.arrDistributionType, R.layout.spinner_layout);
+
+        adptMartial.setDropDownViewResource(R.layout.spinner_layout);
+        spDistributionType.setAdapter(adptMartial);
+
+
+        if (idDistributionType != null) {
+            for (int i = 0; i < spDistributionType.getCount(); i++) {
+                String type = spDistributionType.getItemAtPosition(i).toString();
+                if (type.equals(strDistType)) {
+                    position = i;
+                }
+            }
+            spDistributionType.setSelection(position);
+        }
+
+
+        /*** Experiments*/
+
+        spDistributionType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                String type = parent.getItemAtPosition(position).toString();
+                String foodFlagQuary = "";
+
+                switch (type) {
+                    case "None":
+                        strDistType = "None";
+                        idDistributionType = DistributionActivity.NONE;
+                        foodFlagQuary = " AND " + SQLiteHandler.COUNTRY_PROGRAM_TABLE + "." + SQLiteHandler.FOOD_FLAG + "= '0' "
+                                + " AND " + SQLiteHandler.COUNTRY_PROGRAM_TABLE + "." + SQLiteHandler.NON_FOOD_FLAG + "= '0' "
+                                + " AND " + SQLiteHandler.COUNTRY_PROGRAM_TABLE + "." + SQLiteHandler.CASH_FLAG + "= '0' "
+                                + " AND " + SQLiteHandler.COUNTRY_PROGRAM_TABLE + "." + SQLiteHandler.VOUCHER_FLAG + "= '0' ";
+                        break;
+                    case "Food":
+                        strDistType = "Food";
+                        idDistributionType = DistributionActivity.FOOD_TYPE;
+                        foodFlagQuary = " AND " + SQLiteHandler.COUNTRY_PROGRAM_TABLE + "." + SQLiteHandler.FOOD_FLAG + "= '1' ";
+                        break;
+                    case "Non Food":
+
+                        strDistType = "Non Food";
+                        idDistributionType = DistributionActivity.NON_FOOD_TYPE;
+                        foodFlagQuary = " AND " + SQLiteHandler.COUNTRY_PROGRAM_TABLE + "." + SQLiteHandler.NON_FOOD_FLAG + "= '1' ";
+                        break;
+
+                    case "Cash":
+                        strDistType = "Cash";
+                        idDistributionType = DistributionActivity.CASH_TYPE;
+                        foodFlagQuary = " AND " + SQLiteHandler.COUNTRY_PROGRAM_TABLE + "." + SQLiteHandler.CASH_FLAG + "= '1' ";
+                        break;
+                    case "Voucher":
+                        strDistType = "Voucher";
+                        idDistributionType = DistributionActivity.VOUCHER_TYPE;
+                        foodFlagQuary = " AND " + SQLiteHandler.COUNTRY_PROGRAM_TABLE + "." + SQLiteHandler.VOUCHER_FLAG + "= '1' ";
+                        break;
+                }
+
+                loadServiceRecodeCriteria(cCode, donorCode, awardCode, srvCenterCode, idFdpCode, idOpMonthCode, foodFlagQuary);
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+    }
+
+    /**
+     * todo : Sending over the Spinner helper page
      * LOAD :: Criteria
      *
      * @param cCode         Country Code
@@ -1343,19 +1339,34 @@ public class ServiceActivity extends BaseActivity implements View.OnClickListene
      * @param fdpCode       food distribution point
      * @param srvMonthCode  service month Code
      */
-    private void loadCriteria(final String cCode, final String donorCode, final String awardCode, final String srvCenterCode, final String fdpCode, final String srvMonthCode) {
+    private void loadServiceRecodeCriteria(final String cCode, final String donorCode, final String awardCode, final String srvCenterCode, final String fdpCode, final String srvMonthCode, final String foodFlagTypeQuery) {
 
         int position = 0;
-        String criteria = " WHERE " + SQLiteHandler.ADM_PROGRAM_MASTER_TABLE + "." + SQLiteHandler.AWARD_CODE_COL + "='" + awardCode + "'"
-                + " AND " + SQLiteHandler.ADM_PROGRAM_MASTER_TABLE + "." + SQLiteHandler.DONOR_CODE_COL + "='" + donorCode + "'";
-        // Spinner Drop down elements for District
-        List<SpinnerHelper> listCriteria = sqlH.getListAndID(SQLiteHandler.ADM_PROGRAM_MASTER_TABLE, criteria, null, false);
+        String criteria = " SELECT " + SQLiteHandler.COUNTRY_PROGRAM_TABLE + "." + SQLiteHandler.PROGRAM_CODE_COL
+                + " ||  '-' || " + SQLiteHandler.COUNTRY_PROGRAM_TABLE + "." + SQLiteHandler.SERVICE_CODE_COL +
+                " AS criteriaId "
+                + ", " + SQLiteHandler.ADM_PROGRAM_MASTER_TABLE + "." + SQLiteHandler.PROGRAM_SHORT_NAME_COL
+                + " || '-' ||  " + SQLiteHandler.SERVICE_MASTER_TABLE + "." + SQLiteHandler.SERVICE_SHORT_NAME_COL + " AS Criteria"
+                + " FROM " + SQLiteHandler.COUNTRY_PROGRAM_TABLE
+                + " INNER JOIN " + SQLiteHandler.ADM_PROGRAM_MASTER_TABLE + " ON "
+                + SQLiteHandler.ADM_PROGRAM_MASTER_TABLE + "." + SQLiteHandler.PROGRAM_CODE_COL + " = " + SQLiteHandler.COUNTRY_PROGRAM_TABLE + "." + SQLiteHandler.PROGRAM_CODE_COL
+                + " AND " + SQLiteHandler.ADM_PROGRAM_MASTER_TABLE + "." + SQLiteHandler.PROGRAM_CODE_COL + " = " + SQLiteHandler.COUNTRY_PROGRAM_TABLE + "." + SQLiteHandler.PROGRAM_CODE_COL
+                + " AND " + SQLiteHandler.ADM_PROGRAM_MASTER_TABLE + "." + SQLiteHandler.DONOR_CODE_COL + " = " + SQLiteHandler.COUNTRY_PROGRAM_TABLE + "." + SQLiteHandler.DONOR_CODE_COL
+                + " AND " + SQLiteHandler.ADM_PROGRAM_MASTER_TABLE + "." + AWARD_CODE_COL + " = " + SQLiteHandler.COUNTRY_PROGRAM_TABLE + "." + AWARD_CODE_COL
+                + " INNER JOIN " + SQLiteHandler.SERVICE_MASTER_TABLE + " ON "
+                + SQLiteHandler.SERVICE_MASTER_TABLE + "." + SQLiteHandler.PROGRAM_CODE_COL + " = " + SQLiteHandler.COUNTRY_PROGRAM_TABLE + "." + SQLiteHandler.PROGRAM_CODE_COL
+                + " AND " + SQLiteHandler.SERVICE_MASTER_TABLE + "." + SQLiteHandler.SERVICE_CODE_COL + " = " + SQLiteHandler.COUNTRY_PROGRAM_TABLE + "." + SQLiteHandler.SERVICE_CODE_COL
+                + " WHERE "
+                + SQLiteHandler.COUNTRY_PROGRAM_TABLE + "." + COUNTRY_CODE_COL + " = '" + cCode + "' "
+                +" AND "+ SQLiteHandler.COUNTRY_PROGRAM_TABLE + "." + DONOR_CODE_COL + " = '" + donorCode + "' "
+                + " AND " + SQLiteHandler.COUNTRY_PROGRAM_TABLE + "." + AWARD_CODE_COL + " = '" + awardCode + "'"
+                + foodFlagTypeQuery
+                + " ORDER BY Criteria ";
 
 
+        List<SpinnerHelper> listCriteria = sqlH.getListAndID(SQLiteHandler.CUSTOM_QUERY, criteria, null, false);
         ArrayAdapter<SpinnerHelper> dataAdapter = new ArrayAdapter<SpinnerHelper>(this, R.layout.spinner_layout, listCriteria);
-
         dataAdapter.setDropDownViewResource(R.layout.spinner_layout);
-
         spCriteria.setAdapter(dataAdapter);
 
 
@@ -1448,9 +1459,9 @@ public class ServiceActivity extends BaseActivity implements View.OnClickListene
      * @param srvCode       Service Code
      * @param memSearchId   member Id for Search Version
      * @param opMonthLable  Service Operation Month Code
-     * @param opCode
-     * @param opMCode
-     * @param srvDate
+     * @param opCode        operation code
+     * @param opMCode       operation month code
+     * @param srvDate       service date
      * @param srvCenterCode Service Center Code
      * @param grpCode       GroupCod e
      *                      <p> this method </p>
@@ -1693,8 +1704,7 @@ public class ServiceActivity extends BaseActivity implements View.OnClickListene
 
 
         public ServiceDataListAdapter(Activity activity, ArrayList<ServiceDataModel> servicedData, String awardName, String criteriaId,
-                                      String CriteriaName, String opMonthStr, String opCode, String opMonthCode,
-                                      String srvDate, String srvCenterCode, String progShortName, String srvShortName) {
+                                      String CriteriaName, String opMonthStr, String opCode, String opMonthCode, String srvDate, String srvCenterCode, String progShortName, String srvShortName) {
             this.activity = activity;
             this.servicedData = servicedData;
             sqlH = new SQLiteHandler(activity);
@@ -2026,68 +2036,5 @@ public class ServiceActivity extends BaseActivity implements View.OnClickListene
 
     }// end of  adapter
 
-    public void goToAlert() {
-        final CharSequence[] items = getResources().getStringArray(R.array.service_goto_array);
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(ServiceActivity.this, android.R.style.Theme_Holo_Light_Dialog));
-
-        builder.setTitle("GO TO:");
-
-
-        builder.setIcon(R.drawable.navigation_icon);
-        builder.setSingleChoiceItems(items, -1, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int item) {
-                switch (item) {
-                    case 0:
-                        finish();
-                        intent = new Intent(ServiceActivity.this, MainActivity.class);
-                        startActivity(intent);
-                        break;
-                    case 1:
-                        finish();
-                        intent = new Intent(ServiceActivity.this, OldAssignActivity.class);
-                        intent.putExtra(KEY.COUNTRY_ID, sqlH.selectCountryCode());
-
-                        intent.putExtra(OldAssignActivity.SUB_ASSIGN_DIR, false);
-                        startActivity(intent);
-                        break;
-               /*     case 2:
-                        finish();
-                        intent = new Intent(ServiceActivity.this, DistributionActivity.class);
-                        intent.putExtra(KEY.DIR_CLASS_NAME_KEY, "ServiceActivity");
-                        intent.putExtra(KEY.COUNTRY_ID, sqlH.selectCountryCode());
-                        startActivity(intent);
-                        break;*/
-                    /*case 3:
-                        finish();
-                        intent = new Intent(ServiceActivity.this, RegisterMemberLiberia.class);
-                        startActivity(intent);
-                        break;*/
-                    case 2:
-                        finish();
-                        intent = new Intent(ServiceActivity.this, AllSummaryActivity.class);
-                        intent.putExtra(KEY.COUNTRY_ID, sqlH.selectCountryCode());
-                        startActivity(intent);
-                        break;
-                    case 3:
-                        finish();
-                        intent = new Intent(ServiceActivity.this, RegisterLiberia.class);
-                        intent.putExtra("country_code", sqlH.selectCountryCode());
-                        startActivity(intent);
-                        break;
-                }
-                goToDialog.dismiss();
-            }
-        });
-        goToDialog = builder.create();
-        goToDialog.show();
-        int titleDividerId = goToDialog.getContext().getResources().getIdentifier("titleDivider", "id", "android");//("android:id/titleDivider",null,null);
-        //   View titleDivider = activityDialog.findViewById(titleDividerId);
-        View titleDivider = goToDialog.getWindow().getDecorView().findViewById(titleDividerId);
-        if (titleDivider != null)
-            titleDivider.setBackgroundColor(getResources().getColor(R.color.blue));
-        // setAlertDevider();
-
-    }
 }

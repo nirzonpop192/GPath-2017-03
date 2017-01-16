@@ -131,4 +131,37 @@ public class SpinnerLoader {
             spGroup.setSelection(position);
         }
     }
+
+    /**
+     *
+     * @param context refer to the activity which will invoke this method.
+     * @param sqlH database reference
+     * @param cCode country Code
+     * @param spAward spinner view
+     * @param idAward award code
+     * @param strAward award Name
+     *                 This method load the Award Name .
+     *
+     */
+    public static void loadAwardLoader(Context context, SQLiteHandler sqlH,Spinner spAward, String cCode, String idAward,String strAward){
+        int position = 0;
+        String criteria = " WHERE " + SQLiteHandler.ADM_AWARD_TABLE + "." + SQLiteHandler.COUNTRY_CODE_COL + "='" + cCode + "'";
+
+        List<SpinnerHelper> listAward = sqlH.getListAndID(SQLiteHandler.ADM_AWARD_TABLE, criteria, null, false);
+        ArrayAdapter<SpinnerHelper> dataAdapter = new ArrayAdapter<SpinnerHelper>(context, R.layout.spinner_layout, listAward);
+        dataAdapter.setDropDownViewResource(R.layout.spinner_layout);
+        spAward.setAdapter(dataAdapter);
+
+
+        if (idAward != null) {
+            for (int i = 0; i < spAward.getCount(); i++) {
+                String award = spAward.getItemAtPosition(i).toString();
+                if (award.equals(strAward)) {
+                    position = i;
+                }
+            }
+            spAward.setSelection(position);
+        }
+
+    }
 }

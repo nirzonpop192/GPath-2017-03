@@ -593,4 +593,5 @@ Otherwise, initiate to sync and login again.</string>
     <string name="labe_op_mode">Operation Mode</string>
     <string name="label_geo_data">GEO-DATA</string>
     <string name="label_last_sync">Last Sync</string>
+    <string name="type">Type</string>
 </resources>
