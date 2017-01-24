@@ -135,7 +135,7 @@
         </activity>
         -->
         <activity
-            android:name=".activity.sub_activity.service_sub.ServiceRecord"
+            android:name=".activity.sub_activity.service_sub.ServiceRecordDetails"
             android:configChanges="orientation"
             android:label="@string/title_activity_service_record"
             android:launchMode="singleTop"

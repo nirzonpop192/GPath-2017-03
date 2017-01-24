@@ -649,7 +649,6 @@ public class Schema {
                 + SQLiteHandler.GRD_DATE_COL + " VARCHAR(50)  , "
                 + SQLiteHandler.REG_N_STATUS_COL + " VARCHAR(20) , "
                 + SQLiteHandler.GRD_STATUS_COL + " VARCHAR(20)  , "
-
                 + SQLiteHandler.SRV_MIN_DATE_COL + " VARCHAR(50)  , "
                 + SQLiteHandler.SRV_MAX_DATE_COL + " VARCHAR(50)  , "
                 + SQLiteHandler.ENTRY_BY + " VARCHAR(5) , "

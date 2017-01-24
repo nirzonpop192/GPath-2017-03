@@ -412,6 +412,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 break;
 
             case R.id.btnService:
+                finish();
                 Intent iSer = new Intent(getApplicationContext(), ServiceActivity.class);
                 iSer.putExtra(KEY.COUNTRY_ID, idCountry);
                 iSer.putExtra(KEY.STR_COUNTRY, strCountry);
@@ -550,7 +551,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                             + " WHERE (" + SQLiteHandler.BTN_NEW_COL + " = '1' " +
                             " OR " + SQLiteHandler.BTN_SAVE_COL + " = 1" +
                             " OR " + SQLiteHandler.BTN_DEL_COL + " = 1 ) GROUP BY " + " staffAcces." + SQLiteHandler.COUNTRY_CODE_COL;
-                    ;
+
 
                 }
 
@@ -558,14 +559,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         }
 
 
-        // Spinner Drop down elements for District
-        List<SpinnerHelper> listCountry = sqlH.getListAndID(SQLiteHandler.COUNTRY_TABLE, criteria, null, true);
 
-        // Creating adapter for spinner
+        List<SpinnerHelper> listCountry = sqlH.getListAndID(SQLiteHandler.COUNTRY_TABLE, criteria, null, true);
         ArrayAdapter<SpinnerHelper> dataAdapter = new ArrayAdapter<SpinnerHelper>(this, R.layout.spinner_layout, listCountry);
-        // Drop down layout style
         dataAdapter.setDropDownViewResource(R.layout.spinner_layout);
-        // attaching data adapter to spinner
+
         spCountry.setAdapter(dataAdapter);
 
 
@@ -883,7 +881,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 publishProgress(++progressIncremental);
 
                 if (!jObj.isNull("D_T_answer")) {
-//                    Log.d("NIR", "in DTA");
+
 
                     Parser.DTA_Parser(jObj.getJSONArray("D_T_answer"), db);
                 }

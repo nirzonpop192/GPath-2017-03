@@ -1101,18 +1101,52 @@ public class ServiceSpecification extends BaseActivity {
              * A man cannot get 2 service in the same day
              */
             if (diff != 0) {
-                // insert for local device
-                sqlH.addMemberIntoServiceTable(srvData, entryBy, entryDate);
-                // insert for upload in Sync process
-                sqlH.insertIntoUploadTable(serviceTable.insertInToSrvTable());
+                /** check the data exit for Service                                     *                                          */
+                if (sqlH.isMemberExitsSrvTable(srvData)) {
+                    /** update for local device */
+                    sqlH.updateMemberIntoServiceTable(srvData, entryBy, entryDate);
+
+                    /** update Syntax for upload in Sync process */
+                    sqlH.insertIntoUploadTable(serviceTable.updateInToSrvTable());
+                }
+                else {
+                    /** insert for local device */
+                    sqlH.addMemberIntoServiceTable(srvData, entryBy, entryDate);
+                    /** insert for upload in Sync process */
+                    sqlH.insertIntoUploadTable(serviceTable.insertInToSrvTable());
+                }
+
+                /**                                         * min Srv Date                                         */
+                ServiceActivity.saveServiceMinumDate(srvData, srvData.getServiceDTCode(), serviceTable,sqlH);
+
+                /**                                         * max date                                         */
+                ServiceActivity.saveServiceMaxDate(srvData, srvData.getServiceDTCode(), serviceTable,sqlH);
+
+
 
             }
         } /** if the man get service for first time */
         else {
-            sqlH.addMemberIntoServiceTable(srvData, entryBy, entryDate);
-            // insert for upload in Sync process
+            if (sqlH.isMemberExitsSrvTable(srvData)) {
+                /** update for local device */
+                sqlH.updateMemberIntoServiceTable(srvData, entryBy, entryDate);
 
-            sqlH.insertIntoUploadTable(serviceTable.insertInToSrvTable());
+                /** update Syntax for upload in Sync process */
+                sqlH.insertIntoUploadTable(serviceTable.updateInToSrvTable());
+            }
+            else {
+                /** insert for local device */
+                sqlH.addMemberIntoServiceTable(srvData, entryBy, entryDate);
+                /** insert for upload in Sync process */
+                sqlH.insertIntoUploadTable(serviceTable.insertInToSrvTable());
+            }
+
+            /**                                         * min Srv Date                                         */
+            ServiceActivity.saveServiceMinumDate(srvData, srvData.getServiceDTCode(), serviceTable,sqlH);
+
+            /**                                         * max date                                         */
+            ServiceActivity.saveServiceMaxDate(srvData, srvData.getServiceDTCode(), serviceTable,sqlH);
+
         }
     }
 

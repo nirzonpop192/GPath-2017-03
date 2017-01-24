@@ -1743,6 +1743,27 @@ public class SQLServerSyntaxGenerator {
 
         // return insert;
     }
+    public String updateInToSrvTable(){
+        return "update  SrvTable " +
+                "  set WD =" + getWD() +
+
+                " WHERE AdmCountryCode = " + getAdmCountryCode() +
+                " AND AdmDonorCode = " + getAdmDonorCode() +
+                " AND AdmAwardCode = " + getAdmAwardCode() +
+                " AND LayR1ListCode = " + getLayR1ListCode() +
+                " AND LayR2ListCode = " + getLayR2ListCode() +
+                " AND LayR3ListCode = " + getLayR3ListCode() +
+                " AND LayR4ListCode = " + getLayR4ListCode() +
+                " AND HHID = " + getHHID() +
+                " AND MemID = " + getMemID() +
+                " AND ProgCode = " + getProgCode() +
+                " AND SrvCode = " + getSrvCode() +
+                " AND OpCode = " + getOpCode() +
+                " AND OpMonthCode = " + getOpMonthCode() +
+                " AND SrvDT = " + getSrvDT() +
+                " AND SrvSL = " + getSrvSL() +
+                " AND DistFlag = " + getDistFlag() ;
+    }
 
 
     private String previousLayR1ListCode;

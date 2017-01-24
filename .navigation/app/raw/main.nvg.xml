@@ -30,7 +30,7 @@
     <statePointEntry>
       <state      
         class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
-        className = "com.siddiquinoor.restclient.activity.sub_activity.service_sub.ServiceRecord"/>
+        className = "com.siddiquinoor.restclient.activity.sub_activity.service_sub.ServiceRecordDetails"/>
       <point      
         x = "3507"      
         y = "1683"/>

@@ -1,5 +1,4 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -24,6 +23,7 @@
     </RelativeLayout>
     <!--page Title End-->
 
+
     <ScrollView
         android:id="@+id/scv_Controller"
         android:layout_width="match_parent"
@@ -37,15 +37,14 @@
             android:id="@+id/ll_details"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-
             android:orientation="vertical"
             android:paddingLeft="10dp"
-
             android:paddingRight="10dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:baselineAligned="false"
                 android:orientation="horizontal"
                 android:weightSum="1">
                 <!--     label part
@@ -57,11 +56,6 @@
                     android:layout_weight=".65"
                     android:orientation="vertical">
 
-                    <TextView
-                        android:id="@+id/tv_awardLabel"
-                        style="@style/txt_label"
-
-                        android:text="@string/award_label" />
 
                     <TextView
                         style="@style/txt_label"
@@ -77,6 +71,12 @@
                         android:text="@string/service_date_label" />
 
                     <TextView
+
+                        style="@style/txt_label"
+
+                        android:text="@string/award_label" />
+
+                    <TextView
                         style="@style/txt_label"
                         android:text="@string/type" />
 
@@ -86,14 +86,19 @@
                         android:text="@string/criteria_label" />
 
                     <TextView
+                        android:id="@+id/tv_service_GrpCatLabel"
                         style="@style/txt_label"
-
                         android:text="@string/category_label" />
 
                     <TextView
+                        android:id="@+id/tv_service_GrpLabel"
                         style="@style/txt_label"
-
                         android:text="@string/group_label" />
+
+                    <TextView
+                        android:id="@+id/tv_service_LayR4Label"
+                        style="@style/txt_label"
+                        android:text="layR4" />
 
 
                 </LinearLayout>
@@ -103,13 +108,6 @@
                     android:layout_height="wrap_content"
                     android:layout_weight=".35"
                     android:orientation="vertical">
-
-                    <Spinner
-                        android:id="@+id/sp_awardList"
-                        style="@style/spinner_style"
-
-
-                        android:layout_width="match_parent" />
 
 
                     <Spinner
@@ -145,14 +143,20 @@
                     </RelativeLayout>
 
                     <Spinner
+                        android:id="@+id/sp_awardList"
+                        style="@style/spinner_style"
+
+
+                        android:layout_width="match_parent" />
+
+                    <Spinner
                         android:id="@+id/sp_srv_dist_Type"
                         style="@style/spinner_style" />
 
                     <Spinner
                         android:id="@+id/spCriteria"
                         style="@style/spinner_style"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent" />
+                        android:layout_width="match_parent" />
 
                     <Spinner
                         android:id="@+id/sp_srvGroupCategories"
@@ -160,12 +164,14 @@
                         android:layout_width="match_parent" />
 
                     <Spinner
-
                         android:id="@+id/sp_srvGroup"
                         style="@style/spinner_style"
                         android:layout_width="match_parent" />
 
 
+                    <Spinner
+                        android:id="@+id/sp_srvLayR4List"
+                        style="@style/spinner_style" />
                 </LinearLayout>
             </LinearLayout>
 
@@ -184,6 +190,7 @@
                     android:layout_height="35dp"
                     android:layout_alignLeft="@+id/btn_service_search"
                     android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
 
                     android:layout_alignStart="@+id/btn_service_search"
                     android:layout_marginEnd="10dp"
@@ -224,18 +231,103 @@
         </LinearLayout>
 
     </ScrollView>
+    <!--MEMBER DETAILS layout -->
+    <LinearLayout
+        android:id="@+id/lay_MemberDetails"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/scv_Controller"
+        android:layout_marginTop="10dp"
+        android:baselineAligned="false"
+        android:orientation="horizontal"
+        android:paddingLeft="10dp"
+        android:weightSum="1">
 
+
+        <!--     label part        labeling the control -->
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight=".35"
+            android:orientation="vertical">
+
+
+            <TextView
+                style="@style/txt_label"
+                android:text="@string/house_hold_id" />
+
+            <TextView
+                style="@style/txt_label"
+                android:text="@string/member_id" />
+
+            <TextView
+                android:id="@+id/textView3"
+
+                style="@style/txt_label"
+                android:text="@string/mem_name" />
+
+            <TextView
+                style="@style/txt_label"
+
+                android:text="@string/total_days" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight=".65"
+            android:orientation="vertical">
+
+
+            <TextView
+
+                android:id="@+id/srv_tv_details_HHID"
+                style="@style/spinner_style"
+                android:layout_width="match_parent"
+                android:hint="@string/house_hold_id" />
+
+            <TextView
+                android:id="@+id/srv_tv_details_MemID"
+                style="@style/spinner_style"
+                android:layout_width="match_parent"
+
+                android:hint="@string/member_id" />
+
+            <TextView
+                android:id="@+id/srv_tv_details_MemName"
+                style="@style/spinner_style"
+                android:layout_width="match_parent"
+
+
+                android:text="@string/mem_name" />
+
+            <EditText
+                android:id="@+id/srv_edt_total_working_days"
+                style="@style/spinner_style"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/lable_height"
+
+
+                android:inputType="numberSigned"
+                android:text="0" />
+
+
+        </LinearLayout>
+
+    </LinearLayout>
 
     <ListView
-        android:id="@+id/lv_assign"
+        android:id="@+id/lv_ServiceRecording"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/ll_buttonlayer"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_below="@id/scv_Controller"
+        android:layout_below="@id/lay_MemberDetails"
         android:layout_centerVertical="true"
-
         android:layout_marginBottom="2dp"
         android:fadeScrollbars="false"
         android:scrollbarThumbVertical="@drawable/scrollbar_vertical_thumb"

@@ -11,11 +11,9 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -111,50 +109,48 @@ public class AssignActivity extends BaseActivity {
 
 
     // donor code name
-    private static final String USAID = "01";
-    private static final String FFP = "03";
-    private static final String OFDA = "02";
+    public static final String USAID = "01";
+    public static final String FFP = "03";
+    public static final String OFDA = "02";
 
     // award code name
-    private static final String NJIRA = "01";
-    private static final String PEER = "10";
-    private static final String LAUNC = "09";
-    private static final String EC3P = "06";
-    private static final String EBOLA = "07";
-    private static final String RAPID = "08";
+    public static final String NJIRA = "01";
+    public static final String PEER = "10";
+    public static final String LAUNC = "09";
+    public static final String EC3P = "06";
+    public static final String EBOLA = "07";
+    public static final String RAPID = "08";
 
     // program code name
-    private static final String MCHN = "001";
-    private static final String UCT = "008";
-    private static final String AIV = "009";
-    private static final String CFW = "010";
-    private static final String EC3 = "004";
-    private static final String ETU = "005";
-    private static final String REACT = "006";
-    private static final String AGRP = "003";
+    public static final String MCHN = "001";
+    public static final String UCT = "008";
+    public static final String AIV = "009";
+    public static final String CFW = "010";
+    public static final String EC3 = "004";
+    public static final String ETU = "005";
+    public static final String REACT = "006";
+    public static final String AGRP = "003";
 
     //service code
-    private static final String PREGNANT_WOMEN = "01";
-    private static final String LACTATING_MOTHER = "02";
-    private static final String CHILDEN_UNDER_2 = "03";
-    private static final String CHILD_ABOVE_2 = "04";
+    public static final String PW = "01";
+    public static final String LM = "02";
+    public static final String CU2 = "03";
+    public static final String CA2 = "04";
 
-    private static final String EVD_C1 = "01";
-    private static final String CFED_C2 = "02";
-    private static final String PLW_C3 = "03";
-    private static final String MS = "01";
-    private static final String MTS = "01";
-    private static final String MA = "01";
-
-    private static final String AGR = "01";
-    private static final String PG = "03";
-    private static final String IG = "04";
-    private static final String LG = "05";
-    private static final String MG = "06";
-
-    private static final String DDR = "002";
-    private static final String VUL = "01";
-    private static final String FFA = "02";
+    public static final String EVD_C1 = "01";
+    public static final String CFED_C2 = "02";
+    public static final String PLW_C3 = "03";
+    public static final String MS = "01";
+    public static final String MTS = "01";
+    public static final String MA = "01";
+    public static final String AGR = "01";
+    public static final String PG = "03";
+    public static final String IG = "04";
+    public static final String LG = "05";
+    public static final String MG = "06";
+    public static final String DDR = "002";
+    public static final String VUL = "01";
+    public static final String FFA = "02";
 
     private String memberId15D;
     /**
@@ -344,12 +340,7 @@ public class AssignActivity extends BaseActivity {
         pDialog = new ProgressDialog(this);
 
 
-     /*   tv_memberID.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showSoftKeyboard(tv_memberID);
-            }
-        });*/
+
 
         btnGoTo.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -392,16 +383,16 @@ public class AssignActivity extends BaseActivity {
                         switch (proCode) {
                             case MCHN: //PROGRAM CODE MCHN OPEN
                                 switch (srvCode) {
-                                    case PREGNANT_WOMEN:
+                                    case PW:
                                         iSubAssignClass = new Intent(mContext, PW.class);
                                         break;
-                                    case LACTATING_MOTHER:
+                                    case LM:
                                         iSubAssignClass = new Intent(mContext, LM.class);
                                         break;
-                                    case CHILDEN_UNDER_2:
+                                    case CU2:
                                         iSubAssignClass = new Intent(mContext, CU2.class);
                                         break;
-                                    case CHILD_ABOVE_2:
+                                    case CA2:
                                         iSubAssignClass = new Intent(mContext, CA2.class);
                                         break;
                                 }

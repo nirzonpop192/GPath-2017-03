@@ -66,7 +66,7 @@
     <init>();
 }
 
--keep class com.siddiquinoor.restclient.activity.sub_activity.service_sub.ServiceRecord {
+-keep class com.siddiquinoor.restclient.activity.sub_activity.service_sub.ServiceRecordDetails {
     <init>();
 }
 

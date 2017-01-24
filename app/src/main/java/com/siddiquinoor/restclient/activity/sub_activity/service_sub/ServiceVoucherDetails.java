@@ -249,42 +249,60 @@ public class ServiceVoucherDetails extends BaseActivity {
 
                 if (diff != 0) {
                     // insert for local device
-                    testLogDebug();
-                    sqlH.addMemberIntoServiceTable(srvData, EntryBy, EntryDate);
-                    // insert for upload in Sync process
+                    //testLogDebug();
+
+                    if (sqlH.isMemberExitsSrvTable(srvData)) {
+                        /** update for local device */
+                        sqlH.updateMemberIntoServiceTable(srvData, EntryBy, EntryDate);
+
+                        /** update Syntax for upload in Sync process */
+                        sqlH.insertIntoUploadTable(srvTableNsrvExtendedTable.updateInToSrvTable());
+                    }
+                    else {
+                        /** insert for local device */
+                        sqlH.addMemberIntoServiceTable(srvData, EntryBy, EntryDate);
+                        /** insert for upload in Sync process */
+                        sqlH.insertIntoUploadTable(srvTableNsrvExtendedTable.insertInToSrvTable());
+                    }
 
 
-                    /**insert the SQL Server Syntax  upload Table
-                     */
-                    sqlH.insertIntoUploadTable(srvTableNsrvExtendedTable.insertInToSrvTable());
+                    /**                                         * min Srv Date                                         */
+                    ServiceActivity.saveServiceMinumDate(srvData, srvData.getServiceDTCode(), srvTableNsrvExtendedTable,sqlH);
 
-                    Toast.makeText(this, "save successfully", Toast.LENGTH_LONG).show();
+                    /**                                         * max date                                         */
+                    ServiceActivity.saveServiceMaxDate(srvData, srvData.getServiceDTCode(), srvTableNsrvExtendedTable,sqlH);
 
 
                 }
 
 
             } else {
-                testLogDebug();
-                sqlH.addMemberIntoServiceTable(srvData, EntryBy, EntryDate);
-                /**insert the SQL Server Syntax  upload Table
-                 */
-                sqlH.insertIntoUploadTable(srvTableNsrvExtendedTable.insertInToSrvTable());
-                Toast.makeText(this, "save successfully", Toast.LENGTH_SHORT).show();
+               // testLogDebug();
+                if (sqlH.isMemberExitsSrvTable(srvData)) {
+                    /** update for local device */
+                    sqlH.updateMemberIntoServiceTable(srvData, EntryBy, EntryDate);
+
+                    /** update Syntax for upload in Sync process */
+                    sqlH.insertIntoUploadTable(srvTableNsrvExtendedTable.updateInToSrvTable());
+                }
+                else {
+                    /** insert for local device */
+                    sqlH.addMemberIntoServiceTable(srvData, EntryBy, EntryDate);
+                    /** insert for upload in Sync process */
+                    sqlH.insertIntoUploadTable(srvTableNsrvExtendedTable.insertInToSrvTable());
+                }
+
+                /**                                         * min Srv Date                                         */
+                ServiceActivity.saveServiceMinumDate(srvData, srvData.getServiceDTCode(), srvTableNsrvExtendedTable,sqlH);
+
+                /**                                         * max date                                         */
+                ServiceActivity.saveServiceMaxDate(srvData, srvData.getServiceDTCode(), srvTableNsrvExtendedTable,sqlH);
+
+
             }
 
+            Toast.makeText(this, "save successfully", Toast.LENGTH_LONG).show();
 
-
-
-
-                /*testLogDebug();
-            sqlH.addMemberIntoServiceTable(srvData, EntryBy, EntryDate);
-            *//**insert the SQL Server Syntax  upload Table
-             *//*
-            sqlH.insertIntoUploadTable(srvTableNsrvExtendedTable.insertInToSrvTable());
-            Toast.makeText(this,"Data Saved",Toast.LENGTH_SHORT).show();
-
-*/
 
 
         }

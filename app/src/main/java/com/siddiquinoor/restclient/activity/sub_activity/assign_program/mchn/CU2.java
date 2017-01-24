@@ -38,7 +38,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
@@ -348,7 +347,7 @@ public class CU2 extends BaseActivity {
 /**
  *  if data exit in Cu2 table  this method will show
  */
-        tv_dobDate.setText(sqlH.getDOBDate_CU2(assignMem));
+        tv_dobDate.setText(sqlH.getMemCU2DOB(assignMem));
 
 
     }

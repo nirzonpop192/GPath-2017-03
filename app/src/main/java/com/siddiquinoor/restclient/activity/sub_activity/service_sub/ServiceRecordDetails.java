@@ -30,7 +30,7 @@ import com.siddiquinoor.restclient.views.adapters.ServiceRecordListDataModleAdap
 
 import java.util.ArrayList;
 
-public class ServiceRecord extends BaseActivity implements AdapterView.OnItemClickListener {
+public class ServiceRecordDetails extends BaseActivity implements AdapterView.OnItemClickListener {
     private TextView tv_award;
     private TextView tv_criteria;
     private TextView tv_opMonth;
@@ -63,7 +63,7 @@ public class ServiceRecord extends BaseActivity implements AdapterView.OnItemCli
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_service_record);
         viewReference();
-        mcontext = ServiceRecord.this;
+        mcontext = ServiceRecordDetails.this;
         sqlH = new SQLiteHandler(this);
 
         ServiceDataModel sPerson = getIntent().getExtras().getParcelable(KEY.SERVICE_DATA_OBJECT_KEY);
@@ -129,7 +129,7 @@ public class ServiceRecord extends BaseActivity implements AdapterView.OnItemCli
 
 
 
-                iService.putExtra(KEY.DIR_CLASS_NAME_KEY, "ServiceRecord");
+                iService.putExtra(KEY.DIR_CLASS_NAME_KEY, "ServiceRecordDetails");
                 iService.putExtra(KEY.COUNTRY_ID, srvData.getC_code());
                 iService.putExtra(KEY.AWARD_CODE, srvData.getAward_code());
                 iService.putExtra(KEY.AWARD_NAME, srvData.getAwardName());

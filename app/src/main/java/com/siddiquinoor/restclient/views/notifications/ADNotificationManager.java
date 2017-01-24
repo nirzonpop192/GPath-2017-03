@@ -23,6 +23,7 @@ import com.siddiquinoor.restclient.R;
 public class ADNotificationManager {
 
 
+    public     AlertDialog alertDialog;
     /**
      * Function to display simple Confirm Alert Dialog
      *
@@ -91,7 +92,7 @@ public class ADNotificationManager {
      * @param errorMssg -determine the cancelabel
      */
     public void showAlertDialog(Context context, String title, String message, Boolean status, boolean errorMssg) {
-        AlertDialog alertDialog = new AlertDialog.Builder(context).create();
+        this.alertDialog = new AlertDialog.Builder(context).create();
 
         if (errorMssg) {
             alertDialog.setTitle("Error");

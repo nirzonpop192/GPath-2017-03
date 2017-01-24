@@ -8,7 +8,6 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
@@ -18,7 +17,6 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.util.SparseBooleanArray;
-import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,6 +29,7 @@ import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -40,7 +39,7 @@ import android.widget.Toast;
 import com.google.zxing.client.android.Intents;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.siddiquinoor.restclient.R;
-import com.siddiquinoor.restclient.activity.sub_activity.service_sub.ServiceRecord;
+import com.siddiquinoor.restclient.activity.sub_activity.service_sub.ServiceRecordDetails;
 import com.siddiquinoor.restclient.activity.sub_activity.service_sub.ServiceSpecification;
 import com.siddiquinoor.restclient.activity.sub_activity.service_sub.ServiceVoucherDetails;
 import com.siddiquinoor.restclient.fragments.BaseActivity;
@@ -65,8 +64,8 @@ import java.util.List;
 import java.util.Locale;
 
 import static com.siddiquinoor.restclient.manager.SQLiteHandler.AWARD_CODE_COL;
-import static com.siddiquinoor.restclient.manager.SQLiteHandler.COUNTRY_CODE_COL;
-import static com.siddiquinoor.restclient.manager.SQLiteHandler.DONOR_CODE_COL;
+import static com.siddiquinoor.restclient.manager.SQLiteHandler.GROUP_CODE_COL;
+import static com.siddiquinoor.restclient.manager.SQLiteHandler.GROUP_NAME_COL;
 
 
 public class ServiceActivity extends BaseActivity implements View.OnClickListener, AdapterView.OnItemClickListener {
@@ -78,6 +77,16 @@ public class ServiceActivity extends BaseActivity implements View.OnClickListene
     private static final String UCT = "UCT";
     private static final String CFWS = "CFWS";
     private static final String CFWU = "CFWU";
+    public static final String PW = "PW";
+    public static final String IG = "IG";
+    public static final String MG = "MG";
+    public static final String LM = "LM";
+    public static final String CU2 = "CU2";
+    public static final String CA2 = "CA2";
+    public static final String HHR = "HHR";
+    public static final String CFWE = "CFWE";
+    public static final String AGR = "AGR";
+    public static final String MCHN = "MCHN";
     // for log  tag
     private final String TAG = ServiceActivity.class.getName();
 
@@ -88,9 +97,9 @@ public class ServiceActivity extends BaseActivity implements View.OnClickListene
 
     private String strServiceCenter;
     private SQLiteHandler sqlH;
-    private String strAward, strCriteria, strSrvMonth, strGroupCat, strGroup;
+    private String strAward, strCriteria, strSrvMonth, strGroupCat, strGroup, strVLayR4List;
     private String idCountry, idAward, idDonor, idProgram, idCriteria, idService, idOpCode, idOpMonthCode,
-            idSrvCenter, idFdpCode, idMemberSearch, idServiceMonth, idGroupCat, idGroup;
+            idSrvCenter, idFdpCode, idMemberSearch, idServiceMonth, idGroupCat, idGroup, idLayR4List;
     // private String serviceMonthCode;
     private String strOpMonthLabel = null;
     private TextView tv_srvDate;
@@ -119,13 +128,23 @@ public class ServiceActivity extends BaseActivity implements View.OnClickListene
 
     private static int count = 0;
 
-    private Spinner spGroup;
-    private Spinner spGroupCategories;
-    private TextView tv_srvTitleCount;
+    private Spinner spGroupCategories, spGroup, spLayR4List;
+
+    private TextView tv_srvTitleCount, tv_GrpCatLabel, tv_GrpLabel, tv_LayR4Label;
     private boolean fromQR = false;
     private Spinner spDistributionType;
     private String strDistType;
     private String idDistributionType;
+    private String idGrpLayR1Code;
+    private String idGrpLayR2Code;
+    private String idGrpLayR3Code;
+    /**
+     * member details layer
+     */
+    private LinearLayout lay_MemberDetails;
+    private TextView tv_MemberDetails_HHID, tv_MemberDetails_MemID, tv_MemberDetails_MemName;
+    private EditText edt_MemberDetails_working_days;
+    private String wd = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -141,7 +160,7 @@ public class ServiceActivity extends BaseActivity implements View.OnClickListene
         Intent intent = getIntent();
         String countryId;
         String dir = intent.getStringExtra(KEY.DIR_CLASS_NAME_KEY);
-        if (dir.equals("ServiceRecord")) {
+        if (dir.equals("ServiceRecordDetails")) {
 
 
             countryId = intent.getStringExtra(KEY.COUNTRY_ID);
@@ -178,7 +197,7 @@ public class ServiceActivity extends BaseActivity implements View.OnClickListene
 
 
             String memSearchId = "";
-            loadAward(countryId);
+
 
         } else if (dir.equals("ServiceVoucherDetails")) {
 
@@ -212,7 +231,7 @@ public class ServiceActivity extends BaseActivity implements View.OnClickListene
 
             Log.d("NIR0", "idGroupCat :" + idGroupCat + "strGroupCat: " + strGroupCat + " idGroup :" + idGroup + " strGroup" + strGroup);
 
-            loadAward(countryId);
+            //loadAward(countryId);
             loadindingLog(countryId, srDate);
 
             String memSearchId = "";
@@ -230,12 +249,6 @@ public class ServiceActivity extends BaseActivity implements View.OnClickListene
             idSrvCenter = intent.getStringExtra(KEY.SERVICE_CENTER_CODE);
             strServiceCenter = intent.getStringExtra(KEY.SERVICE_CENTER_NAME);
             String srDate = intent.getStringExtra(KEY.SERVICE_DATE);
-
-
-//            opMonthLable = intent.getStringExtra(KEY.OP_MONTH_LABLE);
-//            idOpMonthCode = intent.getStringExtra(KEY.OP_MONTH_CODE);
-//            idOpCode = intent.getStringExtra(KEY.OP_CODE);
-
             idServiceMonth = intent.getStringExtra(KEY.SERVICE_MONTH_CODE);
             strSrvMonth = intent.getStringExtra(KEY.SERVICE_MONTH_NAME);
             tv_srvDate.setText(srDate);
@@ -251,7 +264,7 @@ public class ServiceActivity extends BaseActivity implements View.OnClickListene
 
             Log.d("NIR0", "idGroupCat :" + idGroupCat + "strGroupCat: " + strGroupCat + " idGroup :" + idGroup + " strGroup" + strGroup);
 
-            loadAward(countryId);
+            /// loadAward(countryId);
 
             testLogD(countryId, srDate, "ServiceSpecification");
         } else {
@@ -259,30 +272,25 @@ public class ServiceActivity extends BaseActivity implements View.OnClickListene
 
             countryId = intent.getStringExtra(KEY.COUNTRY_ID);
             // String strCountry = intent.getStringExtra("STR_COUNTRY");
-            Log.d(TAG, "ID_COUNTRY:" + countryId);
-            loadAward(countryId);
+
+
         }
 
 
+        loadServiceCenter(countryId);
 
-            /*
-             * Select All / None DO NOT USE "setOnCheckedChangeListener" here.
-             */
+        /**             * Select All / None DO NOT USE "setOnCheckedChangeListener" here.             */
         checkBox_header.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
 
-                    /*
-                     * Set all the checkbox to True/False
-                     */
+                /**                     * Set all the checkbox to True/False                     */
                 for (int i = 0; i < count; i++) {
                     mChecked.put(i, checkBox_header.isChecked());
                 }
 
-                    /*
-                     * Update View
-                     */
+                /**                     * Update View                     */
                 adapter.notifyDataSetChanged();
 
             }
@@ -367,6 +375,19 @@ public class ServiceActivity extends BaseActivity implements View.OnClickListene
         mContext = ServiceActivity.this;
         viewReference();
         pDialog = new ProgressDialog(mContext);
+        tv_LayR4Label.setText(UtilClass.getLayR4LabelName(mContext, idCountry));
+
+        hidMemberDetailsLayer();
+        showNHideGroupNCat(View.GONE);
+        showNHideLayRList(View.GONE);
+    }
+
+    private void hidMemberDetailsLayer() {
+        lay_MemberDetails.setVisibility(View.GONE);
+    }
+
+    private void showMemberDetailsLayer() {
+        lay_MemberDetails.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -460,84 +481,6 @@ public class ServiceActivity extends BaseActivity implements View.OnClickListene
         }
     }
 
-    /**
-     * this method will convert XML view into the Java View Object  .
-     */
-
-    private void viewReference() {
-        spAward = (Spinner) findViewById(R.id.sp_awardList);
-        spCriteria = (Spinner) findViewById(R.id.spCriteria);
-        spServiceCenter = (Spinner) findViewById(R.id.spServiceCenter);
-        spServiceMonth = (Spinner) findViewById(R.id.spServiceMonth);
-        spGroupCategories = (Spinner) findViewById(R.id.sp_srvGroupCategories);
-        spGroup = (Spinner) findViewById(R.id.sp_srvGroup);
-
-        tv_srvDate = (TextView) findViewById(R.id.tv_srvDate);
-        btnHome = (Button) findViewById(R.id.btnHomeFooter);
-
-        btnSave = (Button) findViewById(R.id.btn_service_save);
-        btnSummary = (Button) findViewById(R.id.btnRegisterFooter);
-        mListView = (ListView) findViewById(R.id.lv_assign);
-        btn_search = (Button) findViewById(R.id.btn_service_search);
-        edt_srvMMSerach = (EditText) findViewById(R.id.edt_service_memberSearch);
-
-        spDistributionType = (Spinner) findViewById(R.id.sp_srv_dist_Type);
-
-        setUpSummaryButton();
-//        setUpGotoButton();
-        addIconHomeButton();
-        setUpSaveButton();
-        /**
-         * Header Check Box
-         */
-
-        final View headerView = getLayoutInflater().inflate(R.layout.title_service_listview_header,
-                mListView, false);
-
-        checkBox_header = (CheckBox) headerView.findViewById(R.id.cb_ServiceCheckedAll);
-        mListView.addHeaderView(headerView);
-
-
-        tv_srvTitleCount = (TextView) findViewById(R.id.tv_srvTitleCount);
-    }
-
-    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
-
-    private void setUpSummaryButton() {
-        btnSummary.setText("");
-        Drawable summeryImage = getResources().getDrawable(R.drawable.summession_b);
-        btnSummary.setCompoundDrawablesRelativeWithIntrinsicBounds(summeryImage, null, null, null);
-        btnSummary.setPadding(180, 10, 180, 10);
-    }
-
-    /**
-     * Icon set by the method
-     */
- /*   private void setUpGotoButton() {
-        btnHome.setText("");
-        Drawable imageGoto = getResources().getDrawable(R.drawable.goto_forward);
-        btnHome.setCompoundDrawablesRelativeWithIntrinsicBounds(imageGoto, null, null, null);
-        btnHome.setPadding(180, 10, 180, 10);
-    }
-*/
-    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
-    private void addIconHomeButton() {
-
-        btnHome.setText("");
-        Drawable imageHome = getResources().getDrawable(R.drawable.home_b);
-        btnHome.setCompoundDrawablesRelativeWithIntrinsicBounds(imageHome, null, null, null);
-
-
-        btnHome.setPadding(180, 5, 180, 5);
-    }
-
-    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
-    private void setUpSaveButton() {
-        btnSave.setText("");
-        Drawable saveImage = getResources().getDrawable(R.drawable.save_b);
-        btnSave.setCompoundDrawablesRelativeWithIntrinsicBounds(saveImage, null, null, null);
-        btnSave.setPadding(380, 10, 380, 10);
-    }
 
     @Override
     public void onClick(View v) {
@@ -548,7 +491,7 @@ public class ServiceActivity extends BaseActivity implements View.OnClickListene
                 break;
             case R.id.btn_service_save:
 
-                saveServicedData();
+                saveData();
 
                 break;
 
@@ -572,222 +515,375 @@ public class ServiceActivity extends BaseActivity implements View.OnClickListene
      * Save  data
      */
 
-    private void saveServicedData() {
+    private void saveData() {
+
+        String wd = null;
         String serviceDate = tv_srvDate.getText().toString();
-        Log.d(TAG, " service date :" + serviceDate);
 
-        if (serviceDate.equals("") || serviceDate.equals("yyyy-mm-dd") || serviceDate.equals("Date")) {
-
-
+        /** *  Check the is service date  valid date or not  */
+        if (serviceDate.equals("") || serviceDate.equals("yyyy-mm-dd") || serviceDate.equals("Date"))
             erroDialog.showErrorDialog(mContext, "Please select a Date ");
-        } else if (idSrvCenter.equals("00")) {
+        else if (idSrvCenter.equals("00"))
             erroDialog.showErrorDialog(mContext, "Please select Service Center ");
-        } else try {
+        else try {
 
-            dateRange = sqlH.getDateRangeForService(idCountry, idOpMonthCode);
-            String start_date = dateRange.get("sdate");
-            String end_date = dateRange.get("edate");
-            idOpCode = dateRange.get("opCode");
-
-            strOpMonthLabel = dateRange.get("opMonthLable");//"opMCode"
-
-//      for check the value      Log.d(TAG, " idOpMonthCode  :" + idOpMonthCode + " idOpCode  :" + idOpCode + " idOpMonthCode : " + idOpMonthCode + " strOpMonthLabel : " + strOpMonthLabel);
-
-            if (start_date != null && end_date != null) {
-                if (!getValidDateRangeUSAFormat(serviceDate, start_date, end_date)) {
-
-                    erroDialog.showErrorDialog(mContext, "Service date is not within the valid range. Save attempt denied");
-
-                } else if (adapter.isArrayListNull()) {
-
-                    erroDialog.showErrorDialog(mContext, "No records selected to save.");
-
-                } else {
-
-                    ArrayList<ServiceDataModel> alist = new ArrayList<ServiceDataModel>();
-                    alist = adapter.getArrayList();
-
-                    String srvName;
-                    String progName;
-                    srvName = sqlH.getServiceShortName(idProgram, idService);
-                    progName = sqlH.getProgramShortName(idAward, idDonor, idProgram);
-
-                    String wd = null;
-                    Log.d(TAG, "In Save Method idAward:" + idAward + " idProgram:" + idProgram + " idService: " + idService);
-                    switch (srvName) {
-
-                        case FFA:
-                        case C1:
-                        case C2:
-                        case C3:
-                            switch (progName) {
-
-                                case DRR:
-                                    switch (idDistributionType) {
-                                        case DistributionActivity.NONE:
-                                            break;
-                                        case DistributionActivity.FOOD_TYPE:
-                                            wd = sqlH.get_ProgSrvDefaultDays(idCountry, idDonor, idAward, idProgram, idService, "FoodFlag");
-                                            break;
-                                        case DistributionActivity.NON_FOOD_TYPE:
-                                            wd = sqlH.get_ProgSrvDefaultDays(idCountry, idDonor, idAward, idProgram, idService, "NFoodFlag");
-                                            break;
-                                        case DistributionActivity.CASH_TYPE:
-                                            wd = sqlH.get_ProgSrvDefaultDays(idCountry, idDonor, idAward, idProgram, idService, "CashFlag");
-                                            break;
-                                        case DistributionActivity.VOUCHER_TYPE:
-                                            wd = sqlH.get_ProgSrvDefaultDays(idCountry, idDonor, idAward, idProgram, idService, "VOFlag");
-                                            break;
-                                    }
+                dateRange = sqlH.getDateRangeForService(idCountry, idOpMonthCode);
+                String start_date = dateRange.get("sdate");
+                String end_date = dateRange.get("edate");
+                idOpCode = dateRange.get("opCode");
+                strOpMonthLabel = dateRange.get("opMonthLable");
 
 
-                                    Log.d("SAVE", "wd:" + wd);
-                                    break;
-                                case UCT:
-                                    wd = sqlH.get_ProgSrvDefaultDays(idCountry, idDonor, idAward, idProgram, idService, "CashFlag");
-                                    break;
-                            }
-                            break;
-                    }
+                if (start_date != null && end_date != null) {
+                    if (!getValidDateRangeUSAFormat(serviceDate, start_date, end_date)) {
+                        erroDialog.showErrorDialog(mContext, "Service date is not within the valid range. Save attempt denied");
+
+                    } else if (adapter.isArrayListNull()) {
+
+                        erroDialog.showErrorDialog(mContext, "No records selected to save.");
+
+                    } else {
+
+                        ArrayList<ServiceDataModel> alist = new ArrayList<ServiceDataModel>();
+                        alist = adapter.getArrayList();
+
+                        String srvName;
+                        String progName;
+                        /***
+                         * get program and service  name
+                         */
+                        srvName = sqlH.getServiceShortName(idProgram, idService);
+                        progName = sqlH.getProgramShortName(idAward, idDonor, idProgram);
 
 
-                    try {
-                        String EntryBy = getStaffID();
-                        String EntryDate = getDateTime();
+/**
+ * must implement below code
+ */
+                        switch (srvName) {
+
+                            case FFA:
+                            case C1:
+                            case C2:
+                            case C3:
+                            case MG:
+                            case IG:
+                                switch (progName) {
+
+                                    case DRR:
+                                    case AGR:
+                                    case CFWS:
+                                    case CFWU:
 
 
-                        for (ServiceDataModel srvMemData : alist) {
-                            srvMemData.setOpCode(idOpCode);
-                            srvMemData.setOpMontheCode(idOpMonthCode);
-                            srvMemData.setWorkingDay(wd);
+                                        if ((!srvName.equals(MG) && !srvName.equals(IG))) {
+
+                                            if (checkMultipleCheckedOnGrid(idCountry, idDonor, idAward, idProgram)) {
+
+                                                erroDialog.showErrorDialog(mContext, "Sure to apply default days for selected IDs?");
+                                                erroDialog.alertDialog.setButton("Ok", new DialogInterface.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(DialogInterface dialog, int which) {
+                                                        defaulftWDIntial();
+
+
+                                                    }
+                                                });
+
+                                                break;
+                                            } if (!checkOtherParameterIsGiven(srvName, progName, idCountry, idDonor, idAward, idProgram)) {
+
+                                                erroDialog.showErrorDialog(mContext, "Invalid Attempt");
+
+                                                return;
+                                            }
+
+
+                                        }
+
+
+                                        break;
+
+                                }
+                                break;
+                        }
+
+
+                        wd = this.wd;
+                        if (wd == null || wd.equals("0")) {
+                            wd = sqlH.get_ProgSrvDefaultDays(idCountry, idDonor, idAward, idProgram, idService, idDistributionType);
+                        }
+
+
+                        Log.d("MOR11", "wd:" + wd + "\n idDistributionType:" + idDistributionType + " idService: " + idService);
+
+                        try {
+                            String EntryBy = getStaffID();
+                            String EntryDate = getDateTime();
+
+
+                            for (ServiceDataModel srvMemData : alist) {
+                                srvMemData.setOpCode(idOpCode);
+                                srvMemData.setOpMontheCode(idOpMonthCode);
+                                srvMemData.setWorkingDay(wd);
 //                            Log.d("SAVE", "Working  Daya setWorkingDay:" + srvMemData.getWorkingDay());
 
 
-                            srvMemData.setServiceSLCode(srvMemData.getServiceSLCode());
-                            srvMemData.setServiceDTCode(serviceDate);
-                            srvMemData.setServiceStatusCode("O");
-                            srvMemData.setServiceCenterCode(idSrvCenter);
-                            srvMemData.setFPDCode(idFdpCode);
+                                srvMemData.setServiceSLCode(srvMemData.getServiceSLCode());
+                                srvMemData.setServiceDTCode(serviceDate);
+                                srvMemData.setServiceStatusCode("O");
+                                srvMemData.setServiceCenterCode(idSrvCenter);
+                                srvMemData.setFPDCode(idFdpCode);
 
-                            srvMemData.setDistFlag(idDistributionType);
+                                srvMemData.setDistFlag(idDistributionType);
 
-
-                            /**
-                             * get last Serviced Date
-                             */
-                            String lastServicedDate = sqlH.getLastServiceDate(srvMemData);
-
-                            long dayDifference = 0;
-                            SimpleDateFormat myFormat = new SimpleDateFormat("MM-dd-yyyy", Locale.ENGLISH);
-                            SQLServerSyntaxGenerator sqlServerSyntax = new SQLServerSyntaxGenerator();
-
-                            sqlServerSyntax.setAdmCountryCode(srvMemData.getC_code());
-                            sqlServerSyntax.setAdmDonorCode(srvMemData.getDonor_code());
-                            sqlServerSyntax.setAdmAwardCode(srvMemData.getAward_code());
-                            sqlServerSyntax.setLayR1ListCode(srvMemData.getDistrictCode());
-                            sqlServerSyntax.setLayR2ListCode(srvMemData.getUpazillaCode());
-                            sqlServerSyntax.setLayR3ListCode(srvMemData.getUnitCode());
-                            sqlServerSyntax.setLayR4ListCode(srvMemData.getVillageCode());
-                            sqlServerSyntax.setHHID(srvMemData.getHHID());
-                            sqlServerSyntax.setMemID(srvMemData.getMemberId());
-                            sqlServerSyntax.setProgCode(srvMemData.getProgram_code());
-                            sqlServerSyntax.setSrvCode(srvMemData.getService_code());
-                            sqlServerSyntax.setOpCode(srvMemData.getOpCode());
-                            sqlServerSyntax.setOpMonthCode(srvMemData.getOpMontheCode());
-                            sqlServerSyntax.setSrvSL(srvMemData.getServiceSLCode());
-                            sqlServerSyntax.setSrvCenterCode(srvMemData.getServiceCenterCode());
-                            sqlServerSyntax.setSrvDT(srvMemData.getServiceDTCode());
-                            sqlServerSyntax.setSrvStatus(srvMemData.getServiceStatusCode());
-                            sqlServerSyntax.setFDPCode(idFdpCode);
-                            sqlServerSyntax.setWD(srvMemData.getWorkingDay());
-                            sqlServerSyntax.setEntryBy(EntryBy);
-                            sqlServerSyntax.setEntryDate(EntryDate);
-                            sqlServerSyntax.setDistFlag(idDistributionType);
-                            /**
-                             * if the man get service more than one time
-                             */
-                            if (!lastServicedDate.equals("")) {
-                                try {
-                                    Date date1 = myFormat.parse(serviceDate);
-                                    Date date2 = myFormat.parse(lastServicedDate);
-                                    dayDifference = date2.getTime() - date1.getTime();
-
-                                } catch (ParseException e) {
-                                    e.printStackTrace();
-                                }
 
                                 /**
-                                 * if the last serviced Date & present Service date are not Same
-                                 * than the data will be inserted
-                                 * A man cannot get 2 service in the same day
+                                 * get last Serviced Date
                                  */
-                                if (dayDifference != 0) {
-                                    // insert for local device
-                                    sqlH.addMemberIntoServiceTable(srvMemData, EntryBy, EntryDate);
-                                    // insert for upload in Sync process
-                                    sqlH.insertIntoUploadTable(sqlServerSyntax.insertInToSrvTable());
+                                String lastServicedDate = sqlH.getLastServiceDate(srvMemData);
+
+                                long dayDifference = 0;
+                                SimpleDateFormat myFormat = new SimpleDateFormat("MM-dd-yyyy", Locale.ENGLISH);
+                                SQLServerSyntaxGenerator sqlServerSyntax = new SQLServerSyntaxGenerator();
+
+                                sqlServerSyntax.setAdmCountryCode(srvMemData.getC_code());
+                                sqlServerSyntax.setAdmDonorCode(srvMemData.getDonor_code());
+                                sqlServerSyntax.setAdmAwardCode(srvMemData.getAward_code());
+                                sqlServerSyntax.setLayR1ListCode(srvMemData.getDistrictCode());
+                                sqlServerSyntax.setLayR2ListCode(srvMemData.getUpazillaCode());
+                                sqlServerSyntax.setLayR3ListCode(srvMemData.getUnitCode());
+                                sqlServerSyntax.setLayR4ListCode(srvMemData.getVillageCode());
+                                sqlServerSyntax.setHHID(srvMemData.getHHID());
+                                sqlServerSyntax.setMemID(srvMemData.getMemberId());
+                                sqlServerSyntax.setProgCode(srvMemData.getProgram_code());
+                                sqlServerSyntax.setSrvCode(srvMemData.getService_code());
+                                sqlServerSyntax.setOpCode(srvMemData.getOpCode());
+                                sqlServerSyntax.setOpMonthCode(srvMemData.getOpMontheCode());
+                                sqlServerSyntax.setSrvSL(srvMemData.getServiceSLCode());
+                                sqlServerSyntax.setSrvCenterCode(srvMemData.getServiceCenterCode());
+                                sqlServerSyntax.setSrvDT(srvMemData.getServiceDTCode());
+                                sqlServerSyntax.setSrvStatus(srvMemData.getServiceStatusCode());
+                                sqlServerSyntax.setFDPCode(idFdpCode);
+                                sqlServerSyntax.setWD(srvMemData.getWorkingDay());
+                                sqlServerSyntax.setEntryBy(EntryBy);
+                                sqlServerSyntax.setEntryDate(EntryDate);
+                                sqlServerSyntax.setDistFlag(idDistributionType);
+                                /**
+                                 * if the man get service more than one time
+                                 */
+                                if (!lastServicedDate.equals("")) {
+                                    try {
+                                        Date date1 = myFormat.parse(serviceDate);
+                                        Date date2 = myFormat.parse(lastServicedDate);
+                                        dayDifference = date2.getTime() - date1.getTime();
+
+                                    } catch (ParseException e) {
+                                        e.printStackTrace();
+                                    }
+
                                     /**
-                                     * min Srv Date
+                                     * if the last serviced Date & present Service date are not Same
+                                     * than the data will be inserted
+                                     * A man cannot get 2 service in the same day
                                      */
-                                    saveServiceMinumDate(srvMemData, serviceDate, sqlServerSyntax);
-                                    /**
-                                     * max date
-                                     */
-                                    saveServiceMaxDate(srvMemData, serviceDate, sqlServerSyntax);
+                                    if (dayDifference != 0) {
+                                        /** check the data exit for Service                                     *                                          */
+                                        if (sqlH.isMemberExitsSrvTable(srvMemData)) {
+                                            /** update for local device */
+                                            sqlH.updateMemberIntoServiceTable(srvMemData, EntryBy, EntryDate);
+
+                                            /** update Syntax for upload in Sync process */
+                                            sqlH.insertIntoUploadTable(sqlServerSyntax.updateInToSrvTable());
+                                        } else {
+                                            /** insert for local device */
+                                            sqlH.addMemberIntoServiceTable(srvMemData, EntryBy, EntryDate);
+                                            /** insert for upload in Sync process */
+                                            sqlH.insertIntoUploadTable(sqlServerSyntax.insertInToSrvTable());
+                                        }
 
 
-                                    /**  if it is none food than save automatically Service Extended table fgf*/
+                                        /**                                         * min Srv Date                                         */
+                                        saveServiceMinumDate(srvMemData, serviceDate, sqlServerSyntax, sqlH);
+
+                                        /**                                         * max date                                         */
+                                        saveServiceMaxDate(srvMemData, serviceDate, sqlServerSyntax, sqlH);
+
+
+                                        /**  if it is none food than save automatically Service Extended table fgf*/
+
+
+                                        /**                                         * none food flag                                         */
+                                        saveNoneFoodProgram(srvMemData, sqlServerSyntax, EntryBy, EntryDate);
+                                    } else {
+                                        /***
+                                         * try to edit section
+                                         */
+                                        /** update for local device */
+                                        sqlH.updateMemberIntoServiceTable(srvMemData, EntryBy, EntryDate);
+
+                                        /** update Syntax for upload in Sync process */
+                                        sqlH.insertIntoUploadTable(sqlServerSyntax.updateInToSrvTable());
+                                    }
+                                } /** if the man get service for first time */
+                                else {
+                                    /** check the data exit for Service                                     *                                          */
+                                    if (sqlH.isMemberExitsSrvTable(srvMemData)) {
+                                        /** update for local device */
+                                        sqlH.updateMemberIntoServiceTable(srvMemData, EntryBy, EntryDate);
+
+                                        /** update Syntax for upload in Sync process */
+                                        sqlH.insertIntoUploadTable(sqlServerSyntax.updateInToSrvTable());
+                                    } else {
+                                        /** insert for local device */
+                                        sqlH.addMemberIntoServiceTable(srvMemData, EntryBy, EntryDate);
+                                        /** insert for upload in Sync process */
+                                        sqlH.insertIntoUploadTable(sqlServerSyntax.insertInToSrvTable());
+                                    }
+                                    /**
+                                     * get SrvMinDate
+                                     */
+                                    saveServiceMinumDate(srvMemData, serviceDate, sqlServerSyntax, sqlH);
+
+                                    /**
+                                     * get  max date
+                                     */
+                                    saveServiceMaxDate(srvMemData, serviceDate, sqlServerSyntax, sqlH);
 
 
                                     /**
                                      * none fodd flag
                                      */
                                     saveNoneFoodProgram(srvMemData, sqlServerSyntax, EntryBy, EntryDate);
-                                }
-                            } /** if the man get service for first time */
-                            else {
-                                sqlH.addMemberIntoServiceTable(srvMemData, EntryBy, EntryDate);
-                                // insert for upload in Sync process
-                                sqlH.insertIntoUploadTable(sqlServerSyntax.insertInToSrvTable());
-                                /**
-                                 * SrvMinDate
-                                 */
-                                saveServiceMinumDate(srvMemData, serviceDate, sqlServerSyntax);
-
-                                /**
-                                 * max date
-                                 */
-                                saveServiceMaxDate(srvMemData, serviceDate, sqlServerSyntax);
 
 
-                                /**
-                                 * none fodd flag
-                                 */
-                                saveNoneFoodProgram(srvMemData, sqlServerSyntax, EntryBy, EntryDate);
+                                }// end of the else
 
 
-                            }// end of the else
+                            }// end of for
 
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
 
-                        }// end of for
-
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                    }
-
-                    idMemberSearch = "";
-                    Toast.makeText(getApplicationContext(), "Saved Successfully", Toast.LENGTH_LONG).show();
+                        idMemberSearch = "";
+                        Toast.makeText(getApplicationContext(), "Saved Successfully", Toast.LENGTH_LONG).show();
 
                  /*   LoadingList loadList = new LoadingList(idCountry, idDonor, idAward, idProgram, idService, idMemberSearch, idOpMonthCode, strOpMonthLabel, idOpMonthCode, idSrvCenter, serviceDate, idGroup);
                     loadList.execute();*/
-                    loadServiceListView(idCountry, idDonor, idAward, idProgram, idService, idMemberSearch, idOpMonthCode, strOpMonthLabel, idOpMonthCode, serviceDate, idSrvCenter, idGroup);
-                }
+                        loadServiceListView(idCountry, idDonor, idAward, idProgram, idService, idMemberSearch, idOpMonthCode, strOpMonthLabel, idOpMonthCode, serviceDate, idSrvCenter, idGroup);
+                    }
 
+                }
+            } catch (ParseException e) {
+                e.printStackTrace();
             }
-        } catch (ParseException e) {
-            e.printStackTrace();
+
+    }
+
+    private void defaulftWDIntial() {
+        this.wd = sqlH.get_ProgSrvDefaultDays(idCountry, idDonor, idAward, idProgram, idService, idDistributionType);
+    }
+
+
+    private boolean checkOtherParameterIsGiven(String srvName, String progName, String cCode, String donorCode, String awardCode, String progCode) {
+
+        boolean flag = true;
+
+
+        switch (srvName) {
+            case C1:
+            case C2:
+            case C3:
+            case FFA:
+                switch (progName) {
+                    case CFWS:
+                    case CFWU:
+                    case DRR:
+                    case UCT:
+
+                        flag = lay_MemberDetails.getVisibility() == View.VISIBLE;// lay_MemberDetails.getVisibility()==View.VISIBLE ? true : false;
+                        this.wd = edt_MemberDetails_working_days.getText().toString();
+                        flag = (!this.wd.equals("0") && !wd.isEmpty() && this.wd != null);
+
+                        break;
+                }
+                break;
+            case MG:
+                flag = lay_MemberDetails.getVisibility() == View.VISIBLE;  //divMemberDetails.Visible ? true : false;
+                break;
+            case IG:
+                flag = lay_MemberDetails.getVisibility() == View.VISIBLE;
+                break;
+        }
+        if (idDistributionType.equals("VoFlag") && !sqlH.checkAdmCountryProgramsVoucherFlag(cCode, donorCode, awardCode, progCode)) {
+            flag = lay_MemberDetails.getVisibility() == View.VISIBLE;
+        }
+        if (!flag) {
+            hidMemberDetailsLayer();
+        }
+        return flag;
+    }
+
+    private boolean checkMultipleCheckedOnGrid(String cCode, String donorCode, String awardCode, String progCode) {
+
+
+        int count = 0;
+        boolean flag = true;
+        if (sqlH.checkAdmCountryProgramsVoucherFlag(cCode, donorCode, awardCode, progCode)) {
+            /***
+             * for list view
+             */
+            for (int i = 0; i < adapter.getCount(); i++) {
+
+                /***
+                 * check Itm Selector.
+                 */
+                if (mChecked.get(i)) {
+                    count++;
+
+                    Log.d("AAA","pos: "+i+" mChecked.get(i)"+ mChecked.get(i));
+                }
+                if (count < 2) {
+                    Log.d("AAA","false: ");
+                    flag = false;
+                    break;
+                }
+            }
+
+        } else {
+            /***
+             *  todo: for  grdExtendedSrvMemberList think about it later
+             *  do not delete
+             */
+
+            for (int i = 0; i < adapter.getCount(); i++) {
+
+                /***
+                 * check Itm Selector.
+                 */
+                if (mChecked.get(i)) {
+                    count++;
+
+                    Log.d("AAA","pos: "+i+" mChecked.get(i)"+ mChecked.get(i)+"count:");
+                }
+                if (count <2) {
+                    Log.d("AAA","false: ");
+                    flag = false;
+                    break;
+                }
+            }
+
         }
 
+        /***
+         *  details page related
+         */
+    /*    if (!flag)
+        {
+            HidMemDetailsGrid();
+        }*/
+        return flag;
+//        return false;
     }
 
     private void saveNoneFoodProgram(ServiceDataModel srv_memData, SQLServerSyntaxGenerator syntax, String entryBy, String entryDate) {
@@ -822,7 +918,7 @@ public class ServiceActivity extends BaseActivity implements View.OnClickListene
         }
     }
 
-    public void saveServiceMinumDate(ServiceDataModel data, String serviceDate, SQLServerSyntaxGenerator sqlServerSyntax) {
+    public static void saveServiceMinumDate(ServiceDataModel data, String serviceDate, SQLServerSyntaxGenerator sqlServerSyntax, SQLiteHandler sqlH) {
         String srvMinimumDate = sqlH.get_MemberMinSrvDate(data.getC_code(), data.getDonor_code(), data.getAward_code(), data.getDistrictCode(), data.getUpazillaCode(), data.getUnitCode(),
                 data.getVillageCode(), data.getHHID(), data.getMemberId(), data.getProgram_code(), data.getService_code());
         if (srvMinimumDate.length() > 0) {
@@ -853,7 +949,7 @@ public class ServiceActivity extends BaseActivity implements View.OnClickListene
     }
 
 
-    public void saveServiceMaxDate(ServiceDataModel data, String serviceDate, SQLServerSyntaxGenerator sqlServerSyntax) {
+    public static void saveServiceMaxDate(ServiceDataModel data, String serviceDate, SQLServerSyntaxGenerator sqlServerSyntax, SQLiteHandler sqlH) {
         String srvMaximumDate = sqlH.get_MemberMaxSrvDate(data.getC_code(), data.getDonor_code(), data.getAward_code(), data.getDistrictCode(), data.getUpazillaCode(), data.getUnitCode(),
                 data.getVillageCode(), data.getHHID(), data.getMemberId(), data.getProgram_code(), data.getService_code());
         if (srvMaximumDate.length() > 0) {
@@ -940,22 +1036,27 @@ public class ServiceActivity extends BaseActivity implements View.OnClickListene
             , final String progCode, final String grpCateCode, final String strSrvDate, final String srvCenterCode) {
 
         int position = 0;
-        String criteria = " WHERE " + SQLiteHandler.COUNTRY_CODE_COL + " = '" + cCode + "' "
+
+
+        String criteria = "SELECT  " + SQLiteHandler.GRP_LAY_R1_LIST_CODE_COL + "||"
+                + SQLiteHandler.GRP_LAY_R2_LIST_CODE_COL + "||" +
+                SQLiteHandler.GRP_LAY_R3_LIST_CODE_COL + "||"
+
+                + GROUP_CODE_COL
+
+                + " , " + GROUP_NAME_COL + " FROM " + SQLiteHandler.COMMUNITY_GROUP_TABLE + " WHERE " + SQLiteHandler.COUNTRY_CODE_COL + " = '" + cCode + "' "
                 + " AND " + SQLiteHandler.DONOR_CODE_COL + " = '" + donorCode + "' "
                 + " AND " + AWARD_CODE_COL + " = '" + awardCode + "' "
                 + " AND " + SQLiteHandler.PROGRAM_CODE_COL + " = '" + progCode + "' "
                 + " AND " + SQLiteHandler.GROUP_CAT_CODE_COL + " = '" + grpCateCode + "' "
-                + " AND " + SQLiteHandler.SERVICE_CENTER_CODE_COL + " = '" + srvCenterCode + "' ";
-        Log.d("MOR", criteria);
+                + " AND " + SQLiteHandler.SERVICE_CENTER_CODE_COL + " = '" + srvCenterCode + "' "
+                + " AND " + SQLiteHandler.GRP_LAY_R3_LIST_CODE_COL + " != '-' "
+                + " GROUP BY " + SQLiteHandler.GROUP_NAME_COL + " ";
 
-        // Spinner Drop down elements for District
-        List<SpinnerHelper> listAward = sqlH.getListAndID(SQLiteHandler.COMMUNITY_GROUP_TABLE, criteria, null, false);
 
-        // Creating adapter for spinner
+        List<SpinnerHelper> listAward = sqlH.getListAndID(SQLiteHandler.CUSTOM_QUERY, criteria, null, false);
         ArrayAdapter<SpinnerHelper> dataAdapter = new ArrayAdapter<SpinnerHelper>(this, R.layout.spinner_layout, listAward);
-        // Drop down layout style
         dataAdapter.setDropDownViewResource(R.layout.spinner_layout);
-        // attaching data adapter to spinner
         spGroup.setAdapter(dataAdapter);
 
 
@@ -974,9 +1075,22 @@ public class ServiceActivity extends BaseActivity implements View.OnClickListene
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 strGroup = ((SpinnerHelper) spGroup.getSelectedItem()).getValue();
-                idGroup = ((SpinnerHelper) spGroup.getSelectedItem()).getId();
-                Log.d("HEO", "Group  ,idGroup:" + idGroup + " strGroup : " + strGroup);
-                if (idGroup.length() > 2) {
+                String groupCodeWithlayer = ((SpinnerHelper) spGroup.getSelectedItem()).getId();
+
+
+// for test purpose
+                //  loadServiceListView(idCountry, idDonor, idAward, idProgram, idService, idMemberSearch, idOpMonthCode, strOpMonthLabel, idOpMonthCode, strSrvDate, idSrvCenter, idGroup);
+                if (groupCodeWithlayer.length() > 2) {
+
+                    idGrpLayR1Code = groupCodeWithlayer.substring(0, 2);
+                    idGrpLayR2Code = groupCodeWithlayer.substring(2, 4);
+                    idGrpLayR3Code = groupCodeWithlayer.substring(4, 6);
+                    idGroup = groupCodeWithlayer.substring(6);
+
+                    Log.d("MOR22", "grpLayR1Code:" + idGrpLayR2Code + "\n" +
+                            "grpLayR2Code:" + idGrpLayR2Code + "\n" +
+                            "grpLayR3Code:" + idGrpLayR2Code + "\n" +
+                            "idGroup:" + idGroup);
                     /**   working*/
               /*      LoadingList loadlist = new LoadingList(idCountry, idDonor, idAward, idProgram, idService, idMemberSearch, idOpMonthCode, strOpMonthLabel, idOpMonthCode, strSrvDate, idSrvCenter, idGroup);
                     loadlist.execute();*/
@@ -998,6 +1112,43 @@ public class ServiceActivity extends BaseActivity implements View.OnClickListene
 
 
     /**
+     * LOAD :: Village :loadLayR4List
+     */
+    private void loadLayR4List(String cCode) {
+
+        int position = 0;
+        List<SpinnerHelper> listVillage = sqlH.getListAndID(SQLiteHandler.VILLAGE_TABLE, SQLiteQuery.layR4ListServicePage_sql(), cCode, false);
+        ArrayAdapter<SpinnerHelper> dataAdapter = new ArrayAdapter<SpinnerHelper>(this, R.layout.spinner_layout, listVillage);
+        dataAdapter.setDropDownViewResource(R.layout.spinner_layout);
+        spLayR4List.setAdapter(dataAdapter);
+
+        if (idLayR4List != null) {
+            for (int i = 0; i < spLayR4List.getCount(); i++) {
+                String village = spLayR4List.getItemAtPosition(i).toString();
+                if (village.equals(strVLayR4List)) {
+                    position = i;
+                }
+            }
+            spLayR4List.setSelection(position);
+        }
+
+
+        spLayR4List.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                strVLayR4List = ((SpinnerHelper) spLayR4List.getSelectedItem()).getValue();
+                idLayR4List = ((SpinnerHelper) spLayR4List.getSelectedItem()).getId();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+    }
+
+
+    /**
      * LOAD :: GroupCategory
      *
      * @param cCode     Adm Country Code
@@ -1008,34 +1159,8 @@ public class ServiceActivity extends BaseActivity implements View.OnClickListene
     private void loadGroupCategory(final String cCode, String donorCode, String awardCode,
                                    final String progCode, final String strSrvDate, final String srvCenterCode) {
 
-        int position = 0;
-        String criteria = " WHERE " + SQLiteHandler.COUNTRY_CODE_COL + " = '" + cCode + "' "
-                + " AND " + SQLiteHandler.DONOR_CODE_COL + " = '" + donorCode + "' "
-                + " AND " + AWARD_CODE_COL + " = '" + awardCode + "' "
-                + " AND " + SQLiteHandler.PROGRAM_CODE_COL + " = '" + progCode + "' " +
-                " GROUP BY " + SQLiteHandler.GROUP_CAT_CODE_COL;
 
-
-        // Spinner Drop down elements for District
-        List<SpinnerHelper> listAward = sqlH.getListAndID(SQLiteHandler.COMMUNITY_GROUP_CATEGORY_TABLE, criteria, null, false);
-
-        // Creating adapter for spinner
-        ArrayAdapter<SpinnerHelper> dataAdapter = new ArrayAdapter<SpinnerHelper>(this, R.layout.spinner_layout, listAward);
-        // Drop down layout style
-        dataAdapter.setDropDownViewResource(R.layout.spinner_layout);
-        // attaching data adapter to spinner
-        spGroupCategories.setAdapter(dataAdapter);
-
-
-        if (idGroupCat != null) {
-            for (int i = 0; i < spGroupCategories.getCount(); i++) {
-                String groupCategory = spGroupCategories.getItemAtPosition(i).toString();
-                if (groupCategory.equals(strGroupCat)) {
-                    position = i;
-                }
-            }
-            spGroupCategories.setSelection(position);
-        }
+        SpinnerLoader.loadGroupCatLoader(mContext, sqlH, spGroupCategories, cCode, donorCode, awardCode, progCode, idGroupCat, strGroupCat);
 
 
         spGroupCategories.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -1047,7 +1172,7 @@ public class ServiceActivity extends BaseActivity implements View.OnClickListene
                 if (idGroupCat.length() > 2)
                     loadGroup(idCountry, idDonor, idAward, progCode, idGroupCat, strSrvDate, srvCenterCode);
 
-                Log.d(TAG, "Group Category ,idGroupCat:" + idGroupCat + " strGroupCat : " + strGroupCat);
+                //  Log.d(TAG, "Group Category ,idGroupCat:" + idGroupCat + " strGroupCat : " + strGroupCat);
 
             }
 
@@ -1065,7 +1190,7 @@ public class ServiceActivity extends BaseActivity implements View.OnClickListene
      *
      * @param cCode Country Code
      */
-    private void loadAward(final String cCode) {
+    private void loadAward(final String cCode, final String SrvCenterCode, final String fdpCode, final String opMonthCode) {
 
         SpinnerLoader.loadAwardLoader(mContext, sqlH, spAward, cCode, idAward, strAward);
 
@@ -1081,7 +1206,7 @@ public class ServiceActivity extends BaseActivity implements View.OnClickListene
                     idDonor = awardID.substring(0, 2);
                     idCountry = cCode;
 
-                    loadServiceCenter(cCode, idDonor, idAward);
+                    loadDistributionType(cCode, idDonor, idAward, SrvCenterCode, fdpCode, opMonthCode);
 
                 }
 
@@ -1099,58 +1224,9 @@ public class ServiceActivity extends BaseActivity implements View.OnClickListene
     /**
      * LOAD :: Service Center
      */
-    private void loadServiceCenter(final String cCode, final String donorCode, final String awardCode) {
+    private void loadServiceCenter(final String cCode) {
 
-        int position = 0;
-        String criteria = "";
-
-        int operationMode = UtilClass.getAppOperationMode(ServiceActivity.this);
-        switch (operationMode) {
-            case UtilClass.SERVICE_OPERATION_MODE:
-                criteria = "SELECT " + SQLiteHandler.FDP_CODE_COL + " || '' || " + SQLiteHandler.SERVICE_CENTER_CODE_COL + " , " +
-                        SQLiteHandler.SERVICE_CENTER_NAME_COL + " FROM " + SQLiteHandler.SERVICE_CENTER_TABLE
-                        + " WHERE " + SQLiteHandler.SERVICE_CENTER_TABLE + "." + SQLiteHandler.SERVICE_CENTER_CODE_COL + " || '' || "
-                        + SQLiteHandler.SERVICE_CENTER_TABLE + "." + SQLiteHandler.COUNTRY_CODE_COL
-                        + " IN ( SELECT "
-                        + SQLiteHandler.SELECTED_SERVICE_CENTER_TABLE + "." + SQLiteHandler.SERVICE_CENTER_CODE_COL + " || '' || "
-                        + SQLiteHandler.SELECTED_SERVICE_CENTER_TABLE + "." + SQLiteHandler.COUNTRY_CODE_COL + " from " + SQLiteHandler.SELECTED_SERVICE_CENTER_TABLE + ")" +
-                        " GROUP BY " + SQLiteHandler.SERVICE_CENTER_TABLE + "." + SQLiteHandler.SERVICE_CENTER_CODE_COL;
-
-
-                /**
-                 *  todo:  where set the where  condition
-                 */
-
-                break;
-            default:
-                criteria = "SELECT " + SQLiteHandler.FDP_CODE_COL + " || '' || " + SQLiteHandler.SERVICE_CENTER_CODE_COL + " , " +
-                        SQLiteHandler.SERVICE_CENTER_NAME_COL + " FROM " + SQLiteHandler.SERVICE_CENTER_TABLE;
-                break;
-        }
-
-
-        // Spinner Drop down elements for District
-        List<SpinnerHelper> listAward = sqlH.getListAndID(SQLiteHandler.CUSTOM_QUERY, criteria, null, false);
-
-
-        ArrayAdapter<SpinnerHelper> dataAdapter = new ArrayAdapter<SpinnerHelper>(this, R.layout.spinner_layout, listAward);
-
-        dataAdapter.setDropDownViewResource(R.layout.spinner_layout);
-
-        spServiceCenter.setAdapter(dataAdapter);
-
-
-        if (idSrvCenter != null) {
-            for (int i = 0; i < spServiceCenter.getCount(); i++) {
-                String serviceCenterName = spServiceCenter.getItemAtPosition(i).toString();
-
-                if (serviceCenterName.equals(strServiceCenter)) {
-                    position = i;
-                }
-            }
-            spServiceCenter.setSelection(position);
-        }
-
+        SpinnerLoader.loadServiceCenterLoader(mContext, sqlH, spServiceCenter, idSrvCenter, strServiceCenter);
 
         spServiceCenter.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -1161,9 +1237,9 @@ public class ServiceActivity extends BaseActivity implements View.OnClickListene
                 if (fdpWithSrvCenterCode.length() > 2) {
                     idFdpCode = fdpWithSrvCenterCode.substring(0, 3);
                     idSrvCenter = fdpWithSrvCenterCode.substring(3);
+                    loadServiceMonth(cCode, idSrvCenter, idFdpCode);
 
-
-                    loadServiceMonth(cCode, donorCode, awardCode, idSrvCenter, idFdpCode);
+                    //  Log.d("MOR22", " fdpWithSrvCenterCode " + fdpWithSrvCenterCode + "\n idSrvCenter:" + idSrvCenter);
 
                 }
 
@@ -1182,34 +1258,26 @@ public class ServiceActivity extends BaseActivity implements View.OnClickListene
     /**
      * LOAD :: load Service Month
      */
-    private void loadServiceMonth(final String cCode, final String donorCode, final String awardCode, final String SrvCenterCode, final String fdpCode) {
+    private void loadServiceMonth(final String cCode, final String SrvCenterCode, final String fdpCode) {
 
         int position = 0;
         String criteria;
 
         criteria = SQLiteQuery.getServiceMonths_WHERE_Service_Open_Condition(cCode);
-
         List<SpinnerHelper> listMonth = sqlH.getListAndID(SQLiteHandler.OP_MONTH_TABLE, criteria, null, false);
         listMonth.remove(0);
-
         ArrayAdapter<SpinnerHelper> dataAdapter = new ArrayAdapter<SpinnerHelper>(this, R.layout.spinner_layout, listMonth);
-
         dataAdapter.setDropDownViewResource(R.layout.spinner_layout);
-
         spServiceMonth.setAdapter(dataAdapter);
 
 
         if (idServiceMonth != null) {
-            Log.d("InSrv", "In Service moth spinner \n" + "idServiceMonth:" + idServiceMonth);
+
             for (int i = 0; i < spServiceMonth.getCount(); i++) {
                 String month = spServiceMonth.getItemAtPosition(i).toString();
                 if (month.equals(strSrvMonth)) {
-
                     position = i;
                     spServiceMonth.setSelection(position);
-
-                    Log.d("InSrv", "In Service moth spinner \n" + "strSrvMonth:" + strSrvMonth +
-                            " position :");
 
 
                 }
@@ -1231,14 +1299,15 @@ public class ServiceActivity extends BaseActivity implements View.OnClickListene
                      *                    awardId = idServiceMonth.substring(6, 8);
                      * */
                     idOpMonthCode = idServiceMonth.substring(8);
-                    Log.d("In Service", " In the service month the fdpCode : " + fdpCode +
-                            "\n private global veriable : idFdpCode :" + idFdpCode);
-                    //loadDistributionType(idCountry, idDonor, idAward);
-                    loadDistributionType(cCode, donorCode, awardCode, SrvCenterCode, idFdpCode, idOpMonthCode);
+               /*     Log.d("In Service", " In the service month the fdpCode : " + fdpCode +
+                            "\n private global veriable : idFdpCode :" + idFdpCode);*/
+
+
+                    loadAward(cCode, SrvCenterCode, fdpCode, idServiceMonth);
+
 
                 }
 
-                Log.d(TAG, "idServiceMonth : " + idServiceMonth + " strSrvMonth :" + strSrvMonth);
 
             }
 
@@ -1328,9 +1397,113 @@ public class ServiceActivity extends BaseActivity implements View.OnClickListene
         });
     }
 
+    private boolean checkDateInValidRang(String cCode, String idOpMonthCode, String date) {
+
+        boolean validDate = true;
+        HashMap<String, String> serviceDateRange;
+
+
+        /**         * if the the voucher program  than service date & service center code must needed*/
+
+        if (date.equals("") || date.equals("yyyy-mm-dd") || date.equals("Date")) {
+            validDate = false;
+            erroDialog.showErrorDialog(mContext, "Please select a Date ");
+
+        } else {
+            try {
+                serviceDateRange = sqlH.getDateRangeForService(cCode, idOpMonthCode);
+                String start_date = serviceDateRange.get("sdate");
+                String end_date = serviceDateRange.get("edate");
+
+                /***             *  2 is service  op code              */
+                idOpCode = "2";
+                /**
+                 *  KENO  AMI  strOpMonthLabel BOSALAM ETAR KARON BER KORTE HOBE
+                 */
+                strOpMonthLabel = serviceDateRange.get("opMonthLable");
+
+
+                if (date.length() > 0 && start_date != null && end_date != null) {
+                    if (!getValidDateRangeUSAFormat(date, start_date, end_date)) {
+                        validDate = false;
+                        erroDialog.showErrorDialog(mContext, "Service date is not within the valid range. Save attempt denied");
+
+                    }
+                }
+
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+        return validDate;
+    }
+
+    /***
+     * This Method set group Code
+     */
+    private void loadGroupsOrLayR4List(String cCode, String donorCode, String awardCode, String criteriaCode, String srvCenterCode) {
+        idCountry = cCode;
+        idAward = awardCode;
+        idDonor = donorCode;
+        idProgram = criteriaCode.substring(0, 3);
+        idService = criteriaCode.substring(3);
+        idMemberSearch = "";
+
+        String serviceDate = tv_srvDate.getText().toString();
+
+        if (checkDateInValidRang(idCountry, idOpMonthCode, serviceDate)) {
+
+            /**   *  get program Name  Service name                   */
+            String srvName = sqlH.getServiceShortName(idProgram, idService);
+            String progName = sqlH.getProgramShortName(awardCode, donorCode, idProgram);
+
+
+            switch (srvName) {
+                case C1:
+                case C2:
+                case C3:
+                case IG:
+                case MG:
+                case FFA:
+                case PW:
+                case LM:
+                case CU2:
+                case CA2:
+                case HHR:
+                    switch (progName) {
+                        case CFWS:
+                        case CFWU:
+                        case CFWE:
+                        case DRR:
+                        case AGR:
+                        case MCHN:
+                            showNHideGroupNCat(View.VISIBLE);
+                            showNHideLayRList(View.GONE);
+                            loadGroupCategory(idCountry, idDonor, idAward, idProgram, serviceDate, srvCenterCode);
+                            break;
+                        default:
+                            showNHideGroupNCat(View.GONE);
+                            showNHideLayRList(View.VISIBLE);
+                            loadLayR4List(idCountry);
+                            //  get village list  getList4(_CountryCode, Class.SessionManager.LoginUserId);
+                            break;
+
+                    }
+                    break;
+                default:
+                    //  get village list
+                    showNHideGroupNCat(View.GONE);
+                    showNHideLayRList(View.VISIBLE);
+                    loadLayR4List(idCountry);
+                    break;
+            }
+
+
+        }
+    }
+
     /**
-     * todo : Sending over the Spinner helper page
-     * LOAD :: Criteria
+     * LOAD :: Criteria program name and service name
      *
      * @param cCode         Country Code
      * @param donorCode     Donor Code
@@ -1341,113 +1514,26 @@ public class ServiceActivity extends BaseActivity implements View.OnClickListene
      */
     private void loadServiceRecodeCriteria(final String cCode, final String donorCode, final String awardCode, final String srvCenterCode, final String fdpCode, final String srvMonthCode, final String foodFlagTypeQuery) {
 
-        int position = 0;
-        String criteria = " SELECT " + SQLiteHandler.COUNTRY_PROGRAM_TABLE + "." + SQLiteHandler.PROGRAM_CODE_COL
-                + " ||  '-' || " + SQLiteHandler.COUNTRY_PROGRAM_TABLE + "." + SQLiteHandler.SERVICE_CODE_COL +
-                " AS criteriaId "
-                + ", " + SQLiteHandler.ADM_PROGRAM_MASTER_TABLE + "." + SQLiteHandler.PROGRAM_SHORT_NAME_COL
-                + " || '-' ||  " + SQLiteHandler.SERVICE_MASTER_TABLE + "." + SQLiteHandler.SERVICE_SHORT_NAME_COL + " AS Criteria"
-                + " FROM " + SQLiteHandler.COUNTRY_PROGRAM_TABLE
-                + " INNER JOIN " + SQLiteHandler.ADM_PROGRAM_MASTER_TABLE + " ON "
-                + SQLiteHandler.ADM_PROGRAM_MASTER_TABLE + "." + SQLiteHandler.PROGRAM_CODE_COL + " = " + SQLiteHandler.COUNTRY_PROGRAM_TABLE + "." + SQLiteHandler.PROGRAM_CODE_COL
-                + " AND " + SQLiteHandler.ADM_PROGRAM_MASTER_TABLE + "." + SQLiteHandler.PROGRAM_CODE_COL + " = " + SQLiteHandler.COUNTRY_PROGRAM_TABLE + "." + SQLiteHandler.PROGRAM_CODE_COL
-                + " AND " + SQLiteHandler.ADM_PROGRAM_MASTER_TABLE + "." + SQLiteHandler.DONOR_CODE_COL + " = " + SQLiteHandler.COUNTRY_PROGRAM_TABLE + "." + SQLiteHandler.DONOR_CODE_COL
-                + " AND " + SQLiteHandler.ADM_PROGRAM_MASTER_TABLE + "." + AWARD_CODE_COL + " = " + SQLiteHandler.COUNTRY_PROGRAM_TABLE + "." + AWARD_CODE_COL
-                + " INNER JOIN " + SQLiteHandler.SERVICE_MASTER_TABLE + " ON "
-                + SQLiteHandler.SERVICE_MASTER_TABLE + "." + SQLiteHandler.PROGRAM_CODE_COL + " = " + SQLiteHandler.COUNTRY_PROGRAM_TABLE + "." + SQLiteHandler.PROGRAM_CODE_COL
-                + " AND " + SQLiteHandler.SERVICE_MASTER_TABLE + "." + SQLiteHandler.SERVICE_CODE_COL + " = " + SQLiteHandler.COUNTRY_PROGRAM_TABLE + "." + SQLiteHandler.SERVICE_CODE_COL
-                + " WHERE "
-                + SQLiteHandler.COUNTRY_PROGRAM_TABLE + "." + COUNTRY_CODE_COL + " = '" + cCode + "' "
-                +" AND "+ SQLiteHandler.COUNTRY_PROGRAM_TABLE + "." + DONOR_CODE_COL + " = '" + donorCode + "' "
-                + " AND " + SQLiteHandler.COUNTRY_PROGRAM_TABLE + "." + AWARD_CODE_COL + " = '" + awardCode + "'"
-                + foodFlagTypeQuery
-                + " ORDER BY Criteria ";
-
-
-        List<SpinnerHelper> listCriteria = sqlH.getListAndID(SQLiteHandler.CUSTOM_QUERY, criteria, null, false);
-        ArrayAdapter<SpinnerHelper> dataAdapter = new ArrayAdapter<SpinnerHelper>(this, R.layout.spinner_layout, listCriteria);
-        dataAdapter.setDropDownViewResource(R.layout.spinner_layout);
-        spCriteria.setAdapter(dataAdapter);
-
-
-        if (idCriteria != null) {
-            for (int i = 0; i < spCriteria.getCount(); i++) {
-                String award = spCriteria.getItemAtPosition(i).toString();
-                if (award.equals(strCriteria)) {
-                    position = i;
-                }
-            }
-            spCriteria.setSelection(position);
-        }
-
+        SpinnerLoader.loadServiceRecodeCriteriaLoader(mContext, sqlH, spCriteria, cCode, donorCode, awardCode, foodFlagTypeQuery, idCriteria, strCriteria);
 
         spCriteria.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                strCriteria = ((SpinnerHelper) spCriteria.getSelectedItem()).getValue();
-                idCriteria = ((SpinnerHelper) spCriteria.getSelectedItem()).getId();
-                if (idCriteria.length() > 2) {
-                    Log.d(TAG, "load servece data " + idCriteria);
-
-                    idCountry = cCode;
-                    idAward = awardCode;
-                    idDonor = donorCode;
-                    idProgram = idCriteria.substring(0, 3);
-                    idService = idCriteria.substring(3);
-                    idMemberSearch = "";
-
-                    HashMap<String, String> mdateRange = sqlH.getDateRangeForService(idCountry, idOpMonthCode);
-                    dateRange = sqlH.getDateRangeForService(idCountry, srvMonthCode);
-
-                    strOpMonthLabel = mdateRange.get("opMonthLable");
-                    idOpCode = mdateRange.get("opCode");
+                                                 @Override
+                                                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                                                     strCriteria = ((SpinnerHelper) spCriteria.getSelectedItem()).getValue();
+                                                     idCriteria = ((SpinnerHelper) spCriteria.getSelectedItem()).getId();
+                                                     if (idCriteria.length() > 2)
+                                                         loadGroupsOrLayR4List(cCode, donorCode, awardCode, idCriteria, srvCenterCode);
 
 
-                    /**
-                     * if the the voucher program  than service date & service center code must needed*/
-                    String serviceDate = tv_srvDate.getText().toString();
-                    if (serviceDate.equals("") || serviceDate.equals("yyyy-mm-dd") || serviceDate.equals("Date")) {
+                                                 }
 
+                                                 @Override
+                                                 public void onNothingSelected(AdapterView<?> parent) {
 
-                        erroDialog.showErrorDialog(mContext, "Please select a Date ");
-                    } else try {
-                        dateRange = sqlH.getDateRangeForService(idCountry, idOpMonthCode);
-                        String start_date = dateRange.get("sdate");
-                        String end_date = dateRange.get("edate");
-                        idOpCode = dateRange.get("opCode");//"opMCode"
+                                                 }
+                                             }
 
-                        strOpMonthLabel = dateRange.get("opMonthLable");//"opMCode"
-
-
-                        if (serviceDate != null && start_date != null && end_date != null) {
-                            if (!getValidDateRangeUSAFormat(serviceDate, start_date, end_date)) {
-
-                                erroDialog.showErrorDialog(mContext, "Service date is not within the valid range. Save attempt denied");
-
-                            } else {
-
-                                loadGroupCategory(idCountry, idDonor, idAward, idProgram, serviceDate, srvCenterCode);
-
-                            /*    LoadingList loadlist = new LoadingList(idCountry, idDonor, idAward, idProgram, idService, idMemberSearch, idOpMonthCode, strOpMonthLabel, idOpMonthCode, serviceDate, idSrvCenter);
-                                loadlist.execute();*/
-                            }
-
-                        }
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                    }
-
-
-                }
-
-
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
+        );
 
     } // end Load Spinner
 
@@ -1469,18 +1555,17 @@ public class ServiceActivity extends BaseActivity implements View.OnClickListene
      */
 
 
-    public void loadServiceListView(final String cCode, String donorCode, String awardCode, String prgCode, String srvCode, String memSearchId, String opMonthLable,
-                                    String opCode, String opMCode, String srvDate, String srvCenterCode
-            , String grpCode) {
+    public void loadServiceListView(final String cCode, String donorCode, String awardCode, String prgCode, String srvCode, String memSearchId, String opMonthLable, String opCode, String opMCode, String srvDate, String srvCenterCode, String grpCode) {
 
         List<ServiceDataModel> srvMemberList = null;
-        String srvName;
-        String progName;
-        srvName = sqlH.getServiceShortName(prgCode, srvCode);
-        progName = sqlH.getProgramShortName(awardCode, donorCode, prgCode);
+
+        /**
+         *  get program Name  Service name
+         */
+        String srvName = sqlH.getServiceShortName(prgCode, srvCode);
+        String progName = sqlH.getProgramShortName(awardCode, donorCode, prgCode);
 
 
-        Log.d(TAG, "In load service List SrvName :" + srvName + " progName: " + progName);
         switch (srvName) {
             case C1:
             case C2:
@@ -1498,7 +1583,8 @@ public class ServiceActivity extends BaseActivity implements View.OnClickListene
                 break;
             default:
                 // use variable to like operation
-                srvMemberList = sqlH.getMemberListForService(cCode, donorCode, awardCode, prgCode, srvCode, memSearchId, opCode, opMCode, grpCode, idDistributionType);
+                if (idGrpLayR1Code != null && idGrpLayR1Code.length() > 0 && idGrpLayR2Code != null && idGrpLayR2Code.length() > 0 && idGrpLayR3Code != null && idGrpLayR3Code.length() > 0)
+                    srvMemberList = sqlH.getRptMemberServiceList(cCode, donorCode, awardCode, prgCode, srvCode, memSearchId, opCode, opMCode, grpCode, idDistributionType, idGrpLayR1Code, idGrpLayR2Code, idGrpLayR3Code);
 
                 break;
         }
@@ -1536,7 +1622,7 @@ public class ServiceActivity extends BaseActivity implements View.OnClickListene
  *  set adpater
  */
 
-        if (adapter != null) {
+        if (!adapter.isEmpty()) {
             adapter.notifyDataSetChanged();
             mListView.setAdapter(adapter);
             /**
@@ -1585,8 +1671,7 @@ public class ServiceActivity extends BaseActivity implements View.OnClickListene
             try {
 
 
-                loadServiceListView(countryCode, donorCode, awardCode, programCode
-                        , serviceCode, searchID, idOpMonthCode, opMonthLabel, opMonthCode
+                loadServiceListView(countryCode, donorCode, awardCode, programCode, serviceCode, searchID, idOpMonthCode, opMonthLabel, opMonthCode
                         , tserviceDate, srvCenterCode, groupCode);
 
             } catch (Exception e) {
@@ -1595,8 +1680,6 @@ public class ServiceActivity extends BaseActivity implements View.OnClickListene
             }
             return "sucess";
 
-
-            //return "";
         }
 
 
@@ -1642,12 +1725,9 @@ public class ServiceActivity extends BaseActivity implements View.OnClickListene
     }
 
     private void startProgressBar(String msg) {
-
-
         pDialog.setMessage(msg);
         pDialog.setCancelable(false);
         pDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-
         pDialog.show();
     }
 
@@ -1752,7 +1832,7 @@ public class ServiceActivity extends BaseActivity implements View.OnClickListene
 
         /**
          * @param position    index
-         * @param convertView
+         * @param convertView dynamic row view
          * @param parent
          * @return the Custom View of row
          */
@@ -1800,7 +1880,7 @@ public class ServiceActivity extends BaseActivity implements View.OnClickListene
             personToBeServiced.setOpMontheCode(opMonthCode);
             personToBeServiced.setCriteriaId(criteriaId);
             personToBeServiced.setFPDCode(idFdpCode);
-            Log.d("Adapter", "in Adapter the idFdpCode :" + idFdpCode);
+
 
             /* **************ADDING CONTENTS**************** */
 
@@ -1903,14 +1983,51 @@ public class ServiceActivity extends BaseActivity implements View.OnClickListene
             holder.imgEdit.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    activity.finish();
-                    Intent intent = new Intent(activity, ServiceRecord.class);
-                    personToBeServiced.setTemServiceCenterName(strServiceCenter);
-                    personToBeServiced.setServiceCenterCode(idSrvCenter);
-                    personToBeServiced.setTemServiceDate(tv_srvDate.getText().toString());
-                    personToBeServiced.setOpMonthStr(strOpMonthLabel);
-                    intent.putExtra(KEY.SERVICE_DATA_OBJECT_KEY, personToBeServiced);
-                    activity.startActivity(intent);
+
+                    String srvName = sqlH.getServiceShortName(idProgram, idService);
+                    String progName = sqlH.getProgramShortName(idAward, idDonor, idProgram);
+                    switch (srvName) {
+
+                        case FFA:
+                        case C1:
+                        case C2:
+                        case C3:
+                        case MG:
+                        case IG:
+                            switch (progName) {
+
+                                case DRR:
+                                case AGR:
+                                case CFWS:
+                                case CFWU:
+                                    /**
+                                     * if member details layer visible  then user may got to record details page
+                                     */
+                                    if (lay_MemberDetails.getVisibility() == View.VISIBLE)
+                                        gotoServiceEditPage(personToBeServiced);
+
+                                    showMemberDetailsLayer();
+
+                                    tv_MemberDetails_HHID.setText(personToBeServiced.getHHID());
+                                    tv_MemberDetails_MemID.setText(personToBeServiced.getMemberId());
+                                    tv_MemberDetails_MemName.setText(personToBeServiced.getHh_mm_name());
+                                    // // TODO: 1/23/2017  get the wd if exite in data base
+                                    edt_MemberDetails_working_days.setText(personToBeServiced.getWorkingDay());
+
+                                    if (!edt_MemberDetails_working_days.getText().toString().equals("0"))
+                                        edt_MemberDetails_working_days.setFocusable(false);
+
+
+                                    break;
+
+                            }
+                            break;
+                        default:
+                            gotoServiceEditPage(personToBeServiced);
+                            break;
+                    }
+
+
                 }
             });
 
@@ -1943,7 +2060,7 @@ public class ServiceActivity extends BaseActivity implements View.OnClickListene
                 @Override
                 public void onClick(View v) {
                     Intent iSrvSpec = new Intent(activity, ServiceSpecification.class);
-                    //activity.finish(); if any change needed in ServiceActivity
+
 
                     iSrvSpec.putExtra(KEY.SERVICE_DATA_OBJECT_KEY, personToBeServiced);
 
@@ -1964,6 +2081,23 @@ public class ServiceActivity extends BaseActivity implements View.OnClickListene
             return row;
         }
 
+        /**
+         * this method let the user got to Service recorded Details page .
+         * where user can see the when the selected member get service and can delete the false entry
+         *
+         * @param srvData service recorded data
+         */
+        private void gotoServiceEditPage(final ServiceDataModel srvData) {
+            activity.finish();
+            Intent intent = new Intent(activity, ServiceRecordDetails.class);
+            srvData.setTemServiceCenterName(strServiceCenter);
+            srvData.setServiceCenterCode(idSrvCenter);
+            srvData.setTemServiceDate(tv_srvDate.getText().toString());
+            srvData.setOpMonthStr(strOpMonthLabel);
+            intent.putExtra(KEY.SERVICE_DATA_OBJECT_KEY, srvData);
+            activity.startActivity(intent);
+        }
+
         private void changeTextColor(int color) {
 
             holder.tv_newMemId.setTextColor(color);
@@ -1977,11 +2111,8 @@ public class ServiceActivity extends BaseActivity implements View.OnClickListene
         }
 
 
-        public boolean isArrayListNull() {
-            if (listOFWant2Save.isEmpty())
-                return true;
-            else
-                return false;
+        protected boolean isArrayListNull() {
+            return listOFWant2Save.isEmpty();
 
 
         }
@@ -2036,5 +2167,99 @@ public class ServiceActivity extends BaseActivity implements View.OnClickListene
 
     }// end of  adapter
 
+    /**
+     * calling getWidth() and getHeight() too early:
+     * When  the UI has not been sized and laid out on the screen yet..
+     *
+     * @param hasFocus the value will be true when UI is focus
+     */
+
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        setUpSummaryButton();
+        addIconHomeButton();
+        setUpSaveButton();
+    }
+
+
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
+    private void setUpSummaryButton() {
+        btnSummary.setText("");
+        Drawable summeryImage = getResources().getDrawable(R.drawable.summession_b);
+        btnSummary.setCompoundDrawablesRelativeWithIntrinsicBounds(summeryImage, null, null, null);
+        setPaddingButton(mContext, summeryImage, btnSummary);
+    }
+
+
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
+    private void addIconHomeButton() {
+        btnHome.setText("");
+        Drawable imageHome = getResources().getDrawable(R.drawable.home_b);
+        btnHome.setCompoundDrawablesRelativeWithIntrinsicBounds(imageHome, null, null, null);
+        setPaddingButton(mContext, imageHome, btnHome);
+
+    }
+
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
+    private void setUpSaveButton() {
+        btnSave.setText("");
+        Drawable saveImage = getResources().getDrawable(R.drawable.save_b);
+        btnSave.setCompoundDrawablesRelativeWithIntrinsicBounds(saveImage, null, null, null);
+        setPaddingButton(mContext, saveImage, btnSave);
+    }
+
+    /**
+     * this method will convert XML view into the Java View Object  .
+     */
+
+    private void viewReference() {
+        spAward = (Spinner) findViewById(R.id.sp_awardList);
+        spCriteria = (Spinner) findViewById(R.id.spCriteria);
+        spServiceCenter = (Spinner) findViewById(R.id.spServiceCenter);
+        spServiceMonth = (Spinner) findViewById(R.id.spServiceMonth);
+        spGroupCategories = (Spinner) findViewById(R.id.sp_srvGroupCategories);
+        spGroup = (Spinner) findViewById(R.id.sp_srvGroup);
+        spLayR4List = (Spinner) findViewById(R.id.sp_srvLayR4List);
+        tv_srvDate = (TextView) findViewById(R.id.tv_srvDate);
+        btnHome = (Button) findViewById(R.id.btnHomeFooter);
+        btnSave = (Button) findViewById(R.id.btn_service_save);
+        btnSummary = (Button) findViewById(R.id.btnRegisterFooter);
+        mListView = (ListView) findViewById(R.id.lv_ServiceRecording);
+        btn_search = (Button) findViewById(R.id.btn_service_search);
+        edt_srvMMSerach = (EditText) findViewById(R.id.edt_service_memberSearch);
+        spDistributionType = (Spinner) findViewById(R.id.sp_srv_dist_Type);
+
+        /**         * Header Check Box         */
+        final View headerView = getLayoutInflater().inflate(R.layout.title_service_listview_header, mListView, false);
+        checkBox_header = (CheckBox) headerView.findViewById(R.id.cb_ServiceCheckedAll);
+        mListView.addHeaderView(headerView);
+
+        tv_srvTitleCount = (TextView) findViewById(R.id.tv_srvTitleCount);
+        tv_GrpCatLabel = (TextView) findViewById(R.id.tv_service_GrpCatLabel);
+        tv_GrpLabel = (TextView) findViewById(R.id.tv_service_GrpLabel);
+        tv_LayR4Label = (TextView) findViewById(R.id.tv_service_LayR4Label);
+
+        lay_MemberDetails = (LinearLayout) findViewById(R.id.lay_MemberDetails);
+        tv_MemberDetails_HHID = (TextView) findViewById(R.id.srv_tv_details_HHID);
+        tv_MemberDetails_MemID = (TextView) findViewById(R.id.srv_tv_details_MemID);
+        tv_MemberDetails_MemName = (TextView) findViewById(R.id.srv_tv_details_MemName);
+        edt_MemberDetails_working_days = (EditText) findViewById(R.id.srv_edt_total_working_days);
+
+
+    }
+
+    private void showNHideGroupNCat(int visibility) {
+        tv_GrpCatLabel.setVisibility(visibility);
+        tv_GrpLabel.setVisibility(visibility);
+        spGroupCategories.setVisibility(visibility);
+        spGroup.setVisibility(visibility);
+    }
+
+    private void showNHideLayRList(int visibility) {
+        tv_LayR4Label.setVisibility(visibility);
+        spLayR4List.setVisibility(visibility);
+
+    }
 
 }
