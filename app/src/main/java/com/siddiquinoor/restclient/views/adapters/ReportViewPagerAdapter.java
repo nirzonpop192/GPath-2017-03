@@ -45,7 +45,7 @@ public class ReportViewPagerAdapter extends FragmentStatePagerAdapter {
         for (SurveyModel surveyModel :
                 surveyModels) {
             mFragmentList.add(SurveyFragment.newInstance(surveyModel));
-            mFragmentTitleList.add("Survey " + surveyModel.getSurveyNum());
+            mFragmentTitleList.add("Response " + surveyModel.getSurveyNum());
         }
     }
 
@@ -56,6 +56,6 @@ public class ReportViewPagerAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public CharSequence getPageTitle(int position) {
-        return "Survey "+(position+1)+" of "+mFragmentList.size();
+        return "Response "+(position+1)+" of "+mFragmentList.size();
     }
 }

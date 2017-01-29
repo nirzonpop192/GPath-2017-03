@@ -42,6 +42,7 @@ import com.siddiquinoor.restclient.views.adapters.DynamicDataIndexDataModel;
 import com.siddiquinoor.restclient.views.adapters.DynamicTableQuesDataModel;
 import com.siddiquinoor.restclient.views.helper.SpinnerHelper;
 import com.siddiquinoor.restclient.views.notifications.ADNotificationManager;
+import com.siddiquinoor.restclient.views.spinner.SpinnerLoader;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -49,6 +50,12 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
+
+import static com.siddiquinoor.restclient.manager.SQLiteHandler.COUNTRY_CODE_COL;
+import static com.siddiquinoor.restclient.manager.SQLiteHandler.ORGANIZATION_NAME;
+import static com.siddiquinoor.restclient.manager.SQLiteHandler.ORG_CODE_COL;
+import static com.siddiquinoor.restclient.manager.SQLiteHandler.PROGRAM_ORGANIZATION_NAME_TABLE;
+import static com.siddiquinoor.restclient.manager.SQLiteHandler.PROGRAM_ORGANIZATION_ROLE_TABLE;
 
 
 public class DT_QuestionActivity extends BaseActivity implements CompoundButton.OnCheckedChangeListener {
@@ -68,6 +75,7 @@ public class DT_QuestionActivity extends BaseActivity implements CompoundButton.
     public static final String SERVICE_SITE = "Service Site";
     public static final String DISTRIBUTION_POINT = "Distribution Point";
     public static final String COMMUNITY_GROUP = "Community Group";
+    public static final String ORGANIZATION_LIST = "Organization List";
     public static final String CHECK_BOX = "Checkbox";
     public static final String RADIO_BUTTON = "Radio Button";
     public static final String DATE_TIME = "Datetime";
@@ -387,7 +395,6 @@ public class DT_QuestionActivity extends BaseActivity implements CompoundButton.
                         displayError("Insert  Text");
 
 
-
                     } else {
                         normalIndicator();
                         saveData(edtInput, mDTATableList.get(0));
@@ -418,25 +425,21 @@ public class DT_QuestionActivity extends BaseActivity implements CompoundButton.
 
                     break;
                 case COMBO_BOX:
+                    /** here it get null point reference if spinner get no values */
+                    if (idSpinner != null) {
+                        if (idSpinner.equals("00")) {
 
-                    if (idSpinner.equals("00")) {
+                            errorIndicator();
+                            displayError("Select Item");
 
-                        errorIndicator();
-                        displayError("Select Item");
-                        /**
-                         * todo : show Dialog
-                         */
-                    } else {
-                        normalIndicator();
+                        } else {
+                            normalIndicator();
+                            /**                             * {@link DT_QuestionActivity#saveData(String, DT_ATableDataModel)}                             */
+                            saveData(strSpinner, mDTATableList.get(0));
 
-
-                        /**
-                         * {@link DT_QuestionActivity#saveData(String, DT_ATableDataModel)}
-                         */
-                        saveData(strSpinner, mDTATableList.get(0));
-
-                        /**                         * NEXT QUESTION                         */
-                        nextQuestion();
+                            /**                         * NEXT QUESTION                         */
+                            nextQuestion();
+                        }
                     }
 
 
@@ -468,7 +471,7 @@ public class DT_QuestionActivity extends BaseActivity implements CompoundButton.
                     i = 0;
                     for (RadioButton rb : mRadioButton_List) {
                         if (rb.isChecked()) {
-                            Toast.makeText(mContext, "Radio Button no:" + (i + 1) + " is checked", Toast.LENGTH_SHORT).show();
+
                             saveData("", mDTATableList.get(i));
                         }
                         i++;
@@ -484,8 +487,7 @@ public class DT_QuestionActivity extends BaseActivity implements CompoundButton.
                     i = 0;
                     for (RadioButton rb : mRadioButtonForRadioAndEdit_List) {
                         if (rb.isChecked()) {
-                            Toast.makeText(mContext, "Radio Button no:" + (i + 1) + " is checked"
-                                    + " the value of the : " + mEditTextForRadioAndEdit_List.get(i).getText(), Toast.LENGTH_SHORT).show();
+
                             if (mEditTextForRadioAndEdit_List.get(i).getText().length() == 0) {
                                 errorIndicator();
                                 displayError("Insert value for Selected Option");
@@ -1139,7 +1141,7 @@ public class DT_QuestionActivity extends BaseActivity implements CompoundButton.
                     else
                         strSpinner = null;
 
-                    loadSpinnerList(dyIndex.getcCode(), resLupText);
+                    loadDynamicSpinnerList(dyIndex.getcCode(), resLupText);
 
 
                     break;
@@ -1299,130 +1301,9 @@ public class DT_QuestionActivity extends BaseActivity implements CompoundButton.
      * @param cCode      Country Code
      * @param resLupText res lup
      */
-    private void loadSpinnerList(final String cCode, final String resLupText) {
-        int position = 0;
+    private void loadDynamicSpinnerList(final String cCode, final String resLupText) {
 
-        String udf;
-
-        List<SpinnerHelper> list = new ArrayList<SpinnerHelper>();
-        switch (resLupText) {
-
-            case GEO_LAYER_3:
-
-                udf = "SELECT " + SQLiteHandler.UNIT_TABLE + "." + SQLiteHandler.LAY_R3_LIST_CODE_COL
-                        + ", " + SQLiteHandler.UNIT_TABLE + "." + SQLiteHandler.UNITE_NAME_COL
-                        + " FROM " + SQLiteHandler.UNIT_TABLE
-                        + " WHERE " + SQLiteHandler.UNIT_TABLE + "." + SQLiteHandler.COUNTRY_CODE_COL + "='" + cCode + "'";
-
-                list = sqlH.getListAndID(SQLiteHandler.CUSTOM_QUERY, udf, cCode, false);
-
-                break;
-            case GEO_LAYER_2:
-                udf = "SELECT " + SQLiteHandler.UPAZILLA_TABLE + "." + SQLiteHandler.LAY_R2_LIST_CODE_COL
-                        + ", " + SQLiteHandler.UPAZILLA_TABLE + "." + SQLiteHandler.UPZILLA_NAME_COL
-                        + " FROM " + SQLiteHandler.UPAZILLA_TABLE
-                        + " WHERE " + SQLiteHandler.UPAZILLA_TABLE + "." + SQLiteHandler.COUNTRY_CODE_COL + "='" + cCode + "'";
-
-                list = sqlH.getListAndID(SQLiteHandler.CUSTOM_QUERY, udf, cCode, false);
-
-                break;
-
-            case GEO_LAYER_1:
-
-                udf = "SELECT " + SQLiteHandler.DISTRICT_TABLE + "." + SQLiteHandler.LAY_R1_LIST_CODE_COL
-                        + ", " + SQLiteHandler.DISTRICT_TABLE + "." + SQLiteHandler.DISTRICT_NAME_COL
-                        + " FROM " + SQLiteHandler.DISTRICT_TABLE
-                        + " WHERE " + SQLiteHandler.DISTRICT_TABLE + "." + SQLiteHandler.COUNTRY_CODE_COL + "='" + cCode + "'";
-
-                list = sqlH.getListAndID(SQLiteHandler.CUSTOM_QUERY, udf, cCode, false);
-                break;
-
-            case GEO_LAYER_4:
-
-                udf = "SELECT " + SQLiteHandler.VILLAGE_TABLE + "." + SQLiteHandler.LAY_R4_LIST_CODE_COL
-                        + ", " + SQLiteHandler.VILLAGE_TABLE + "." + SQLiteHandler.VILLAGE_NAME_COL
-                        + " FROM " + SQLiteHandler.VILLAGE_TABLE
-                        + " WHERE " + SQLiteHandler.VILLAGE_TABLE + "." + SQLiteHandler.COUNTRY_CODE_COL + "='" + cCode + "'";
-
-                list = sqlH.getListAndID(SQLiteHandler.CUSTOM_QUERY, udf, cCode, false);
-                break;
-
-            case GEO_LAYER_ADDRESS:
-
-                udf = "SELECT " + SQLiteHandler.LUP_REGN_ADDRESS_LOOKUP_TABLE + "." + SQLiteHandler.REGN_ADDRESS_LOOKUP_CODE_COL
-                        + ", " + SQLiteHandler.LUP_REGN_ADDRESS_LOOKUP_TABLE + "." + SQLiteHandler.REGN_ADDRESS_LOOKUP_NAME_COL
-                        + " FROM " + SQLiteHandler.LUP_REGN_ADDRESS_LOOKUP_TABLE
-                        + " WHERE " + SQLiteHandler.LUP_REGN_ADDRESS_LOOKUP_TABLE + "." + SQLiteHandler.COUNTRY_CODE_COL + "='" + cCode + "'";
-
-                list = sqlH.getListAndID(SQLiteHandler.CUSTOM_QUERY, udf, cCode, false);
-                break;
-
-            case SERVICE_SITE:
-
-                udf = "SELECT " + SQLiteHandler.SERVICE_CENTER_TABLE + "." + SQLiteHandler.SERVICE_CENTER_CODE_COL
-                        + ", " + SQLiteHandler.SERVICE_CENTER_TABLE + "." + SQLiteHandler.SERVICE_CENTER_NAME_COL
-                        + " FROM " + SQLiteHandler.SERVICE_CENTER_TABLE
-                        + " WHERE " + SQLiteHandler.SERVICE_CENTER_TABLE + "." + SQLiteHandler.COUNTRY_CODE_COL + "='" + cCode + "'";
-
-                list = sqlH.getListAndID(SQLiteHandler.CUSTOM_QUERY, udf, cCode, false);
-                break;
-
-            case DISTRIBUTION_POINT:
-
-                udf = "SELECT " + SQLiteHandler.FDP_MASTER_TABLE + "." + SQLiteHandler.FDP_CODE_COL
-                        + ", " + SQLiteHandler.FDP_MASTER_TABLE + "." + SQLiteHandler.FDP_NAME_COL
-                        + " FROM " + SQLiteHandler.FDP_MASTER_TABLE
-                        + " WHERE " + SQLiteHandler.FDP_MASTER_TABLE + "." + SQLiteHandler.COUNTRY_CODE_COL + "='" + cCode + "'";
-
-                list = sqlH.getListAndID(SQLiteHandler.CUSTOM_QUERY, udf, cCode, false);
-                break;
-
-
-            case LOOKUP_LIST:
-
-                udf = "SELECT " + SQLiteHandler.DT_LUP_TABLE + "." + SQLiteHandler.LIST_CODE_COL
-                        + ", " + SQLiteHandler.DT_LUP_TABLE + "." + SQLiteHandler.LIST_NAME_COL
-                        + " FROM " + SQLiteHandler.DT_LUP_TABLE
-                        + " WHERE " + SQLiteHandler.DT_LUP_TABLE + "." + SQLiteHandler.COUNTRY_CODE_COL + "= '" + cCode + "' "
-
-                        + " AND " + SQLiteHandler.DT_LUP_TABLE + "." + SQLiteHandler.TABLE_NAME_COL + "= '" + mDTQ.getLup_TableName() + "'"
-                ;
-
-                list = sqlH.getListAndID(SQLiteHandler.CUSTOM_QUERY, udf, cCode, false);
-                break;
-
-
-            case COMMUNITY_GROUP:
-                udf = "SELECT " + SQLiteHandler.COMMUNITY_GROUP_TABLE + "." + SQLiteHandler.GROUP_CODE_COL
-                        + ", " + SQLiteHandler.COMMUNITY_GROUP_TABLE + "." + SQLiteHandler.GROUP_NAME_COL
-                        + " FROM " + SQLiteHandler.COMMUNITY_GROUP_TABLE
-                        + " WHERE " + SQLiteHandler.COMMUNITY_GROUP_TABLE + "." + SQLiteHandler.COUNTRY_CODE_COL + "='" + cCode + "'";
-
-                list = sqlH.getListAndID(SQLiteHandler.CUSTOM_QUERY, udf, cCode, false);
-                break;
-
-            default:
-                list.clear();
-                break;
-        }
-
-
-        ArrayAdapter<SpinnerHelper> dataAdapter = new ArrayAdapter<SpinnerHelper>(this, R.layout.spinner_layout, list);
-
-        dataAdapter.setDropDownViewResource(R.layout.spinner_layout);
-
-        dt_spinner.setAdapter(dataAdapter);
-
-        /**      Retrieving Code for previous button         */
-        if (strSpinner != null) {
-            for (int i = 0; i < dt_spinner.getCount(); i++) {
-                String union = dt_spinner.getItemAtPosition(i).toString();
-                if (union.equals(strSpinner)) {
-                    position = i;
-                }
-            }
-            dt_spinner.setSelection(position);
-        }
+        SpinnerLoader.loadDynamicSpinnerListLoader(mContext, sqlH, dt_spinner, cCode, resLupText, strSpinner, mDTQ);
 
 
         dt_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -1488,14 +1369,11 @@ public class DT_QuestionActivity extends BaseActivity implements CompoundButton.
         for (int i = 0; i < List_DtATable.size(); i++) {
             String label = List_DtATable.get(i).getDt_ALabel();
             RadioButton rdbtn = new RadioButton(this);
+
             rdbtn.setId(i);
-
             rdbtn.setText(label); // set label
-
             rdbtn.setTextSize(24); // set text size
-
             rdbtn.setPadding(0, 10, 0, 10);     // set padding
-
             rdbtn.setOnCheckedChangeListener(DT_QuestionActivity.this);
 
 

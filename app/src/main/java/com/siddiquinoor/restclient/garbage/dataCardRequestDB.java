@@ -1,4 +1,4 @@
-package com.siddiquinoor.restclient.manager;
+package com.siddiquinoor.restclient.garbage;
 
 /**
  * Created by USER on 11/9/2015.

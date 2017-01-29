@@ -149,6 +149,27 @@ public class LoginActivity extends BaseActivity {
         settings = getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE); //1
         editor = settings.edit(); //2
 
+
+
+
+        // Progress mdialog
+        pDialog = new ProgressDialog(this);
+        pDialog.setCancelable(false);
+
+        // SQLite database handler
+        db = new SQLiteHandler(getApplicationContext());
+
+        // connectivity manager
+        cd = new ConnectionDetector(getApplicationContext());
+
+
+        setListener();
+
+
+    }
+
+    private void setListener() {
+// todo: move the code ANNotification class
         btnExit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -182,25 +203,6 @@ public class LoginActivity extends BaseActivity {
 
             }
         });
-
-
-        // Progress mdialog
-        pDialog = new ProgressDialog(this);
-        pDialog.setCancelable(false);
-
-        // SQLite database handler
-        db = new SQLiteHandler(getApplicationContext());
-
-        // connectivity manager
-        cd = new ConnectionDetector(getApplicationContext());
-
-
-        setListener();
-
-
-    }
-
-    private void setListener() {
         btnClean.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -669,7 +671,7 @@ public class LoginActivity extends BaseActivity {
                             getCountryAlert(user_name, password, UtilClass.SERVICE_OPERATION_MODE);
                         }
 
-                        //     checkServiceCenterSelection(user_name, password);
+
 
 
                     } else {

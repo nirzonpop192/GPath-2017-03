@@ -580,15 +580,8 @@ public class ServiceActivity extends BaseActivity implements View.OnClickListene
                                             if (checkMultipleCheckedOnGrid(idCountry, idDonor, idAward, idProgram)) {
 
                                                 erroDialog.showErrorDialog(mContext, "Sure to apply default days for selected IDs?");
-                                                erroDialog.alertDialog.setButton("Ok", new DialogInterface.OnClickListener() {
-                                                    @Override
-                                                    public void onClick(DialogInterface dialog, int which) {
-                                                        defaulftWDIntial();
 
-
-                                                    }
-                                                });
-
+                                                defaulftWDIntial();
                                                 break;
                                             } if (!checkOtherParameterIsGiven(srvName, progName, idCountry, idDonor, idAward, idProgram)) {
 

@@ -86,7 +86,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
     // All Static variables
 
     // Database Version
-    private static final int DATABASE_VERSION = 6;
+    private static final int DATABASE_VERSION = 7;
     // Database Name
     private static final String DATABASE_NAME = "pci";
     // Android meta data table
@@ -10863,28 +10863,30 @@ public class SQLiteHandler extends SQLiteOpenHelper {
 
     // Check Local Login
     public boolean isValidLocalLogin(final String user, final String pass) {
-        SQLiteDatabase db = this.getReadableDatabase();
+        SQLiteDatabase db1 = this.getReadableDatabase();
         String selectQuery = "SELECT  * FROM " + LOGIN_TABLE
                 + " WHERE " + USER_LOGIN_NAME + " = " + "'" + user + "' AND " + USER_LOGIN_PW + " = " + "'" + pass + "'";
         try {
 
-            final Cursor cursor = db.rawQuery(selectQuery, null);
+            final Cursor cursor = db1.rawQuery(selectQuery, null);
             if (cursor != null) {
                 if (cursor.getCount() > 0) {
+                    cursor.close();
                     return true;
                 } else {
+                    cursor.close();
                     return false;
                 }
 
             }
-            cursor.close();
+
         } catch (Exception e) {
             Log.d(TAG, "isValidLocalLogin() Method: " + e.getMessage());
 
         } finally {
             // close database connection
 
-            db.close();
+            db1.close();
         }
         return false;
     }
@@ -11055,6 +11057,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
      * Getting Operation Startig date & End date data from database
      * [ For Graduation date]
      * Faisal Mohammad
+     *
      * @since : 2015-10-01
      */
     public HashMap<String, String> getGRDDateRange(String cCode) {
@@ -11260,12 +11263,9 @@ public class SQLiteHandler extends SQLiteOpenHelper {
     }
 
 
-
     /**
-     *
-     *  2015-10-05
+     * 2015-10-05
      * delete the recorde from service
-
      */
     public int deleteService(String countryId, String donorId, String awardId, String distId, String upId, String unId, String villId, String hhId, String memId, String progId, String srvId, String opCodeId, String opMCodeId, String srvSerialNo) {
 
@@ -11614,9 +11614,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
         db.close();
     }
 
-    public void addIntoDTBasic(String dtBasic, String dtTitle, String dtSubTitle, String dtDescription, String dtAutoScroll,
-                               String dtAutoScrollText, String dtActive, String dtCategory, String dtGeoListLevel,
-                               String dtOpMode, String entryBy, String entryDate) {
+    public void addIntoDTBasic(String dtBasic, String dtTitle, String dtSubTitle, String dtDescription, String dtAutoScroll, String dtAutoScrollText, String dtActive, String dtCategory, String dtGeoListLevel, String dtOpMode, String entryBy, String entryDate) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
 

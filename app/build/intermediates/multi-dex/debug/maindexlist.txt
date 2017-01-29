@@ -1054,7 +1054,6 @@ com/siddiquinoor/restclient/activity/DistributionActivity$10.class
 android/support/v7/widget/RecyclerView$3.class
 com/google/android/gms/ads/internal/zzl.class
 com/google/android/gms/ads/internal/client/zzai.class
-com/siddiquinoor/restclient/activity/ServiceActivity$14.class
 com/siddiquinoor/restclient/activity/AssignActivity$3.class
 android/support/v4/media/RatingCompat$1.class
 com/google/android/gms/internal/zziq.class

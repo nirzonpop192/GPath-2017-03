@@ -168,12 +168,12 @@
         "source": "D:\\WorkSpace\\AndroidStudioProject\\Jan-2017\\GPath\\GPath-LOC-02040215\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\layout\\abc_screen_simple_overlay_action_mode.xml"
     },
     {
-        "merged": "D:\\WorkSpace\\AndroidStudioProject\\Jan-2017\\GPath\\GPath-LOC-02040215\\app\\build\\intermediates\\res\\merged\\debug\\layout\\item_survey_row.xml",
-        "source": "D:\\WorkSpace\\AndroidStudioProject\\Jan-2017\\GPath\\GPath-LOC-02040215\\app\\src\\main\\res\\layout\\item_survey_row.xml"
-    },
-    {
         "merged": "D:\\WorkSpace\\AndroidStudioProject\\Jan-2017\\GPath\\GPath-LOC-02040215\\app\\build\\intermediates\\res\\merged\\debug\\layout\\notification_template_part_time.xml",
         "source": "D:\\WorkSpace\\AndroidStudioProject\\Jan-2017\\GPath\\GPath-LOC-02040215\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\layout\\notification_template_part_time.xml"
+    },
+    {
+        "merged": "D:\\WorkSpace\\AndroidStudioProject\\Jan-2017\\GPath\\GPath-LOC-02040215\\app\\build\\intermediates\\res\\merged\\debug\\layout\\item_survey_row.xml",
+        "source": "D:\\WorkSpace\\AndroidStudioProject\\Jan-2017\\GPath\\GPath-LOC-02040215\\app\\src\\main\\res\\layout\\item_survey_row.xml"
     },
     {
         "merged": "D:\\WorkSpace\\AndroidStudioProject\\Jan-2017\\GPath\\GPath-LOC-02040215\\app\\build\\intermediates\\res\\merged\\debug\\layout\\abc_action_menu_layout.xml",

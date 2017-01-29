@@ -172,7 +172,7 @@ public class DT_ReportActivity extends AppCompatActivity {
         });
     }
 
-    private void showDialog(){
+    private void showDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setMessage("Do you want to delete this survey?\nPress YES to delete, NO to abort.");
         builder.setCancelable(true);
@@ -195,7 +195,7 @@ public class DT_ReportActivity extends AppCompatActivity {
         alertDialog.show();
     }
 
-    private void deleteSurvey(){
+    private void deleteSurvey() {
         int position = viewPager.getCurrentItem();
         SurveyModel surveyModel = surveyModels.get(position);
         DTSurveyTableDataModel dtSurveyTableDataModel = surveyModel.getDtSurveyTableDataModels().get(0);
@@ -204,7 +204,7 @@ public class DT_ReportActivity extends AppCompatActivity {
                 dtSurveyTableDataModel.getOpMode(), dtSurveyTableDataModel.getOpMonthCode(), surveyModel.getSurveyNum());
         surveyModels.remove(position);
         adapter.removeFragment(position);
-        if(surveyModels.size()==0){
+        if (surveyModels.size() == 0) {
             rlIndicator.setVisibility(View.GONE);
             ivDeleteSurvey.setVisibility(View.GONE);
             viewPager.setVisibility(View.GONE);

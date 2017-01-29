@@ -40,6 +40,7 @@ import java.util.Locale;
 
 import com.siddiquinoor.restclient.manager.sqlsyntax.Schema;
 import com.siddiquinoor.restclient.views.notifications.ADNotificationManager;
+import com.siddiquinoor.restclient.views.spinner.SpinnerLoader;
 
 public class CommunityGroupNDetailsRecodes extends BaseActivity {
     // TODO: 10/18/2016  change the Schema  of Communninity Group & details table (done )
@@ -472,11 +473,11 @@ public class CommunityGroupNDetailsRecodes extends BaseActivity {
 
                 strStaff = ((SpinnerHelper) spStaffName.getSelectedItem()).getValue();
                 idStaff = ((SpinnerHelper) spStaffName.getSelectedItem()).getId();
+// todo: recheck this position
+//                if (idStaff.length() > 0) {
 
-                if (idStaff.length() > 0) {
-
-                    // loadGroupCategory(idCountry, idDonor, idAward, idProgram);
-                }
+                // loadGroupCategory(idCountry, idDonor, idAward, idProgram);
+//                }
 
 
             }
@@ -497,28 +498,7 @@ public class CommunityGroupNDetailsRecodes extends BaseActivity {
      * @see SQLiteQuery#loadOrganization_sql(String, String, String)
      */
     private void loadOrganization(final String cCode, final String donorCode, final String awardCode) {
-        int position = 0;
-
-        String sql = SQLiteQuery.loadOrganization_sql(cCode, donorCode, awardCode);
-
-
-        List<SpinnerHelper> listUpazilla = sqlH.getListAndID(SQLiteHandler.CUSTOM_QUERY, sql, cCode, false);
-        ArrayAdapter<SpinnerHelper> dataAdapter = new ArrayAdapter<SpinnerHelper>(this, R.layout.spinner_layout, listUpazilla);
-        dataAdapter.setDropDownViewResource(R.layout.spinner_layout);
-
-        spOrg.setAdapter(dataAdapter);
-
-
-        if (idOrg != null) {
-
-            for (int i = 0; i < spOrg.getCount(); i++) {
-                String orgation = spOrg.getItemAtPosition(i).toString();
-                if (orgation.equals(strOrg)) {
-                    position = i;
-                }
-            }
-            spOrg.setSelection(position);
-        }
+        SpinnerLoader.loadOrganizationLoader(mContext, sqlH, spOrg, cCode, idOrg, strOrg, SQLiteQuery.loadOrganization_sql(cCode, donorCode, awardCode));
 
 
         spOrg.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -536,7 +516,6 @@ public class CommunityGroupNDetailsRecodes extends BaseActivity {
             }
         });
     }
-
 
 
     private void loadActiveStatus() {
@@ -803,7 +782,7 @@ public class CommunityGroupNDetailsRecodes extends BaseActivity {
                  *  basic Community Group
                  */
                 sqlH.editCommunityGroup(idCountry, idDonor, idAward, idProgram, idGroup, GrpName, idGroupCat, idLayR1Code, idLayR2Code, idLayR3Code, entryBy, entryDate, oldLayR1Code, oldLayR2Code, oldLayR3Code);
-                LayRCodes layRCodes_group = sqlH.getLayRListFromCommunityGroup(idCountry, idDonor, idAward, idProgram, idGroup,strGroup);
+                LayRCodes layRCodes_group = sqlH.getLayRListFromCommunityGroup(idCountry, idDonor, idAward, idProgram, idGroup, strGroup);
 
                 sqlH.insertIntoUploadTable(syntax.updateIntoCommunityGroupTable(layRCodes_group));
 

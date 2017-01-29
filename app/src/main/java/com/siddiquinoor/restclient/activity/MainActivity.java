@@ -430,6 +430,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 break;
 
             case R.id.btnGraduation:
+                finish();
                 /**
                  *  when user press the assign page it will take to the member page
                  */
@@ -437,12 +438,13 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 Intent iMemSearchPage_1 = new Intent(getApplicationContext(), MemberSearchPage.class);
                 iMemSearchPage_1.putExtra(KEY.COUNTRY_ID, idCountry);
                 iMemSearchPage_1.putExtra(KEY.DIR_CLASS_NAME_KEY, "MainActivity");
-                finish();
+
                 startActivity(iMemSearchPage_1);
 
                 break;
 
             case R.id.btnAssinge:
+                finish();
                 /**
                  *  when user press the assign page it will take to the member page
                  */
@@ -454,13 +456,13 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 iMemSearchPage.putExtra(KEY.DIR_CLASS_NAME_KEY, "MainActivity");
 
 
-                finish();
                 startActivity(iMemSearchPage);
                 break;
             case R.id.btnDynamicData:
+                finish();
                 Intent iDynamicData = new Intent(getApplicationContext(), DynamicData.class);
                 iDynamicData.putExtra(KEY.COUNTRY_ID, idCountry);
-                finish();
+
                 startActivity(iDynamicData);
                 break;
         }
@@ -559,7 +561,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         }
 
 
-
         List<SpinnerHelper> listCountry = sqlH.getListAndID(SQLiteHandler.COUNTRY_TABLE, criteria, null, true);
         ArrayAdapter<SpinnerHelper> dataAdapter = new ArrayAdapter<SpinnerHelper>(this, R.layout.spinner_layout, listCountry);
         dataAdapter.setDropDownViewResource(R.layout.spinner_layout);
@@ -642,11 +643,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 }
 
 
-
                 publishProgress(++progressIncremental);
 
-
-                // Adding data into  regn_lm  Table
 
 
                 if (!jObj.isNull(Parser.REGN_LM_JSON_A)) {// this is not servie
@@ -697,7 +695,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
                 publishProgress(++progressIncremental);
 
-                //regn_cu2 Table
+
 
 
                 if (!jObj.isNull(Parser.REGN_CU_2_JSON_A)) {// this is not servie
@@ -871,12 +869,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             try {
 
 
-                /**
-                 * The total string Convert into JSON object
-                 * */
+                /**                 * The total string Convert into JSON object                 * */
 
                 JSONObject jObj = new JSONObject(retrieveData);
-
 
                 publishProgress(++progressIncremental);
 

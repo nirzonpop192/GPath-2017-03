@@ -18,12 +18,14 @@ import android.widget.TextView;
 import com.siddiquinoor.restclient.R;
 
 /**
- * Created by USER on 8/24/2015.
+ * @author : POP
+ * @since : 8/24/2015.
  */
 public class ADNotificationManager {
 
 
-    public     AlertDialog alertDialog;
+    // public     AlertDialog alertDialog;
+
     /**
      * Function to display simple Confirm Alert Dialog
      *
@@ -91,8 +93,8 @@ public class ADNotificationManager {
      *                  - pass null if you don't want icon
      * @param errorMssg -determine the cancelabel
      */
-    public void showAlertDialog(Context context, String title, String message, Boolean status, boolean errorMssg) {
-        this.alertDialog = new AlertDialog.Builder(context).create();
+    private void showAlertDialog(Context context, String title, String message, Boolean status, boolean errorMssg) {
+        AlertDialog alertDialog = new AlertDialog.Builder(context).create();
 
         if (errorMssg) {
             alertDialog.setTitle("Error");
@@ -132,7 +134,6 @@ public class ADNotificationManager {
         final AlertDialog alertDialog = new AlertDialog.Builder(context).create();
 
 
-
         alertDialog.setTitle("Error");
         alertDialog.setCancelable(true);
 
@@ -140,7 +141,7 @@ public class ADNotificationManager {
         alertDialog.setMessage(message);
 
 
-       alertDialog.requestWindowFeature(Window.FEATURE_LEFT_ICON);
+        alertDialog.requestWindowFeature(Window.FEATURE_LEFT_ICON);
         alertDialog.setIcon(R.drawable.warning_32);
 
 
@@ -162,13 +163,13 @@ public class ADNotificationManager {
     public void showSettingsAlert(final Context mContext) {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(mContext);
 
-        // Setting Dialog Title
+        /** Setting Dialog Title */
         alertDialog.setTitle("GPS is settings");
 
-        // Setting Dialog Message
+        /** Setting Dialog Message */
         alertDialog.setMessage("GPS is not enabled. Do you want to go to settings menu?");
 
-        // On pressing Settings button
+        /** On pressing Settings button */
         alertDialog.setPositiveButton("Settings", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
                 Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
@@ -176,21 +177,21 @@ public class ADNotificationManager {
             }
         });
 
-        // on pressing cancel button
+        /** on pressing cancel button */
         alertDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
                 dialog.cancel();
             }
         });
 
-        // Showing Alert Message
+        /** Showing Alert Message */
         alertDialog.show();
     }
 
     /**
-     * @param activity
-     * @param title
-     * @param msg
+     * @param activity Invoking activity reference
+     * @param title    title of the dialog
+     * @param msg      massage
      */
 
     public void showCustomDialog(final Activity activity, String title, String msg, final Intent intent) {
@@ -229,7 +230,8 @@ public class ADNotificationManager {
         dialog.show();
 
     }
-    private AlertDialog.Builder  createCustomBuilder( Activity activity, String title,String msg){
+
+    private AlertDialog.Builder createCustomBuilder(Activity activity, String title, String msg) {
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder((Context) activity);
         /**
          * convert the layout xml convert java object by inflater

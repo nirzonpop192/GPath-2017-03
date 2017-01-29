@@ -738,90 +738,7 @@ public class SyncDatabase {
                             }
                         }
 
-// TODO: 10/17/2016  remove the  lay1 ,lay2,lay3 ,lay4  in the Sync process
 
-                     /*   if (!jObj.isNull(Parser.DISTRICT)) {
-                            JSONArray district = jObj.getJSONArray(Parser.DISTRICT);
-                            size = district.length();
-                            for (int i = 0; i < size; i++) {
-                                JSONObject dist = district.getJSONObject(i);
-
-                                String AdmCountryCode = dist.getString(Parser.ADM_COUNTRY_CODE);
-                                String GeoLayRCode = dist.getString(Parser.GEO_LAY_R_CODE);
-                                String LayRListCode = dist.getString(Parser.LAY_R_LIST_CODE);
-                                String LayRListName = dist.getString(Parser.LAY_R_LIST_NAME);
-
-                                sqlH.addDistrict(AdmCountryCode, GeoLayRCode, LayRListCode, LayRListName);
-
-
-                            }
-                        }
-
-
-                        if (!jObj.isNull(Parser.UPAZILLA)) {
-
-                            JSONArray upazilla = jObj.getJSONArray(Parser.UPAZILLA);
-
-                            size = upazilla.length();
-                            for (int i = 0; i < size; i++) {
-                                JSONObject up = upazilla.getJSONObject(i);
-
-                                String AdmCountryCode = up.getString(Parser.ADM_COUNTRY_CODE);
-                                String GeoLayRCode = up.getString(Parser.GEO_LAY_R_CODE);
-                                String LayR1ListCode = up.getString(Parser.LAY_R_1_LIST_CODE);
-                                String LayR2ListCode = up.getString(Parser.LAY_R_2_LIST_CODE);
-                                String LayR2ListName = up.getString(Parser.LAY_R_2_LIST_NAME);
-
-                                sqlH.addUpazilla(AdmCountryCode, GeoLayRCode, LayR1ListCode, LayR2ListCode, LayR2ListName);
-
-
-                            }
-                        }
-
-
-                        if (!jObj.isNull(Parser.UNIT_JSON_A)) {
-
-                            JSONArray unit = jObj.getJSONArray(Parser.UNIT_JSON_A);
-                            size = unit.length();
-                            for (int i = 0; i < size; i++) {
-                                JSONObject un = unit.getJSONObject(i);
-
-                                String AdmCountryCode = un.getString(Parser.ADM_COUNTRY_CODE);
-                                String GeoLayRCode = un.getString(Parser.GEO_LAY_R_CODE);
-                                String LayR1ListCode = un.getString(Parser.LAY_R_1_LIST_CODE);
-                                String LayR2ListCode = un.getString(Parser.LAY_R_2_LIST_CODE);
-                                String LayR3ListCode = un.getString(Parser.LAY_R_3_LIST_CODE);
-                                String LayR3ListName = un.getString(Parser.LAY_R_3_LIST_NAME);
-
-                                sqlH.addUnit(AdmCountryCode, GeoLayRCode, LayR1ListCode, LayR2ListCode, LayR3ListCode, LayR3ListName);
-
-
-                            }
-                        }
-
-
-                        if (!jObj.isNull(Parser.VILLAGE_JSON_A)) {
-
-                            JSONArray village = jObj.getJSONArray(Parser.VILLAGE_JSON_A);
-
-                            size = village.length();
-                            for (int i = 0; i < size; i++) {
-                                JSONObject vil = village.getJSONObject(i);
-
-                                String AdmCountryCode = vil.getString(Parser.ADM_COUNTRY_CODE);
-                                String GeoLayRCode = vil.getString(Parser.GEO_LAY_R_CODE);
-                                String LayR1ListCode = vil.getString(Parser.LAY_R_1_LIST_CODE);
-                                String LayR2ListCode = vil.getString(Parser.LAY_R_2_LIST_CODE);
-                                String LayR3ListCode = vil.getString(Parser.LAY_R_3_LIST_CODE);
-                                String LayR4ListCode = vil.getString(Parser.LAY_R_4_LIST_CODE);
-                                String LayR4ListName = vil.getString(Parser.LAY_R_4_LIST_NAME);
-                                String HHCount = vil.getString(Parser.HH_COUNT);
-
-                                sqlH.addVillage(AdmCountryCode, GeoLayRCode, LayR1ListCode, LayR2ListCode, LayR3ListCode, LayR4ListCode, LayR4ListName, HHCount);
-
-
-                            }
-                        }*/
 
 
                         // Adding data into Relation Table
@@ -1054,14 +971,7 @@ public class SyncDatabase {
     // end function
 
 
-    /**
-     * @author: Faisal Mohammad
-     * @date: 2015-10-28
-     * @description: Request for huge data to collect
-     * House Hold table, Member table, PrgramServiceAssign table
-     * , PW, LM , CA ,CU , Service Table
-     * function to verify login details in mysql db
-     */
+
 
 
 }

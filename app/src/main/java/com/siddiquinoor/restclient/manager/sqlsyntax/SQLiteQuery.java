@@ -3175,14 +3175,14 @@ public class SQLiteQuery {
     public static String loadOrganization_sql(final String cCode, final String donorCode, final String awardCode) {
         return "SELECT progOR." + ORG_CODE_COL +
                 " ,  pOrg." + ORGANIZATION_NAME + " " +
-                "                                FROM " + SQLiteHandler.PROGRAM_ORGANIZATION_ROLE_TABLE + " AS progOR "
+                "                                FROM " + PROGRAM_ORGANIZATION_ROLE_TABLE + " AS progOR "
                 + "                               INNER JOIN " +
                 "                                " + PROGRAM_ORGANIZATION_NAME_TABLE + " AS pOrg " +
                 "                               ON progOR." + ORG_CODE_COL + " = pOrg." + ORG_CODE_COL + "  " +
                 "                                WHERE (progOR." + COUNTRY_CODE_COL + " = '" + cCode + "')" +
                 "                                AND (progOR." + DONOR_CODE_COL + " = '" + donorCode + "') " +
                 "                                AND (progOR." + AWARD_CODE_COL + " = '" + awardCode + "') " +
-                "                                AND (progOR." + SQLiteHandler.IMP_Y_N_COL + " = 'Y')" +
+                "                                AND (progOR." + IMP_Y_N_COL + " = 'Y')" +
                 " GROUP BY progOR." + ORG_CODE_COL +
                 "                                ORDER BY pOrg." + ORGANIZATION_NAME;
 

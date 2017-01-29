@@ -2,6 +2,7 @@ package com.siddiquinoor.restclient.views.spinner;
 
 import android.app.Activity;
 import android.content.Context;
+import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
@@ -10,23 +11,40 @@ import com.siddiquinoor.restclient.activity.ServiceActivity;
 import com.siddiquinoor.restclient.manager.SQLiteHandler;
 import com.siddiquinoor.restclient.manager.sqlsyntax.SQLiteQuery;
 import com.siddiquinoor.restclient.utils.UtilClass;
+import com.siddiquinoor.restclient.views.adapters.DynamicTableQuesDataModel;
 import com.siddiquinoor.restclient.views.helper.SpinnerHelper;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import static com.siddiquinoor.restclient.activity.sub_activity.dynamic_table.DT_QuestionActivity.COMMUNITY_GROUP;
+import static com.siddiquinoor.restclient.activity.sub_activity.dynamic_table.DT_QuestionActivity.DISTRIBUTION_POINT;
+import static com.siddiquinoor.restclient.activity.sub_activity.dynamic_table.DT_QuestionActivity.GEO_LAYER_1;
+import static com.siddiquinoor.restclient.activity.sub_activity.dynamic_table.DT_QuestionActivity.GEO_LAYER_2;
+import static com.siddiquinoor.restclient.activity.sub_activity.dynamic_table.DT_QuestionActivity.GEO_LAYER_3;
+import static com.siddiquinoor.restclient.activity.sub_activity.dynamic_table.DT_QuestionActivity.GEO_LAYER_4;
+import static com.siddiquinoor.restclient.activity.sub_activity.dynamic_table.DT_QuestionActivity.GEO_LAYER_ADDRESS;
+import static com.siddiquinoor.restclient.activity.sub_activity.dynamic_table.DT_QuestionActivity.LOOKUP_LIST;
+import static com.siddiquinoor.restclient.activity.sub_activity.dynamic_table.DT_QuestionActivity.ORGANIZATION_LIST;
+import static com.siddiquinoor.restclient.activity.sub_activity.dynamic_table.DT_QuestionActivity.SERVICE_SITE;
 import static com.siddiquinoor.restclient.manager.SQLiteHandler.AWARD_CODE_COL;
 import static com.siddiquinoor.restclient.manager.SQLiteHandler.COUNTRY_CODE_COL;
 import static com.siddiquinoor.restclient.manager.SQLiteHandler.DONOR_CODE_COL;
 import static com.siddiquinoor.restclient.manager.SQLiteHandler.FDP_CODE_COL;
 import static com.siddiquinoor.restclient.manager.SQLiteHandler.GROUP_CAT_CODE_COL;
+import static com.siddiquinoor.restclient.manager.SQLiteHandler.ORGANIZATION_NAME;
+import static com.siddiquinoor.restclient.manager.SQLiteHandler.ORG_CODE_COL;
 import static com.siddiquinoor.restclient.manager.SQLiteHandler.PROGRAM_CODE_COL;
+import static com.siddiquinoor.restclient.manager.SQLiteHandler.PROGRAM_ORGANIZATION_NAME_TABLE;
+import static com.siddiquinoor.restclient.manager.SQLiteHandler.PROGRAM_ORGANIZATION_ROLE_TABLE;
 import static com.siddiquinoor.restclient.manager.SQLiteHandler.SELECTED_SERVICE_CENTER_TABLE;
 import static com.siddiquinoor.restclient.manager.SQLiteHandler.SERVICE_CENTER_CODE_COL;
 import static com.siddiquinoor.restclient.manager.SQLiteHandler.SERVICE_CENTER_NAME_COL;
 import static com.siddiquinoor.restclient.manager.SQLiteHandler.SERVICE_CENTER_TABLE;
 
 /**
- * Created by pop on 1/11/2017.
+ * Created by pop
+ * @since  1/11/2017.
  * This class is use for Load values in Spinner .
  * if  data exist in data base get the value set to the spinner value
  */
@@ -257,6 +275,173 @@ public class SpinnerLoader {
                 }
             }
             spServiceCenter.setSelection(position);
+        }
+
+    }
+
+    /**
+     * todo: describe it
+     *
+     * @param context refer to the activity which will invoke this method.
+     * @param sqlH    database reference
+     * @param spOrg   spinner view
+     * @param cCode   country code
+     * @param idOrg   organization Code
+     * @param strOrg  organization Code
+     * @param query   load spinner query
+     */
+    public static void loadOrganizationLoader(Context context, SQLiteHandler sqlH, Spinner spOrg, String cCode, String idOrg, String strOrg, String query) {
+
+        int position = 0;
+
+        List<SpinnerHelper> listUpazilla = sqlH.getListAndID(SQLiteHandler.CUSTOM_QUERY, query, cCode, false);
+        ArrayAdapter<SpinnerHelper> dataAdapter = new ArrayAdapter<SpinnerHelper>(context, R.layout.spinner_layout, listUpazilla);
+        dataAdapter.setDropDownViewResource(R.layout.spinner_layout);
+        spOrg.setAdapter(dataAdapter);
+
+        if (idOrg != null) {
+
+            for (int i = 0; i < spOrg.getCount(); i++) {
+                String orgation = spOrg.getItemAtPosition(i).toString();
+                if (orgation.equals(strOrg)) {
+                    position = i;
+                }
+            }
+            spOrg.setSelection(position);
+        }
+    }
+    public static void loadDynamicSpinnerListLoader(Context context, SQLiteHandler sqlH, Spinner dt_spinner, String cCode,  String resLupText,String strSpinner,DynamicTableQuesDataModel mDTQ){
+
+        int position = 0;
+
+        String udf = "";
+        Log.d("CHOR", " resLupText:" + resLupText);
+        List<SpinnerHelper> list = new ArrayList<SpinnerHelper>();
+        switch (resLupText) {
+
+            case GEO_LAYER_3:
+
+                udf = "SELECT " + SQLiteHandler.UNIT_TABLE + "." + SQLiteHandler.LAY_R3_LIST_CODE_COL
+                        + ", " + SQLiteHandler.UNIT_TABLE + "." + SQLiteHandler.UNITE_NAME_COL
+                        + " FROM " + SQLiteHandler.UNIT_TABLE
+                        + " WHERE " + SQLiteHandler.UNIT_TABLE + "." + SQLiteHandler.COUNTRY_CODE_COL + "='" + cCode + "'";
+
+
+                break;
+            case GEO_LAYER_2:
+                udf = "SELECT " + SQLiteHandler.UPAZILLA_TABLE + "." + SQLiteHandler.LAY_R2_LIST_CODE_COL
+                        + ", " + SQLiteHandler.UPAZILLA_TABLE + "." + SQLiteHandler.UPZILLA_NAME_COL
+                        + " FROM " + SQLiteHandler.UPAZILLA_TABLE
+                        + " WHERE " + SQLiteHandler.UPAZILLA_TABLE + "." + SQLiteHandler.COUNTRY_CODE_COL + "='" + cCode + "'";
+
+
+                break;
+
+            case GEO_LAYER_1:
+
+                udf = "SELECT " + SQLiteHandler.DISTRICT_TABLE + "." + SQLiteHandler.LAY_R1_LIST_CODE_COL
+                        + ", " + SQLiteHandler.DISTRICT_TABLE + "." + SQLiteHandler.DISTRICT_NAME_COL
+                        + " FROM " + SQLiteHandler.DISTRICT_TABLE
+                        + " WHERE " + SQLiteHandler.DISTRICT_TABLE + "." + SQLiteHandler.COUNTRY_CODE_COL + "='" + cCode + "'";
+
+
+                break;
+
+            case GEO_LAYER_4:
+
+                udf = "SELECT " + SQLiteHandler.VILLAGE_TABLE + "." + SQLiteHandler.LAY_R4_LIST_CODE_COL
+                        + ", " + SQLiteHandler.VILLAGE_TABLE + "." + SQLiteHandler.VILLAGE_NAME_COL
+                        + " FROM " + SQLiteHandler.VILLAGE_TABLE
+                        + " WHERE " + SQLiteHandler.VILLAGE_TABLE + "." + SQLiteHandler.COUNTRY_CODE_COL + "='" + cCode + "'";
+
+
+                break;
+
+            case GEO_LAYER_ADDRESS:
+
+                udf = "SELECT " + SQLiteHandler.LUP_REGN_ADDRESS_LOOKUP_TABLE + "." + SQLiteHandler.REGN_ADDRESS_LOOKUP_CODE_COL
+                        + ", " + SQLiteHandler.LUP_REGN_ADDRESS_LOOKUP_TABLE + "." + SQLiteHandler.REGN_ADDRESS_LOOKUP_NAME_COL
+                        + " FROM " + SQLiteHandler.LUP_REGN_ADDRESS_LOOKUP_TABLE
+                        + " WHERE " + SQLiteHandler.LUP_REGN_ADDRESS_LOOKUP_TABLE + "." + SQLiteHandler.COUNTRY_CODE_COL + "='" + cCode + "'";
+
+
+                break;
+
+            case SERVICE_SITE:
+
+                udf = "SELECT " + SQLiteHandler.SERVICE_CENTER_TABLE + "." + SQLiteHandler.SERVICE_CENTER_CODE_COL
+                        + ", " + SQLiteHandler.SERVICE_CENTER_TABLE + "." + SQLiteHandler.SERVICE_CENTER_NAME_COL
+                        + " FROM " + SQLiteHandler.SERVICE_CENTER_TABLE
+                        + " WHERE " + SQLiteHandler.SERVICE_CENTER_TABLE + "." + SQLiteHandler.COUNTRY_CODE_COL + "='" + cCode + "'";
+
+
+                break;
+
+            case DISTRIBUTION_POINT:
+
+                udf = "SELECT " + SQLiteHandler.FDP_MASTER_TABLE + "." + SQLiteHandler.FDP_CODE_COL
+                        + ", " + SQLiteHandler.FDP_MASTER_TABLE + "." + SQLiteHandler.FDP_NAME_COL
+                        + " FROM " + SQLiteHandler.FDP_MASTER_TABLE
+                        + " WHERE " + SQLiteHandler.FDP_MASTER_TABLE + "." + SQLiteHandler.COUNTRY_CODE_COL + "='" + cCode + "'";
+
+
+                break;
+
+
+            case LOOKUP_LIST:
+
+                udf = "SELECT " + SQLiteHandler.DT_LUP_TABLE + "." + SQLiteHandler.LIST_CODE_COL
+                        + ", " + SQLiteHandler.DT_LUP_TABLE + "." + SQLiteHandler.LIST_NAME_COL
+                        + " FROM " + SQLiteHandler.DT_LUP_TABLE
+                        + " WHERE " + SQLiteHandler.DT_LUP_TABLE + "." + SQLiteHandler.COUNTRY_CODE_COL + "= '" + cCode + "' "
+
+                        + " AND " + SQLiteHandler.DT_LUP_TABLE + "." + SQLiteHandler.TABLE_NAME_COL + "= '" + mDTQ.getLup_TableName() + "'"
+                ;
+
+
+                break;
+
+
+            case COMMUNITY_GROUP:
+                udf = "SELECT " + SQLiteHandler.COMMUNITY_GROUP_TABLE + "." + SQLiteHandler.GROUP_CODE_COL
+                        + ", " + SQLiteHandler.COMMUNITY_GROUP_TABLE + "." + SQLiteHandler.GROUP_NAME_COL
+                        + " FROM " + SQLiteHandler.COMMUNITY_GROUP_TABLE
+                        + " WHERE " + SQLiteHandler.COMMUNITY_GROUP_TABLE + "." + SQLiteHandler.COUNTRY_CODE_COL + "='" + cCode + "'";
+
+
+                break;
+            case ORGANIZATION_LIST:
+
+                udf ="SELECT  progOR." + ORG_CODE_COL +", pOrg." + ORGANIZATION_NAME + " " +
+                        "                                FROM " + PROGRAM_ORGANIZATION_ROLE_TABLE + " AS progOR "
+                        + "                               INNER JOIN " +
+                        "                                " + PROGRAM_ORGANIZATION_NAME_TABLE + " AS pOrg " +
+                        "                               ON progOR." + ORG_CODE_COL + " = pOrg." + ORG_CODE_COL + "  " +
+                        "                                WHERE (progOR." + COUNTRY_CODE_COL + " = '" + cCode + "')" +
+
+                        " GROUP BY pOrg." + ORGANIZATION_NAME ;
+
+                break;
+
+
+        }
+        list.clear();
+        list = sqlH.getListAndID(SQLiteHandler.CUSTOM_QUERY, udf, cCode, false);
+
+        ArrayAdapter<SpinnerHelper> dataAdapter = new ArrayAdapter<SpinnerHelper>(context, R.layout.spinner_layout, list);
+        dataAdapter.setDropDownViewResource(R.layout.spinner_layout);
+
+        dt_spinner.setAdapter(dataAdapter);
+
+        /**      Retrieving Code for previous button         */
+        if (strSpinner != null) {
+            for (int i = 0; i < dt_spinner.getCount(); i++) {
+                String union = dt_spinner.getItemAtPosition(i).toString();
+                if (union.equals(strSpinner)) {
+                    position = i;
+                }
+            }
+            dt_spinner.setSelection(position);
         }
 
     }

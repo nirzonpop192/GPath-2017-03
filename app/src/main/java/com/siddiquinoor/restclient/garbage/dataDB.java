@@ -2,8 +2,6 @@ package com.siddiquinoor.restclient.garbage;
 
 import android.util.Log;
 
-import com.siddiquinoor.restclient.manager.dataMemDB;
-
 import org.json.JSONArray;
 
 import java.util.ArrayList;

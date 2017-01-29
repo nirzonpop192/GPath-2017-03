@@ -1,4 +1,4 @@
-package com.siddiquinoor.restclient.manager;
+package com.siddiquinoor.restclient.garbage;
 
 /**
  * Activity for presenting the list of all entry in a list view
