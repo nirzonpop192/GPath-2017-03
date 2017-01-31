@@ -42,6 +42,7 @@ import com.siddiquinoor.restclient.utils.UtilClass;
 import com.siddiquinoor.restclient.views.adapters.DistributionSaveDataModel;
 import com.siddiquinoor.restclient.views.helper.SpinnerHelper;
 import com.siddiquinoor.restclient.views.notifications.AlertDialogManager;
+import com.siddiquinoor.restclient.views.spinner.SpinnerLoader;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -105,6 +106,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     private TextView textLastSync;
     private TextView textSyncRequired;
     private TextView textOperationMode;
+    private Context mContext;
 
 
     @Override
@@ -114,6 +116,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         setContentView(R.layout.activity_main);
 
         main_activity = this;
+        mContext = this;
         spCountry = (Spinner) findViewById(R.id.spDCountry);// add the spinner
         sqlH = new SQLiteHandler(this); //  it should be other wise it will show null point Exception
 
@@ -505,78 +508,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     private void loadCountry() {
 
         SharedPreferences settings = getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
-
-        int position = 0;
-        String criteria = "";
-
         int operationMode = settings.getInt(UtilClass.OPERATION_MODE, 0);
-        Log.d("NIR1", "operation mode : " + operationMode);
-        switch (operationMode) {
-            case UtilClass.REGISTRATION_OPERATION_MODE:
-                criteria = " INNER JOIN " + SQLiteHandler.SELECTED_VILLAGE_TABLE + " ON "
-                        + SQLiteHandler.COUNTRY_TABLE + "." + SQLiteHandler.COUNTRY_CODE_COL + " = "
-                        + SQLiteHandler.SELECTED_VILLAGE_TABLE + "." + SQLiteHandler.COUNTRY_CODE_COL;
 
-
-                break;
-            case UtilClass.DISTRIBUTION_OPERATION_MODE:
-                criteria = " INNER JOIN " + SQLiteHandler.SELECTED_FDP_TABLE + " ON "
-                        + SQLiteHandler.COUNTRY_TABLE + "." + SQLiteHandler.COUNTRY_CODE_COL + " = "
-                        + SQLiteHandler.SELECTED_FDP_TABLE + "." + SQLiteHandler.COUNTRY_CODE_COL;
-
-                break;
-            case UtilClass.SERVICE_OPERATION_MODE:
-                criteria = " INNER JOIN " + SQLiteHandler.SELECTED_SERVICE_CENTER_TABLE + " ON "
-                        + SQLiteHandler.COUNTRY_TABLE + "." + SQLiteHandler.COUNTRY_CODE_COL + " = "
-                        + SQLiteHandler.SELECTED_SERVICE_CENTER_TABLE + "." + SQLiteHandler.COUNTRY_CODE_COL;
-
-
-                break;
-
-            case UtilClass.OTHER_OPERATION_MODE:
-/**
- * check  user  has access in multiple countries
- */
-                if (db.isMultipleCountryAccessUser()) {
-                    criteria = " INNER JOIN " + SQLiteHandler.SELECTED_COUNTRY_TABLE + " ON "
-                            + SQLiteHandler.COUNTRY_TABLE + "." + SQLiteHandler.COUNTRY_CODE_COL + " = "
-                            + SQLiteHandler.SELECTED_COUNTRY_TABLE + "." + SQLiteHandler.COUNTRY_CODE_COL;
-
-
-                } else {
-
-//                    StaffGeoInfoAccess
-//
-//                    where(btnNew = 1or btnSave = 1or btnDel) Group By CountryCode
-                    criteria = " INNER JOIN " + SQLiteHandler.STAFF_GEO_INFO_ACCESS_TABLE + " AS staffAcces ON "
-                            + SQLiteHandler.COUNTRY_TABLE + "." + SQLiteHandler.COUNTRY_CODE_COL + " = " + "staffAcces." + SQLiteHandler.COUNTRY_CODE_COL
-                            + " WHERE (" + SQLiteHandler.BTN_NEW_COL + " = '1' " +
-                            " OR " + SQLiteHandler.BTN_SAVE_COL + " = 1" +
-                            " OR " + SQLiteHandler.BTN_DEL_COL + " = 1 ) GROUP BY " + " staffAcces." + SQLiteHandler.COUNTRY_CODE_COL;
-
-
-                }
-
-                break;
-        }
-
-
-        List<SpinnerHelper> listCountry = sqlH.getListAndID(SQLiteHandler.COUNTRY_TABLE, criteria, null, true);
-        ArrayAdapter<SpinnerHelper> dataAdapter = new ArrayAdapter<SpinnerHelper>(this, R.layout.spinner_layout, listCountry);
-        dataAdapter.setDropDownViewResource(R.layout.spinner_layout);
-
-        spCountry.setAdapter(dataAdapter);
-
-
-        if (idCountry != null) {
-            for (int i = 0; i < spCountry.getCount(); i++) {
-                String district = spCountry.getItemAtPosition(i).toString();
-                if (district.equals(strCountry)) {
-                    position = i;
-                }
-            }
-            spCountry.setSelection(position);
-        }
+        SpinnerLoader.loadCountryLoader(mContext, sqlH, spCountry, operationMode, idCountry, strCountry);
 
 
         spCountry.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -637,7 +571,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 publishProgress(++progressIncremental);
 
                 if (!jObj.isNull(Parser.REGN_PW_JSON_A)) {
-
                     Parser.regNPWParser(jObj.getJSONArray(Parser.REGN_PW_JSON_A), db);
 
                 }
@@ -645,106 +578,20 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
                 publishProgress(++progressIncremental);
 
+                if (!jObj.isNull(Parser.REGN_LM_JSON_A)) {
+                    Parser.regNLMParser(jObj.getJSONArray(Parser.REGN_LM_JSON_A), db);
 
-
-                if (!jObj.isNull(Parser.REGN_LM_JSON_A)) {// this is not servie
-                    JSONArray regn_lms = jObj.getJSONArray(Parser.REGN_LM_JSON_A);
-
-
-                    String AdmCountryCode;
-                    String LayR1ListCode;
-                    String LayR2ListCode;
-                    String LayR3ListCode;
-                    String LayR4ListCode;
-                    String HHID;
-                    String MemID;
-                    String RegNDate;
-                    String LMDOB;
-                    String AdmProgCode;
-                    String AdmSrvCode;
-                    String GRDCode;
-                    String LMGRDDate;
-                    String ChildName;
-                    String ChildSex;
-                    size = regn_lms.length();
-                    for (int i = 0; i < size; i++) {
-                        JSONObject regn_lm = regn_lms.getJSONObject(i);
-
-                        AdmCountryCode = regn_lm.getString(Parser.ADM_COUNTRY_CODE);
-                        LayR1ListCode = regn_lm.getString(Parser.LAY_R_1_LIST_CODE);
-                        LayR2ListCode = regn_lm.getString(Parser.LAY_R_2_LIST_CODE);
-                        LayR3ListCode = regn_lm.getString(Parser.LAY_R_3_LIST_CODE);
-                        LayR4ListCode = regn_lm.getString(Parser.LAY_R_4_LIST_CODE);
-                        HHID = regn_lm.getString(Parser.HHID);
-                        MemID = regn_lm.getString(Parser.MEM_ID);
-                        RegNDate = regn_lm.getString(Parser.REG_N_DATE);
-                        LMDOB = regn_lm.getString(Parser.LMDOB);
-                        AdmProgCode = regn_lm.getString(Parser.ADM_PROG_CODE);
-                        AdmSrvCode = regn_lm.getString(Parser.ADM_SRV_CODE);
-                        GRDCode = regn_lm.getString(Parser.GRD_CODE);
-                        LMGRDDate = regn_lm.getString(Parser.LMGRD_DATE);
-                        ChildName = regn_lm.getString("ChildName");
-                        ChildSex = regn_lm.getString("ChildSex");
-
-
-                        db.addRegNLMFromOnLine(AdmCountryCode, LayR1ListCode, LayR2ListCode, LayR3ListCode, LayR4ListCode, HHID, MemID, AdmProgCode, AdmSrvCode, RegNDate, GRDCode, LMDOB, LMGRDDate, ChildName, ChildSex);//, SrvCenterCatCode, FDPCode);
-
-
-                    }
                 }
+
 
                 publishProgress(++progressIncremental);
 
 
+                if (!jObj.isNull(Parser.REGN_CU_2_JSON_A)) {
+                    Parser.regNCU2Parser(jObj.getJSONArray(Parser.REGN_CU_2_JSON_A), db);
 
-
-                if (!jObj.isNull(Parser.REGN_CU_2_JSON_A)) {// this is not servie
-                    JSONArray regn_cu2s = jObj.getJSONArray(Parser.REGN_CU_2_JSON_A);
-                    size = regn_cu2s.length();
-
-
-                    String AdmCountryCode;
-                    String LayR1ListCode;
-                    String LayR2ListCode;
-                    String LayR3ListCode;
-                    String LayR4ListCode;
-                    String HHID;
-                    String MemID;
-                    String RegNDate;
-                    String CU2DOB;
-                    String AdmProgCode;
-                    String AdmSrvCode;
-                    String GRDCode;
-                    String CU2GRDDate;
-                    String ChildName;
-                    String ChildSex;
-
-                    for (int i = 0; i < size; i++) {
-                        JSONObject regn_cu2 = regn_cu2s.getJSONObject(i);
-
-                        AdmCountryCode = regn_cu2.getString(Parser.ADM_COUNTRY_CODE);
-                        LayR1ListCode = regn_cu2.getString(Parser.LAY_R_1_LIST_CODE);
-                        LayR2ListCode = regn_cu2.getString(Parser.LAY_R_2_LIST_CODE);
-                        LayR3ListCode = regn_cu2.getString(Parser.LAY_R_3_LIST_CODE);
-                        LayR4ListCode = regn_cu2.getString(Parser.LAY_R_4_LIST_CODE);
-                        HHID = regn_cu2.getString(Parser.HHID);
-                        MemID = regn_cu2.getString(Parser.MEM_ID);
-                        RegNDate = regn_cu2.getString(Parser.REG_N_DATE);
-                        CU2DOB = regn_cu2.getString(Parser.CU_2_DOB);
-                        AdmProgCode = regn_cu2.getString(Parser.ADM_PROG_CODE);
-                        AdmSrvCode = regn_cu2.getString(Parser.ADM_SRV_CODE);
-                        GRDCode = regn_cu2.getString(Parser.GRD_CODE);
-                        CU2GRDDate = regn_cu2.getString(Parser.CU_2_GRD_DATE);
-                        ChildName = regn_cu2.getString("ChildName");
-                        ChildSex = regn_cu2.getString("ChildSex");
-
-
-                        db.addRegNCU2_FromOnLine(AdmCountryCode, LayR1ListCode, LayR2ListCode, LayR3ListCode, LayR4ListCode, HHID, MemID, AdmProgCode, AdmSrvCode, RegNDate, GRDCode, CU2DOB, CU2GRDDate, ChildName, ChildSex);
-
-
-                        Log.d("nir", "In Reg CU2 Table- AdmCountryCode :" + AdmCountryCode + " LayR1ListCode : " + LayR1ListCode + " LayR2ListCode : " + LayR2ListCode + " LayR3ListCode : " + LayR3ListCode + " LayR4ListCode : " + LayR4ListCode + " HHID : " + HHID + " MemID  : " + MemID + " AdmProgCode : " + AdmProgCode + " AdmSrvCode : " + AdmSrvCode + " RegNDate : " + RegNDate + " GRDCode : " + GRDCode +/* " EntryBy : " + EntryBy + " EntryDate : " + EntryDate + */" LMDOB : " + CU2DOB + " LMGRDDate : " + CU2GRDDate);// + " FDPCode  : " + FDPCode );
-                    }
                 }
+
 
                 publishProgress(++progressIncremental);
                 if (!jObj.isNull(Parser.REGN_CA_2)) {
@@ -868,7 +715,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
             try {
 
-
                 /**                 * The total string Convert into JSON object                 * */
 
                 JSONObject jObj = new JSONObject(retrieveData);
@@ -876,60 +722,48 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 publishProgress(++progressIncremental);
 
                 if (!jObj.isNull("D_T_answer")) {
-
-
                     Parser.DTA_Parser(jObj.getJSONArray("D_T_answer"), db);
                 }
 
                 if (!jObj.isNull("D_T_basic")) {
-
                     Parser.DTBasicParser(jObj.getJSONArray("D_T_basic"), db);
                 }
 
                 if (!jObj.isNull("D_T_category")) {
-
                     Parser.DTCategoryParser(jObj.getJSONArray("D_T_category"), db);
                 }
 
                 if (!jObj.isNull("D_T_CountryProgram")) {
-
                     Parser.DTCountryProgramParser(jObj.getJSONArray("D_T_CountryProgram"), db);
                 }
 
 
                 if (!jObj.isNull("D_T_GeoListLevel")) {
-
                     Parser.DTGeoListLevelParser(jObj.getJSONArray("D_T_GeoListLevel"), db);
                 }
 
 
                 if (!jObj.isNull("D_T_QTable")) {
-
                     Parser.DTQTableParser(jObj.getJSONArray("D_T_QTable"), db);
                 }
 
                 if (!jObj.isNull("D_T_QResMode")) {
-
                     Parser.DTQResModeParser(jObj.getJSONArray("D_T_QResMode"), db);
                 }
 
                 if (!jObj.isNull("D_T_ResponseTable")) {
-
                     Parser.DTResponseTableParser(jObj.getJSONArray("D_T_ResponseTable"), db);
                 }
 
                 if (!jObj.isNull("D_T_TableDefinition")) {
-
                     Parser.DTTableDefinitionParser(jObj.getJSONArray("D_T_TableDefinition"), db);
                 }
 
                 if (!jObj.isNull("D_T_TableListCategory")) {
-
                     Parser.DTTableListCategoryParser(jObj.getJSONArray("D_T_TableListCategory"), db);
                 }
 
                 if (!jObj.isNull("D_T_LUP")) {
-
                     Parser.DTLUPParser(jObj.getJSONArray("D_T_LUP"), db);
                 }
 
@@ -954,8 +788,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
             hideDialog();
-
-
             loadCountry();
 
             // set the user name
@@ -966,30 +798,24 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         protected Void doInBackground(Void... params) {
 
 
-            /**
-             * Read JSON DATA  from the text file
-             * */
+            /**             * Read JSON DATA  from the text file             **/
             String retrieveData = readDataFromFile(LoginActivity.ENU_TABLE);
 
             try {
 
 
-                /**
-                 * The total string Convert into JSON object
-                 * */
+                /**                 * The total string Convert into JSON object                 * */
 
                 JSONObject jObj = new JSONObject(retrieveData);
-
-
                 publishProgress(++progressIncremental);
 
                 if (!jObj.isNull("enu_table")) {
-
-
                     Parser.DTEnu_Parser(jObj.getJSONArray("enu_table"), db);
                 }
 
             } catch (Exception e) {
+                Log.e(TAG, "Exception : " + e);
+                e.printStackTrace();
             }
             return null;
         }
@@ -1008,7 +834,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
-            // insert assigne data
+
             new Inject_Service_DataIntoSQLite().execute();
 
         }
@@ -1022,12 +848,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         @Override
         protected Void doInBackground(Void... params) {
 
-            String retreiveData = readDataFromFile(LoginActivity.REG_HOUSE_HOLD_DATA);
-            /**
-             * the parsing held by other class
-             */
+            String receiveData = readDataFromFile(LoginActivity.REG_HOUSE_HOLD_DATA);
+            /**             * the parsing held by other class             */
 
-            Parser.RegistrationNHHParser(retreiveData, db);
+            Parser.RegistrationNHHParser(receiveData, db);
 
 
             return null;
@@ -1057,8 +881,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             String retreiveData = readDataFromFile(LoginActivity.SERVICE_DATA);
 
 
-            // int size;
-
             /**
              * The total string Convert into JSON object
              * */
@@ -1066,12 +888,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             try {
                 JSONObject jObj = new JSONObject(retreiveData);
 
-                if (!jObj.isNull(Parser.SERVICE_TABLE_JSON_A)) {// this is not servie
-//
-//
+                if (!jObj.isNull(Parser.SERVICE_TABLE_JSON_A)) {
                     JSONArray services_data = jObj.getJSONArray(Parser.SERVICE_TABLE_JSON_A);
-
-
                     publishProgress(++progressIncremental);
                     Parser.SrvTableParser(services_data, db);
                 }
@@ -1151,7 +969,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         protected Void doInBackground(Void... params) {
 
             String retreiveData = readDataFromFile(LoginActivity.REG_MEMBER_PROG_GROUP_DATA);
-
+// todo change the  structure
             Parser.RegNMemProGrpParser(retreiveData, db);
             publishProgress(++progressIncremental);
 
@@ -1168,9 +986,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
     private int progressIncremental;
 
-    /**
-     * todo :All json parser goes to the parse package
-     */
 
     private class Inject_All_DataIntoSQLite extends AsyncTask<Void, Integer, Void> {
 
@@ -1231,7 +1046,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
                 publishProgress(++progressIncremental);
 
-                // Adding data into Valid Registration Date Table
+
                 if (!jObj.isNull(Parser.VALID_DATES_JSON_A)) {
                     JSONArray valid_dates = jObj.getJSONArray(Parser.VALID_DATES_JSON_A);
                     size = valid_dates.length();
@@ -1248,143 +1063,39 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                     }
                 }
                 publishProgress(++progressIncremental);
-
-
-                // create table
-                // Adding data into GPS group Table
                 if (!jObj.isNull(Parser.GPS_GROUP_JSON_A)) {
-                    JSONArray gps_groups = jObj.getJSONArray(Parser.GPS_GROUP_JSON_A);
-                    size = gps_groups.length();
-                    //  lunchBarDialog("gps_group",size);
-                    for (int i = 0; i < size; i++) {
-                        JSONObject gps_group = gps_groups.getJSONObject(i);
-
-
-                        String GrpCode = gps_group.getString(Parser.GRP_CODE);
-                        String GrpName = gps_group.getString(Parser.GRP_NAME);
-                        String Description = gps_group.getString(Parser.DESCRIPTION);
-
-
-                        db.addGpsGroup(GrpCode, GrpName, Description);
-
-
-//                        Log.d(TAG, " GroupCode : " + GrpCode + " GrpName : " + GrpName + " Description : " + Description);
-                    }
+                    Parser.gpsGroupParser(jObj.getJSONArray(Parser.GPS_GROUP_JSON_A), db);
                 }
 
                 publishProgress(++progressIncremental);
-                // Adding data into GPS SUb group Table
-
                 if (!jObj.isNull(Parser.GPS_SUBGROUP_JSON_A)) {
-                    JSONArray gps_subgroups = jObj.getJSONArray(Parser.GPS_SUBGROUP_JSON_A);
-                    size = gps_subgroups.length();
-                    for (int i = 0; i < size; i++) {
-                        JSONObject gps_subgroup = gps_subgroups.getJSONObject(i);
-                        String GrpCode = gps_subgroup.getString(Parser.GRP_CODE);
-                        String SubGrpCode = gps_subgroup.getString(Parser.SUB_GRP_CODE);
-                        String SubGrpName = gps_subgroup.getString(Parser.SUB_GRP_NAME);
-                        String Description = gps_subgroup.getString(Parser.DESCRIPTION);
-                        db.addGpsSubGroup(GrpCode, SubGrpCode, SubGrpName, Description);
-
-
-                    }
+                    Parser.gpsSubGroupParser(jObj.getJSONArray(Parser.GPS_SUBGROUP_JSON_A), db);
                 }
+
                 publishProgress(++progressIncremental);
-
-                // * Adding data into GPS Location Table
-
                 if (!jObj.isNull(Parser.GPS_LOCATION_JSON_A)) {
-                    JSONArray gps_locations = jObj.getJSONArray(Parser.GPS_LOCATION_JSON_A);
-                    Parser.gpsLocationParse(gps_locations, db);
-
-
+                    Parser.gpsLocationParse(jObj.getJSONArray(Parser.GPS_LOCATION_JSON_A), db);
                 }
 
                 publishProgress(++progressIncremental);
-
-                // * Adding data into adm_countryaward Table
-
                 if (!jObj.isNull(Parser.ADM_COUNTRY_AWARD_JSON_A)) {
-
-                    String AdmCountryCode;
-                    String AdmDonorCode;
-                    String AdmAwardCode;
-                    String AwardRefNumber;
-                    String AwardStartDate;
-                    String AwardEndDate;
-                    String AwardShortName;
-                    String AwardStatus;
-                    JSONArray adm_countryawards = jObj.getJSONArray(Parser.ADM_COUNTRY_AWARD_JSON_A);
-                    size = adm_countryawards.length();
-                    for (int i = 0; i < size; i++) {
-                        JSONObject adm_countryaward = adm_countryawards.getJSONObject(i);
-
-                        AdmCountryCode = adm_countryaward.getString(Parser.ADM_COUNTRY_CODE);
-                        AdmDonorCode = adm_countryaward.getString(Parser.ADM_DONOR_CODE);
-                        AdmAwardCode = adm_countryaward.getString(Parser.ADM_AWARD_CODE);
-                        AwardRefNumber = adm_countryaward.getString(Parser.AWARD_REF_NUMBER);
-                        AwardStartDate = adm_countryaward.getString(Parser.AWARD_START_DATE);
-                        AwardEndDate = adm_countryaward.getString(Parser.AWARD_END_DATE);
-                        AwardShortName = adm_countryaward.getString(Parser.AWARD_SHORT_NAME);
-                        AwardStatus = adm_countryaward.getString(Parser.AWARD_STATUS);
-
-
-                        db.addCountryAward(AdmCountryCode, AdmDonorCode, AdmAwardCode, AwardRefNumber, AwardStartDate, AwardEndDate, AwardShortName, AwardStatus);
-
-
-                        // Log.d(TAG, "In Country Award Table- AdmCountryCode :" + AdmCountryCode + " AdmDonorCode : " + AdmDonorCode + " AdmAwardCode : " + AdmAwardCode + " AwardRefNumber : " + AwardRefNumber + " AwardStartDate : " + AwardStartDate + " AwardEndDate  : " + AwardEndDate + " Long : " + AwardShortName + " Latd : " + AwardStatus  );
-                    }
+                    Parser.admCountryAwardParser(jObj.getJSONArray(Parser.ADM_COUNTRY_AWARD_JSON_A), db);
                 }
 
                 publishProgress(++progressIncremental);
-
-
-                // * Adding data into DonorName Table
-
-
                 if (!jObj.isNull(Parser.ADM_DONOR_JSON_A)) {
-
-                    JSONArray adm_donors = jObj.getJSONArray(Parser.ADM_DONOR_JSON_A);
-                    size = adm_donors.length();
-                    for (int i = 0; i < size; i++) {
-                        JSONObject adm_donor = adm_donors.getJSONObject(i);
-
-                        String AdmDonorCode = adm_donor.getString(Parser.ADM_DONOR_CODE);
-                        String AdmDonorName = adm_donor.getString(Parser.ADM_DONOR_NAME);
-                        db.addDonorName(AdmDonorCode, AdmDonorName);
-
-
-                        //  Log.d(TAG, "In Donor Table-  AdmDonorCode : " + AdmDonorCode + " AdmDonorName : " + AdmDonorName  );
-                    }
+                    Parser.admDonorParser(jObj.getJSONArray(Parser.ADM_DONOR_JSON_A), db);
                 }
+
                 publishProgress(++progressIncremental);
-
-                //adm_program_master
-
-                // * Adding data into adm_program_master Table
 
                 if (!jObj.isNull(Parser.ADM_PROGRAM_MASTER_JSON_A)) {
-                    JSONArray adm_program_masters = jObj.getJSONArray(Parser.ADM_PROGRAM_MASTER_JSON_A);
-                    size = adm_program_masters.length();
-                    for (int i = 0; i < size; i++) {
-                        JSONObject adm_program_master = adm_program_masters.getJSONObject(i);
+                    Parser.admProgramMasterParser(jObj.getJSONArray(Parser.ADM_PROGRAM_MASTER_JSON_A), db);
 
-                        String AdmProgCode = adm_program_master.getString(Parser.ADM_PROG_CODE);
-                        String AdmAwardCode = adm_program_master.getString(Parser.ADM_AWARD_CODE);
-                        String AdmDonorCode = adm_program_master.getString(Parser.ADM_DONOR_CODE);
-                        String ProgName = adm_program_master.getString(Parser.PROG_NAME);
-                        String ProgShortName = adm_program_master.getString(Parser.PROG_SHORT_NAME);
-                        String MultipleSrv = adm_program_master.getString(Parser.MULTIPLE_SRV);
-                        db.addAdmProgramMaster(AdmProgCode, AdmAwardCode, AdmDonorCode, ProgName, ProgShortName, MultipleSrv);
-
-
-                    }
                 }
                 publishProgress(++progressIncremental);
 
 
-                // * Adding data into adm_service_master Table
-                // *
                 if (!jObj.isNull(Parser.ADM_SERVICE_MASTER_JSON_A)) {
                     JSONArray adm_service_masters = jObj.getJSONArray(Parser.ADM_SERVICE_MASTER_JSON_A);
                     size = adm_service_masters.length();
@@ -1487,9 +1198,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                     }
                 }
                 publishProgress(++progressIncremental);
-
-
-                // * Adding data into  dbo_staff_geo_info_access  Table
 
 
                 if (!jObj.isNull(Parser.STAFF_ACCESS_INFO_JSON_A)) {// this is not servie
@@ -1929,9 +1637,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                                 DistributionDate, DeliveryDate, Status, PreparedBy, VerifiedBy, ApproveBy);
 
 
-                        Log.d(TAG, "AdmCountryCode: " + AdmCountryCode + AdmDonorCode + AdmAwardCode + ProgCode +
+                      /*  Log.d(TAG, "AdmCountryCode: " + AdmCountryCode + AdmDonorCode + AdmAwardCode + ProgCode +
                                 OpCode + SrvOpMonthCode + DisOpMonthCode + FDPCode + DistFlag + OrgCode + Distributor +
-                                DistributionDate + DeliveryDate + Status + PreparedBy + VerifiedBy + ApproveBy);
+                                DistributionDate + DeliveryDate + Status + PreparedBy + VerifiedBy + ApproveBy);*/
 
                         //  Log.d(TAG, "In Reg Mem Card Request Table: AdmCountryCode : " + AdmCountryCode + " AdmDonorCode : " + AdmDonorCode + " LayR1ListCode : " + LayR1ListCode + " LayR2ListCode : "
                         //        + LayR2ListCode + " LayR3ListCode : " + LayR3ListCode + " LayR4ListCode : " + LayR4ListCode+ " HHID : " + HHID);
@@ -2415,7 +2123,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     private void showProgressDialog() {
         progressDialog = new ProgressDialog(MainActivity.this);
         progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-        progressDialog.setMax(42);
+        progressDialog.setMax(88);
         progressDialog.setMessage("Retrieving...");
         progressDialog.setCancelable(false);
         progressDialog.show();

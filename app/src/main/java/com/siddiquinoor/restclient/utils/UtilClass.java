@@ -178,41 +178,26 @@ public class UtilClass {
     }
 
 
-    public static JSONArray countryJSONConverter(String className, ArrayList<AdmCountryDataModel> selectCountryList, SQLiteHandler sqlH) {
+    public static JSONArray jsonConverter(String string) {
 
-        JSONArray selectedCountryJson = new JSONArray();
-
-        for (int j = 0; j < selectCountryList.size(); j++) {
+        JSONArray jsonArray = new JSONArray();
 
             JSONObject mData = new JSONObject();
 
-
             try {
-                mData.put("selectedLayR4Code", selectCountryList.get(j).getAdmCountryCode());
-                if (className.equals("LoginActivity")) {
-                    /**
-                     * insert the into the data base
-                     * */
+                mData.put("selectedLayR4Code", string);
 
-
-                    String countryCode = selectCountryList.get(j).getAdmCountryCode();
-                    String countryName = selectCountryList.get(j).getAdmCountryName();
-
-                    sqlH.insertSelectedCountry(countryCode, countryName);
-
-
-                }
             } catch (JSONException e) {
                 e.printStackTrace();
             }
 
 
-            selectedCountryJson.put(mData);
-        }
+            jsonArray.put(mData);
 
 
-        Log.d("NirJson", selectedCountryJson.toString());
-        return selectedCountryJson;
+
+        Log.d(TAG, jsonArray.toString());
+        return jsonArray;
 
     }
 
@@ -334,9 +319,9 @@ public class UtilClass {
         return sqLiteHandler.getAwardGraduation(cCode, donorCode, awardCode);
     }
 
-    public static int getMaxNumberFromList(Integer[] surveyNumbers){
+    public static int getMaxNumberFromList(Integer[] surveyNumbers) {
         Arrays.sort(surveyNumbers);
-        int surveyNumber = surveyNumbers[surveyNumbers.length-1]+1;
+        int surveyNumber = surveyNumbers[surveyNumbers.length - 1] + 1;
         return surveyNumber;
     }
 

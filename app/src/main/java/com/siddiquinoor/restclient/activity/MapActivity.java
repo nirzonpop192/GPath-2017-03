@@ -32,11 +32,12 @@ import com.siddiquinoor.restclient.activity.sub_activity.gps_sub.SearchLocation;
 import com.siddiquinoor.restclient.data_model.GPS_LocationDataModel;
 import com.siddiquinoor.restclient.fragments.BaseActivity;
 import com.siddiquinoor.restclient.manager.SQLiteHandler;
-import com.siddiquinoor.restclient.manager.sqlsyntax.SQLServerSyntaxGenerator;
+import com.siddiquinoor.restclient.manager.sqlsyntax.SQLiteQuery;
 import com.siddiquinoor.restclient.utils.KEY;
 import com.siddiquinoor.restclient.views.adapters.GPSLocationLatLong;
 import com.siddiquinoor.restclient.views.helper.SpinnerHelper;
 import com.siddiquinoor.restclient.views.notifications.ADNotificationManager;
+import com.siddiquinoor.restclient.views.spinner.SpinnerLoader;
 
 import org.osmdroid.api.IMapController;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
@@ -59,16 +60,12 @@ import java.util.List;
 
 public class MapActivity extends BaseActivity {
     private static final String TAG = "MapActivity";
-    // // TODO: 9/8/2016  delete the keys constants  
-    public static final int TOP_PADDING = 5;
-    public static final int BOTTOM_PADDING = 5;
-    public static final int LEFT_PADDING = 180;
-    public static final int RIGHT_PADDING = 180;
+
     MapView mMapView;
     IMapController mapViewController;
     Marker myMarker;
 
-    //Context resProxyImp = MapActivity.this;
+
     private ArrayList<OverlayItem> anotherOverlayItemArray;
     MyLocationNewOverlay myLocationNewOverlay = null;
 
@@ -96,6 +93,7 @@ public class MapActivity extends BaseActivity {
     private boolean locationSelected = false;
 
     private ImageButton ibtnSetAttributes, ibtnSetNearBy;
+    private Context mContext;
 
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
@@ -115,15 +113,8 @@ public class MapActivity extends BaseActivity {
         idCountry = intent.getExtras().getString(KEY.COUNTRY_ID);
         String dir = intent.getStringExtra(KEY.DIR_CLASS_NAME_KEY);
         if (dir.equals("SearchSubGroup")) {
-
-
             idLocation = intent.getStringExtra(KEY.LOCATION_CODE);
             strLocation = intent.getStringExtra(KEY.LOCATION_NAME);
-
- /*           Log.d(TAG, "id Country : id " + idCountry
-                    + "idLocation: " + idLocation + "  strLocation:" + strLocation
-            );*/
-
         } else if (dir.equals("GPSActivity")) {
             /**
              * to get previous state
@@ -143,7 +134,7 @@ public class MapActivity extends BaseActivity {
         addMapScaleBar();
 
         setAttributes();
-        saveCordinate();
+        saveCoordinate();
 
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
@@ -180,9 +171,7 @@ public class MapActivity extends BaseActivity {
         });
     }
 
-    /**
-     *
-     */
+
     /**
      * <p>This Method Create A Custom Dialog .Which will show the List of The Sub Group </p>
      */
@@ -192,16 +181,15 @@ public class MapActivity extends BaseActivity {
         AlertDialog.Builder builderSingle = new AlertDialog.Builder(MapActivity.this);
 
         builderSingle.setTitle("Select a SubGroup");
-        String criteria = "SELECT DISTINCT " + SQLiteHandler.GROUP_CODE_COL + " || '' || " + SQLiteHandler.SUB_GROUP_CODE_COL + " , " + SQLiteHandler.SUB_GROUP_NAME_COL + " FROM " + SQLiteHandler.GPS_SUB_GROUP_TABLE;
+
+
+        String criteria = SQLiteQuery.showNearBy_gpsSubGroup_sql(idCountry);
         List<SpinnerHelper> listOfSubGroup = sqlH.getListAndID(SQLiteHandler.CUSTOM_QUERY, criteria, null, false);
 
         listOfSubGroup.remove(0);
-        final ArrayAdapter<SpinnerHelper> arrayAdapter = new ArrayAdapter<SpinnerHelper>(
-                MapActivity.this,
-                android.R.layout.select_dialog_singlechoice, listOfSubGroup);
+        final ArrayAdapter<SpinnerHelper> arrayAdapter = new ArrayAdapter<SpinnerHelper>(MapActivity.this, android.R.layout.select_dialog_singlechoice, listOfSubGroup);
 
-        builderSingle.setNegativeButton(
-                "cancel",
+        builderSingle.setNegativeButton("cancel",
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -214,6 +202,7 @@ public class MapActivity extends BaseActivity {
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+
                         String strName = arrayAdapter.getItem(which).getValue();
                         final String temGroupCode = arrayAdapter.getItem(which).getId().substring(0, 3);
                         final String temSubGroupCode = arrayAdapter.getItem(which).getId().substring(3);
@@ -229,10 +218,7 @@ public class MapActivity extends BaseActivity {
                                             DialogInterface dialog,
                                             int which) {
                                         dialog.dismiss();
-                                        /**
-                                         * here set the ploat
-                                         */
-
+                                        /**                                         * here set the plot                                         */
                                         setNearByCoordinates(idCountry, temGroupCode, temSubGroupCode);
                                     }
                                 });
@@ -253,6 +239,13 @@ public class MapActivity extends BaseActivity {
         builderSingle.show();
     }
 
+    /**
+     * We introduce  select the sub group column  is must bucause
+     * with out selecting the sub grtoup user can easy access  the
+     * set attributes (GPS Activity )class  and with out sub group
+     * no lang and lat value available on the page so user will easyly confuse
+     * to  click necessary action(Image need all code) button s
+     */
     private void setAttributes() {
         ibtnSetAttributes.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -260,13 +253,7 @@ public class MapActivity extends BaseActivity {
                 if (idLocation != null) {
                     if (idLocation.length() > 2) {
                         String subGrpName = tvSubGroupName.getText().toString();
-                        /**
-                         * We introduce  select the sub group column  is must bucause
-                         * with out selecting the sub grtoup user can easy access  the
-                         * set attributes (GPS Activity )class  and with out sub group
-                         * no lang and lat value available on the page so user will easyly confuse
-                         * to  click necessary action(Image need all code) button s
-                         */
+
                         if (subGrpName.length() > 0 && !subGrpName.equals("")) {
                             goToGpsModule();
                         } else {
@@ -355,10 +342,7 @@ public class MapActivity extends BaseActivity {
      */
 
     public double calculateDistanceBetween2Point(double startLat, double startLong, double endLat, double endLong) {
-        /**
-         *
-         *  R is earths radius (mean radius = 6,371km)
-         */
+        /**         *  R is earths radius (mean radius = 6,371km)         */
         double earthR = 6371e3;
         double dagToRad = Math.PI / 180;
 
@@ -381,14 +365,13 @@ public class MapActivity extends BaseActivity {
         dalLat = radEndLat - radStartLat;
         dalLong = radEndLong - radStartLong;
 
-        double a = Math.sin(dalLat / 2) * Math.sin(dalLat / 2) +
-                Math.cos(radStartLat) * Math.cos(radEndLat) *
-                        Math.sin(dalLong / 2) * Math.sin(dalLong / 2);
+        double a = Math.sin(dalLat / 2) * Math.sin(dalLat / 2) + Math.cos(radStartLat) * Math.cos(radEndLat) *
+                Math.sin(dalLong / 2) * Math.sin(dalLong / 2);
 
         double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
         distance = earthR * c;
 
-       // distance=distance/1000;
+        // distance=distance/1000;
         Log.d("DIS", "distance:" + distance);
         return distance;
     }
@@ -436,7 +419,7 @@ public class MapActivity extends BaseActivity {
     /**
      *
      */
-    private void saveCordinate() {
+    private void saveCoordinate() {
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -461,7 +444,7 @@ public class MapActivity extends BaseActivity {
 
                 String subGrpName = tvSubGroupName.getText().toString();
                 /**
-                 * We introduce  select the sub group column  is must bucause
+                 * We introduce  select the sub group column  is must because
                  * with out selecting the sub grtoup user can easy access  the
                  * set attributes (GPS Activity )class  and with out sub group
                  * no lang and lat value available on the page so user will easyly confuse
@@ -487,37 +470,18 @@ public class MapActivity extends BaseActivity {
                     gpsData.setLng(String.valueOf(longitude));
                     gpsData.setEntryBy(entryBy);
                     gpsData.setEntryDate(entryDate);
-                    /**
-                     * set marker in map here in save
-                     */
+                   //                    * set marker in map here in save                     */
                     initializeMap();
 
                     setMarker(gpsData.getLocationName(), latitude, longitude);
-                    SQLServerSyntaxGenerator sqlSyntax = new SQLServerSyntaxGenerator();
-                    sqlSyntax.setAdmCountryCode(gpsData.getAdmCountryCode());
-                    sqlSyntax.setGrpCode(gpsData.getGroupCode());
-                    sqlSyntax.setSubGrpCode(gpsData.getSubGroupCode());
-                    sqlSyntax.setLocationCode(gpsData.getLocationCode());
-                    sqlSyntax.setLatd(gpsData.getLat());
-                    sqlSyntax.setLong(gpsData.getLng());
-                    sqlSyntax.setEntryBy(entryBy);
-                    sqlSyntax.setEntryDate(entryDate);
-                    /**
-                     * for local data base
-                     */
+
+                    //                     * for local data base and Syntax for  server                      */
                     sqlH.updateGpsLocation(gpsData.getAdmCountryCode(), gpsData.getGroupCode(), gpsData.getSubGroupCode(), gpsData.getLocationCode(), gpsData.getLat(), gpsData.getLng(), entryBy, entryDate);
-
-                    sqlH.insertIntoUploadTable(sqlSyntax.updateGPS_GeoLocationTable());
-
 
                     Toast.makeText(context, "save successfully", Toast.LENGTH_SHORT).show();
 
-
                     GPSLocationLatLong data = sqlH.getLocationSpecificLatLong(idCountry, gpsData.getGroupCode(), gpsData.getSubGroupCode(), gpsData.getLocationCode());
-/**
- * if data exits in data base
- */
-
+                 //                  * if data exits in data base                     */
 
                     tv_exitLat.setText(data.getLatitude());
                     tv_exitLong.setText(data.getLongitude());
@@ -575,8 +539,10 @@ public class MapActivity extends BaseActivity {
     private void intilize() {
         viewReference();
         initializeMap();
-        locationProvider = new GpsMyLocationProvider(MapActivity.this);
+        mContext = MapActivity.this;
+        locationProvider = new GpsMyLocationProvider(mContext);
         sqlH = new SQLiteHandler(this);
+
 
     }
 
@@ -616,6 +582,7 @@ public class MapActivity extends BaseActivity {
 
 
     }
+
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     private void setUpSaveButton() {
         btnSave.setText("");
@@ -624,6 +591,7 @@ public class MapActivity extends BaseActivity {
 
         setPaddingButton(MapActivity.this, saveImage, btnSave);
     }
+
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     private void setUpGpsButton() {
 
@@ -764,13 +732,7 @@ public class MapActivity extends BaseActivity {
         public boolean onItemLongPress(int index, OverlayItem item) {
 
             isLongPress = true;
-
-
-            Toast.makeText(MapActivity.this,
-                    item.getTitle() + "\n"
-                            + item.getSnippet() + "\n"
-                            + item.getPoint().getLatitudeE6() + " : " + item.getPoint().getLongitudeE6(),
-                    Toast.LENGTH_LONG).show();
+            Toast.makeText(MapActivity.this, item.getTitle() + "\n" + item.getSnippet() + "\n" + item.getPoint().getLatitudeE6() + " : " + item.getPoint().getLongitudeE6(), Toast.LENGTH_LONG).show();
 
             return true;
         }
@@ -922,9 +884,7 @@ public class MapActivity extends BaseActivity {
         }
 
 
-        Log.d(TAG + 1, " Location name : " + locationName
-                + " lat: " + data.getLatitude()
-                + " long :" + data.getLongitude());
+        //  Log.d(TAG + 1, " Location name : " + locationName + " lat: " + data.getLatitude() + " long :" + data.getLongitude());
 
 
     }
@@ -937,33 +897,7 @@ public class MapActivity extends BaseActivity {
      */
 
     private void loadLocation(final String cCode) {
-        int position = 0;
-        String criteria = "SELECT " + SQLiteHandler.GROUP_CODE_COL + " || '' ||" + SQLiteHandler.SUB_GROUP_CODE_COL + " || '' ||" + SQLiteHandler.LOCATION_CODE_COL
-                + "," + SQLiteHandler.LOCATION_NAME_COL
-                + " FROM " + SQLiteHandler.GPS_LOCATION_TABLE
-                + " WHERE " + SQLiteHandler.COUNTRY_CODE_COL + " = '" + cCode + "'"
-                + " ORDER BY " + SQLiteHandler.LOCATION_NAME_COL + " ASC ";
-
-        // Spinner Drop down elements for Location
-        List<SpinnerHelper> listlocation = sqlH.getListAndID(SQLiteHandler.CUSTOM_QUERY, criteria, null, false);
-
-        // Creating adapter for spinner
-        ArrayAdapter<SpinnerHelper> dataAdapter = new ArrayAdapter<SpinnerHelper>(MapActivity.this, R.layout.spinner_layout, listlocation);
-
-        dataAdapter.setDropDownViewResource(R.layout.spinner_layout);  // Set Drop down layout style
-
-        spLocation.setAdapter(dataAdapter);  // attaching data adapter to spinner
-
-
-        if (idLocation != null) {
-            for (int i = 0; i < spLocation.getCount(); i++) {
-                String locationName = spLocation.getItemAtPosition(i).toString();
-                if (locationName.equals(strLocation)) {
-                    position = i;
-                }
-            }
-            spLocation.setSelection(position);
-        }
+        SpinnerLoader.loadLocationLoader(mContext, sqlH, spLocation, cCode, idLocation, strLocation);
 
 
         spLocation.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -972,7 +906,7 @@ public class MapActivity extends BaseActivity {
                 strLocation = ((SpinnerHelper) spLocation.getSelectedItem()).getValue();
                 String idSpinner = ((SpinnerHelper) spLocation.getSelectedItem()).getId();
 
-                Log.d(TAG, " strLocation :" + strLocation + " idSpinner : " + idSpinner);
+//                Log.d(TAG, " strLocation :" + strLocation + " idSpinner : " + idSpinner);
                 if (!idSpinner.equals("00")) {
                     gpsData = new GPS_LocationDataModel();
                     gpsData.setAdmCountryCode(cCode);

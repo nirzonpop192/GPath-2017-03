@@ -326,10 +326,10 @@
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity android:name=".activity.sub_activity.dynamic_table.DTResponseActivity" />
         <activity
-            android:name=".activity.sub_activity.dynamic_table.DT_QuestionActivity"
+            android:name=".activity.sub_activity.dynamic_table.DTResponseRecordingActivity"
             android:label="@string/title_activity_dt__qustion"
             android:windowSoftInputMode="stateHidden|adjustResize" />
-        <activity android:name=".activity.DT_ReportActivity"
+        <activity android:name=".activity.sub_activity.dynamic_table.DT_ReportActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"></activity>
     </application>
 

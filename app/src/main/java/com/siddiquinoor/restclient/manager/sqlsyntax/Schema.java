@@ -2,13 +2,34 @@ package com.siddiquinoor.restclient.manager.sqlsyntax;
 
 import com.siddiquinoor.restclient.manager.SQLiteHandler;
 
+import static com.siddiquinoor.restclient.manager.SQLiteHandler.AWARD_CODE_COL;
 import static com.siddiquinoor.restclient.manager.SQLiteHandler.COUNTRY_CODE_COL;
+import static com.siddiquinoor.restclient.manager.SQLiteHandler.DISTRIBUTION_STATUS_COL;
+import static com.siddiquinoor.restclient.manager.SQLiteHandler.DIST_DATE_COL;
+import static com.siddiquinoor.restclient.manager.SQLiteHandler.DIST_FLAG_COL;
+import static com.siddiquinoor.restclient.manager.SQLiteHandler.DONOR_CODE_COL;
+import static com.siddiquinoor.restclient.manager.SQLiteHandler.FDP_CODE_COL;
+import static com.siddiquinoor.restclient.manager.SQLiteHandler.HHID_COL;
+import static com.siddiquinoor.restclient.manager.SQLiteHandler.HH_MEM_ID;
+import static com.siddiquinoor.restclient.manager.SQLiteHandler.LAY_R1_LIST_CODE_COL;
+import static com.siddiquinoor.restclient.manager.SQLiteHandler.LAY_R2_LIST_CODE_COL;
+import static com.siddiquinoor.restclient.manager.SQLiteHandler.LAY_R3_LIST_CODE_COL;
+import static com.siddiquinoor.restclient.manager.SQLiteHandler.LAY_R4_LIST_CODE_COL;
+import static com.siddiquinoor.restclient.manager.SQLiteHandler.OPERATION_CODE_COL;
+import static com.siddiquinoor.restclient.manager.SQLiteHandler.OP_MONTH_CODE_COL;
+import static com.siddiquinoor.restclient.manager.SQLiteHandler.PROGRAM_CODE_COL;
+import static com.siddiquinoor.restclient.manager.SQLiteHandler.SERVICE_CENTER_CODE_COL;
+import static com.siddiquinoor.restclient.manager.SQLiteHandler.SERVICE_CODE_COL;
+import static com.siddiquinoor.restclient.manager.SQLiteHandler.SERVICE_DT_COL;
+import static com.siddiquinoor.restclient.manager.SQLiteHandler.SERVICE_SL_COL;
+import static com.siddiquinoor.restclient.manager.SQLiteHandler.SERVICE_STATUS_COL;
 import static com.siddiquinoor.restclient.manager.SQLiteHandler.TABLE_NAME_COL;
 import static com.siddiquinoor.restclient.manager.SQLiteHandler.TABLE_GROUP_CODE_COL;
 import static com.siddiquinoor.restclient.manager.SQLiteHandler.USE_ADMIN_ONLY_COL;
 import static com.siddiquinoor.restclient.manager.SQLiteHandler.USE_LUP_COL;
 import static com.siddiquinoor.restclient.manager.SQLiteHandler.USE_REPORT_COL;
 import static com.siddiquinoor.restclient.manager.SQLiteHandler.USE_TRANSACTION_COL;
+import static com.siddiquinoor.restclient.manager.SQLiteHandler.WORK_DAY_COL;
 
 /**
  * Created by Faisal on 2/18/2016.
@@ -85,7 +106,7 @@ public class Schema {
                 + SQLiteHandler.ID_COL + " INTEGER " + PRIMARY_KEY + " AUTOINCREMENT, "
                 + COUNTRY_CODE_COL + " VARCHAR(5), "
                 + SQLiteHandler.LAYER_CODE_COL + " VARCHAR(2),"
-                + SQLiteHandler.LAY_R1_LIST_CODE_COL + " VARCHAR(5), "
+                + LAY_R1_LIST_CODE_COL + " VARCHAR(5), "
                 + SQLiteHandler.DISTRICT_NAME_COL + " VARCHAR(50))";
     }
 
@@ -95,8 +116,8 @@ public class Schema {
                 + SQLiteHandler.ID_COL + " INTEGER " + PRIMARY_KEY + " AUTOINCREMENT, "
                 + COUNTRY_CODE_COL + " VARCHAR(50), "
                 + SQLiteHandler.LAYER_CODE_COL + " VARCHAR(2),"
-                + SQLiteHandler.LAY_R1_LIST_CODE_COL + " VARCHAR(50), "
-                + SQLiteHandler.LAY_R2_LIST_CODE_COL + " VARCHAR(50), "
+                + LAY_R1_LIST_CODE_COL + " VARCHAR(50), "
+                + LAY_R2_LIST_CODE_COL + " VARCHAR(50), "
                 + SQLiteHandler.UPZILLA_NAME_COL + " VARCHAR(50))";
     }
 
@@ -110,8 +131,8 @@ public class Schema {
                 + " , " + SQLiteHandler.UPZILLA_NAME_COL + " VARCHAR(5) "
                 + " , " + SQLiteHandler.UNITE_NAME_COL + " VARCHAR(5) "
                 + " , " + SQLiteHandler.VILLAGE_NAME_COL + " VARCHAR(5) "
-                + " , " + SQLiteHandler.HHID_COL + " VARCHAR(7) "
-                + " , " + SQLiteHandler.HH_MEM_ID + " VARCHAR(5) "
+                + " , " + HHID_COL + " VARCHAR(7) "
+                + " , " + HH_MEM_ID + " VARCHAR(5) "
                 + " , " + SQLiteHandler.MEM_NAME_COL + " VARCHAR(50) "
                 + " , " + SQLiteHandler.SEX_COL + " VARCHAR(8) "
                 + " , " + SQLiteHandler.RELATION_COL + " VARCHAR(50) "
@@ -170,14 +191,14 @@ public class Schema {
         return CREATE_TABLE_IF_NOT_EXISTS + SQLiteHandler.MEMBER_CARD_PRINT_TABLE + " ( "
                 + SQLiteHandler.ID_COL + " INTEGER " + PRIMARY_KEY + " AUTOINCREMENT, "
                 + COUNTRY_CODE_COL + " VARCHAR(10), "
-                + SQLiteHandler.DONOR_CODE_COL + " VARCHAR(10), "
-                + SQLiteHandler.AWARD_CODE_COL + " VARCHAR(10), "
-                + SQLiteHandler.LAY_R1_LIST_CODE_COL + " VARCHAR(10), "
-                + SQLiteHandler.LAY_R2_LIST_CODE_COL + " VARCHAR(10), "
-                + SQLiteHandler.LAY_R3_LIST_CODE_COL + " VARCHAR(10), "
-                + SQLiteHandler.LAY_R4_LIST_CODE_COL + " VARCHAR(10), "
-                + SQLiteHandler.HHID_COL + " VARCHAR(10), "
-                + SQLiteHandler.HH_MEM_ID + " VARCHAR(10), "
+                + DONOR_CODE_COL + " VARCHAR(10), "
+                + AWARD_CODE_COL + " VARCHAR(10), "
+                + LAY_R1_LIST_CODE_COL + " VARCHAR(10), "
+                + LAY_R2_LIST_CODE_COL + " VARCHAR(10), "
+                + LAY_R3_LIST_CODE_COL + " VARCHAR(10), "
+                + LAY_R4_LIST_CODE_COL + " VARCHAR(10), "
+                + HHID_COL + " VARCHAR(10), "
+                + HH_MEM_ID + " VARCHAR(10), "
                 + SQLiteHandler.REPORT_GROUP_COL + " VARCHAR(10), "
                 + SQLiteHandler.REPORT_CODE_COL + " VARCHAR(50), "
                 + SQLiteHandler.CARD_REQUEST_SL_COL + " VARCHAR(10), "
@@ -233,10 +254,10 @@ public class Schema {
                 + SQLiteHandler.ID_COL + " INTEGER " + PRIMARY_KEY + " AUTOINCREMENT, "
                 + COUNTRY_CODE_COL + " VARCHAR(50), "
                 + SQLiteHandler.LAYER_CODE_COL + " VARCHAR(2),"
-                + SQLiteHandler.LAY_R1_LIST_CODE_COL + " VARCHAR(10), "
-                + SQLiteHandler.LAY_R2_LIST_CODE_COL + " VARCHAR(10), "
-                + SQLiteHandler.LAY_R3_LIST_CODE_COL + " VARCHAR(10), "
-                + SQLiteHandler.LAY_R4_LIST_CODE_COL + " VARCHAR(10), "
+                + LAY_R1_LIST_CODE_COL + " VARCHAR(10), "
+                + LAY_R2_LIST_CODE_COL + " VARCHAR(10), "
+                + LAY_R3_LIST_CODE_COL + " VARCHAR(10), "
+                + LAY_R4_LIST_CODE_COL + " VARCHAR(10), "
                 + SQLiteHandler.VILLAGE_NAME_COL + " VARCHAR(50), "
                 + SQLiteHandler.HOUSE_HOLD_TARGET + " VARCHAR(50))"; // new
     }
@@ -245,8 +266,8 @@ public class Schema {
     public static String sqlCreateGraduationTable() {
         return CREATE_TABLE_IF_NOT_EXISTS + SQLiteHandler.REG_N_LUP_GRADUATION_TABLE + "("
                 + SQLiteHandler.ID_COL + " INTEGER " + PRIMARY_KEY + " AUTOINCREMENT, "
-                + SQLiteHandler.PROGRAM_CODE_COL + " VARCHAR(20), "
-                + SQLiteHandler.SERVICE_CODE_COL + " VARCHAR(50), "
+                + PROGRAM_CODE_COL + " VARCHAR(20), "
+                + SERVICE_CODE_COL + " VARCHAR(50), "
                 + SQLiteHandler.GRD_CODE_COL + " VARCHAR(50), "
                 + SQLiteHandler.GRD_TITLE_COL + " VARCHAR(50), "
                 + SQLiteHandler.DEFAULT_CAT_ACTIVE_COL + " VARCHAR(50), "
@@ -272,13 +293,13 @@ public class Schema {
                 + SQLiteHandler.ID_COL + " INTEGER " + PRIMARY_KEY + " AUTOINCREMENT, "
                 + SQLiteHandler.STAFF_CODE + " VARCHAR(20), "
                 + COUNTRY_CODE_COL + " VARCHAR(20), "
-                + SQLiteHandler.DONOR_CODE_COL + " VARCHAR(20), "
-                + SQLiteHandler.AWARD_CODE_COL + " VARCHAR(20), "
+                + DONOR_CODE_COL + " VARCHAR(20), "
+                + AWARD_CODE_COL + " VARCHAR(20), "
                 + SQLiteHandler.LAYR_LIST_CODE_COL + " VARCHAR(20), "
-                + SQLiteHandler.LAY_R1_LIST_CODE_COL + " VARCHAR(5), "
-                + SQLiteHandler.LAY_R2_LIST_CODE_COL + " VARCHAR(5), "
-                + SQLiteHandler.LAY_R3_LIST_CODE_COL + " VARCHAR(5), "
-                + SQLiteHandler.LAY_R4_LIST_CODE_COL + " VARCHAR(5) , "/*
+                + LAY_R1_LIST_CODE_COL + " VARCHAR(5), "
+                + LAY_R2_LIST_CODE_COL + " VARCHAR(5), "
+                + LAY_R3_LIST_CODE_COL + " VARCHAR(5), "
+                + LAY_R4_LIST_CODE_COL + " VARCHAR(5) , "/*
   +BTN_APRV_COL+" VARCHAR(5), "
   +BTN_REVW_COL+" VARCHAR(5), "
   +BTN_VRFY_COL+" VARCHAR(5) , " // grad code colm
@@ -301,16 +322,16 @@ public class Schema {
         return CREATE_TABLE_IF_NOT_EXISTS + SQLiteHandler.REG_N_CA2_TABLE + " ( "
                 //   + SQLiteHandler.ID_COL + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + COUNTRY_CODE_COL + " VARCHAR(10), "
-                + SQLiteHandler.LAY_R1_LIST_CODE_COL + " VARCHAR(10), "
-                + SQLiteHandler.LAY_R2_LIST_CODE_COL + " VARCHAR(10), "
-                + SQLiteHandler.LAY_R3_LIST_CODE_COL + " VARCHAR(10), "
-                + SQLiteHandler.LAY_R4_LIST_CODE_COL + " VARCHAR(10), "
-                + SQLiteHandler.HHID_COL + " VARCHAR(10), "
-                + SQLiteHandler.HH_MEM_ID + " VARCHAR(10), "
+                + LAY_R1_LIST_CODE_COL + " VARCHAR(10), "
+                + LAY_R2_LIST_CODE_COL + " VARCHAR(10), "
+                + LAY_R3_LIST_CODE_COL + " VARCHAR(10), "
+                + LAY_R4_LIST_CODE_COL + " VARCHAR(10), "
+                + HHID_COL + " VARCHAR(10), "
+                + HH_MEM_ID + " VARCHAR(10), "
                 + SQLiteHandler.REG_N_DAT_COL + " VARCHAR(50), "
                 + SQLiteHandler.CA2DOB_DATE_COL + " VARCHAR(50), "
-                + SQLiteHandler.PROGRAM_CODE_COL + " VARCHAR(10), "
-                + SQLiteHandler.SERVICE_CODE_COL + " VARCHAR(10), "
+                + PROGRAM_CODE_COL + " VARCHAR(10), "
+                + SERVICE_CODE_COL + " VARCHAR(10), "
                 + SQLiteHandler.GRDCODE_COL + " VARCHAR(10) , " // grad code colm
                 + SQLiteHandler.CA2_GRD_DATE_COL + " VARCHAR(50) , "
                 + SQLiteHandler.CHILD_NAME_COL + " VARCHAR(50) , "
@@ -325,16 +346,16 @@ public class Schema {
         return CREATE_TABLE_IF_NOT_EXISTS + SQLiteHandler.REG_N_CU2_TABLE + " ( "
                 //   + SQLiteHandler.ID_COL + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + COUNTRY_CODE_COL + " VARCHAR(4), "
-                + SQLiteHandler.LAY_R1_LIST_CODE_COL + " VARCHAR(2), "
-                + SQLiteHandler.LAY_R2_LIST_CODE_COL + " VARCHAR(2), "
-                + SQLiteHandler.LAY_R3_LIST_CODE_COL + " VARCHAR(2), "
-                + SQLiteHandler.LAY_R4_LIST_CODE_COL + " VARCHAR(2), "
-                + SQLiteHandler.HHID_COL + " VARCHAR(6), "
-                + SQLiteHandler.HH_MEM_ID + " VARCHAR(2), "
+                + LAY_R1_LIST_CODE_COL + " VARCHAR(2), "
+                + LAY_R2_LIST_CODE_COL + " VARCHAR(2), "
+                + LAY_R3_LIST_CODE_COL + " VARCHAR(2), "
+                + LAY_R4_LIST_CODE_COL + " VARCHAR(2), "
+                + HHID_COL + " VARCHAR(6), "
+                + HH_MEM_ID + " VARCHAR(2), "
                 + SQLiteHandler.REG_N_DAT_COL + " VARCHAR(50), "
                 + SQLiteHandler.CU2DOB_DATE_COL + " VARCHAR(50), "
-                + SQLiteHandler.PROGRAM_CODE_COL + " VARCHAR(3), "
-                + SQLiteHandler.SERVICE_CODE_COL + " VARCHAR(2), "
+                + PROGRAM_CODE_COL + " VARCHAR(3), "
+                + SERVICE_CODE_COL + " VARCHAR(2), "
                 + SQLiteHandler.GRDCODE_COL + " VARCHAR(2) , " // grad code colm
                 + SQLiteHandler.CU2_GRD_DATE_COL + " VARCHAR(50) , "
                 + SQLiteHandler.CHILD_NAME_COL + " VARCHAR(50) , "
@@ -348,16 +369,16 @@ public class Schema {
         return CREATE_TABLE_IF_NOT_EXISTS + SQLiteHandler.REG_N_PW_TABLE + " ( "
                 + SQLiteHandler.ID_COL + " INTEGER " + PRIMARY_KEY + " AUTOINCREMENT, "
                 + COUNTRY_CODE_COL + " VARCHAR(10), "
-                + SQLiteHandler.LAY_R1_LIST_CODE_COL + " VARCHAR(10), "
-                + SQLiteHandler.LAY_R2_LIST_CODE_COL + " VARCHAR(10), "
-                + SQLiteHandler.LAY_R3_LIST_CODE_COL + " VARCHAR(10), "
-                + SQLiteHandler.LAY_R4_LIST_CODE_COL + " VARCHAR(10), "
-                + SQLiteHandler.HHID_COL + " VARCHAR(10), "
-                + SQLiteHandler.HH_MEM_ID + " VARCHAR(10), "
+                + LAY_R1_LIST_CODE_COL + " VARCHAR(10), "
+                + LAY_R2_LIST_CODE_COL + " VARCHAR(10), "
+                + LAY_R3_LIST_CODE_COL + " VARCHAR(10), "
+                + LAY_R4_LIST_CODE_COL + " VARCHAR(10), "
+                + HHID_COL + " VARCHAR(10), "
+                + HH_MEM_ID + " VARCHAR(10), "
                 + SQLiteHandler.REG_N_DAT_COL + " VARCHAR(50), "
                 + SQLiteHandler.LMP_DATE_COL + " VARCHAR(50), "
-                + SQLiteHandler.PROGRAM_CODE_COL + " VARCHAR(10), "
-                + SQLiteHandler.SERVICE_CODE_COL + " VARCHAR(10), "
+                + PROGRAM_CODE_COL + " VARCHAR(10), "
+                + SERVICE_CODE_COL + " VARCHAR(10), "
                 + SQLiteHandler.GRDCODE_COL + " VARCHAR(10) , "
                 + SQLiteHandler.PW_GRD_DATE_COL + " VARCHAR(50) , "
                 + SQLiteHandler.ENTRY_BY + " VARCHAR(50) DEFAULT '0', "
@@ -369,9 +390,9 @@ public class Schema {
         return CREATE_TABLE_IF_NOT_EXISTS + SQLiteHandler.SERVICE_CENTER_TABLE + " ( "
                 + SQLiteHandler.ID_COL + " INTEGER " + PRIMARY_KEY + " AUTOINCREMENT, "
                 + COUNTRY_CODE_COL + " VARCHAR(20), "
-                + SQLiteHandler.SERVICE_CENTER_CODE_COL + " VARCHAR(20), "
+                + SERVICE_CENTER_CODE_COL + " VARCHAR(20), "
                 + SQLiteHandler.SERVICE_CENTER_NAME_COL + " VARCHAR(100), "
-                + SQLiteHandler.FDP_CODE_COL + " VARCHAR(5)"
+                + FDP_CODE_COL + " VARCHAR(5)"
                 + " )";
 
     }
@@ -383,8 +404,8 @@ public class Schema {
         return CREATE_TABLE_IF_NOT_EXISTS + SQLiteHandler.ADM_AWARD_TABLE + "("
                 + SQLiteHandler.ID_COL + " INTEGER " + PRIMARY_KEY + " AUTOINCREMENT, "
                 + COUNTRY_CODE_COL + " VARCHAR(20), "
-                + SQLiteHandler.DONOR_CODE_COL + " VARCHAR(20), "
-                + SQLiteHandler.AWARD_CODE_COL + " VARCHAR(20), "
+                + DONOR_CODE_COL + " VARCHAR(20), "
+                + AWARD_CODE_COL + " VARCHAR(20), "
                 + SQLiteHandler.AWARD_REF_N_COL + " VARCHAR(50), "
                 + SQLiteHandler.AWARD_START_DATE_COL + " VARCHAR(100), "
                 + SQLiteHandler.AWARD_END_DATE_COL + " VARCHAR(100), "
@@ -402,12 +423,12 @@ public class Schema {
                 + SQLiteHandler.ID_COL + " INTEGER " + PRIMARY_KEY + " AUTOINCREMENT, "
 
                 + COUNTRY_CODE_COL + " VARCHAR(4), "
-                + SQLiteHandler.LAY_R1_LIST_CODE_COL + " VARCHAR(2), "
-                + SQLiteHandler.LAY_R2_LIST_CODE_COL + " VARCHAR(2), "
-                + SQLiteHandler.LAY_R3_LIST_CODE_COL + " VARCHAR(2), "
-                + SQLiteHandler.LAY_R4_LIST_CODE_COL + " VARCHAR(2), "
-                + SQLiteHandler.HHID_COL + " VARCHAR(5), "
-                + SQLiteHandler.HH_MEM_ID + " VARCHAR(20), "
+                + LAY_R1_LIST_CODE_COL + " VARCHAR(2), "
+                + LAY_R2_LIST_CODE_COL + " VARCHAR(2), "
+                + LAY_R3_LIST_CODE_COL + " VARCHAR(2), "
+                + LAY_R4_LIST_CODE_COL + " VARCHAR(2), "
+                + HHID_COL + " VARCHAR(5), "
+                + HH_MEM_ID + " VARCHAR(20), "
                 + SQLiteHandler.REG_N_DAT_COL + " VARCHAR(20), "
                 + SQLiteHandler.ELDERLY_YN_COL + " VARCHAR(1), "
                 + SQLiteHandler.LAND_SIZE_COL + " VARCHAR(21), "
@@ -435,21 +456,21 @@ public class Schema {
         return CREATE_TABLE_IF_NOT_EXISTS + SQLiteHandler.DISTRIBUTION_TABLE + " ( "
                 + SQLiteHandler.ID_COL + " INTEGER " + PRIMARY_KEY + " AUTOINCREMENT, "
                 + COUNTRY_CODE_COL + " VARCHAR(10), "
-                + SQLiteHandler.DONOR_CODE_COL + " VARCHAR(5), "
-                + SQLiteHandler.AWARD_CODE_COL + " VARCHAR(5), "
-                + SQLiteHandler.LAY_R1_LIST_CODE_COL + " VARCHAR(10), "
-                + SQLiteHandler.LAY_R2_LIST_CODE_COL + " VARCHAR(10), "
-                + SQLiteHandler.LAY_R3_LIST_CODE_COL + " VARCHAR(10), "
-                + SQLiteHandler.LAY_R4_LIST_CODE_COL + " VARCHAR(10), "
-                + SQLiteHandler.PROGRAM_CODE_COL + " VARCHAR(10), "
-                + SQLiteHandler.SERVICE_CODE_COL + " VARCHAR(10), "
-                + SQLiteHandler.OP_MONTH_CODE_COL + " VARCHAR(10), "
-                + SQLiteHandler.FDP_CODE_COL + " VARCHAR(10), "
+                + DONOR_CODE_COL + " VARCHAR(5), "
+                + AWARD_CODE_COL + " VARCHAR(5), "
+                + LAY_R1_LIST_CODE_COL + " VARCHAR(10), "
+                + LAY_R2_LIST_CODE_COL + " VARCHAR(10), "
+                + LAY_R3_LIST_CODE_COL + " VARCHAR(10), "
+                + LAY_R4_LIST_CODE_COL + " VARCHAR(10), "
+                + PROGRAM_CODE_COL + " VARCHAR(10), "
+                + SERVICE_CODE_COL + " VARCHAR(10), "
+                + OP_MONTH_CODE_COL + " VARCHAR(10), "
+                + FDP_CODE_COL + " VARCHAR(10), "
                 + SQLiteHandler.MEM_ID_15_D_COL + " VARCHAR(25), "
-                + SQLiteHandler.DISTRIBUTION_STATUS_COL + " VARCHAR(2), "
+                + DISTRIBUTION_STATUS_COL + " VARCHAR(2), "
                 + SQLiteHandler.SRV_OP_MONTH_CODE_COL + " VARCHAR(2), "
-                + SQLiteHandler.DIST_FLAG_COL + " VARCHAR(100), "
-                + SQLiteHandler.WORK_DAY_COL + " VARCHAR(10), "
+                + DIST_FLAG_COL + " VARCHAR(100), "
+                + WORK_DAY_COL + " VARCHAR(10), "
                 + SQLiteHandler.ENTRY_BY + " VARCHAR(20), "
                 + SQLiteHandler.ENTRY_DATE + " VARCHAR(22) "
                 + " )";
@@ -459,7 +480,7 @@ public class Schema {
         return CREATE_TABLE_IF_NOT_EXISTS + SQLiteHandler.STAFF_FDP_ACCESS_TABLE + " ( "
                 + SQLiteHandler.STAFF_CODE + " VARCHAR(5) , "
                 + SQLiteHandler.COUNTRY_CODE + " VARCHAR(5) , "
-                + SQLiteHandler.FDP_CODE_COL + " VARCHAR(5) , "
+                + FDP_CODE_COL + " VARCHAR(5) , "
                 + SQLiteHandler.BTN_NEW_COL + " VARCHAR(1) , "
                 + SQLiteHandler.BTN_SAVE_COL + " VARCHAR(1) , "
                 + SQLiteHandler.BTN_DEL_COL + " VARCHAR(1)  "
@@ -469,12 +490,12 @@ public class Schema {
     public static String sqlCreateFDP_Master_Table() {
         return CREATE_TABLE_IF_NOT_EXISTS + SQLiteHandler.FDP_MASTER_TABLE + " ( "
                 + SQLiteHandler.COUNTRY_CODE + " VARCHAR(5) , "
-                + SQLiteHandler.FDP_CODE_COL + " VARCHAR(6) , "
+                + FDP_CODE_COL + " VARCHAR(6) , "
                 + SQLiteHandler.FDP_NAME_COL + " VARCHAR(100) , "
                 + SQLiteHandler.FDA_CATEGORIES_CODE_COL + " VARCHAR(10) , "
                 + SQLiteHandler.WH_CODE_COL + " VARCHAR(3)  ,"
-                + SQLiteHandler.LAY_R1_LIST_CODE_COL + " VARCHAR(6)  ,"
-                + SQLiteHandler.LAY_R2_LIST_CODE_COL + " VARCHAR(6)  "
+                + LAY_R1_LIST_CODE_COL + " VARCHAR(6)  ,"
+                + LAY_R2_LIST_CODE_COL + " VARCHAR(6)  "
                 + " ) ";
     }
 
@@ -483,12 +504,12 @@ public class Schema {
         return CREATE_TABLE_IF_NOT_EXISTS + SQLiteHandler.REG_N_CT_TABLE + " ( "
                 + SQLiteHandler.ID_COL + " INTEGER " + PRIMARY_KEY + " AUTOINCREMENT, "
                 + COUNTRY_CODE_COL + " VARCHAR(10), "
-                + SQLiteHandler.LAY_R1_LIST_CODE_COL + " VARCHAR(10), "
-                + SQLiteHandler.LAY_R2_LIST_CODE_COL + " VARCHAR(10), "
-                + SQLiteHandler.LAY_R3_LIST_CODE_COL + " VARCHAR(10), "
-                + SQLiteHandler.LAY_R4_LIST_CODE_COL + " VARCHAR(10), "
-                + SQLiteHandler.HHID_COL + " VARCHAR(10), "
-                + SQLiteHandler.HH_MEM_ID + " VARCHAR(10), "
+                + LAY_R1_LIST_CODE_COL + " VARCHAR(10), "
+                + LAY_R2_LIST_CODE_COL + " VARCHAR(10), "
+                + LAY_R3_LIST_CODE_COL + " VARCHAR(10), "
+                + LAY_R4_LIST_CODE_COL + " VARCHAR(10), "
+                + HHID_COL + " VARCHAR(10), "
+                + HH_MEM_ID + " VARCHAR(10), "
                 + SQLiteHandler.C11_CT_PR + " VARCHAR(1) , "
                 + SQLiteHandler.C21_CT_PR + " VARCHAR(1) , "
                 + SQLiteHandler.C31_CT_PR + " VARCHAR(1) , "
@@ -519,16 +540,16 @@ public class Schema {
         return CREATE_TABLE_IF_NOT_EXISTS + SQLiteHandler.REG_N_LM_TABLE + " ( "
                 + SQLiteHandler.ID_COL + " INTEGER " + PRIMARY_KEY + " AUTOINCREMENT, "
                 + COUNTRY_CODE_COL + " VARCHAR(5), "
-                + SQLiteHandler.LAY_R1_LIST_CODE_COL + " VARCHAR(2), "
-                + SQLiteHandler.LAY_R2_LIST_CODE_COL + " VARCHAR(2), "
-                + SQLiteHandler.LAY_R3_LIST_CODE_COL + " VARCHAR(2), "
-                + SQLiteHandler.LAY_R4_LIST_CODE_COL + " VARCHAR(2), "
-                + SQLiteHandler.HHID_COL + " VARCHAR(6), "
-                + SQLiteHandler.HH_MEM_ID + " VARCHAR(3), "
+                + LAY_R1_LIST_CODE_COL + " VARCHAR(2), "
+                + LAY_R2_LIST_CODE_COL + " VARCHAR(2), "
+                + LAY_R3_LIST_CODE_COL + " VARCHAR(2), "
+                + LAY_R4_LIST_CODE_COL + " VARCHAR(2), "
+                + HHID_COL + " VARCHAR(6), "
+                + HH_MEM_ID + " VARCHAR(3), "
                 + SQLiteHandler.REG_N_DAT_COL + " VARCHAR(50), "
                 + SQLiteHandler.LM_DATE_COL + " VARCHAR(50), "
-                + SQLiteHandler.PROGRAM_CODE_COL + " VARCHAR(3), "
-                + SQLiteHandler.SERVICE_CODE_COL + " VARCHAR(2), "
+                + PROGRAM_CODE_COL + " VARCHAR(3), "
+                + SERVICE_CODE_COL + " VARCHAR(2), "
                 + SQLiteHandler.GRDCODE_COL + " VARCHAR(2) , "
                 + SQLiteHandler.LMGRDDATE_COL + " VARCHAR(50) , "
                 + SQLiteHandler.CHILD_NAME_COL + " VARCHAR(50) , "
@@ -544,10 +565,10 @@ public class Schema {
     public static String sqlCreateADM_CountryProgram() {
         return CREATE_TABLE_IF_NOT_EXISTS + SQLiteHandler.COUNTRY_PROGRAM_TABLE + " ( "
                 + COUNTRY_CODE_COL + " VARCHAR(5)"
-                + " , " + SQLiteHandler.DONOR_CODE_COL + " VARCHAR(5)"
-                + " , " + SQLiteHandler.AWARD_CODE_COL + " VARCHAR(5)"
-                + " , " + SQLiteHandler.PROGRAM_CODE_COL + " VARCHAR(5)"
-                + " , " + SQLiteHandler.SERVICE_CODE_COL + " VARCHAR(5)"
+                + " , " + DONOR_CODE_COL + " VARCHAR(5)"
+                + " , " + AWARD_CODE_COL + " VARCHAR(5)"
+                + " , " + PROGRAM_CODE_COL + " VARCHAR(5)"
+                + " , " + SERVICE_CODE_COL + " VARCHAR(5)"
                 + " , " + SQLiteHandler.FOOD_FLAG + " VARCHAR(1)"
                 + " , " + SQLiteHandler.NON_FOOD_FLAG + " VARCHAR(1)"
                 + " , " + SQLiteHandler.CASH_FLAG + " VARCHAR(1)"
@@ -557,7 +578,7 @@ public class Schema {
                 + " , " + SQLiteHandler.DEFAULT_CASH_DAYS_COL + " VARCHAR(4)"
                 + " , " + SQLiteHandler.DEFAULT_VOUCHAR_DAYS_COL + " VARCHAR(4)"
                 + " , " + SQLiteHandler.SERVICE_SPECIFIC_FLAG_COL + " VARCHAR(4)"
-                + " , " + PRIMARY_KEY + " (" + COUNTRY_CODE_COL + ", " + SQLiteHandler.DONOR_CODE_COL + ", " + SQLiteHandler.AWARD_CODE_COL + ", " + SQLiteHandler.PROGRAM_CODE_COL + ", " + SQLiteHandler.SERVICE_CODE_COL + " )"
+                + " , " + PRIMARY_KEY + " (" + COUNTRY_CODE_COL + ", " + DONOR_CODE_COL + ", " + AWARD_CODE_COL + ", " + PROGRAM_CODE_COL + ", " + SERVICE_CODE_COL + " )"
                 + " )";
     }
 
@@ -566,17 +587,17 @@ public class Schema {
         return CREATE_TABLE_IF_NOT_EXISTS + SQLiteHandler.OP_MONTH_TABLE + " ( "
 
                 + COUNTRY_CODE_COL + " VARCHAR(20) "
-                + " , " + SQLiteHandler.DONOR_CODE_COL + " VARCHAR(20) "
-                + " , " + SQLiteHandler.AWARD_CODE_COL + " VARCHAR(20) "
-                + " , " + SQLiteHandler.OPERATION_CODE_COL + " VARCHAR(20) "
-                + " , " + SQLiteHandler.OP_MONTH_CODE_COL + " VARCHAR(50) "
+                + " , " + DONOR_CODE_COL + " VARCHAR(20) "
+                + " , " + AWARD_CODE_COL + " VARCHAR(20) "
+                + " , " + OPERATION_CODE_COL + " VARCHAR(20) "
+                + " , " + OP_MONTH_CODE_COL + " VARCHAR(50) "
                 + " , " + SQLiteHandler.MONTH_LABEL + " VARCHAR(50) "
                 + " , " + SQLiteHandler.START_DATE + " VARCHAR(20) "
                 + " , " + SQLiteHandler.END_DATE + " VARCHAR(20) "
                 + " , " + SQLiteHandler.USA_START_DATE + " VARCHAR(20) "
                 + " , " + SQLiteHandler.USA_END_DATE + " VARCHAR(20) "
                 + " , " + SQLiteHandler.STATUS + " VARCHAR(20) "
-                + " , " + PRIMARY_KEY + " (" + COUNTRY_CODE_COL + ", " + SQLiteHandler.DONOR_CODE_COL + ", " + SQLiteHandler.AWARD_CODE_COL + ", " + SQLiteHandler.OPERATION_CODE_COL + ", " + SQLiteHandler.OP_MONTH_CODE_COL + " ) "
+                + " , " + PRIMARY_KEY + " (" + COUNTRY_CODE_COL + ", " + DONOR_CODE_COL + ", " + AWARD_CODE_COL + ", " + OPERATION_CODE_COL + ", " + OP_MONTH_CODE_COL + " ) "
                 + " ) ";
     }
 
@@ -610,7 +631,7 @@ public class Schema {
     public static String sqlCreateGpsSubGroupTable() {
 
         return CREATE_TABLE_IF_NOT_EXISTS + SQLiteHandler.GPS_SUB_GROUP_TABLE + "("
-                + SQLiteHandler.ID_COL + " INTEGER " + PRIMARY_KEY + " AUTOINCREMENT, "
+            //    + SQLiteHandler.ID_COL + " INTEGER " + PRIMARY_KEY + " AUTOINCREMENT, "
                 + SQLiteHandler.GROUP_CODE_COL + " VARCHAR(20), "
                 + SQLiteHandler.SUB_GROUP_CODE_COL + " VARCHAR(20), "
                 + SQLiteHandler.SUB_GROUP_NAME_COL + " VARCHAR(50), "
@@ -625,7 +646,7 @@ public class Schema {
      */
     public static String sqlCreateGpsGroupTable() {
         return CREATE_TABLE_IF_NOT_EXISTS + SQLiteHandler.GPS_GROUP_TABLE + "("
-                + SQLiteHandler.ID_COL + " INTEGER " + PRIMARY_KEY + " AUTOINCREMENT, "
+             //   + SQLiteHandler.ID_COL + " INTEGER " + PRIMARY_KEY + " AUTOINCREMENT, "
                 + SQLiteHandler.GROUP_CODE_COL + " VARCHAR(20), "
                 + SQLiteHandler.GROUP_NAME_COL + " VARCHAR(20), "
                 + SQLiteHandler.DESCRIPTION_COL + " VARCHAR(100) ) ";
@@ -641,16 +662,16 @@ public class Schema {
         return CREATE_TABLE_IF_NOT_EXISTS + SQLiteHandler.REG_N_ASSIGN_PROG_SRV_TABLE + "("
                 + SQLiteHandler.ID_COL + " INTEGER " + PRIMARY_KEY + " AUTOINCREMENT, "
                 + COUNTRY_CODE_COL + " VARCHAR(10), "
-                + SQLiteHandler.LAY_R1_LIST_CODE_COL + " VARCHAR(10), "
-                + SQLiteHandler.LAY_R2_LIST_CODE_COL + " VARCHAR(10), "
-                + SQLiteHandler.LAY_R3_LIST_CODE_COL + " VARCHAR(10), "
-                + SQLiteHandler.LAY_R4_LIST_CODE_COL + " VARCHAR(10), "
-                + SQLiteHandler.DONOR_CODE_COL + " VARCHAR(10), "
-                + SQLiteHandler.AWARD_CODE_COL + " VARCHAR(10), "
-                + SQLiteHandler.HHID_COL + " VARCHAR(10), "
-                + SQLiteHandler.HH_MEM_ID + " VARCHAR(10), "
-                + SQLiteHandler.PROGRAM_CODE_COL + " VARCHAR(10), "
-                + SQLiteHandler.SERVICE_CODE_COL + " VARCHAR(10), "
+                + LAY_R1_LIST_CODE_COL + " VARCHAR(10), "
+                + LAY_R2_LIST_CODE_COL + " VARCHAR(10), "
+                + LAY_R3_LIST_CODE_COL + " VARCHAR(10), "
+                + LAY_R4_LIST_CODE_COL + " VARCHAR(10), "
+                + DONOR_CODE_COL + " VARCHAR(10), "
+                + AWARD_CODE_COL + " VARCHAR(10), "
+                + HHID_COL + " VARCHAR(10), "
+                + HH_MEM_ID + " VARCHAR(10), "
+                + PROGRAM_CODE_COL + " VARCHAR(10), "
+                + SERVICE_CODE_COL + " VARCHAR(10), "
                 + SQLiteHandler.REG_N_DAT_COL + " VARCHAR(50)  , "
                 + SQLiteHandler.GRD_CODE_COL + " VARCHAR(10)  , "
                 + SQLiteHandler.GRD_DATE_COL + " VARCHAR(50)  , "
@@ -677,8 +698,8 @@ public class Schema {
 
         return CREATE_TABLE_IF_NOT_EXISTS + SQLiteHandler.SERVICE_MASTER_TABLE + "("
                 + SQLiteHandler.ID_COL + " INTEGER " + PRIMARY_KEY + " AUTOINCREMENT, "
-                + SQLiteHandler.PROGRAM_CODE_COL + " VARCHAR(20), "
-                + SQLiteHandler.SERVICE_CODE_COL + " VARCHAR(20), "
+                + PROGRAM_CODE_COL + " VARCHAR(20), "
+                + SERVICE_CODE_COL + " VARCHAR(20), "
                 + SQLiteHandler.SERVICE_NAME_COL + " VARCHAR(100), "
                 + SQLiteHandler.SERVICE_SHORT_NAME_COL + " VARCHAR(50)  ) ";
 
@@ -693,26 +714,24 @@ public class Schema {
 
         return CREATE_TABLE_IF_NOT_EXISTS + SQLiteHandler.ADM_PROGRAM_MASTER_TABLE + "("
                 //   + SQLiteHandler.ID_COL + " INTEGER " + PRIMARY_KEY + " AUTOINCREMENT, "
-                + SQLiteHandler.PROGRAM_CODE_COL + " VARCHAR(5), "
-                + SQLiteHandler.AWARD_CODE_COL + " VARCHAR(2), "
-                + SQLiteHandler.DONOR_CODE_COL + " VARCHAR(2), "
+                + PROGRAM_CODE_COL + " VARCHAR(5), "
+                + AWARD_CODE_COL + " VARCHAR(2), "
+                + DONOR_CODE_COL + " VARCHAR(2), "
                 + SQLiteHandler.PROGRAM_NAME_COL + " VARCHAR(100), "
                 + SQLiteHandler.PROGRAM_SHORT_NAME_COL + " VARCHAR(5), "
                 + SQLiteHandler.MULTIPLE_SERVICE_FLAG_COL + " VARCHAR(2) "
-                + " , " + PRIMARY_KEY + " ( " + SQLiteHandler.PROGRAM_CODE_COL + ", " + SQLiteHandler.AWARD_CODE_COL + ", " + SQLiteHandler.DONOR_CODE_COL + " ) "
+                + " , " + PRIMARY_KEY + " ( " + PROGRAM_CODE_COL + ", " + AWARD_CODE_COL + ", " + DONOR_CODE_COL + " ) "
                 + " ) ";
     }
 
     /**
-     * added by Faisal Mohammad
-     * create Donor table
      * AdmDonorSchema schema
      * remarks - ok
      */
     public static String sqlCreateDonorTable() {
         return CREATE_TABLE_IF_NOT_EXISTS + SQLiteHandler.ADM_DONOR_TABLE + "("
                 + SQLiteHandler.ID_COL + " INTEGER " + PRIMARY_KEY + " AUTOINCREMENT, "
-                + SQLiteHandler.DONOR_CODE_COL + " VARCHAR(20), "
+                + DONOR_CODE_COL + " VARCHAR(20), "
                 + SQLiteHandler.DONOR_NAME_COL + " VARCHAR(100) ) ";
     }
 
@@ -822,27 +841,27 @@ public class Schema {
         return CREATE_TABLE_IF_NOT_EXISTS + SQLiteHandler.SERVICE_TABLE + "("
                 //   + SQLiteHandler.ID_COL + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + COUNTRY_CODE_COL + " VARCHAR(4), "
-                + SQLiteHandler.DONOR_CODE_COL + " VARCHAR(2), "
-                + SQLiteHandler.AWARD_CODE_COL + " VARCHAR(2), "
-                + SQLiteHandler.LAY_R1_LIST_CODE_COL + " VARCHAR(2), "
-                + SQLiteHandler.LAY_R2_LIST_CODE_COL + " VARCHAR(2), "
-                + SQLiteHandler.LAY_R3_LIST_CODE_COL + " VARCHAR(2), "
-                + SQLiteHandler.LAY_R4_LIST_CODE_COL + " VARCHAR(2), "
-                + SQLiteHandler.HHID_COL + " VARCHAR(5), "
-                + SQLiteHandler.HH_MEM_ID + " VARCHAR(2), "
-                + SQLiteHandler.PROGRAM_CODE_COL + " VARCHAR(3), "
-                + SQLiteHandler.SERVICE_CODE_COL + " VARCHAR(2), "
-                + SQLiteHandler.OPERATION_CODE_COL + " VARCHAR(1), "
-                + SQLiteHandler.OP_MONTH_CODE_COL + " VARCHAR(2), "
-                + SQLiteHandler.SERVICE_SL_COL + " VARCHAR(2)  , "
-                + SQLiteHandler.SERVICE_CENTER_CODE_COL + " VARCHAR(3) , "
-                + SQLiteHandler.SERVICE_DT_COL + " VARCHAR(20) DEFAULT '00' , "
-                + SQLiteHandler.SERVICE_STATUS_COL + " VARCHAR(2)  , "
-                + SQLiteHandler.DISTRIBUTION_STATUS_COL + " VARCHAR(1)  , "
-                + SQLiteHandler.DIST_DATE_COL + " VARCHAR(20) DEFAULT '00' , "
-                + SQLiteHandler.FDP_CODE_COL + " VARCHAR(4) , "
-                + SQLiteHandler.WORK_DAY_COL + " VARCHAR(6) , "
-                + SQLiteHandler.DIST_FLAG_COL + " VARCHAR(100), "
+                + DONOR_CODE_COL + " VARCHAR(2), "
+                + AWARD_CODE_COL + " VARCHAR(2), "
+                + LAY_R1_LIST_CODE_COL + " VARCHAR(2), "
+                + LAY_R2_LIST_CODE_COL + " VARCHAR(2), "
+                + LAY_R3_LIST_CODE_COL + " VARCHAR(2), "
+                + LAY_R4_LIST_CODE_COL + " VARCHAR(2), "
+                + HHID_COL + " VARCHAR(5), "
+                + HH_MEM_ID + " VARCHAR(2), "
+                + PROGRAM_CODE_COL + " VARCHAR(3), "
+                + SERVICE_CODE_COL + " VARCHAR(2), "
+                + OPERATION_CODE_COL + " VARCHAR(1), "
+                + OP_MONTH_CODE_COL + " VARCHAR(2), "
+                + SERVICE_SL_COL + " VARCHAR(2)  , "
+                + SERVICE_CENTER_CODE_COL + " VARCHAR(3) , "
+                + SERVICE_DT_COL + " VARCHAR(20) DEFAULT '00' , "
+                + SERVICE_STATUS_COL + " VARCHAR(2)  , "
+                + DISTRIBUTION_STATUS_COL + " VARCHAR(1)  , "
+                + DIST_DATE_COL + " VARCHAR(20) DEFAULT '00' , "
+                + FDP_CODE_COL + " VARCHAR(4) , "
+                + WORK_DAY_COL + " VARCHAR(6) , "
+                + DIST_FLAG_COL + " VARCHAR(100), "
                 /** todo: this column may not be necessary in future delete id no use now */
                 + SQLiteHandler.GROUP_CODE_COL + " VARCHAR(4)  , "
                 // for total synch summary report need entry by & entry date
@@ -868,8 +887,8 @@ public class Schema {
         return CREATE_TABLE_IF_NOT_EXISTS + SQLiteHandler.LUP_SRV_OPTION_LIST_TABLE + "("
                 + SQLiteHandler.ID_COL + " INTEGER " + PRIMARY_KEY + " AUTOINCREMENT, "
                 + COUNTRY_CODE_COL + " VARCHAR(5), "
-                + SQLiteHandler.PROGRAM_CODE_COL + " VARCHAR(4), "
-                + SQLiteHandler.SERVICE_CODE_COL + " VARCHAR(4), "
+                + PROGRAM_CODE_COL + " VARCHAR(4), "
+                + SERVICE_CODE_COL + " VARCHAR(4), "
                 + SQLiteHandler.LUP_OPTION_CODE_COL + " VARCHAR(4), "
                 + SQLiteHandler.LUP_OPTION_NAME_COL + " VARCHAR(4) "
                 + " )";
@@ -884,12 +903,12 @@ public class Schema {
                 + SQLiteHandler.ID_COL + " INTEGER " + PRIMARY_KEY + " AUTOINCREMENT, "
 
                 + COUNTRY_CODE_COL + " VARCHAR(4), "
-                + SQLiteHandler.LAY_R1_LIST_CODE_COL + " VARCHAR(2), "
-                + SQLiteHandler.LAY_R2_LIST_CODE_COL + " VARCHAR(2), "
-                + SQLiteHandler.LAY_R3_LIST_CODE_COL + " VARCHAR(2), "
-                + SQLiteHandler.LAY_R4_LIST_CODE_COL + " VARCHAR(2), "
-                + SQLiteHandler.HHID_COL + " VARCHAR(5), "
-                + SQLiteHandler.HH_MEM_ID + " VARCHAR(20), "
+                + LAY_R1_LIST_CODE_COL + " VARCHAR(2), "
+                + LAY_R2_LIST_CODE_COL + " VARCHAR(2), "
+                + LAY_R3_LIST_CODE_COL + " VARCHAR(2), "
+                + LAY_R4_LIST_CODE_COL + " VARCHAR(2), "
+                + HHID_COL + " VARCHAR(5), "
+                + HH_MEM_ID + " VARCHAR(20), "
                 + SQLiteHandler.REG_N_DAT_COL + " VARCHAR(20), "
                 + SQLiteHandler.Disabled_YN_COL + " VARCHAR(1), "
                 + SQLiteHandler.ENTRY_BY + " VARCHAR(50) DEFAULT '0', "
@@ -918,7 +937,6 @@ public class Schema {
         return CREATE_TABLE_IF_NOT_EXISTS + SQLiteHandler.VOUCHER_ITEM__MEAS_TABLE + " ("
 
                 + SQLiteHandler.ID_COL + " INTEGER " + PRIMARY_KEY + " AUTOINCREMENT, "
-
                 + SQLiteHandler.MEAS_R_CODE_COL + " VARCHAR(4), "
                 + SQLiteHandler.UNITE_MEAS_COL + " VARCHAR(5), "
                 + SQLiteHandler.MEASE_TITLE_COL + " VARCHAR(100) "
@@ -934,10 +952,10 @@ public class Schema {
                 + SQLiteHandler.ID_COL + " INTEGER " + PRIMARY_KEY + " AUTOINCREMENT, "
 
                 + COUNTRY_CODE_COL + " VARCHAR(4), "
-                + SQLiteHandler.DONOR_CODE_COL + " VARCHAR(5), "
-                + SQLiteHandler.AWARD_CODE_COL + " VARCHAR(5), "
-                + SQLiteHandler.PROGRAM_CODE_COL + " VARCHAR(5), "
-                + SQLiteHandler.SERVICE_CODE_COL + " VARCHAR(5), "
+                + DONOR_CODE_COL + " VARCHAR(5), "
+                + AWARD_CODE_COL + " VARCHAR(5), "
+                + PROGRAM_CODE_COL + " VARCHAR(5), "
+                + SERVICE_CODE_COL + " VARCHAR(5), "
                 + SQLiteHandler.CATEGORY_CODE_COL + " VARCHAR(5), "
                 + SQLiteHandler.ITEM_CODE_COL + " VARCHAR(5), "
                 + SQLiteHandler.MEAS_R_CODE_COL + " VARCHAR(5), "
@@ -958,24 +976,24 @@ public class Schema {
                 + SQLiteHandler.ID_COL + " INTEGER " + PRIMARY_KEY + " AUTOINCREMENT, "
 
                 + COUNTRY_CODE_COL + " VARCHAR(4), "
-                + SQLiteHandler.DONOR_CODE_COL + " VARCHAR(2), "
-                + SQLiteHandler.AWARD_CODE_COL + " VARCHAR(2), "
-                + SQLiteHandler.LAY_R1_LIST_CODE_COL + " VARCHAR(2), "
-                + SQLiteHandler.LAY_R2_LIST_CODE_COL + " VARCHAR(2), "
-                + SQLiteHandler.LAY_R3_LIST_CODE_COL + " VARCHAR(2), "
-                + SQLiteHandler.LAY_R4_LIST_CODE_COL + " VARCHAR(2), "
-                + SQLiteHandler.HHID_COL + " VARCHAR(5), "
-                + SQLiteHandler.HH_MEM_ID + " VARCHAR(2), "
-                + SQLiteHandler.PROGRAM_CODE_COL + " VARCHAR(3), "
-                + SQLiteHandler.SERVICE_CODE_COL + " VARCHAR(2), "
-                + SQLiteHandler.OPERATION_CODE_COL + " VARCHAR(1), "
-                + SQLiteHandler.OP_MONTH_CODE_COL + " VARCHAR(2), "
+                + DONOR_CODE_COL + " VARCHAR(2), "
+                + AWARD_CODE_COL + " VARCHAR(2), "
+                + LAY_R1_LIST_CODE_COL + " VARCHAR(2), "
+                + LAY_R2_LIST_CODE_COL + " VARCHAR(2), "
+                + LAY_R3_LIST_CODE_COL + " VARCHAR(2), "
+                + LAY_R4_LIST_CODE_COL + " VARCHAR(2), "
+                + HHID_COL + " VARCHAR(5), "
+                + HH_MEM_ID + " VARCHAR(2), "
+                + PROGRAM_CODE_COL + " VARCHAR(3), "
+                + SERVICE_CODE_COL + " VARCHAR(2), "
+                + OPERATION_CODE_COL + " VARCHAR(1), "
+                + OP_MONTH_CODE_COL + " VARCHAR(2), "
 
                 + SQLiteHandler.VOUCHER_ITEM_SPEC_COL + " VARCHAR(15), "
                 + SQLiteHandler.VOUCHER_UNIT_COL + " VARCHAR(25), "
                 + SQLiteHandler.VOUCHER_REFERENCE_NUMBER_COL + " VARCHAR(18), "
                 + SQLiteHandler.VOUCHER_ITEM_COST_COL + " VARCHAR(5), "
-                + SQLiteHandler.DIST_FLAG_COL + " VARCHAR(100), "
+                + DIST_FLAG_COL + " VARCHAR(100), "
                 + SQLiteHandler.ENTRY_BY + " VARCHAR(5), "
                 + SQLiteHandler.ENTRY_DATE + " VARCHAR(20), "
                 + SQLiteHandler.SYNC_COL + " VARCHAR(5) DEFAULT '0' "
@@ -992,23 +1010,23 @@ public class Schema {
                 + SQLiteHandler.ID_COL + " INTEGER " + PRIMARY_KEY + " AUTOINCREMENT, "
 
                 + COUNTRY_CODE_COL + " VARCHAR(4), "
-                + SQLiteHandler.DONOR_CODE_COL + " VARCHAR(2), "
-                + SQLiteHandler.AWARD_CODE_COL + " VARCHAR(2), "
-                + SQLiteHandler.LAY_R1_LIST_CODE_COL + " VARCHAR(2), "
-                + SQLiteHandler.LAY_R2_LIST_CODE_COL + " VARCHAR(2), "
-                + SQLiteHandler.LAY_R3_LIST_CODE_COL + " VARCHAR(2), "
-                + SQLiteHandler.LAY_R4_LIST_CODE_COL + " VARCHAR(2), "
-                + SQLiteHandler.PROGRAM_CODE_COL + " VARCHAR(3), "
-                + SQLiteHandler.SERVICE_CODE_COL + " VARCHAR(2), "
-                + SQLiteHandler.OP_MONTH_CODE_COL + " VARCHAR(2), "
-                + SQLiteHandler.FDP_CODE_COL + " VARCHAR(10), "
+                + DONOR_CODE_COL + " VARCHAR(2), "
+                + AWARD_CODE_COL + " VARCHAR(2), "
+                + LAY_R1_LIST_CODE_COL + " VARCHAR(2), "
+                + LAY_R2_LIST_CODE_COL + " VARCHAR(2), "
+                + LAY_R3_LIST_CODE_COL + " VARCHAR(2), "
+                + LAY_R4_LIST_CODE_COL + " VARCHAR(2), "
+                + PROGRAM_CODE_COL + " VARCHAR(3), "
+                + SERVICE_CODE_COL + " VARCHAR(2), "
+                + OP_MONTH_CODE_COL + " VARCHAR(2), "
+                + FDP_CODE_COL + " VARCHAR(10), "
                 + SQLiteHandler.MEM_ID_15_D_COL + " VARCHAR(25), "
                 + SQLiteHandler.VOUCHER_ITEM_SPEC_COL + " VARCHAR(15), "
                 + SQLiteHandler.VOUCHER_UNIT_COL + " VARCHAR(25), "
                 + SQLiteHandler.VOUCHER_REFERENCE_NUMBER_COL + " VARCHAR(18), "
 
                 + SQLiteHandler.SRV_OP_MONTH_CODE_COL + " VARCHAR(2), "
-                + SQLiteHandler.DIST_FLAG_COL + " VARCHAR(100), "
+                + DIST_FLAG_COL + " VARCHAR(100), "
 
                 + SQLiteHandler.ENTRY_BY + " VARCHAR(5), "
                 + SQLiteHandler.ENTRY_DATE + " VARCHAR(20), "
@@ -1026,10 +1044,10 @@ public class Schema {
                 + SQLiteHandler.ID_COL + " INTEGER " + PRIMARY_KEY + " AUTOINCREMENT, "
 
                 + COUNTRY_CODE_COL + " VARCHAR(4), "
-                + SQLiteHandler.LAY_R1_LIST_CODE_COL + " VARCHAR(2), "
-                + SQLiteHandler.LAY_R2_LIST_CODE_COL + " VARCHAR(2), "
-                + SQLiteHandler.LAY_R3_LIST_CODE_COL + " VARCHAR(2), "
-                + SQLiteHandler.LAY_R4_LIST_CODE_COL + " VARCHAR(2), "
+                + LAY_R1_LIST_CODE_COL + " VARCHAR(2), "
+                + LAY_R2_LIST_CODE_COL + " VARCHAR(2), "
+                + LAY_R3_LIST_CODE_COL + " VARCHAR(2), "
+                + LAY_R4_LIST_CODE_COL + " VARCHAR(2), "
                 + SQLiteHandler.LAYER_CODE_COL + " VARCHAR(2), "
                 + SQLiteHandler.VILLAGE_NAME_COL + " VARCHAR(2), "
                 + SQLiteHandler.REGN_ADDRESS_LOOKUP_CODE_COL + " VARCHAR(4) "
@@ -1046,7 +1064,7 @@ public class Schema {
 
 
                 + COUNTRY_CODE_COL + " VARCHAR(4), "
-                + SQLiteHandler.FDP_CODE_COL + " VARCHAR(4), "
+                + FDP_CODE_COL + " VARCHAR(4), "
                 + SQLiteHandler.FDP_NAME_COL + " VARCHAR(100) "
                 + " )";
 
@@ -1059,7 +1077,7 @@ public class Schema {
 
 
                 + COUNTRY_CODE_COL + " VARCHAR(4), "
-                + SQLiteHandler.SERVICE_CENTER_CODE_COL + " VARCHAR(4), "
+                + SERVICE_CENTER_CODE_COL + " VARCHAR(4), "
                 + SQLiteHandler.SERVICE_CENTER_NAME_COL + " VARCHAR(100) "
                 + " )";
 
@@ -1072,16 +1090,16 @@ public class Schema {
         return CREATE_TABLE_IF_NOT_EXISTS + SQLiteHandler.COMMUNITY_GROUP_TABLE + " ("
 
                 + COUNTRY_CODE_COL + " VARCHAR(4) "
-                + " , " + SQLiteHandler.DONOR_CODE_COL + " VARCHAR(4) "
-                + " , " + SQLiteHandler.AWARD_CODE_COL + " VARCHAR(4) "
-                + " , " + SQLiteHandler.PROGRAM_CODE_COL + " VARCHAR(4) "
+                + " , " + DONOR_CODE_COL + " VARCHAR(4) "
+                + " , " + AWARD_CODE_COL + " VARCHAR(4) "
+                + " , " + PROGRAM_CODE_COL + " VARCHAR(4) "
                 + " , " + SQLiteHandler.GROUP_CODE_COL + " VARCHAR(4) "
                 + " , " + SQLiteHandler.GRP_LAY_R1_LIST_CODE_COL + " VARCHAR(4) DEFAULT '00' "
                 + " , " + SQLiteHandler.GRP_LAY_R2_LIST_CODE_COL + " VARCHAR(4) DEFAULT '00' "
                 + " , " + SQLiteHandler.GRP_LAY_R3_LIST_CODE_COL + " VARCHAR(4) DEFAULT '00' "
                 + " , " + SQLiteHandler.GROUP_NAME_COL + " VARCHAR(100) "
                 + " , " + SQLiteHandler.GROUP_CAT_CODE_COL + " VARCHAR(4) "
-                + " , " + SQLiteHandler.SERVICE_CENTER_CODE_COL + " VARCHAR(4) "
+                + " , " + SERVICE_CENTER_CODE_COL + " VARCHAR(4) "
                 + " , " + SQLiteHandler.ENTRY_BY + " VARCHAR(4) "
                 + " , " + SQLiteHandler.ENTRY_DATE + " VARCHAR(25) "
 /**
@@ -1102,9 +1120,9 @@ public class Schema {
         return CREATE_TABLE_IF_NOT_EXISTS + SQLiteHandler.COMMUNITY_GRP_DETAIL_TABLE
                 + " ( "
                 + COUNTRY_CODE_COL + " VARCHAR(4) "
-                + " , " + SQLiteHandler.DONOR_CODE_COL + " VARCHAR(4)"
-                + " , " + SQLiteHandler.AWARD_CODE_COL + " VARCHAR(4)"
-                + " , " + SQLiteHandler.PROGRAM_CODE_COL + " VARCHAR(4) "
+                + " , " + DONOR_CODE_COL + " VARCHAR(4)"
+                + " , " + AWARD_CODE_COL + " VARCHAR(4)"
+                + " , " + PROGRAM_CODE_COL + " VARCHAR(4) "
                 + " , " + SQLiteHandler.GROUP_CODE_COL + " VARCHAR(4) "
                 + " , " + SQLiteHandler.GRP_LAY_R1_LIST_CODE_COL + " VARCHAR(4) DEFAULT '-' "
                 + " , " + SQLiteHandler.GRP_LAY_R2_LIST_CODE_COL + " VARCHAR(4) DEFAULT '-' "
@@ -1205,21 +1223,21 @@ public class Schema {
 
 
                 + COUNTRY_CODE_COL + " VARCHAR(4) "
-                + " , " + SQLiteHandler.DONOR_CODE_COL + " VARCHAR(2) "
-                + " , " + SQLiteHandler.AWARD_CODE_COL + " VARCHAR(2) "
-                + " , " + SQLiteHandler.LAY_R1_LIST_CODE_COL + " VARCHAR(2) "
-                + " , " + SQLiteHandler.LAY_R2_LIST_CODE_COL + " VARCHAR(2) "
-                + " , " + SQLiteHandler.LAY_R3_LIST_CODE_COL + " VARCHAR(2) "
-                + " , " + SQLiteHandler.LAY_R4_LIST_CODE_COL + " VARCHAR(2) "
-                + " , " + SQLiteHandler.HHID_COL + " VARCHAR(5) "
-                + " , " + SQLiteHandler.HH_MEM_ID + " VARCHAR(2) "
-                + " , " + SQLiteHandler.PROGRAM_CODE_COL + " VARCHAR(3) "
-                + " , " + SQLiteHandler.SERVICE_CODE_COL + " VARCHAR(2) "
-                + " , " + SQLiteHandler.OPERATION_CODE_COL + " VARCHAR(2) "
-                + " , " + SQLiteHandler.OP_MONTH_CODE_COL + " VARCHAR(2) "
-                + " , " + SQLiteHandler.SERVICE_CENTER_CODE_COL + " VARCHAR(5) "
-                + " , " + SQLiteHandler.FDP_CODE_COL + " VARCHAR(5) "
-                + " , " + SQLiteHandler.SERVICE_STATUS_COL + " VARCHAR(4) "
+                + " , " + DONOR_CODE_COL + " VARCHAR(2) "
+                + " , " + AWARD_CODE_COL + " VARCHAR(2) "
+                + " , " + LAY_R1_LIST_CODE_COL + " VARCHAR(2) "
+                + " , " + LAY_R2_LIST_CODE_COL + " VARCHAR(2) "
+                + " , " + LAY_R3_LIST_CODE_COL + " VARCHAR(2) "
+                + " , " + LAY_R4_LIST_CODE_COL + " VARCHAR(2) "
+                + " , " + HHID_COL + " VARCHAR(5) "
+                + " , " + HH_MEM_ID + " VARCHAR(2) "
+                + " , " + PROGRAM_CODE_COL + " VARCHAR(3) "
+                + " , " + SERVICE_CODE_COL + " VARCHAR(2) "
+                + " , " + OPERATION_CODE_COL + " VARCHAR(2) "
+                + " , " + OP_MONTH_CODE_COL + " VARCHAR(2) "
+                + " , " + SERVICE_CENTER_CODE_COL + " VARCHAR(5) "
+                + " , " + FDP_CODE_COL + " VARCHAR(5) "
+                + " , " + SERVICE_STATUS_COL + " VARCHAR(4) "
 
                 + " , " + SQLiteHandler.BABY_STATUS_COL + " VARCHAR(2) "
                 + " , " + SQLiteHandler.GMP_ATTENDACE_COL + " VARCHAR(2) "
@@ -1312,9 +1330,9 @@ public class Schema {
 
 
                 + COUNTRY_CODE_COL + " VARCHAR(4) "
-                + " , " + SQLiteHandler.DONOR_CODE_COL + " VARCHAR(4) "
-                + " , " + SQLiteHandler.AWARD_CODE_COL + " VARCHAR(4) "
-                + " , " + SQLiteHandler.PROGRAM_CODE_COL + " VARCHAR(4) "
+                + " , " + DONOR_CODE_COL + " VARCHAR(4) "
+                + " , " + AWARD_CODE_COL + " VARCHAR(4) "
+                + " , " + PROGRAM_CODE_COL + " VARCHAR(4) "
                 + " , " + SQLiteHandler.ANIMAL_CODE_COL + " VARCHAR(4) "
                 + " , " + SQLiteHandler.ANIMAL_TYPE_COL + " VARCHAR(100) "
 
@@ -1330,9 +1348,9 @@ public class Schema {
 
 
                 + COUNTRY_CODE_COL + " VARCHAR(4) "
-                + " , " + SQLiteHandler.DONOR_CODE_COL + " VARCHAR(4) "
-                + " , " + SQLiteHandler.AWARD_CODE_COL + " VARCHAR(4) "
-                + " , " + SQLiteHandler.PROGRAM_CODE_COL + " VARCHAR(4) "
+                + " , " + DONOR_CODE_COL + " VARCHAR(4) "
+                + " , " + AWARD_CODE_COL + " VARCHAR(4) "
+                + " , " + PROGRAM_CODE_COL + " VARCHAR(4) "
                 + " , " + SQLiteHandler.CROP_CODE_COL + " VARCHAR(4) "
                 + " , " + SQLiteHandler.CROP_NAME_COL + " VARCHAR(100) "
                 + " , " + SQLiteHandler.CROP_CAT_COL + " VARCHAR(10) "
@@ -1348,9 +1366,9 @@ public class Schema {
 
 
                 + COUNTRY_CODE_COL + " VARCHAR(4) "
-                + " , " + SQLiteHandler.DONOR_CODE_COL + " VARCHAR(4) "
-                + " , " + SQLiteHandler.AWARD_CODE_COL + " VARCHAR(4) "
-                + " , " + SQLiteHandler.PROGRAM_CODE_COL + " VARCHAR(4) "
+                + " , " + DONOR_CODE_COL + " VARCHAR(4) "
+                + " , " + AWARD_CODE_COL + " VARCHAR(4) "
+                + " , " + PROGRAM_CODE_COL + " VARCHAR(4) "
                 + " , " + SQLiteHandler.LOAN_CODE_COL + " VARCHAR(4) "
                 + " , " + SQLiteHandler.LOAN_SOURCE_COL + " VARCHAR(100) "
 
@@ -1367,9 +1385,9 @@ public class Schema {
 
 
                 + COUNTRY_CODE_COL + " VARCHAR(4) "
-                + " , " + SQLiteHandler.DONOR_CODE_COL + " VARCHAR(4) "
-                + " , " + SQLiteHandler.AWARD_CODE_COL + " VARCHAR(4) "
-                + " , " + SQLiteHandler.PROGRAM_CODE_COL + " VARCHAR(4) "
+                + " , " + DONOR_CODE_COL + " VARCHAR(4) "
+                + " , " + AWARD_CODE_COL + " VARCHAR(4) "
+                + " , " + PROGRAM_CODE_COL + " VARCHAR(4) "
                 + " , " + SQLiteHandler.LEAD_CODE_COL + " VARCHAR(4) "
                 + " , " + SQLiteHandler.LEAD_POSITION_COL + " VARCHAR(100) "
 
@@ -1384,16 +1402,16 @@ public class Schema {
 
 
                 + COUNTRY_CODE_COL + " VARCHAR(4) "
-                + " , " + SQLiteHandler.LAY_R1_LIST_CODE_COL + " VARCHAR(2) "
-                + " , " + SQLiteHandler.LAY_R2_LIST_CODE_COL + " VARCHAR(2) "
-                + " , " + SQLiteHandler.LAY_R3_LIST_CODE_COL + " VARCHAR(2) "
-                + " , " + SQLiteHandler.LAY_R4_LIST_CODE_COL + " VARCHAR(2) "
-                + " , " + SQLiteHandler.DONOR_CODE_COL + " VARCHAR(2) "
-                + " , " + SQLiteHandler.AWARD_CODE_COL + " VARCHAR(2) "
-                + " , " + SQLiteHandler.HHID_COL + " VARCHAR(6) "
-                + " , " + SQLiteHandler.HH_MEM_ID + " VARCHAR(2) "
-                + " , " + SQLiteHandler.PROGRAM_CODE_COL + " VARCHAR(3) "
-                + " , " + SQLiteHandler.SERVICE_CODE_COL + " VARCHAR(2) "
+                + " , " + LAY_R1_LIST_CODE_COL + " VARCHAR(2) "
+                + " , " + LAY_R2_LIST_CODE_COL + " VARCHAR(2) "
+                + " , " + LAY_R3_LIST_CODE_COL + " VARCHAR(2) "
+                + " , " + LAY_R4_LIST_CODE_COL + " VARCHAR(2) "
+                + " , " + DONOR_CODE_COL + " VARCHAR(2) "
+                + " , " + AWARD_CODE_COL + " VARCHAR(2) "
+                + " , " + HHID_COL + " VARCHAR(6) "
+                + " , " + HH_MEM_ID + " VARCHAR(2) "
+                + " , " + PROGRAM_CODE_COL + " VARCHAR(3) "
+                + " , " + SERVICE_CODE_COL + " VARCHAR(2) "
                 + " , " + SQLiteHandler.GROUP_CODE_COL + " VARCHAR(5) "
                 + " , " + SQLiteHandler.GROUP_NAME_COL + " VARCHAR(100) "
                 + " , " + SQLiteHandler.ACTIVE_COL + " VARCHAR(5) "
@@ -1415,10 +1433,10 @@ public class Schema {
 
                 + COUNTRY_CODE_COL + " VARCHAR(4) "
 
-                + " , " + SQLiteHandler.DONOR_CODE_COL + " VARCHAR(2) "
-                + " , " + SQLiteHandler.AWARD_CODE_COL + " VARCHAR(2) "
+                + " , " + DONOR_CODE_COL + " VARCHAR(2) "
+                + " , " + AWARD_CODE_COL + " VARCHAR(2) "
 
-                + " , " + SQLiteHandler.PROGRAM_CODE_COL + " VARCHAR(3) "
+                + " , " + PROGRAM_CODE_COL + " VARCHAR(3) "
                 + " , " + SQLiteHandler.GROUP_CAT_CODE_COL + " VARCHAR(4) "
                 + " , " + SQLiteHandler.GROUP_CAT_NAME_COL + " VARCHAR(100) "
                 + " , " + SQLiteHandler.GROUP_CAT_SHORT_NAME_COL + " VARCHAR(5) "
@@ -1456,12 +1474,12 @@ public class Schema {
         return CREATE_TABLE_IF_NOT_EXISTS + SQLiteHandler.REG_N_FFA_TABLE
                 + " ( "
                 + COUNTRY_CODE_COL + " VARCHAR(4) "
-                + " , " + SQLiteHandler.LAY_R1_LIST_CODE_COL + " VARCHAR(4) "
-                + " , " + SQLiteHandler.LAY_R2_LIST_CODE_COL + " VARCHAR(2) "
-                + " , " + SQLiteHandler.LAY_R3_LIST_CODE_COL + " VARCHAR(2) "
-                + " , " + SQLiteHandler.LAY_R4_LIST_CODE_COL + " VARCHAR(2) "
-                + " , " + SQLiteHandler.HHID_COL + " VARCHAR(5) "
-                + " , " + SQLiteHandler.HH_MEM_ID + " VARCHAR(2) "
+                + " , " + LAY_R1_LIST_CODE_COL + " VARCHAR(4) "
+                + " , " + LAY_R2_LIST_CODE_COL + " VARCHAR(2) "
+                + " , " + LAY_R3_LIST_CODE_COL + " VARCHAR(2) "
+                + " , " + LAY_R4_LIST_CODE_COL + " VARCHAR(2) "
+                + " , " + HHID_COL + " VARCHAR(5) "
+                + " , " + HH_MEM_ID + " VARCHAR(2) "
                 + " , " + SQLiteHandler.ORPHAN_CHILDREN_COL + " VARCHAR(1) "
                 + " , " + SQLiteHandler.CHILD_HEADED_COL + " VARCHAR(1) "
                 + " , " + SQLiteHandler.ELDERLY_HEADED_COL + " VARCHAR(1) "
@@ -1480,14 +1498,14 @@ public class Schema {
         return CREATE_TABLE_IF_NOT_EXISTS + SQLiteHandler.DIST_N_PLAN_BASIC_TABLE + "("
 
                 + COUNTRY_CODE_COL + " VARCHAR(10), "
-                + SQLiteHandler.DONOR_CODE_COL + " VARCHAR(10), "
-                + SQLiteHandler.AWARD_CODE_COL + " VARCHAR(10), "
-                + SQLiteHandler.PROGRAM_CODE_COL + " VARCHAR(10), "
-                + SQLiteHandler.OPERATION_CODE_COL + " VARCHAR(10), "
+                + DONOR_CODE_COL + " VARCHAR(10), "
+                + AWARD_CODE_COL + " VARCHAR(10), "
+                + PROGRAM_CODE_COL + " VARCHAR(10), "
+                + OPERATION_CODE_COL + " VARCHAR(10), "
                 + SQLiteHandler.SRV_OP_MONTH_CODE_COL + " VARCHAR(10), "
                 + SQLiteHandler.DIST_OP_MONTH_CODE_COL + " VARCHAR(10), "
-                + SQLiteHandler.FDP_CODE_COL + " VARCHAR(10), "
-                + SQLiteHandler.DIST_FLAG_COL + " VARCHAR(10), "
+                + FDP_CODE_COL + " VARCHAR(10), "
+                + DIST_FLAG_COL + " VARCHAR(10), "
                 + SQLiteHandler.ORG_CODE_COL + " VARCHAR(10), "
                 + SQLiteHandler.DISTRIBUTOR_COL + " VARCHAR(10), "
                 + SQLiteHandler.DISTRIBUTION_DATE_COL + " VARCHAR(50)  , "
@@ -1509,10 +1527,10 @@ public class Schema {
                 + COUNTRY_CODE_COL + " VARCHAR(4) "
                 + " , " + SQLiteHandler.REGN_ADDRESS_LOOKUP_CODE_COL + " VARCHAR(3)"
                 + " , " + SQLiteHandler.REGN_ADDRESS_LOOKUP_NAME_COL + " VARCHAR(100)"
-                + " , " + SQLiteHandler.LAY_R1_LIST_CODE_COL + " VARCHAR(4) "
-                + " , " + SQLiteHandler.LAY_R2_LIST_CODE_COL + " VARCHAR(2) "
-                + " , " + SQLiteHandler.LAY_R3_LIST_CODE_COL + " VARCHAR(2) "
-                + " , " + SQLiteHandler.LAY_R4_LIST_CODE_COL + " VARCHAR(2) "
+                + " , " + LAY_R1_LIST_CODE_COL + " VARCHAR(4) "
+                + " , " + LAY_R2_LIST_CODE_COL + " VARCHAR(2) "
+                + " , " + LAY_R3_LIST_CODE_COL + " VARCHAR(2) "
+                + " , " + LAY_R4_LIST_CODE_COL + " VARCHAR(2) "
                 + " ) ";
     }
 
@@ -1521,8 +1539,8 @@ public class Schema {
         return CREATE_TABLE_IF_NOT_EXISTS + SQLiteHandler.PROGRAM_ORGANIZATION_ROLE_TABLE
                 + " ( "
                 + COUNTRY_CODE_COL + " varchar (4) "
-                + " , " + SQLiteHandler.DONOR_CODE_COL + " VARCHAR(4) "
-                + " , " + SQLiteHandler.AWARD_CODE_COL + " VARCHAR(4) "
+                + " , " + DONOR_CODE_COL + " VARCHAR(4) "
+                + " , " + AWARD_CODE_COL + " VARCHAR(4) "
                 + " , " + SQLiteHandler.ORG_CODE_COL + " VARCHAR(3) "
                 + " , " + SQLiteHandler.PRIME_Y_N_COL + " VARCHAR (1) "
                 + " , " + SQLiteHandler.SUB_Y_N_COL + " VARCHAR (1) "
@@ -1606,9 +1624,9 @@ public class Schema {
     public static String createTableDTCountryProgram() {
         return CREATE_TABLE_IF_NOT_EXISTS + "   " + SQLiteHandler.DT_COUNTRY_PROGRAM_TABLE + "   (  " +
                 "    " + COUNTRY_CODE_COL + "    TEXT NOT NULL,  " +
-                "    " + SQLiteHandler.DONOR_CODE_COL + "    TEXT NOT NULL,  " +
-                "    " + SQLiteHandler.AWARD_CODE_COL + "    TEXT NOT NULL,  " +
-                "    " + SQLiteHandler.PROGRAM_CODE_COL + "    TEXT NOT NULL,  " +
+                "    " + DONOR_CODE_COL + "    TEXT NOT NULL,  " +
+                "    " + AWARD_CODE_COL + "    TEXT NOT NULL,  " +
+                "    " + PROGRAM_CODE_COL + "    TEXT NOT NULL,  " +
                 "    " + SQLiteHandler.PROG_ACTIVITY_CODE_COL + "    TEXT NOT NULL,  " +
                 "    " + SQLiteHandler.PROG_ACTIVITY_TITLE_COL + "    TEXT,  " +
                 "    " + SQLiteHandler.DT_BASIC_COL + "    TEXT NOT NULL,  " +
@@ -1662,9 +1680,9 @@ public class Schema {
         return CREATE_TABLE_IF_NOT_EXISTS + "   " + SQLiteHandler.DT_RESPONSE_TABLE + "    (   " +
                 "      " + SQLiteHandler.DT_BASIC_COL + "      TEXT NOT NULL,   " +
                 "      " + COUNTRY_CODE_COL + "      TEXT NOT NULL,   " +
-                "      " + SQLiteHandler.DONOR_CODE_COL + "      TEXT NOT NULL,   " +
-                "      " + SQLiteHandler.AWARD_CODE_COL + "      TEXT NOT NULL,   " +
-                "      " + SQLiteHandler.PROGRAM_CODE_COL + "      TEXT NOT NULL,   " +
+                "      " + DONOR_CODE_COL + "      TEXT NOT NULL,   " +
+                "      " + AWARD_CODE_COL + "      TEXT NOT NULL,   " +
+                "      " + PROGRAM_CODE_COL + "      TEXT NOT NULL,   " +
                 "      " + SQLiteHandler.DT_ENU_ID_COL + "      TEXT NOT NULL,   " +
                 "      " + SQLiteHandler.DTQ_CODE_COL + "      TEXT NOT NULL,   " +
                 "     " + SQLiteHandler.DTA_CODE_COL + "       TEXT NOT NULL,   " +
@@ -1673,7 +1691,7 @@ public class Schema {
                 "      " + SQLiteHandler.PROG_ACTIVITY_CODE_COL + "      TEXT,   " +
                 "      " + SQLiteHandler.DTTIME_STRING_COL + "      TEXT,   " +
                 "      " + SQLiteHandler.OP_MODE_COL + "      TEXT,   " +
-                "     " + SQLiteHandler.OP_MONTH_CODE_COL + "       TEXT,   " +
+                "     " + OP_MONTH_CODE_COL + "       TEXT,   " +
                 "     " + SQLiteHandler.DATA_TYPE_COL + "       TEXT   " +
                 //  "  , " + PRIMARY_KEY + "(" + SQLiteHandler.DT_BASIC_COL + "," + SQLiteHandler.COUNTRY_CODE_COL + ", " + SQLiteHandler.DONOR_CODE_COL + " ," + SQLiteHandler.AWARD_CODE_COL + " ," + SQLiteHandler.PROGRAM_CODE_COL
                 //+ "," + SQLiteHandler.DT_ENU_ID_COL + "," + SQLiteHandler.DTQ_CODE_COL + "," + SQLiteHandler.DTA_CODE_COL + " ," + SQLiteHandler.DT_R_SEQ_COL + ")   " +
@@ -1684,9 +1702,9 @@ public class Schema {
         return CREATE_TABLE_IF_NOT_EXISTS + "   " + SQLiteHandler.DT_SURVEY_TABLE + "    (   " +
                 "      " + SQLiteHandler.DT_BASIC_COL + "      TEXT NOT NULL,   " +
                 "      " + COUNTRY_CODE_COL + "      TEXT NOT NULL,   " +
-                "      " + SQLiteHandler.DONOR_CODE_COL + "      TEXT NOT NULL,   " +
-                "      " + SQLiteHandler.AWARD_CODE_COL + "      TEXT NOT NULL,   " +
-                "      " + SQLiteHandler.PROGRAM_CODE_COL + "      TEXT NOT NULL,   " +
+                "      " + DONOR_CODE_COL + "      TEXT NOT NULL,   " +
+                "      " + AWARD_CODE_COL + "      TEXT NOT NULL,   " +
+                "      " + PROGRAM_CODE_COL + "      TEXT NOT NULL,   " +
                 "      " + SQLiteHandler.DT_ENU_ID_COL + "      TEXT NOT NULL,   " +
                 "      " + SQLiteHandler.DTQ_CODE_COL + "      TEXT NOT NULL,   " +
                 "     " + SQLiteHandler.DTA_CODE_COL + "       TEXT NOT NULL,   " +
@@ -1695,7 +1713,7 @@ public class Schema {
                 "      " + SQLiteHandler.PROG_ACTIVITY_CODE_COL + "      TEXT,   " +
                 "      " + SQLiteHandler.DTTIME_STRING_COL + "      TEXT,   " +
                 "      " + SQLiteHandler.OP_MODE_COL + "      TEXT,   " +
-                "     " + SQLiteHandler.OP_MONTH_CODE_COL + "       TEXT,   " +
+                "     " + OP_MONTH_CODE_COL + "       TEXT,   " +
                 "     " + SQLiteHandler.DATA_TYPE_COL + "       TEXT,   " +
                 "     " + SQLiteHandler.DTQ_TEXT_COL + "       TEXT,   " +
                 "     " + SQLiteHandler.DT_SURVEY_NUM + "       INTEGER NOT NULL   " +
@@ -1764,9 +1782,9 @@ public class Schema {
     public static String sqlCreateTemporary_CountryProgram() {
         return CREATE_TABLE_IF_NOT_EXISTS + SQLiteHandler.TEMPORARY_COUNTRY_PROGRAM_TABLE + " ( "
                 + COUNTRY_CODE_COL + " VARCHAR(5)"
-                + " , " + SQLiteHandler.DONOR_CODE_COL + " VARCHAR(5)"
-                + " , " + SQLiteHandler.AWARD_CODE_COL + " VARCHAR(5)"
-                + " , " + SQLiteHandler.PROGRAM_CODE_COL + " VARCHAR(5)"
+                + " , " + DONOR_CODE_COL + " VARCHAR(5)"
+                + " , " + AWARD_CODE_COL + " VARCHAR(5)"
+                + " , " + PROGRAM_CODE_COL + " VARCHAR(5)"
                 + " , " + SQLiteHandler.PROGRAM_NAME_COL + " VARCHAR(100) "
                 + " , " + SQLiteHandler.PROGRAM_SHORT_NAME_COL + " VARCHAR(5) "
                 + " , " + SQLiteHandler.IS_SELECTED_FLAG_COL + " VARCHAR(1) DEFAULT '0' "
@@ -1781,16 +1799,16 @@ public class Schema {
         return CREATE_TABLE_IF_NOT_EXISTS + SQLiteHandler.TEMPORARY_OP_MONTH_TABLE + " ( "
 
                 + COUNTRY_CODE_COL + " VARCHAR(4) "
-                + " , " + SQLiteHandler.DONOR_CODE_COL + " VARCHAR(2) "
-                + " , " + SQLiteHandler.AWARD_CODE_COL + " VARCHAR(2) "
-                + " , " + SQLiteHandler.OPERATION_CODE_COL + " VARCHAR(20) "
-                + " , " + SQLiteHandler.OP_MONTH_CODE_COL + " VARCHAR(2) "
+                + " , " + DONOR_CODE_COL + " VARCHAR(2) "
+                + " , " + AWARD_CODE_COL + " VARCHAR(2) "
+                + " , " + OPERATION_CODE_COL + " VARCHAR(20) "
+                + " , " + OP_MONTH_CODE_COL + " VARCHAR(2) "
                 + " , " + SQLiteHandler.MONTH_LABEL + " VARCHAR(50) "
                 + " , " + SQLiteHandler.USA_START_DATE + " VARCHAR(20) "
                 + " , " + SQLiteHandler.USA_END_DATE + " VARCHAR(20) "
                 + " , " + SQLiteHandler.STATUS + " VARCHAR(20) "
                 + " , " + SQLiteHandler.IS_SELECTED_FLAG_COL + " VARCHAR(1) DEFAULT '0' "
-                + " , " + PRIMARY_KEY + " (" + COUNTRY_CODE_COL + ", " + SQLiteHandler.DONOR_CODE_COL + ", " + SQLiteHandler.AWARD_CODE_COL + ", " + SQLiteHandler.OPERATION_CODE_COL + ", " + SQLiteHandler.OP_MONTH_CODE_COL + " ) "
+                + " , " + PRIMARY_KEY + " (" + COUNTRY_CODE_COL + ", " + DONOR_CODE_COL + ", " + AWARD_CODE_COL + ", " + OPERATION_CODE_COL + ", " + OP_MONTH_CODE_COL + " ) "
                 + " ) ";
     }
 

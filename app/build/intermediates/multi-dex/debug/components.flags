@@ -214,11 +214,11 @@
     <init>();
 }
 
--keep class com.siddiquinoor.restclient.activity.sub_activity.dynamic_table.DT_QuestionActivity {
+-keep class com.siddiquinoor.restclient.activity.sub_activity.dynamic_table.DTResponseRecordingActivity {
     <init>();
 }
 
--keep class com.siddiquinoor.restclient.activity.DT_ReportActivity {
+-keep class com.siddiquinoor.restclient.activity.sub_activity.dynamic_table.DT_ReportActivity {
     <init>();
 }
 

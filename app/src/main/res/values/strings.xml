@@ -193,7 +193,7 @@
     <string name="srv_summary_TitleLable">Service Summary </string>
     <string name="tv_criteria">Criteria</string>
     <!-- LOG IN SCREEN -->
-    <string name="log_in_version_lable">GPath-LIV-06</string>
+    <string name="log_in_version_lable">GPath-UAT-06</string>
     <!-- VERSION -->
 
 
@@ -596,4 +596,5 @@ Otherwise, initiate to sync and login again.</string>
     <string name="type">Type</string>
     <string name="house_hold_id">House Hold Id</string>
     <string name="total_days">Total days</string>
+    <string name="response_number">Response Number</string>
 </resources>

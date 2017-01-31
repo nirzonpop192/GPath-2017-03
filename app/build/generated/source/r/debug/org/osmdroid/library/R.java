@@ -28,11 +28,11 @@ public final class R {
 		public static final int zoom_out = 0x7f0200ff;
 	}
 	public static final class id {
-		public static final int bubble_description = 0x7f0f03ad;
-		public static final int bubble_image = 0x7f0f03aa;
-		public static final int bubble_moreinfo = 0x7f0f03ac;
-		public static final int bubble_subdescription = 0x7f0f03ae;
-		public static final int bubble_title = 0x7f0f03ab;
+		public static final int bubble_description = 0x7f0f03ae;
+		public static final int bubble_image = 0x7f0f03ab;
+		public static final int bubble_moreinfo = 0x7f0f03ad;
+		public static final int bubble_subdescription = 0x7f0f03af;
+		public static final int bubble_title = 0x7f0f03ac;
 	}
 	public static final class layout {
 		public static final int bonuspack_bubble = 0x7f04004b;
@@ -62,12 +62,12 @@ public final class R {
 		public static final int my_location = 0x7f080056;
 		public static final int offline = 0x7f080157;
 		public static final int public_transport = 0x7f08015e;
-		public static final int roads_nl = 0x7f080163;
-		public static final int samples = 0x7f080164;
-		public static final int set_mode_hide_me = 0x7f08016b;
-		public static final int set_mode_offline = 0x7f08016c;
-		public static final int set_mode_online = 0x7f08016d;
-		public static final int set_mode_show_me = 0x7f08016e;
+		public static final int roads_nl = 0x7f080164;
+		public static final int samples = 0x7f080165;
+		public static final int set_mode_hide_me = 0x7f08016c;
+		public static final int set_mode_offline = 0x7f08016d;
+		public static final int set_mode_online = 0x7f08016e;
+		public static final int set_mode_show_me = 0x7f08016f;
 		public static final int topo = 0x7f080069;
 		public static final int unknown = 0x7f08006a;
 	}

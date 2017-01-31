@@ -15,7 +15,6 @@ import android.text.InputType;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -51,14 +50,8 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
-import static com.siddiquinoor.restclient.manager.SQLiteHandler.COUNTRY_CODE_COL;
-import static com.siddiquinoor.restclient.manager.SQLiteHandler.ORGANIZATION_NAME;
-import static com.siddiquinoor.restclient.manager.SQLiteHandler.ORG_CODE_COL;
-import static com.siddiquinoor.restclient.manager.SQLiteHandler.PROGRAM_ORGANIZATION_NAME_TABLE;
-import static com.siddiquinoor.restclient.manager.SQLiteHandler.PROGRAM_ORGANIZATION_ROLE_TABLE;
 
-
-public class DT_QuestionActivity extends BaseActivity implements CompoundButton.OnCheckedChangeListener {
+public class DTResponseRecordingActivity extends BaseActivity implements CompoundButton.OnCheckedChangeListener {
 
     public static final String TEXT = "Text";
     public static final String NUMBER = "Number";
@@ -92,7 +85,7 @@ public class DT_QuestionActivity extends BaseActivity implements CompoundButton.
      * alert Dialog
      */
     private ADNotificationManager dialog;
-    private final Context mContext = DT_QuestionActivity.this;
+    private final Context mContext = DTResponseRecordingActivity.this;
     private DynamicDataIndexDataModel dyIndex;
     private int totalQuestion;
     private TextView tv_DtQuestion;
@@ -434,7 +427,7 @@ public class DT_QuestionActivity extends BaseActivity implements CompoundButton.
 
                         } else {
                             normalIndicator();
-                            /**                             * {@link DT_QuestionActivity#saveData(String, DT_ATableDataModel)}                             */
+                            /**                             * {@link DTResponseRecordingActivity#saveData(String, DT_ATableDataModel)}                             */
                             saveData(strSpinner, mDTATableList.get(0));
 
                             /**                         * NEXT QUESTION                         */
@@ -1206,7 +1199,7 @@ public class DT_QuestionActivity extends BaseActivity implements CompoundButton.
             LinearLayout.LayoutParams layoutParams = new TableRow.LayoutParams(TableRow.LayoutParams.FILL_PARENT, TableRow.LayoutParams.WRAP_CONTENT);
             row.setLayoutParams(layoutParams);
             CheckBox checkBox = new CheckBox(this);
-            checkBox.setOnCheckedChangeListener(DT_QuestionActivity.this);
+            checkBox.setOnCheckedChangeListener(DTResponseRecordingActivity.this);
             checkBox.setId(i);
             /**
              * set Text label
@@ -1225,9 +1218,7 @@ public class DT_QuestionActivity extends BaseActivity implements CompoundButton.
             }
 
             row.addView(checkBox);
-            /**
-             * {@link #btnNextQues} needed
-             */
+            /**             * {@link #btnNextQues} needed             */
             mCheckBox_List.add(checkBox);
             parent_layout_onlyFor_CB.addView(row);
         }
@@ -1240,14 +1231,10 @@ public class DT_QuestionActivity extends BaseActivity implements CompoundButton.
 
 
         if (isChecked) {
-            /**
-             * increase number of Selected Check box
-             */
+            /**             * increase number of Selected Check box             */
             countChecked++;
         } else {
-            /**
-             * decrease number of  Selected  Check box
-             */
+            /**             * decrease number of  Selected  Check box             */
             countChecked--;
         }
 
@@ -1340,7 +1327,12 @@ public class DT_QuestionActivity extends BaseActivity implements CompoundButton.
 
             rdbtn.setPadding(0, 10, 0, 10);     // set padding
 
-            rdbtn.setText(radioButtonItemName.get(i).getDt_ALabel()); // set lable
+            rdbtn.setText(radioButtonItemName.get(i).getDt_ALabel()); // set label
+// jodi nicher line ta na execute  kori tahole  ager qus er jei redio button ta select kori pore quesion ta korte pari na
+            if (i==0)
+                rdbtn.setChecked(true);
+
+
             radioGroup.addView(rdbtn);
 
             mRadioButton_List.add(rdbtn);
@@ -1372,9 +1364,13 @@ public class DT_QuestionActivity extends BaseActivity implements CompoundButton.
 
             rdbtn.setId(i);
             rdbtn.setText(label); // set label
+            // jodi nicher line ta na execute  kori tahole  ager qus er jei redio button ta select kori pore quesion ta korte pari na
+            if (i==0)
+                rdbtn.setChecked(true);
+
             rdbtn.setTextSize(24); // set text size
             rdbtn.setPadding(0, 10, 0, 10);     // set padding
-            rdbtn.setOnCheckedChangeListener(DT_QuestionActivity.this);
+            rdbtn.setOnCheckedChangeListener(DTResponseRecordingActivity.this);
 
 
             EditText et = new EditText(this);
@@ -1446,7 +1442,7 @@ public class DT_QuestionActivity extends BaseActivity implements CompoundButton.
             LinearLayout.LayoutParams layoutParams = new TableRow.LayoutParams(TableRow.LayoutParams.FILL_PARENT, TableRow.LayoutParams.WRAP_CONTENT);
             row.setLayoutParams(layoutParams);
             CheckBox checkBox = new CheckBox(this);
-            checkBox.setOnCheckedChangeListener(DT_QuestionActivity.this);
+            checkBox.setOnCheckedChangeListener(DTResponseRecordingActivity.this);
             checkBox.setId(i);
 
             checkBox.setText(label); //  set Text label

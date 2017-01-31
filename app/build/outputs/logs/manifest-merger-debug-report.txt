@@ -3301,20 +3301,20 @@ activity#com.siddiquinoor.restclient.activity.sub_activity.dynamic_table.DTRespo
 ADDED from D:\WorkSpace\AndroidStudioProject\Jan-2017\GPath\GPath-LOC-02040215\app\src\main\AndroidManifest.xml:327:9-92
 	android:name
 		ADDED from D:\WorkSpace\AndroidStudioProject\Jan-2017\GPath\GPath-LOC-02040215\app\src\main\AndroidManifest.xml:327:19-89
-activity#com.siddiquinoor.restclient.activity.sub_activity.dynamic_table.DT_QuestionActivity
+activity#com.siddiquinoor.restclient.activity.sub_activity.dynamic_table.DTResponseRecordingActivity
 ADDED from D:\WorkSpace\AndroidStudioProject\Jan-2017\GPath\GPath-LOC-02040215\app\src\main\AndroidManifest.xml:328:9-331:70
 	android:label
 		ADDED from D:\WorkSpace\AndroidStudioProject\Jan-2017\GPath\GPath-LOC-02040215\app\src\main\AndroidManifest.xml:330:13-63
 	android:windowSoftInputMode
 		ADDED from D:\WorkSpace\AndroidStudioProject\Jan-2017\GPath\GPath-LOC-02040215\app\src\main\AndroidManifest.xml:331:13-67
 	android:name
-		ADDED from D:\WorkSpace\AndroidStudioProject\Jan-2017\GPath\GPath-LOC-02040215\app\src\main\AndroidManifest.xml:329:13-84
-activity#com.siddiquinoor.restclient.activity.DT_ReportActivity
+		ADDED from D:\WorkSpace\AndroidStudioProject\Jan-2017\GPath\GPath-LOC-02040215\app\src\main\AndroidManifest.xml:329:13-92
+activity#com.siddiquinoor.restclient.activity.sub_activity.dynamic_table.DT_ReportActivity
 ADDED from D:\WorkSpace\AndroidStudioProject\Jan-2017\GPath\GPath-LOC-02040215\app\src\main\AndroidManifest.xml:332:9-333:81
 	android:theme
 		ADDED from D:\WorkSpace\AndroidStudioProject\Jan-2017\GPath\GPath-LOC-02040215\app\src\main\AndroidManifest.xml:333:13-69
 	android:name
-		ADDED from D:\WorkSpace\AndroidStudioProject\Jan-2017\GPath\GPath-LOC-02040215\app\src\main\AndroidManifest.xml:332:19-61
+		ADDED from D:\WorkSpace\AndroidStudioProject\Jan-2017\GPath\GPath-LOC-02040215\app\src\main\AndroidManifest.xml:332:19-88
 uses-feature#android.hardware.camera.front
 ADDED from [com.journeyapps:zxing-android-embedded:2.3.0] D:\WorkSpace\AndroidStudioProject\Jan-2017\GPath\GPath-LOC-02040215\app\build\intermediates\exploded-aar\com.journeyapps\zxing-android-embedded\2.3.0\AndroidManifest.xml:29:5-31:36
 	android:required

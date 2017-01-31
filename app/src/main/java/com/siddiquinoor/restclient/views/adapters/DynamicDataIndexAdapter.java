@@ -14,7 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.siddiquinoor.restclient.R;
-import com.siddiquinoor.restclient.activity.DT_ReportActivity;
+import com.siddiquinoor.restclient.activity.sub_activity.dynamic_table.DT_ReportActivity;
 import com.siddiquinoor.restclient.activity.sub_activity.dynamic_table.DTResponseActivity;
 import com.siddiquinoor.restclient.controller.SessionManager;
 import com.siddiquinoor.restclient.manager.SQLiteHandler;

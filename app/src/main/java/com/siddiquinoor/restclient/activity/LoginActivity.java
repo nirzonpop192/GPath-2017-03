@@ -150,8 +150,6 @@ public class LoginActivity extends BaseActivity {
         editor = settings.edit(); //2
 
 
-
-
         // Progress mdialog
         pDialog = new ProgressDialog(this);
         pDialog.setCancelable(false);
@@ -353,7 +351,6 @@ public class LoginActivity extends BaseActivity {
                             pDialog.show();
                             switch (mode_index) {
                                 case REG_MODE:
-
                                     checkVillageSelection(user_name, password, "1");
                                     break;
                                 case DIST_MODE:
@@ -361,15 +358,10 @@ public class LoginActivity extends BaseActivity {
                                     checkFDPSelection(user_name, password);
                                     break;
                                 case SERV_MODE:
-
-
                                     checkProgramSelection(user_name, password);
-
-
                                     break;
 
                                 case OTHER_MODE:
-
                                     checkCountrySelection(user_name, password, "4");
 
 
@@ -672,8 +664,6 @@ public class LoginActivity extends BaseActivity {
                         }
 
 
-
-
                     } else {
                         // Error in login. Invalid UserName or Password
                         hideDialog();
@@ -915,7 +905,7 @@ public class LoginActivity extends BaseActivity {
                             JSONArray jaary = new JSONArray();
 
 
-                            Log.d(TAG, "jeson to string :" + jaary.toString());
+                            Log.d("CHAPA", "jeson to string :" + jaary.toString());
                             /** for Other  MOde*/
                             checkLogin(user_name, password, jaary, "4"); // checking online
 
@@ -932,8 +922,7 @@ public class LoginActivity extends BaseActivity {
                         // Error in login. Invalid UserName or Password
                         hideDialog();
                         String errorMsg = response.substring(response.indexOf("error_msg") + 11);
-                        Toast.makeText(getApplicationContext(),
-                                errorMsg, Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), errorMsg, Toast.LENGTH_LONG).show();
 
                     }
 
@@ -984,15 +973,10 @@ public class LoginActivity extends BaseActivity {
 
             @Override
             public void onResponse(String response) {
-                /***
-                 * @deis: IN THIS STRING RESPONSE WRITE THE JSON DATA
-                 *
-                 */
+                /***                 *  IN THIS STRING RESPONSE WRITE THE JSON DATA                  */
                 AppController.getInstance().getRequestQueue().getCache().clear();
 
-                /**
-                 * hide the Dialog bar
-                 */
+                /**                 * hide the Dialog bar                 */
                 hideDialog();
 
                 String CountryNo = "0";
@@ -1004,7 +988,7 @@ public class LoginActivity extends BaseActivity {
                     if (!error) {
 
                         int size = 0;
-                        // count no countries assigne
+
                         if (!jObj.isNull("countrie_no")) {
 
                             JSONArray village = jObj.getJSONArray("countrie_no");
@@ -1277,7 +1261,7 @@ public class LoginActivity extends BaseActivity {
                                  */
                                 db.insertSelectedCountry(selectedCountryList.get(0).getAdmCountryCode(), selectedCountryList.get(0).getAdmCountryName());
 
-
+                                jaary = UtilClass.jsonConverter(selectedCountryList.get(0).getAdmCountryCode());
                                 Log.d(TAG, "jeson to string :" + jaary.toString());
                                 /** for Other  MOde*/
                                 checkLogin(user_name, password, jaary, "4"); // checking online
@@ -1699,7 +1683,7 @@ public class LoginActivity extends BaseActivity {
 
 
     private void getVillageAlert(final String user_name, final String password, boolean countrySpecificFlag) {
-//        int count = 1;
+
         aL_itemsSelected = (ArrayList<VillageItem>) insertVillageNameListToSArray(countrySpecificFlag);
 
         itemChecked = new boolean[villageNameStringArray.length];
@@ -2023,10 +2007,8 @@ public class LoginActivity extends BaseActivity {
 
             @Override
             public void onResponse(String response) {
-                /***
-                 * @deis: IN THIS STRING RESPONSE WRITE THE JSON DATA
-                 *
-                 */
+
+                // clear catch
                 AppController.getInstance().getRequestQueue().getCache().clear();
                 writeJSONToTextFile(response, REG_MEMBER_PROG_GROUP_DATA);
 
@@ -2102,10 +2084,8 @@ public class LoginActivity extends BaseActivity {
 
             @Override
             public void onResponse(String response) {
-                /***
-                 * @deis: IN THIS STRING RESPONSE WRITE THE JSON DATA
-                 *
-                 */
+
+                // clear catch
                 AppController.getInstance().getRequestQueue().getCache().clear();
                 writeJSONToTextFile(response, SERVICE_DATA);
 
@@ -2116,7 +2096,6 @@ public class LoginActivity extends BaseActivity {
 
 
                 boolean error = !errorResult.equals("false");
-                Log.d("MOR", "error:" + error);
 
                 if (!error) {
 
@@ -2299,17 +2278,7 @@ public class LoginActivity extends BaseActivity {
                      * IF GET NO ERROR  THAN GOTO THE MAIN ACTIVITY
                      */
                     downLoadEnuTable(user_Name, pass_word);
-//                    setLogin(true);        // login success
-                    /**
-                     *  Launch main activity
-                     */
-//                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-//                    setUserID(user_Name);
-//                    setUserPassword(pass_word);
-//                    editor.putBoolean(IS_APP_FIRST_RUN, true);
-//                    editor.commit();
-//
-//                    startActivity(intent);
+
                 } else {
                     // Error in login. Invalid UserName or Password
                     String errorMsg = response.substring(response.indexOf("error_msg") + 11);
@@ -2362,10 +2331,8 @@ public class LoginActivity extends BaseActivity {
 
             @Override
             public void onResponse(String response) {
-                /***
-                 *  IN THIS STRING RESPONSE WRITE THE JSON DATA
-                 *
-                 */
+
+                // clear catch
                 AppController.getInstance().getRequestQueue().getCache().clear();
                 writeJSONToTextFile(response, ENU_TABLE);
 

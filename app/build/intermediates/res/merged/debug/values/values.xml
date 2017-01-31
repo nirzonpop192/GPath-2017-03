@@ -862,7 +862,7 @@
     <string name="livestock">LIVESTOCK</string>
     <string name="lmp_date">LMP Date</string>
     <string name="location_name">Location Name</string>
-    <string name="log_in_version_lable">GPath-LIV-06</string>
+    <string name="log_in_version_lable">GPath-UAT-06</string>
     <string name="longTitle">Longitude</string>
     <string name="map_mode">Map Source</string>
     <string name="mapbox">MapBox</string>
@@ -927,6 +927,7 @@
     <string name="rb_label_DeliveryStaff_2">PA/WA/HSA</string>
     <string name="rb_label_DeliveryStaff_3">Others</string>
     <string name="reg_date">Reg Date</string>
+    <string name="response_number">Response Number</string>
     <string name="roads_nl">Netherlands roads overlay</string>
     <string name="samples">Samples</string>
     <string name="saved_coord">Saved Coordinate :</string>

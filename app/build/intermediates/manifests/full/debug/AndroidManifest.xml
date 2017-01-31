@@ -369,11 +369,11 @@
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity android:name="com.siddiquinoor.restclient.activity.sub_activity.dynamic_table.DTResponseActivity" />
         <activity
-            android:name="com.siddiquinoor.restclient.activity.sub_activity.dynamic_table.DT_QuestionActivity"
+            android:name="com.siddiquinoor.restclient.activity.sub_activity.dynamic_table.DTResponseRecordingActivity"
             android:label="@string/title_activity_dt__qustion"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
-            android:name="com.siddiquinoor.restclient.activity.DT_ReportActivity"
+            android:name="com.siddiquinoor.restclient.activity.sub_activity.dynamic_table.DT_ReportActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
             android:name="com.google.zxing.client.android.CaptureActivity"

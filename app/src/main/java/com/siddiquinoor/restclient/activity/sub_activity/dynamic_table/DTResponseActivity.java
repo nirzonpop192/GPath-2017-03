@@ -9,13 +9,11 @@ import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
-import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -29,7 +27,7 @@ import com.siddiquinoor.restclient.views.adapters.DynamicDataIndexDataModel;
 import com.siddiquinoor.restclient.views.adapters.DynamicTableQuesDataModel;
 import com.siddiquinoor.restclient.views.adapters.DynamicTableQusDataModelAdapter;
 import com.siddiquinoor.restclient.views.helper.SpinnerHelper;
-import com.siddiquinoor.restclient.views.notifications.ADNotificationManager;
+import com.siddiquinoor.restclient.views.spinner.SpinnerLoader;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -154,7 +152,7 @@ public class DTResponseActivity extends BaseActivity {
         dyIndex.setOpMonthCode(idMonth);
         dyIndex.setOpMonthDate(tvDate.getText().toString());
         if (adapter != null) {
-            Intent intent = new Intent(mContext, DT_QuestionActivity.class);
+            Intent intent = new Intent(mContext, DTResponseRecordingActivity.class);
             intent.putExtra(KEY.DYNAMIC_INDEX_DATA_OBJECT_KEY, dyIndex);
             intent.putExtra(KEY.DYNAMIC_T_QUES_SIZE, adapter.getCount());
 
@@ -388,44 +386,7 @@ public class DTResponseActivity extends BaseActivity {
 
 
     private void loadDtMonth(final String cCode, final String donorCode, final String awardCode, String opCode) {
-
-        int position = 0;
-
-
-        String criteria = "SELECT " + SQLiteHandler.OP_MONTH_CODE_COL + " AS OpMonthID, "
-                + SQLiteHandler.MONTH_LABEL + " FROM " + SQLiteHandler.OP_MONTH_TABLE
-                + " WHERE " +
-                SQLiteHandler.COUNTRY_CODE_COL + " = '" + cCode + "'"
-                + " AND " + SQLiteHandler.STATUS + " = '" + "A" + "' "
-                + " AND " + SQLiteHandler.OPERATION_CODE_COL + " = '" + opCode + "' "
-                + " ORDER BY OpMonthID   DESC "
-                + "      ";
-
-
-        List<SpinnerHelper> listProgram = sqlH.getListAndID(SQLiteHandler.CUSTOM_QUERY, criteria, null, false);
-/**
- *  replace the Select Program by Cross Cutting
- */
-        listProgram.remove(0);
-        listProgram.add(0, new SpinnerHelper(0, "00", "Select Month"));
-
-        ArrayAdapter<SpinnerHelper> dataAdapter = new ArrayAdapter<SpinnerHelper>(this, R.layout.spinner_layout, listProgram);
-
-        dataAdapter.setDropDownViewResource(R.layout.spinner_layout);
-
-        spDtMonth.setAdapter(dataAdapter);
-
-
-        if (idMonth != null) {
-            for (int i = 0; i < spDtMonth.getCount(); i++) {
-                String prog = spDtMonth.getItemAtPosition(i).toString();
-                if (prog.equals(strMonth)) {
-                    position = i;
-                }
-            }
-            spDtMonth.setSelection(position);
-
-        }
+        SpinnerLoader.loadDtMonthLoader(mContext,sqlH,spDtMonth, cCode,opCode,idMonth,strMonth);
 
 
         spDtMonth.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {

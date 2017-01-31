@@ -20,6 +20,7 @@ import android.graphics.BitmapFactory;
 import android.util.Log;
 import android.widget.ImageView;
 
+import com.siddiquinoor.restclient.activity.sub_activity.dynamic_table.DTResponseRecordingActivity;
 import com.siddiquinoor.restclient.data_model.AGR_DataModel;
 import com.siddiquinoor.restclient.data_model.AssignDDR_FFA_DataModel;
 import com.siddiquinoor.restclient.data_model.CTDataModel;
@@ -1244,6 +1245,19 @@ public class SQLiteHandler extends SQLiteOpenHelper {
 
         try {
             // Delete All Rows
+            db.delete(DT_A_TABLE, null, null);
+            db.delete(DT_BASIC_TABLE, null, null);
+            db.delete(DT_CATEGORY_TABLE, null, null);
+            db.delete(DT_COUNTRY_PROGRAM_TABLE, null, null);
+            db.delete(DTGEO_LIST_LEVEL_TABLE, null, null);
+            db.delete(DTQRES_MODE_TABLE, null, null);
+            db.delete(DTQ_TABLE, null, null);
+            db.delete(DT_RESPONSE_TABLE, null, null);
+            db.delete(DT_SURVEY_TABLE, null, null);
+            db.delete(DT_TABLE_DEFINITION_TABLE, null, null);
+            db.delete(DTTABLE_LIST_CATEGORY_TABLE, null, null);
+            db.delete(DT_LUP_TABLE, null, null);
+            db.delete(DT_ENU_TABLE, null, null);
             db.delete(LOGIN_TABLE, null, null);
             db.delete(COUNTRY_TABLE, null, null);
             db.delete(VALID_DATE_RANGE, null, null);
@@ -1265,12 +1279,10 @@ public class SQLiteHandler extends SQLiteOpenHelper {
             db.delete(GPS_LOCATION_TABLE, null, null);
             db.delete(OP_MONTH_TABLE, null, null);
             db.delete(COUNTRY_PROGRAM_TABLE, null, null);
-
             db.delete(REG_N_LM_TABLE, null, null);
             db.delete(REG_N_PW_TABLE, null, null);
             db.delete(REG_N_CU2_TABLE, null, null);
             db.delete(REG_N_CA2_TABLE, null, null);
-
             db.delete(STAFF_GEO_INFO_ACCESS_TABLE, null, null);
             db.delete(HOUSE_HOLD_CATEGORY_TABLE, null, null);
             db.delete(LIBERIA_REGISTRATION_TABLE, null, null);
@@ -1290,14 +1302,10 @@ public class SQLiteHandler extends SQLiteOpenHelper {
             db.delete(VOUCHER_ITEM_TABLE, null, null);
             db.delete(VOUCHER_ITEM__MEAS_TABLE, null, null);
             db.delete(VOUCHER_COUNTRY_PROGRAM_ITEM_TABLE, null, null);
-
             db.delete(SERVICE_EXTENDED_TABLE, null, null);
             db.delete(DISTRIBUTION_EXTENDED_TABLE, null, null);
-
             db.delete(GPS_SUB_GROUP_ATTRIBUTES_TABLE, null, null);
-
             db.delete(LUP_GPS_TABLE, null, null);
-
             db.delete(GPS_LOCATION_ATTRIBUTES_TABLE, null, null);
             db.delete(SERVICE_SPECIFIC_TABLE, null, null);
             db.delete(COMMUNITY_GROUP_TABLE, null, null);
@@ -1305,7 +1313,6 @@ public class SQLiteHandler extends SQLiteOpenHelper {
             db.delete(LUP_PROG_GROUP_CROP_TABLE, null, null);
             db.delete(LUP_COMMUNITY_LOAN_SOURCE_TABLE, null, null);
             db.delete(LUP_COMMUNITY_LEAD_POSITION_TABLE, null, null);
-
             db.delete(REG_N_MEM_PROG_GRP_TABLE, null, null);
             db.delete(COMMUNITY_GROUP_CATEGORY_TABLE, null, null);
             db.delete(GPS_LOCATION_CONTENT_TABLE, null, null);
@@ -1316,20 +1323,6 @@ public class SQLiteHandler extends SQLiteOpenHelper {
             db.delete(PROGRAM_ORGANIZATION_ROLE_TABLE, null, null);
             db.delete(STAFF_MASTER_TABLE, null, null);
             db.delete(LUP_GPS_LIST_TABLE, null, null);
-
-            db.delete(DT_A_TABLE, null, null);
-            db.delete(DT_BASIC_TABLE, null, null);
-            db.delete(DT_CATEGORY_TABLE, null, null);
-            db.delete(DT_COUNTRY_PROGRAM_TABLE, null, null);
-            db.delete(DTGEO_LIST_LEVEL_TABLE, null, null);
-            db.delete(DTQRES_MODE_TABLE, null, null);
-            db.delete(DTQ_TABLE, null, null);
-            db.delete(DT_RESPONSE_TABLE, null, null);
-            db.delete(DT_SURVEY_TABLE, null, null);
-            db.delete(DT_TABLE_DEFINITION_TABLE, null, null);
-            db.delete(DTTABLE_LIST_CATEGORY_TABLE, null, null);
-            db.delete(DT_LUP_TABLE, null, null);
-            db.delete(DT_ENU_TABLE, null, null);
 
 
             Log.d(TAG, "All User data Deleted.");
@@ -1909,35 +1902,18 @@ public class SQLiteHandler extends SQLiteOpenHelper {
         String entryDate = "";
 
 
-        addServiceSpecificTable(cCode, donorCode, awardCode
-                , distCode, upCode, unCode, vCode, hhId, memId, programCode
-                , srvCode, opCode, opMonthCode, srvCenterCode
-                , fdpCode, srvStatus
-                , babyStatus
-                , gmpAttendence, weightStatus, nutAttendance, vitaUnder5, exclCurrentLybf
-                , dateComFeed, camRef, camAdd, dateAncVisit
-                , pncVisit2D, pncVisit1W, pncVisit6W
-                , deliveryStaff_1, deliveryStaff_2, deliveryStaff_3
-                , homeSupport24H_1D, homeSupport24H_2D, homeSupport24H_3D
-                , homeSupport24H_8D, homeSupport24H_14D, homeSupport24H_21D
-                , homeSupport24H_30D, homeSupport24H_60D, homeSupport24H_90D
-                , homeSupport48H_1D, homeSupport48H_3D, homeSupport48H_8D
-                , homeSupport48H_30D, homeSupport48H_60D, homeSupport48H_90D
-                , maternal_bleeed, maternal_seizure, maternal_infection
-                , maternal_proLongedLabor, maternal_obstructedLabor, maternal_pprm
-                , nBorn_Aspyxia, nBorn_Sepsis, nBorn_HypoThermai
-                , nBorn_HyperThermai, nBorn_noSuckling, nBorn_Jaundices
-                , child_Diarrhea, child_Pneumonia, child_Fever, child_CerebralPalsy
-                , immu_Polio, immu_BCG, immu_Measles
-                , immu_DPT_HIB, immu_Lotta, immU_Other
-                , fpCounsel_MaleCondom, fpCounsel_FemaleCondom
-                , fpCounsel_Pill, fpCounsel_Depo
-                , fpCounsel_LongParmanent, fpCounsel_NoMethod
-                , cropCode, loanSource
-                , loanAMT, animalCode
-                , leadCode
-                , entryBy
-                , entryDate);
+        addServiceSpecificTable(cCode, donorCode, awardCode, distCode, upCode, unCode, vCode, hhId, memId, programCode
+                , srvCode, opCode, opMonthCode, srvCenterCode, fdpCode, srvStatus
+                , babyStatus, gmpAttendence, weightStatus, nutAttendance, vitaUnder5, exclCurrentLybf
+                , dateComFeed, camRef, camAdd, dateAncVisit, pncVisit2D, pncVisit1W, pncVisit6W
+                , deliveryStaff_1, deliveryStaff_2, deliveryStaff_3, homeSupport24H_1D, homeSupport24H_2D, homeSupport24H_3D
+                , homeSupport24H_8D, homeSupport24H_14D, homeSupport24H_21D, homeSupport24H_30D, homeSupport24H_60D, homeSupport24H_90D
+                , homeSupport48H_1D, homeSupport48H_3D, homeSupport48H_8D, homeSupport48H_30D, homeSupport48H_60D, homeSupport48H_90D
+                , maternal_bleeed, maternal_seizure, maternal_infection, maternal_proLongedLabor, maternal_obstructedLabor, maternal_pprm
+                , nBorn_Aspyxia, nBorn_Sepsis, nBorn_HypoThermai, nBorn_HyperThermai, nBorn_noSuckling, nBorn_Jaundices
+                , child_Diarrhea, child_Pneumonia, child_Fever, child_CerebralPalsy, immu_Polio, immu_BCG, immu_Measles
+                , immu_DPT_HIB, immu_Lotta, immU_Other, fpCounsel_MaleCondom, fpCounsel_FemaleCondom
+                , fpCounsel_Pill, fpCounsel_Depo, fpCounsel_LongParmanent, fpCounsel_NoMethod, cropCode, loanSource, loanAMT, animalCode, leadCode, entryBy, entryDate);
     }
 
 
@@ -2396,9 +2372,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
 
 
     /**
-     * @param assignedMem
-     * @return
-     * @modified: 2015-11-07
+     * @since 2015-11-07
      */
     public String getMemberRegNDate(AssignDataModel assignedMem) {
         String regDate = "";
@@ -2437,8 +2411,9 @@ public class SQLiteHandler extends SQLiteOpenHelper {
     }
 
 
-    /* @ Faisal Mohammad
-    * @date : 2015-09-18*/
+    /**
+     * @since : 2015-09-18
+     */
     public void addHHCategory(String cCode, String hhCatCode, String hhCategoryName) {
 
 
@@ -2473,22 +2448,20 @@ public class SQLiteHandler extends SQLiteOpenHelper {
     }
 
     public boolean ifExistsInCU2Table(AssignDataModel asPeople) {
+        boolean flag = false;
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor mCursor = db.rawQuery("SELECT * FROM " + REG_N_CU2_TABLE + " WHERE    " + COUNTRY_CODE_COL + "=? AND " + LAY_R1_LIST_CODE_COL + "=? AND "
+        Cursor cursor = db.rawQuery("SELECT * FROM " + REG_N_CU2_TABLE + " WHERE    " + COUNTRY_CODE_COL + "=? AND " + LAY_R1_LIST_CODE_COL + "=? AND "
                         + LAY_R2_LIST_CODE_COL + "=? AND " + LAY_R3_LIST_CODE_COL + "=? AND " + LAY_R4_LIST_CODE_COL + "=? AND " + HHID_COL + "=? AND " + HH_MEM_ID + "=?  ",
                 new String[]{asPeople.getCountryCode(), asPeople.getDistrictCode(), asPeople.getUpazillaCode(), asPeople.getUnitCode(), asPeople.getVillageCode(),
                         asPeople.getHh_id(), asPeople.getMemId()});//*keyValue,keyvalue1*/});
 
-        if (mCursor.getCount() > 0) {
-            Log.d(TAG, " This data exists In CU2 table");
-            return true;
-/* record exist */
-        } else {
-            Log.d(TAG, " This data  didn't exists In cu2 table");
-            return false;
-/* record not exist */
-        }
+        flag = (cursor.getCount() > 0) ? true : false;
 
+        if (cursor != null)
+            cursor.close();
+        db.close();
+
+        return flag;
     }
 
     public int editMemberDataIn_CU2(AssignDataModel assMem, String dob) {
@@ -2518,13 +2491,9 @@ public class SQLiteHandler extends SQLiteOpenHelper {
                 HH_MEM_ID + " = '" + assMem.getMemId() + "'  ";
 
 
-// updating row
         int id = db.update(REG_N_CU2_TABLE, values, query, null);
-/* int id= db.update( REG_N_PW_TABLE, values, HH_MEM_ID + " = ? AND ",
-                new String[]{asPeople.getMemberId()});*/
 
-        //updateRegNPWStatus(assMem, 0);
-
+        db.close();
         return id;
     }
 
@@ -3371,8 +3340,8 @@ public class SQLiteHandler extends SQLiteOpenHelper {
 
 
     /**
-     * @param query
-     * @return
+     * @param query sql syntext
+     * @return insert id
      */
     public long insertIntoUploadTable(String query) {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -3381,6 +3350,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
         values.put(SYNC_COL, "0");
         long id = db.insert(UPLOAD_SYNTAX_TABLE, null, values);
         Log.d(TAG, "inserted into Upload Table id:" + id);
+        db.close();
         return id;
 
     }
@@ -3642,11 +3612,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
         return grdDate;
     }
 
-    /**
-     * @param assignDataModel
-     * @param elderleyNy
-     * @param regDate         TODO: AGR ELDERLEY
-     */
+
     public int edtAssignAgerIn_Elderley(AssignDataModel assignDataModel, String elderleyNy, String regDate) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -3731,13 +3697,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
     }
 // TODO: 10/17/2016 Rename the Column  name
 
-    /**
-     * @param assignDataModel
-     * @param landSize
-     * @param willingness
-     * @param dependOnGruney
-     * @param regDate         TODO: AGR-PG
-     */
+
     public int edtAssignAgerIn_PG(AssignDataModel assignDataModel, String landSize, String willingness, String dependOnGruney, String regDate, String invc, String nasfm, String cu, String other, int goat, int chicken, int pigion, int other_sp) {
         SQLiteDatabase db = this.getWritableDatabase();
 
@@ -3794,13 +3754,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
         return id;
     }
 
-    /**
-     * @param assignDataModel
-     * @param landSize
-     * @param willingness
-     * @param vurnarableHH
-     * @param regDate         TODO: AGR-LG
-     */
+
     public int edtAssignAgerIn_LG(AssignDataModel assignDataModel, String landSize, String willingness, String vurnarableHH, String regDate) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -3819,13 +3773,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
         return id;
     }
 
-    /**
-     * @param assignDataModel
-     * @param landSize
-     * @param willingness
-     * @param plantingVC
-     * @param regDate         TODO: AGR-MG
-     */
+
     public int edtAssignAgerIn_MG(AssignDataModel assignDataModel, String landSize, String willingness, String plantingVC, String regDate) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -3844,13 +3792,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
         return id;
     }
 
-    /**
-     * @date :2015-11-06
-     * @modified: 2015-11-07
-     * @author : Faisal mohamad
-     * @status
-     * @description : get Serial no from MemberCardRequestTable
-     */
+
     public String getMaxCardRequesSl(String cCode, String donorCode,
                                      String awardCode, String disCode,
                                      String upCode, String unCode,
@@ -4130,18 +4072,8 @@ public class SQLiteHandler extends SQLiteOpenHelper {
         return cardPrintDate;
     }
 
-    /**
-     * @date :2015-11-09
-     * @modified:
-     * @author : Faisal mohamad
-     * @status
-     * @description :Update Card RequestDate from MemberCardRequestTable
-     */
 
-    public long addCardDelivaryDate(String c_code, String donorCode, String awardCode,
-                                    String disCode, String upCode, String unCode,
-                                    String vCode, String hhid, String memid,
-                                    String reportGroupCode, String reportCode, String cRequestSl, String cpReasonCode,
+    public long addCardDelivaryDate(String c_code, String donorCode, String awardCode, String disCode, String upCode, String unCode, String vCode, String hhid, String memid, String reportGroupCode, String reportCode, String cRequestSl, String cpReasonCode,
                                     String deliveryDate, String deliveryBy) {
 
 
@@ -4181,21 +4113,9 @@ public class SQLiteHandler extends SQLiteOpenHelper {
 
     }
 
-    /**
-     * @date :2015-11-09
-     * @modified:
-     * @author : Faisal mohamad
-     * @status
-     * @description : get Insert Card RequestDate from MemberCardRequestTable
-     */
 
-    public long addCardRequestDataFromOnline(String c_code, String donorCode, String awardCode,
-                                             String disCode, String upCode, String unCode,
-                                             String vCode, String hhid, String memid,
-                                             String reportGroupCode, String reportCode, String cRequestSl, String cpReasonCode,
-                                             String requestDate, String printDate, String printBy, String deliveryDate, String deliveryBy,
-                                             String deliveryStatus, String entryBy,
-                                             String entryDate) {
+    public long addCardRequestDataFromOnline(String c_code, String donorCode, String awardCode, String disCode, String upCode, String unCode, String vCode, String hhid, String memid, String reportGroupCode, String reportCode, String cRequestSl, String cpReasonCode,
+                                             String requestDate, String printDate, String printBy, String deliveryDate, String deliveryBy, String deliveryStatus, String entryBy, String entryDate) {
 
 
         // TODO :: photo
@@ -4241,14 +4161,6 @@ public class SQLiteHandler extends SQLiteOpenHelper {
         return id;
     }
 
-
-    /**
-     * @date :2015-11-09
-     * @modified:
-     * @author : Faisal mohamad
-     * @status
-     * @description : get Insert Card RequestDate from MemberCardRequestTable
-     */
 
     public long addCardRequestDate(String c_code, String donorCode, String awardCode,
                                    String disCode, String upCode, String unCode,
@@ -4364,7 +4276,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
 
 
     /**
-     * @description : LIST OF ID THAT GET SERVICE  OF VOUCHER PROGRAM
+     * LIST OF ID THAT GET SERVICE  OF VOUCHER PROGRAM
      */
 
     public List<SummaryServiceListModel> getTotalSerDistItemizeAttendanceSummary(String cCode, String donorCode, String awardCord, String opMCode, String prgCode/*, String srvCode*/, String vouItSpec, String srvDistFlag) {
@@ -4406,7 +4318,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
 
 
     /**
-     * @description : LIST OF ID THAT GET SERVICE
+     * LIST OF ID THAT GET SERVICE
      */
 
     public List<SummaryServiceListModel> getTotalServiceNDistributionAttendanceSummary(String cCode, String donorCode, String awardCord, String opMCode, String prgCode, String srvCode, String distFlag, String srvORDistFlag) {
@@ -4615,14 +4527,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
 
     }
 
-    /**
-     * @param cCode
-     * @param groupCode
-     * @param subGroupCode
-     * @param locationCode
-     * @param attributeCode
-     * @param attributeValue
-     */
+
     public void addGPSLocationAttributesFromOnline(String cCode, String groupCode, String subGroupCode, String locationCode, String attributeCode, String attributeValue, String photo) {
         String entryBy = "";
         String entryDate = "";
@@ -4630,16 +4535,6 @@ public class SQLiteHandler extends SQLiteOpenHelper {
     }
 
 
-    /**
-     * @param cCode
-     * @param groupCode
-     * @param subGroupCode
-     * @param locationCode
-     * @param attributeCode
-     * @param attributeValue
-     * @param entryBy
-     * @param entryDate
-     */
     public void addGPSLocationAttributes(String cCode, String groupCode, String subGroupCode, String locationCode, String attributeCode, String attributeValue, String photo, String entryBy, String entryDate) {
         SQLiteDatabase db = this.getWritableDatabase();
 
@@ -5495,7 +5390,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
      *
      * @param qResMode question Response Mode  ques's ans type
      * @return ans repose mode
-     * @see com.siddiquinoor.restclient.activity.sub_activity.dynamic_table.DT_QuestionActivity#loadDT_QResMode(String)
+     * @see DTResponseRecordingActivity#loadDT_QResMode(String)
      */
 
     public DTQResModeDataModel getDT_QResMode(String qResMode) {
@@ -5529,7 +5424,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
 
     /**
      * <p>The DTA Table store the Default Value of All Dynamic View's default value </p>
-     * invoke in {@link com.siddiquinoor.restclient.activity.sub_activity.dynamic_table.DT_QuestionActivity#displayQuestion(DynamicTableQuesDataModel)}
+     * invoke in {@link DTResponseRecordingActivity#displayQuestion(DynamicTableQuesDataModel)}
      *
      * @param dtBasic Basic Code
      * @param dtQCode Question Code
@@ -5631,37 +5526,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
 
         ArrayList<DynamicDataIndexDataModel> list = new ArrayList<DynamicDataIndexDataModel>();
         SQLiteDatabase db = this.getReadableDatabase();
-        String sql = "SELECT dtB." + DT_TITLE_COL + "  " +
-                " , dtCPgr." + DT_BASIC_COL + " AS dtBasicCode  " +
-                " , donor." + DONOR_NAME_COL + " || '-' || award." + AWARD_S_NAME_COL + " AS awardName  " +
-                " , dtCPgr." + DONOR_CODE_COL + " || '' || dtCPgr." + AWARD_CODE_COL + " AS awardCode  " +
-                " , prg." + PROGRAM_SHORT_NAME_COL + "  " +
-                " , dtCPgr." + PROGRAM_CODE_COL + "  " +
-                " , dtCPgr." + PROG_ACTIVITY_TITLE_COL +
-                " , dtCPgr." + COUNTRY_CODE_COL +
-                " , dtB." + DT_OP_MODE_COL +
-
-                " , dtCPgr." + DONOR_CODE_COL +
-                " , dtCPgr." + PROG_ACTIVITY_CODE_COL
-                + "  FROM " +
-                DT_COUNTRY_PROGRAM_TABLE + " AS dtCPgr  " +
-                " LEFT JOIN " + DT_BASIC_TABLE + "  AS dtB  " +
-                " ON dtB." + DT_BASIC_COL + " = dtCpgr." + DT_BASIC_COL + "   " +
-                " LEFT JOIN " +
-                ADM_AWARD_TABLE + " as award  " +
-                " ON award." + COUNTRY_CODE_COL + " = dtCpgr." + COUNTRY_CODE_COL + "  " +
-                " AND award." + DONOR_CODE_COL + " = dtCpgr." + DONOR_CODE_COL + "  " +
-                " AND award." + AWARD_CODE_COL + "= dtCpgr." + AWARD_CODE_COL + "  " +
-                " LEFT JOIN " +
-                ADM_DONOR_TABLE + " AS donor  " +
-                " ON donor." + DONOR_CODE_COL + " = dtCpgr." + DONOR_CODE_COL + "  " +
-                " LEFT JOIN " +
-                ADM_PROGRAM_MASTER_TABLE + " AS prg  " +
-                " ON prg." + DONOR_CODE_COL + " = dtCpgr." + DONOR_CODE_COL + "  " +
-                " AND prg." + AWARD_CODE_COL + " = dtCpgr." + AWARD_CODE_COL + "  " +
-                " AND prg." + PROGRAM_CODE_COL + " = dtCpgr." + PROGRAM_CODE_COL + "  " +
-                " WHERE dtCPgr." + COUNTRY_CODE_COL + " = '" + cCode + "' "
-                + " AND dtB." + DT_TITLE_COL + " LIKE '%" + dtTitleSearch + "%'";
+        String sql = SQLiteQuery.getDynamicTableIndexList_sql(cCode, dtTitleSearch);
 
 
         Cursor cursor = db.rawQuery(sql, null);
@@ -5839,9 +5704,18 @@ public class SQLiteHandler extends SQLiteOpenHelper {
 
         db.update(GPS_LOCATION_TABLE, values, where, null);
 
-        //   Log.d(TAG + 195, "in update : query :");
         db.close();
+        SQLServerSyntaxGenerator sqlSyntax = new SQLServerSyntaxGenerator();
+        sqlSyntax.setAdmCountryCode(cCode);
+        sqlSyntax.setGrpCode(groupCode);
+        sqlSyntax.setSubGrpCode(subGroupCode);
+        sqlSyntax.setLocationCode(locationCode);
+        sqlSyntax.setLatd(lat);
+        sqlSyntax.setLong(lng);
+        sqlSyntax.setEntryBy(entryBy);
+        sqlSyntax.setEntryDate(entryDate);
 
+        insertIntoUploadTable(sqlSyntax.updateGPS_GeoLocationTable());
     }
 
 
@@ -10388,6 +10262,18 @@ public class SQLiteHandler extends SQLiteOpenHelper {
     }
 
 
+    public String getMonthName(String cCode) {
+        String monthName = "";
+        SQLiteDatabase db = this.getReadableDatabase();
+        String sql = SQLiteQuery.loadDtMonth_sql(cCode, "5");
+        Cursor cursor = db.rawQuery(sql, null);
+        if (cursor != null && cursor.moveToFirst())
+            monthName = cursor.getString(cursor.getColumnIndex(MONTH_LABEL));
+
+        return monthName;
+
+    }
+
     public void editMalawiMemberData(int mID, String str_MemName, String str_gender, String str_relation, String str_lmp_date, String str_child_dob, String str_elderly, String str_disabled, String str_age, int pID) {
 
         SQLiteDatabase db = this.getWritableDatabase();
@@ -11711,7 +11597,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
         values.put(LOOK_UP_UDF_NAME_COL, lookUpUDFName);
         values.put(RESPONSE_VALUE_CONTROL_COL, responseValueControl);
 
-        long id = db.insert(DTQRES_MODE_TABLE, null, values);
+        db.insert(DTQRES_MODE_TABLE, null, values);
         db.close();
     }
 
@@ -11785,7 +11671,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
 
         int id = db.update(DT_RESPONSE_TABLE, values, where, null);
 
-        Log.d("DT_UP", " no of row :" + id);
+        //  Log.d("DT_UP", " no of row :" + id);
 
     }
 
@@ -11813,7 +11699,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
         values.put(DT_SURVEY_NUM, surveyNumber);
         values.put(DATA_TYPE_COL, dataType);
 
-        long id = db.insert(DT_SURVEY_TABLE, null, values);
+        db.insert(DT_SURVEY_TABLE, null, values);
         db.close();
     }
 
@@ -11847,9 +11733,12 @@ public class SQLiteHandler extends SQLiteOpenHelper {
 
         int id = db.update(DT_SURVEY_TABLE, values, where, null);
 
-        Log.d("DT_UP", " no of row :" + id);
 
     }
+
+    /**
+     * @since data craft
+     */
 
     public void deleteFromDTSurveyTable(String DTBasic, String AdmCountryCode, String AdmDonorCode, String AdmAwardCode, String AdmProgCode, String DTEnuID, int DTRSeq, String OpMode, String OpMonthCode, int surveyNum) {
         SQLServerSyntaxGenerator syntaxGenerator = new SQLServerSyntaxGenerator();
@@ -12015,117 +11904,6 @@ public class SQLiteHandler extends SQLiteOpenHelper {
         return dtResponse;
     }
 
-   /* public ArrayList<DTResponseTableDataModel> getDTResponseTableData(String dtBasic, String qCode) {
-        SQLiteDatabase db = this.getReadableDatabase();
-        ArrayList<DTResponseTableDataModel> dtResponseTableDataModels = new ArrayList<>();
-        String sql = "SELECT * FROM " + DT_RESPONSE_TABLE +
-                " WHERE " + DT_BASIC_COL + " = '" + dtBasic + "' AND " + DTQ_CODE_COL + " = '" + qCode + "'";
-        String test = "";
-
-        int counter = 0;
-        Cursor cursor = db.rawQuery(sql, null);
-        if (cursor != null) {
-            if (cursor.moveToFirst()) {
-                int count = 0;
-                do {
-                    DTResponseTableDataModel dtResponseTableDataModel = new DTResponseTableDataModel();
-                    dtResponseTableDataModel.setDtBasic(cursor.getString(cursor.getColumnIndex(DT_BASIC_COL)));
-                    dtResponseTableDataModel.setCountryCode(cursor.getString(cursor.getColumnIndex(COUNTRY_CODE_COL)));
-                    dtResponseTableDataModel.setDonorCode(cursor.getString(cursor.getColumnIndex(DONOR_CODE_COL)));
-                    dtResponseTableDataModel.setAwardCode(cursor.getString(cursor.getColumnIndex(AWARD_CODE_COL)));
-                    dtResponseTableDataModel.setProgramCode(cursor.getString(cursor.getColumnIndex(PROGRAM_CODE_COL)));
-                    dtResponseTableDataModel.setDtEnuId(cursor.getString(cursor.getColumnIndex(DT_ENU_ID_COL)));
-                    dtResponseTableDataModel.setDtqCode(cursor.getString(cursor.getColumnIndex(DTQ_CODE_COL)));
-                    dtResponseTableDataModel.setDtaCode(cursor.getString(cursor.getColumnIndex(DTA_CODE_COL)));
-                    dtResponseTableDataModel.setDtrSeq(cursor.getString(cursor.getColumnIndex(DT_R_SEQ_COL)));
-                    dtResponseTableDataModel.setDtaValue(cursor.getString(cursor.getColumnIndex(DTA_VALUE_COL)));
-                    dtResponseTableDataModel.setProgActivityCode(cursor.getString(cursor.getColumnIndex(PROG_ACTIVITY_CODE_COL)));
-                    dtResponseTableDataModel.setDttTimeString(cursor.getString(cursor.getColumnIndex(DTTIME_STRING_COL)));
-                    dtResponseTableDataModel.setOpMode(cursor.getString(cursor.getColumnIndex(OP_MODE_COL)));
-                    dtResponseTableDataModel.setOpMonthCode(cursor.getString(cursor.getColumnIndex(OP_MONTH_CODE_COL)));
-                    dtResponseTableDataModel.setDataType(cursor.getString(cursor.getColumnIndex(DATA_TYPE_COL)));
-                    String answer = "DT_BASIC_COL " + dtResponseTableDataModel.getDtBasic() + "\nCOUNTRY_CODE_COL " + dtResponseTableDataModel.getCountryCode() +
-                            "   DONOR_CODE_COL " + dtResponseTableDataModel.getDonorCode() +
-                            "   AWARD_CODE_COL " + dtResponseTableDataModel.getAwardCode() +
-                            "   PROGRAM_CODE_COL " + dtResponseTableDataModel.getProgramCode() +
-                            "   DT_ENU_ID_COL " + dtResponseTableDataModel.getDtEnuId() +
-                            "   DTQ_CODE_COL " + dtResponseTableDataModel.getDtqCode() +
-                            "   DTA_CODE_COL " + dtResponseTableDataModel.getDtaCode() +
-                            "   DT_R_SEQ_COL " + dtResponseTableDataModel.getDtrSeq() +
-                            "   DTA_VALUE_COL " + dtResponseTableDataModel.getDtaValue() +
-                            "   PROG_ACTIVITY_CODE_COL " + dtResponseTableDataModel.getProgActivityCode() +
-                            "   OP_MODE_COL " + dtResponseTableDataModel.getOpMode() +
-                            "   OP_MONTH_CODE_COL " + dtResponseTableDataModel.getOpMonthCode() +
-                            "   DATA_TYPE_COL " + dtResponseTableDataModel.getDataType() + "\n";
-                    dtResponseTableDataModels.add(dtResponseTableDataModel);
-                    Log.e(count + "th Answer", answer);
-                    count++;
-                } while (cursor.moveToNext());
-            }
-//            Log.e("TEST_GEO", test);
-            cursor.close();
-            db.close();
-        }
-        return dtResponseTableDataModels;
-    }
-
-    public ArrayList<DTSurveyTableDataModel> dtSurveyTableDataModels(String dtBasic, String qCode) {
-        SQLiteDatabase db = this.getReadableDatabase();
-        ArrayList<DTSurveyTableDataModel> dtSurveyTableDataModels = new ArrayList<>();
-        String sql = "SELECT * FROM " + DT_SURVEY_TABLE +
-                " WHERE " + DT_BASIC_COL + " = '" + dtBasic + "' AND " + DTQ_CODE_COL + " = '" + qCode + "'";
-        String test = "";
-
-        int counter = 0;
-        Cursor cursor = db.rawQuery(sql, null);
-        if (cursor != null) {
-            if (cursor.moveToFirst()) {
-                int count = 0;
-                do {
-                    DTSurveyTableDataModel dtSurveyTableDataModel = new DTSurveyTableDataModel();
-                    dtSurveyTableDataModel.setDtBasic(cursor.getString(cursor.getColumnIndex(DT_BASIC_COL)));
-                    dtSurveyTableDataModel.setCountryCode(cursor.getString(cursor.getColumnIndex(COUNTRY_CODE_COL)));
-                    dtSurveyTableDataModel.setDonorCode(cursor.getString(cursor.getColumnIndex(DONOR_CODE_COL)));
-                    dtSurveyTableDataModel.setAwardCode(cursor.getString(cursor.getColumnIndex(AWARD_CODE_COL)));
-                    dtSurveyTableDataModel.setProgramCode(cursor.getString(cursor.getColumnIndex(PROGRAM_CODE_COL)));
-                    dtSurveyTableDataModel.setDtEnuId(cursor.getString(cursor.getColumnIndex(DT_ENU_ID_COL)));
-                    dtSurveyTableDataModel.setDtqCode(cursor.getString(cursor.getColumnIndex(DTQ_CODE_COL)));
-                    dtSurveyTableDataModel.setDtaCode(cursor.getString(cursor.getColumnIndex(DTA_CODE_COL)));
-                    dtSurveyTableDataModel.setDtrSeq(cursor.getString(cursor.getColumnIndex(DT_R_SEQ_COL)));
-                    dtSurveyTableDataModel.setDtaValue(cursor.getString(cursor.getColumnIndex(DTA_VALUE_COL)));
-                    dtSurveyTableDataModel.setProgActivityCode(cursor.getString(cursor.getColumnIndex(PROG_ACTIVITY_CODE_COL)));
-                    dtSurveyTableDataModel.setDttTimeString(cursor.getString(cursor.getColumnIndex(DTTIME_STRING_COL)));
-                    dtSurveyTableDataModel.setOpMode(cursor.getString(cursor.getColumnIndex(OP_MODE_COL)));
-                    dtSurveyTableDataModel.setOpMonthCode(cursor.getString(cursor.getColumnIndex(OP_MONTH_CODE_COL)));
-                    dtSurveyTableDataModel.setDataType(cursor.getString(cursor.getColumnIndex(DATA_TYPE_COL)));
-                    dtSurveyTableDataModel.setDtqText(cursor.getString(cursor.getColumnIndex(DTQ_TEXT_COL)));
-                    dtSurveyTableDataModel.setDtSurveyNumber(cursor.getInt(cursor.getColumnIndex(DT_SURVEY_NUM)));
-                    String answer = "DT_BASIC_COL " + dtSurveyTableDataModel.getDtBasic() + "\nCOUNTRY_CODE_COL " + dtSurveyTableDataModel.getCountryCode() +
-                            "   DONOR_CODE_COL " + dtSurveyTableDataModel.getDonorCode() +
-                            "   AWARD_CODE_COL " + dtSurveyTableDataModel.getAwardCode() +
-                            "   PROGRAM_CODE_COL " + dtSurveyTableDataModel.getProgramCode() +
-                            "   DT_ENU_ID_COL " + dtSurveyTableDataModel.getDtEnuId() +
-                            "   DTQ_CODE_COL " + dtSurveyTableDataModel.getDtqCode() +
-                            "   DTA_CODE_COL " + dtSurveyTableDataModel.getDtaCode() +
-                            "   DT_R_SEQ_COL " + dtSurveyTableDataModel.getDtrSeq() +
-                            "   DTA_VALUE_COL " + dtSurveyTableDataModel.getDtaValue() +
-                            "   PROG_ACTIVITY_CODE_COL " + dtSurveyTableDataModel.getProgActivityCode() +
-                            "   OP_MODE_COL " + dtSurveyTableDataModel.getOpMode() +
-                            "   OP_MONTH_CODE_COL " + dtSurveyTableDataModel.getOpMonthCode() +
-                            "   DTQ_TEXT_COL " + dtSurveyTableDataModel.getDtqText() +
-                            "   DT_SURVEY_NUM " + dtSurveyTableDataModel.getDtSurveyNumber() +
-                            "   DATA_TYPE_COL " + dtSurveyTableDataModel.getDataType() + "\n";
-                    dtSurveyTableDataModels.add(dtSurveyTableDataModel);
-                    Log.e(count + "th Answer", answer);
-                    count++;
-                } while (cursor.moveToNext());
-            }
-//            Log.e("TEST_GEO", test);
-            cursor.close();
-            db.close();
-        }
-        return dtSurveyTableDataModels;
-    }*/
 
     public ArrayList<DTSurveyTableDataModel> dtSurveyTableDataModels(int surveyNum, String dtBasic, String cCode, String donorCode, String awardCode, String prgCode, String entryBy) {
         SQLiteDatabase db = this.getReadableDatabase();
@@ -12168,39 +11946,6 @@ public class SQLiteHandler extends SQLiteOpenHelper {
     }
 
 
-    /*public DTResponseTableDataModel getDTResponseTableData(String dtBasic, String countryCode, String donorCode, String awardCode, String programCode,
-                                                           String dtEnuId, String dtqCode, String dtaCode) {
-        SQLiteDatabase db = this.getReadableDatabase();
-        DTResponseTableDataModel dtResponse = null;
-        String sql = "SELECT * FROM " + DT_RESPONSE_TABLE + "" +
-
-                " WHERE " + DT_BASIC_COL + " = '" + dtBasic + "' " +
-                " AND " + COUNTRY_CODE_COL + " = '" + countryCode + "' " +
-                " AND " + DONOR_CODE_COL + " = '" + donorCode + "' " +
-                " AND " + AWARD_CODE_COL + " = '" + awardCode + "' " +
-                " AND " + PROGRAM_CODE_COL + " = '" + programCode + "' " +
-                " AND " + DT_ENU_ID_COL + " = '" + dtEnuId + "' " +
-                " AND " + DTQ_CODE_COL + " = '" + dtqCode + "' " +
-                " AND " + DTA_CODE_COL + " = '" + dtaCode + "' ";
-
-        Cursor cursor = db.rawQuery(sql, null);
-        if (cursor != null) {
-            if (cursor.moveToFirst()) {
-
-                dtResponse = new DTResponseTableDataModel();
-
-                dtResponse.setDtaValue(cursor.getString(9));
-                dtResponse.setDtBasic(cursor.getString(cursor.getColumnIndex(DT_BASIC_COL)));
-                dtResponse.setDtqCode(cursor.getString(cursor.getColumnIndex(DTQ_CODE_COL)));
-                dtResponse.setDtaCode(cursor.getString(cursor.getColumnIndex(DTA_CODE_COL)));
-
-
-            }
-            cursor.close();
-            db.close();
-        }
-        return dtResponse;
-    }*/
     public void addIntoDTTableDefinition(String tableName, String fieldName, String fieldDefinition, String fieldShortName,
                                          String valueUdf, String lupTableName, String adminOnly, String entryBy, String entryDate) {
         SQLiteDatabase db = this.getWritableDatabase();

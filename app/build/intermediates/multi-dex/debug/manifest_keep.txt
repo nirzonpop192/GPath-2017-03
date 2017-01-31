@@ -51,8 +51,8 @@
 -keep class com.siddiquinoor.restclient.activity.sub_activity.summary_sub.IdListInGroupSummary { <init>(); }
 -keep class com.siddiquinoor.restclient.activity.DynamicData { <init>(); }
 -keep class com.siddiquinoor.restclient.activity.sub_activity.dynamic_table.DTResponseActivity { <init>(); }
--keep class com.siddiquinoor.restclient.activity.sub_activity.dynamic_table.DT_QuestionActivity { <init>(); }
--keep class com.siddiquinoor.restclient.activity.DT_ReportActivity { <init>(); }
+-keep class com.siddiquinoor.restclient.activity.sub_activity.dynamic_table.DTResponseRecordingActivity { <init>(); }
+-keep class com.siddiquinoor.restclient.activity.sub_activity.dynamic_table.DT_ReportActivity { <init>(); }
 -keep class com.google.zxing.client.android.CaptureActivity { <init>(); }
 -keep class com.google.android.gms.ads.AdActivity { <init>(); }
 -keep class com.google.android.gms.ads.purchase.InAppPurchaseActivity { <init>(); }

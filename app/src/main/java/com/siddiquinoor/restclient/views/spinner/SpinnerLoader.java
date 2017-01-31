@@ -7,7 +7,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
 import com.siddiquinoor.restclient.R;
-import com.siddiquinoor.restclient.activity.ServiceActivity;
 import com.siddiquinoor.restclient.manager.SQLiteHandler;
 import com.siddiquinoor.restclient.manager.sqlsyntax.SQLiteQuery;
 import com.siddiquinoor.restclient.utils.UtilClass;
@@ -17,39 +16,22 @@ import com.siddiquinoor.restclient.views.helper.SpinnerHelper;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.siddiquinoor.restclient.activity.sub_activity.dynamic_table.DT_QuestionActivity.COMMUNITY_GROUP;
-import static com.siddiquinoor.restclient.activity.sub_activity.dynamic_table.DT_QuestionActivity.DISTRIBUTION_POINT;
-import static com.siddiquinoor.restclient.activity.sub_activity.dynamic_table.DT_QuestionActivity.GEO_LAYER_1;
-import static com.siddiquinoor.restclient.activity.sub_activity.dynamic_table.DT_QuestionActivity.GEO_LAYER_2;
-import static com.siddiquinoor.restclient.activity.sub_activity.dynamic_table.DT_QuestionActivity.GEO_LAYER_3;
-import static com.siddiquinoor.restclient.activity.sub_activity.dynamic_table.DT_QuestionActivity.GEO_LAYER_4;
-import static com.siddiquinoor.restclient.activity.sub_activity.dynamic_table.DT_QuestionActivity.GEO_LAYER_ADDRESS;
-import static com.siddiquinoor.restclient.activity.sub_activity.dynamic_table.DT_QuestionActivity.LOOKUP_LIST;
-import static com.siddiquinoor.restclient.activity.sub_activity.dynamic_table.DT_QuestionActivity.ORGANIZATION_LIST;
-import static com.siddiquinoor.restclient.activity.sub_activity.dynamic_table.DT_QuestionActivity.SERVICE_SITE;
 import static com.siddiquinoor.restclient.manager.SQLiteHandler.AWARD_CODE_COL;
 import static com.siddiquinoor.restclient.manager.SQLiteHandler.COUNTRY_CODE_COL;
 import static com.siddiquinoor.restclient.manager.SQLiteHandler.DONOR_CODE_COL;
-import static com.siddiquinoor.restclient.manager.SQLiteHandler.FDP_CODE_COL;
 import static com.siddiquinoor.restclient.manager.SQLiteHandler.GROUP_CAT_CODE_COL;
-import static com.siddiquinoor.restclient.manager.SQLiteHandler.ORGANIZATION_NAME;
-import static com.siddiquinoor.restclient.manager.SQLiteHandler.ORG_CODE_COL;
 import static com.siddiquinoor.restclient.manager.SQLiteHandler.PROGRAM_CODE_COL;
-import static com.siddiquinoor.restclient.manager.SQLiteHandler.PROGRAM_ORGANIZATION_NAME_TABLE;
-import static com.siddiquinoor.restclient.manager.SQLiteHandler.PROGRAM_ORGANIZATION_ROLE_TABLE;
-import static com.siddiquinoor.restclient.manager.SQLiteHandler.SELECTED_SERVICE_CENTER_TABLE;
-import static com.siddiquinoor.restclient.manager.SQLiteHandler.SERVICE_CENTER_CODE_COL;
-import static com.siddiquinoor.restclient.manager.SQLiteHandler.SERVICE_CENTER_NAME_COL;
-import static com.siddiquinoor.restclient.manager.SQLiteHandler.SERVICE_CENTER_TABLE;
 
 /**
  * Created by pop
- * @since  1/11/2017.
+ *
+ * @since 1/11/2017.
  * This class is use for Load values in Spinner .
  * if  data exist in data base get the value set to the spinner value
  */
 
 public class SpinnerLoader {
+    private static String TAG = SpinnerLoader.class.getSimpleName();
 
     /***
      * @param context      refer to the activity which will invoke this method.
@@ -236,28 +218,10 @@ public class SpinnerLoader {
 
     public static void loadServiceCenterLoader(Context context, SQLiteHandler sqlH, Spinner spServiceCenter, String idSrvCenter, String strServiceCenter) {
         int position = 0;
-        String criteria = "";
-        //   myImageColumn WHEN NULL THEN 0 ELSE 1 END
+
+
         int operationMode = UtilClass.getAppOperationMode((Activity) context);
-        switch (operationMode) {
-            case UtilClass.SERVICE_OPERATION_MODE:
-                criteria = "SELECT  CASE " + FDP_CODE_COL + " WHEN  'null'  THEN '000'  ELSE " + FDP_CODE_COL + " END " + " || '' || " + SERVICE_CENTER_CODE_COL + " , " +
-                        SERVICE_CENTER_NAME_COL + " FROM " + SERVICE_CENTER_TABLE
-                        + " WHERE " + SERVICE_CENTER_TABLE + "." + SERVICE_CENTER_CODE_COL + " || '' || "
-                        + SERVICE_CENTER_TABLE + "." + COUNTRY_CODE_COL
-                        + " IN ( SELECT "
-                        + SELECTED_SERVICE_CENTER_TABLE + "." + SERVICE_CENTER_CODE_COL + " || '' || "
-                        + SELECTED_SERVICE_CENTER_TABLE + "." + SQLiteHandler.COUNTRY_CODE_COL + " from " + SELECTED_SERVICE_CENTER_TABLE + ")"
-                        + " AND " + FDP_CODE_COL + " != 'null' "
-                        + " GROUP BY " + SERVICE_CENTER_TABLE + "." + SERVICE_CENTER_CODE_COL;
-
-
-                break;
-            default:
-                criteria = "SELECT  CASE " + FDP_CODE_COL + " WHEN  'null'  THEN '000'  ELSE " + FDP_CODE_COL + " END " + " || '' || " + SERVICE_CENTER_CODE_COL + " , " +
-                        SERVICE_CENTER_NAME_COL + " FROM " + SERVICE_CENTER_TABLE;
-                break;
-        }
+        String criteria = SQLiteQuery.loadServiceCenter_sql(operationMode);
 
 
         List<SpinnerHelper> listAward = sqlH.getListAndID(SQLiteHandler.CUSTOM_QUERY, criteria, null, false);
@@ -310,121 +274,27 @@ public class SpinnerLoader {
             spOrg.setSelection(position);
         }
     }
-    public static void loadDynamicSpinnerListLoader(Context context, SQLiteHandler sqlH, Spinner dt_spinner, String cCode,  String resLupText,String strSpinner,DynamicTableQuesDataModel mDTQ){
+
+    /***
+     * the dynamic spinner loader in Dynamic Response
+     *
+     * @param context    refer to the activity which will invoke this method.
+     * @param sqlH       database reference
+     * @param dt_spinner spinner view
+     * @param cCode      country code
+     * @param resLupText response Look up text
+     * @param strSpinner spinner T7ext
+     * @param mDTQ       Dynamic Table Question
+     */
+    public static void loadDynamicSpinnerListLoader(Context context, SQLiteHandler sqlH, Spinner dt_spinner, String cCode, String resLupText, String strSpinner, DynamicTableQuesDataModel mDTQ) {
 
         int position = 0;
-
-        String udf = "";
-        Log.d("CHOR", " resLupText:" + resLupText);
         List<SpinnerHelper> list = new ArrayList<SpinnerHelper>();
-        switch (resLupText) {
 
-            case GEO_LAYER_3:
-
-                udf = "SELECT " + SQLiteHandler.UNIT_TABLE + "." + SQLiteHandler.LAY_R3_LIST_CODE_COL
-                        + ", " + SQLiteHandler.UNIT_TABLE + "." + SQLiteHandler.UNITE_NAME_COL
-                        + " FROM " + SQLiteHandler.UNIT_TABLE
-                        + " WHERE " + SQLiteHandler.UNIT_TABLE + "." + SQLiteHandler.COUNTRY_CODE_COL + "='" + cCode + "'";
+        String udf = SQLiteQuery.loadDynamicSpinnerListLoader_sql(cCode, resLupText, mDTQ.getLup_TableName());
+        Log.d(TAG, " resLupText:" + resLupText);
 
 
-                break;
-            case GEO_LAYER_2:
-                udf = "SELECT " + SQLiteHandler.UPAZILLA_TABLE + "." + SQLiteHandler.LAY_R2_LIST_CODE_COL
-                        + ", " + SQLiteHandler.UPAZILLA_TABLE + "." + SQLiteHandler.UPZILLA_NAME_COL
-                        + " FROM " + SQLiteHandler.UPAZILLA_TABLE
-                        + " WHERE " + SQLiteHandler.UPAZILLA_TABLE + "." + SQLiteHandler.COUNTRY_CODE_COL + "='" + cCode + "'";
-
-
-                break;
-
-            case GEO_LAYER_1:
-
-                udf = "SELECT " + SQLiteHandler.DISTRICT_TABLE + "." + SQLiteHandler.LAY_R1_LIST_CODE_COL
-                        + ", " + SQLiteHandler.DISTRICT_TABLE + "." + SQLiteHandler.DISTRICT_NAME_COL
-                        + " FROM " + SQLiteHandler.DISTRICT_TABLE
-                        + " WHERE " + SQLiteHandler.DISTRICT_TABLE + "." + SQLiteHandler.COUNTRY_CODE_COL + "='" + cCode + "'";
-
-
-                break;
-
-            case GEO_LAYER_4:
-
-                udf = "SELECT " + SQLiteHandler.VILLAGE_TABLE + "." + SQLiteHandler.LAY_R4_LIST_CODE_COL
-                        + ", " + SQLiteHandler.VILLAGE_TABLE + "." + SQLiteHandler.VILLAGE_NAME_COL
-                        + " FROM " + SQLiteHandler.VILLAGE_TABLE
-                        + " WHERE " + SQLiteHandler.VILLAGE_TABLE + "." + SQLiteHandler.COUNTRY_CODE_COL + "='" + cCode + "'";
-
-
-                break;
-
-            case GEO_LAYER_ADDRESS:
-
-                udf = "SELECT " + SQLiteHandler.LUP_REGN_ADDRESS_LOOKUP_TABLE + "." + SQLiteHandler.REGN_ADDRESS_LOOKUP_CODE_COL
-                        + ", " + SQLiteHandler.LUP_REGN_ADDRESS_LOOKUP_TABLE + "." + SQLiteHandler.REGN_ADDRESS_LOOKUP_NAME_COL
-                        + " FROM " + SQLiteHandler.LUP_REGN_ADDRESS_LOOKUP_TABLE
-                        + " WHERE " + SQLiteHandler.LUP_REGN_ADDRESS_LOOKUP_TABLE + "." + SQLiteHandler.COUNTRY_CODE_COL + "='" + cCode + "'";
-
-
-                break;
-
-            case SERVICE_SITE:
-
-                udf = "SELECT " + SQLiteHandler.SERVICE_CENTER_TABLE + "." + SQLiteHandler.SERVICE_CENTER_CODE_COL
-                        + ", " + SQLiteHandler.SERVICE_CENTER_TABLE + "." + SQLiteHandler.SERVICE_CENTER_NAME_COL
-                        + " FROM " + SQLiteHandler.SERVICE_CENTER_TABLE
-                        + " WHERE " + SQLiteHandler.SERVICE_CENTER_TABLE + "." + SQLiteHandler.COUNTRY_CODE_COL + "='" + cCode + "'";
-
-
-                break;
-
-            case DISTRIBUTION_POINT:
-
-                udf = "SELECT " + SQLiteHandler.FDP_MASTER_TABLE + "." + SQLiteHandler.FDP_CODE_COL
-                        + ", " + SQLiteHandler.FDP_MASTER_TABLE + "." + SQLiteHandler.FDP_NAME_COL
-                        + " FROM " + SQLiteHandler.FDP_MASTER_TABLE
-                        + " WHERE " + SQLiteHandler.FDP_MASTER_TABLE + "." + SQLiteHandler.COUNTRY_CODE_COL + "='" + cCode + "'";
-
-
-                break;
-
-
-            case LOOKUP_LIST:
-
-                udf = "SELECT " + SQLiteHandler.DT_LUP_TABLE + "." + SQLiteHandler.LIST_CODE_COL
-                        + ", " + SQLiteHandler.DT_LUP_TABLE + "." + SQLiteHandler.LIST_NAME_COL
-                        + " FROM " + SQLiteHandler.DT_LUP_TABLE
-                        + " WHERE " + SQLiteHandler.DT_LUP_TABLE + "." + SQLiteHandler.COUNTRY_CODE_COL + "= '" + cCode + "' "
-
-                        + " AND " + SQLiteHandler.DT_LUP_TABLE + "." + SQLiteHandler.TABLE_NAME_COL + "= '" + mDTQ.getLup_TableName() + "'"
-                ;
-
-
-                break;
-
-
-            case COMMUNITY_GROUP:
-                udf = "SELECT " + SQLiteHandler.COMMUNITY_GROUP_TABLE + "." + SQLiteHandler.GROUP_CODE_COL
-                        + ", " + SQLiteHandler.COMMUNITY_GROUP_TABLE + "." + SQLiteHandler.GROUP_NAME_COL
-                        + " FROM " + SQLiteHandler.COMMUNITY_GROUP_TABLE
-                        + " WHERE " + SQLiteHandler.COMMUNITY_GROUP_TABLE + "." + SQLiteHandler.COUNTRY_CODE_COL + "='" + cCode + "'";
-
-
-                break;
-            case ORGANIZATION_LIST:
-
-                udf ="SELECT  progOR." + ORG_CODE_COL +", pOrg." + ORGANIZATION_NAME + " " +
-                        "                                FROM " + PROGRAM_ORGANIZATION_ROLE_TABLE + " AS progOR "
-                        + "                               INNER JOIN " +
-                        "                                " + PROGRAM_ORGANIZATION_NAME_TABLE + " AS pOrg " +
-                        "                               ON progOR." + ORG_CODE_COL + " = pOrg." + ORG_CODE_COL + "  " +
-                        "                                WHERE (progOR." + COUNTRY_CODE_COL + " = '" + cCode + "')" +
-
-                        " GROUP BY pOrg." + ORGANIZATION_NAME ;
-
-                break;
-
-
-        }
         list.clear();
         list = sqlH.getListAndID(SQLiteHandler.CUSTOM_QUERY, udf, cCode, false);
 
@@ -444,5 +314,93 @@ public class SpinnerLoader {
             dt_spinner.setSelection(position);
         }
 
+    }
+
+    public static void loadLocationLoader(Context context, SQLiteHandler sqlH, Spinner spLocation, String cCode, String idLocation, String strLocation) {
+
+        int position = 0;
+        String criteria = SQLiteQuery.loadLocationLoader_sql(cCode);
+
+
+        List<SpinnerHelper> listLocation = sqlH.getListAndID(SQLiteHandler.CUSTOM_QUERY, criteria, null, false);
+        ArrayAdapter<SpinnerHelper> dataAdapter = new ArrayAdapter<SpinnerHelper>(context, R.layout.spinner_layout, listLocation);
+        dataAdapter.setDropDownViewResource(R.layout.spinner_layout);
+        spLocation.setAdapter(dataAdapter);
+
+
+        if (idLocation != null) {
+            for (int i = 0; i < spLocation.getCount(); i++) {
+                String locationName = spLocation.getItemAtPosition(i).toString();
+                if (locationName.equals(strLocation)) {
+                    position = i;
+                }
+            }
+            spLocation.setSelection(position);
+        }
+    }
+
+    /**
+     * this method load dynamic survey  active month.
+     *
+     * @param context   refer to the activity which will invoke this method.
+     * @param sqlH      database reference
+     * @param spDtMonth spinner view
+     * @param cCode     country code
+     * @param opCode    operation code for dynamic table is 5
+     * @param idMonth   op month code
+     * @param strMonth  op month name
+     */
+    public static void loadDtMonthLoader(Context context, SQLiteHandler sqlH, Spinner spDtMonth, String cCode, String opCode, String idMonth, String strMonth) {
+        int position = 0;
+        String criteria = SQLiteQuery.loadDtMonth_sql(cCode, opCode);
+
+
+        List<SpinnerHelper> listProgram = sqlH.getListAndID(SQLiteHandler.CUSTOM_QUERY, criteria, null, false);
+        /**         *  remove select value         */
+        listProgram.remove(0);
+
+        ArrayAdapter<SpinnerHelper> dataAdapter = new ArrayAdapter<SpinnerHelper>(context, R.layout.spinner_layout, listProgram);
+        dataAdapter.setDropDownViewResource(R.layout.spinner_layout);
+
+        spDtMonth.setAdapter(dataAdapter);
+
+
+        if (idMonth != null) {
+            for (int i = 0; i < spDtMonth.getCount(); i++) {
+                String monthName = spDtMonth.getItemAtPosition(i).toString();
+                if (monthName.equals(strMonth)) {
+                    position = i;
+                }
+            }
+            spDtMonth.setSelection(position);
+
+        }
+
+    }
+
+    public static void loadCountryLoader(Context context, SQLiteHandler sqlH, Spinner spCountry, int operationMode, String idCountry, String strCountry) {
+
+        int position = 0;
+        String criteria = "";
+        Log.d(TAG, "operation mode : " + operationMode);
+        criteria = SQLiteQuery.loadCountry_sql(operationMode, sqlH.isMultipleCountryAccessUser());
+
+
+        List<SpinnerHelper> listCountry = sqlH.getListAndID(SQLiteHandler.COUNTRY_TABLE, criteria, null, true);
+        ArrayAdapter<SpinnerHelper> dataAdapter = new ArrayAdapter<SpinnerHelper>(context, R.layout.spinner_layout, listCountry);
+        dataAdapter.setDropDownViewResource(R.layout.spinner_layout);
+
+        spCountry.setAdapter(dataAdapter);
+
+
+        if (idCountry != null) {
+            for (int i = 0; i < spCountry.getCount(); i++) {
+                String district = spCountry.getItemAtPosition(i).toString();
+                if (district.equals(strCountry)) {
+                    position = i;
+                }
+            }
+            spCountry.setSelection(position);
+        }
     }
 }

@@ -1,4 +1,4 @@
-package com.siddiquinoor.restclient.activity;
+package com.siddiquinoor.restclient.activity.sub_activity.dynamic_table;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -8,28 +8,30 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.siddiquinoor.restclient.R;
 import com.siddiquinoor.restclient.controller.SessionManager;
 import com.siddiquinoor.restclient.data_model.DTSurveyTableDataModel;
 import com.siddiquinoor.restclient.data_model.SurveyModel;
-import com.siddiquinoor.restclient.fragments.SurveyFragment;
 import com.siddiquinoor.restclient.manager.SQLiteHandler;
 import com.siddiquinoor.restclient.utils.KEY;
 import com.siddiquinoor.restclient.views.adapters.DynamicDataIndexDataModel;
 import com.siddiquinoor.restclient.views.adapters.ReportViewPagerAdapter;
+import com.siddiquinoor.restclient.views.helper.SpinnerHelper;
+import com.siddiquinoor.restclient.views.spinner.SpinnerLoader;
 
 import java.util.ArrayList;
 
 public class DT_ReportActivity extends AppCompatActivity {
 
-    private Context context;
+    private Context mContext;
 
-    private TextView tvDTTitle, tvDTAward, tvDTProgram, tvDTActivityTitle, tvSurveyNumber;
+    private TextView tvDTTitle, tvDTAward, tvDTProgram, tvDTActivityTitle, tvSurveyNumber, tvDTMonthTitle;
     private ImageView ivLeft, ivRight, ivDeleteSurvey;
     private RelativeLayout rlIndicator;
     private ViewPager viewPager;
@@ -42,16 +44,18 @@ public class DT_ReportActivity extends AppCompatActivity {
     private int currentPosition = 0;
 
     private ArrayList<SurveyModel> surveyModels;
+    // private Spinner spDtMonth;
+    private String idMonth, strMonth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dt_report);
-        context = this;
+        mContext = this;
 
         data = getIntent().getParcelableExtra(KEY.DYNAMIC_INDEX_DATA_OBJECT_KEY);
-        sqlH = new SQLiteHandler(context);
-        session = new SessionManager(context);
+        sqlH = new SQLiteHandler(mContext);
+        session = new SessionManager(mContext);
 
         initUI();
 
@@ -59,14 +63,20 @@ public class DT_ReportActivity extends AppCompatActivity {
 
         generateSurveyList();
 
+
+        // loadDtMonth(data.getcCode(), data.getOpMode());
 //        setSurveyPager();
 
     }
 
+    /**
+     * view reference
+     */
     private void initUI() {
         tvDTTitle = (TextView) findViewById(R.id.tvDTTitle);
         tvDTAward = (TextView) findViewById(R.id.tvDTAward);
         tvDTProgram = (TextView) findViewById(R.id.tvDTProgram);
+        tvDTMonthTitle = (TextView) findViewById(R.id.tvDTMonthTitle);
         tvDTActivityTitle = (TextView) findViewById(R.id.tvDTActivityTitle);
         tvSurveyNumber = (TextView) findViewById(R.id.tvSurveyNumber);
         ivLeft = (ImageView) findViewById(R.id.ivLeft);
@@ -75,12 +85,40 @@ public class DT_ReportActivity extends AppCompatActivity {
         ivDeleteSurvey = (ImageView) findViewById(R.id.ivDeleteSurvey);
         rlIndicator = (RelativeLayout) findViewById(R.id.rlIndicator);
 
+        //    spDtMonth = (Spinner) findViewById(R.id.sp_dtReport_dtMonth);
+
         tvDTTitle.setText(data.getDtTittle());
         tvDTAward.setText("Award Name : " + data.getAwardName());
         String progName = data.getProgramCode().equals("000") ? " Cross Cutting" : data.getProgramName();
         tvDTProgram.setText("Program Name : " + progName);
         tvDTActivityTitle.setText("Activity Title  : " + data.getPrgActivityTitle());
+
+        Log.d("MOR","data.getcCode()"+data.getcCode()+"\n data.getOpMonthCode()"+data.getOpMonthCode());
+//        if (data.getOpMonthCode().length() > 0)
+           tvDTMonthTitle.setText("Month  : " + sqlH.getMonthName(data.getcCode()));
+
+        // dtSurveyTableDataModel.getOpMonthCode()
     }
+
+  /*  private void loadDtMonth(final String cCode, String opCode) {
+        SpinnerLoader.loadDtMonthLoader(mContext, sqlH, spDtMonth, cCode, opCode, idMonth, strMonth);
+
+
+        spDtMonth.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                strMonth = ((SpinnerHelper) spDtMonth.getSelectedItem()).getValue();
+                idMonth = ((SpinnerHelper) spDtMonth.getSelectedItem()).getId();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+    } // end Load Spinner*/
+
 
     private void generateSurveyList() {
         ArrayList<Integer> surveyList = sqlH.getSurveyList(data.getDtBasicCode(), data.getcCode(), data.getDonorCode(), data.getAwardCode(), data.getProgramCode(), session.getStaffId());
@@ -173,7 +211,7 @@ public class DT_ReportActivity extends AppCompatActivity {
     }
 
     private void showDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
         builder.setMessage("Do you want to delete this survey?\nPress YES to delete, NO to abort.");
         builder.setCancelable(true);
 
