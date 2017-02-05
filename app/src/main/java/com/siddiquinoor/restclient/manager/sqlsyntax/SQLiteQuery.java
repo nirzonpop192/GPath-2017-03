@@ -5,6 +5,7 @@ import android.util.Log;
 import com.siddiquinoor.restclient.data_model.RegNAssgProgSrv;
 import com.siddiquinoor.restclient.manager.SQLiteHandler;
 import com.siddiquinoor.restclient.utils.UtilClass;
+import com.siddiquinoor.restclient.views.adapters.DynamicDataIndexDataModel;
 import com.siddiquinoor.restclient.views.adapters.GraduationGridDataModel;
 import com.siddiquinoor.restclient.views.adapters.ServiceDataModel;
 
@@ -3164,9 +3165,9 @@ public class SQLiteQuery {
         return "SELECT " + ADM_PROGRAM_MASTER_TABLE + "." + PROGRAM_CODE_COL
                 + " , " + ADM_PROGRAM_MASTER_TABLE + "." + PROGRAM_SHORT_NAME_COL
                 + " FROM " + ADM_PROGRAM_MASTER_TABLE
-                + " INNER JOIN " + ADM_AWARD_TABLE
-                + " ON " + ADM_AWARD_TABLE + "." + DONOR_CODE_COL + " = " + ADM_PROGRAM_MASTER_TABLE + "." + DONOR_CODE_COL
-                + " AND " + ADM_AWARD_TABLE + "." + AWARD_CODE_COL + " = " + ADM_PROGRAM_MASTER_TABLE + "." + AWARD_CODE_COL
+                + " INNER JOIN " + ADM_COUNTRY_AWARD_TABLE
+                + " ON " + ADM_COUNTRY_AWARD_TABLE + "." + DONOR_CODE_COL + " = " + ADM_PROGRAM_MASTER_TABLE + "." + DONOR_CODE_COL
+                + " AND " + ADM_COUNTRY_AWARD_TABLE + "." + AWARD_CODE_COL + " = " + ADM_PROGRAM_MASTER_TABLE + "." + AWARD_CODE_COL
                 + " INNER JOIN " + REG_N_ASSIGN_PROG_SRV_TABLE + " AS regAss "
                 + " ON regAss." + PROGRAM_CODE_COL + " = " + ADM_PROGRAM_MASTER_TABLE + "." + PROGRAM_CODE_COL
                 + " WHERE " + ADM_PROGRAM_MASTER_TABLE + "." + AWARD_CODE_COL + "='" + awardCode + "'"
@@ -3228,7 +3229,7 @@ public class SQLiteQuery {
                 + " , " + " pm." + PROGRAM_SHORT_NAME_COL
                 + " , " + " pm." + PROGRAM_CODE_COL
                 + " , " + " pm." + PROGRAM_NAME_COL
-                + " , " + " don." + DONOR_NAME_COL + "|| '-' || awd." + AWARD_S_NAME_COL + " AS awardName "
+                + " , " + " don." + DONOR_NAME_COL + "|| '-' || awd." + AWARD_SHORT_NAME_COL + " AS awardName "
                 + " , " + " cgc." + AWARD_CODE_COL
 
                 + " , " + " grpDetail." + ORG_CODE_COL
@@ -3270,7 +3271,7 @@ public class SQLiteQuery {
                 + " AND un." + LAY_R2_LIST_CODE_COL + " = cg." + GRP_LAY_R2_LIST_CODE_COL
                 + " AND un." + LAY_R3_LIST_CODE_COL + " = cg." + GRP_LAY_R3_LIST_CODE_COL
                 + " INNER JOIN " +
-                ADM_AWARD_TABLE + " AS awd "
+                ADM_COUNTRY_AWARD_TABLE + " AS awd "
                 + " ON awd." + COUNTRY_CODE_COL + " = cgc." + COUNTRY_CODE_COL
                 + " AND awd." + DONOR_CODE_COL + " = cgc." + DONOR_CODE_COL
                 + " AND awd." + AWARD_CODE_COL + " = cgc." + AWARD_CODE_COL
@@ -3531,7 +3532,7 @@ public class SQLiteQuery {
      * @param lup_TableName look up table Name
      * @return dynamic query
      */
-    public static String loadDynamicSpinnerListLoader_sql(String cCode, String resLupText, String lup_TableName) {
+    public static String loadDynamicSpinnerListLoader_sql(String cCode, String resLupText, String lup_TableName, DynamicDataIndexDataModel dyBasic) {
         String udf = "";
 
         switch (resLupText) {
@@ -3619,10 +3620,44 @@ public class SQLiteQuery {
 
 
             case COMMUNITY_GROUP:
-                udf = "SELECT " + SQLiteHandler.COMMUNITY_GROUP_TABLE + "." + SQLiteHandler.GROUP_CODE_COL
-                        + ", " + SQLiteHandler.COMMUNITY_GROUP_TABLE + "." + SQLiteHandler.GROUP_NAME_COL
-                        + " FROM " + SQLiteHandler.COMMUNITY_GROUP_TABLE
-                        + " WHERE " + SQLiteHandler.COMMUNITY_GROUP_TABLE + "." + SQLiteHandler.COUNTRY_CODE_COL + "='" + cCode + "'";
+                udf = "SELECT "
+
+                        + " commGrp." + DONOR_CODE_COL + " || '' || "
+                        + " commGrp." + AWARD_CODE_COL + " || '' ||"
+                        + " commGrp." + PROGRAM_CODE_COL + " || '' ||"
+
+                        + " commGrp." + GROUP_CODE_COL + " || '' || "
+                        + " commGrp." + GRP_LAY_R1_LIST_CODE_COL + " || '' || "
+                        + " commGrp." + GRP_LAY_R2_LIST_CODE_COL + " || '' || "
+                        + " commGrp." + GRP_LAY_R3_LIST_CODE_COL
+
+                        + " , award." + AWARD_SHORT_NAME_COL + " || '-' ||"
+                        + " counAward." + AWARD_SHORT_NAME_COL + " || '-' ||"
+                        + " admProg." + PROGRAM_SHORT_NAME_COL + " || '-' ||"
+                        + " commGrp." + GROUP_NAME_COL
+                        + " FROM " + COMMUNITY_GROUP_TABLE + " AS commGrp "
+
+                        + " LEFT JOIN " + ADM_AWARD_TABLE + " AS award "
+                        + " ON award." + DONOR_CODE_COL + " = commGrp." + DONOR_CODE_COL
+                        + " AND award." + AWARD_CODE_COL + " = commGrp." + AWARD_CODE_COL
+
+                        + " INNER JOIN " + ADM_COUNTRY_AWARD_TABLE + " AS counAward "
+
+                        + " ON counAward." + DONOR_CODE_COL + " = commGrp." + DONOR_CODE_COL
+                        + " AND counAward." + AWARD_CODE_COL + " = commGrp." + AWARD_CODE_COL
+
+                        + " INNER JOIN " + ADM_PROGRAM_MASTER_TABLE + " AS admProg "
+
+                        + " ON admProg." + DONOR_CODE_COL + " = commGrp." + DONOR_CODE_COL
+                        + " AND admProg." + AWARD_CODE_COL + " = commGrp." + AWARD_CODE_COL
+                        + " AND admProg." + PROGRAM_CODE_COL + " = commGrp." + PROGRAM_CODE_COL
+
+
+                        + " WHERE " + "commGrp." + COUNTRY_CODE_COL + "='" + cCode + "'"
+                        + " ORDER BY award." + AWARD_SHORT_NAME_COL + " || '-' ||"
+                        + " counAward." + AWARD_SHORT_NAME_COL + " || '-' ||"
+                        + " admProg." + PROGRAM_SHORT_NAME_COL + " || '-' ||"
+                        + " commGrp." + GROUP_NAME_COL;
 
 
                 break;
@@ -3640,6 +3675,8 @@ public class SQLiteQuery {
 
 
         }
+
+        Log.d("toma", udf);
         return udf;
     }
 
@@ -3736,10 +3773,10 @@ public class SQLiteQuery {
 
     }
 
-    public static String getDynamicTableIndexList_sql(String cCode,String dtTitleSearch){
+    public static String getDynamicTableIndexList_sql(String cCode, String dtTitleSearch) {
         return "SELECT dtB." + DT_TITLE_COL + "  " +
                 " , dtCPgr." + DT_BASIC_COL + " AS dtBasicCode  " +
-                " , donor." + DONOR_NAME_COL + " || '-' || award." + AWARD_S_NAME_COL + " AS awardName  " +
+                " , donor." + DONOR_NAME_COL + " || '-' || award." + AWARD_SHORT_NAME_COL + " AS awardName  " +
                 " , dtCPgr." + DONOR_CODE_COL + " || '' || dtCPgr." + AWARD_CODE_COL + " AS awardCode  " +
                 " , prg." + PROGRAM_SHORT_NAME_COL + "  " +
                 " , dtCPgr." + PROGRAM_CODE_COL + "  " +
@@ -3748,13 +3785,14 @@ public class SQLiteQuery {
                 " , dtB." + DT_OP_MODE_COL +
 
                 " , dtCPgr." + DONOR_CODE_COL +
-                " , dtCPgr." + PROG_ACTIVITY_CODE_COL
+                " , dtCPgr." + PROG_ACTIVITY_CODE_COL +
+                " , dtB." + DT_SHORT_NAME_COL
                 + "  FROM " +
                 DT_COUNTRY_PROGRAM_TABLE + " AS dtCPgr  " +
                 " LEFT JOIN " + DT_BASIC_TABLE + "  AS dtB  " +
                 " ON dtB." + DT_BASIC_COL + " = dtCpgr." + DT_BASIC_COL + "   " +
                 " LEFT JOIN " +
-                ADM_AWARD_TABLE + " as award  " +
+                ADM_COUNTRY_AWARD_TABLE + " as award  " +
                 " ON award." + COUNTRY_CODE_COL + " = dtCpgr." + COUNTRY_CODE_COL + "  " +
                 " AND award." + DONOR_CODE_COL + " = dtCpgr." + DONOR_CODE_COL + "  " +
                 " AND award." + AWARD_CODE_COL + "= dtCpgr." + AWARD_CODE_COL + "  " +

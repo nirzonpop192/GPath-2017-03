@@ -10,6 +10,7 @@ import com.siddiquinoor.restclient.R;
 import com.siddiquinoor.restclient.manager.SQLiteHandler;
 import com.siddiquinoor.restclient.manager.sqlsyntax.SQLiteQuery;
 import com.siddiquinoor.restclient.utils.UtilClass;
+import com.siddiquinoor.restclient.views.adapters.DynamicDataIndexDataModel;
 import com.siddiquinoor.restclient.views.adapters.DynamicTableQuesDataModel;
 import com.siddiquinoor.restclient.views.helper.SpinnerHelper;
 
@@ -156,9 +157,9 @@ public class SpinnerLoader {
      */
     public static void loadAwardLoader(Context context, SQLiteHandler sqlH, Spinner spAward, String cCode, String awardCode, String strAward) {
         int position = 0;
-        String criteria = " WHERE " + SQLiteHandler.ADM_AWARD_TABLE + "." + SQLiteHandler.COUNTRY_CODE_COL + "='" + cCode + "'";
+        String criteria = " WHERE " + SQLiteHandler.ADM_COUNTRY_AWARD_TABLE + "." + SQLiteHandler.COUNTRY_CODE_COL + "='" + cCode + "'";
 
-        List<SpinnerHelper> listAward = sqlH.getListAndID(SQLiteHandler.ADM_AWARD_TABLE, criteria, null, false);
+        List<SpinnerHelper> listAward = sqlH.getListAndID(SQLiteHandler.ADM_COUNTRY_AWARD_TABLE, criteria, null, false);
         ArrayAdapter<SpinnerHelper> dataAdapter = new ArrayAdapter<SpinnerHelper>(context, R.layout.spinner_layout, listAward);
         dataAdapter.setDropDownViewResource(R.layout.spinner_layout);
         spAward.setAdapter(dataAdapter);
@@ -286,12 +287,12 @@ public class SpinnerLoader {
      * @param strSpinner spinner T7ext
      * @param mDTQ       Dynamic Table Question
      */
-    public static void loadDynamicSpinnerListLoader(Context context, SQLiteHandler sqlH, Spinner dt_spinner, String cCode, String resLupText, String strSpinner, DynamicTableQuesDataModel mDTQ) {
+    public static void loadDynamicSpinnerListLoader(Context context, SQLiteHandler sqlH, Spinner dt_spinner, String cCode, String resLupText, String strSpinner, DynamicTableQuesDataModel mDTQ, DynamicDataIndexDataModel dyBasic) {
 
         int position = 0;
         List<SpinnerHelper> list = new ArrayList<SpinnerHelper>();
 
-        String udf = SQLiteQuery.loadDynamicSpinnerListLoader_sql(cCode, resLupText, mDTQ.getLup_TableName());
+        String udf = SQLiteQuery.loadDynamicSpinnerListLoader_sql(cCode, resLupText, mDTQ.getLup_TableName(),dyBasic);
         Log.d(TAG, " resLupText:" + resLupText);
 
 

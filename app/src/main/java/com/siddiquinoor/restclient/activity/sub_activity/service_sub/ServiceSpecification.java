@@ -1500,7 +1500,7 @@ public class ServiceSpecification extends BaseActivity {
 
 
         int position = 0;
-        String criteria =""; //" WHERE " + SQLiteHandler.ADM_AWARD_TABLE + "." + SQLiteHandler.COUNTRY_CODE_COL + "='" + cCode + "'";
+        String criteria =""; //" WHERE " + SQLiteHandler.ADM_COUNTRY_AWARD_TABLE + "." + SQLiteHandler.COUNTRY_CODE_COL + "='" + cCode + "'";
         // Spinner Drop down elements for District
         List<SpinnerHelper> listAward = sqlH.getListAndID(SQLiteHandler.LUP_PROG_GROUP_CROP_TABLE, criteria, null, false);
 
@@ -1556,7 +1556,7 @@ public class ServiceSpecification extends BaseActivity {
 
 
         int position = 0;
-        String criteria =""; //" WHERE " + SQLiteHandler.ADM_AWARD_TABLE + "." + SQLiteHandler.COUNTRY_CODE_COL + "='" + cCode + "'";
+        String criteria =""; //" WHERE " + SQLiteHandler.ADM_COUNTRY_AWARD_TABLE + "." + SQLiteHandler.COUNTRY_CODE_COL + "='" + cCode + "'";
         // Spinner Drop down elements for District
         List<SpinnerHelper> listAward = sqlH.getListAndID(SQLiteHandler.LUP_COMMUNITY_LOAN_SOURCE_TABLE, criteria, null, false);
 
@@ -1612,7 +1612,7 @@ public class ServiceSpecification extends BaseActivity {
 
 
         int position = 0;
-        String criteria =""; //" WHERE " + SQLiteHandler.ADM_AWARD_TABLE + "." + SQLiteHandler.COUNTRY_CODE_COL + "='" + cCode + "'";
+        String criteria =""; //" WHERE " + SQLiteHandler.ADM_COUNTRY_AWARD_TABLE + "." + SQLiteHandler.COUNTRY_CODE_COL + "='" + cCode + "'";
         // Spinner Drop down elements for District
         List<SpinnerHelper> listLeadPos = sqlH.getListAndID(SQLiteHandler.LUP_COMMUNITY_LEAD_POSITION_TABLE, criteria, null, false);
 
@@ -1667,7 +1667,7 @@ public class ServiceSpecification extends BaseActivity {
 
 
         int position = 0;
-        String criteria =""; //" WHERE " + SQLiteHandler.ADM_AWARD_TABLE + "." + SQLiteHandler.COUNTRY_CODE_COL + "='" + cCode + "'";
+        String criteria =""; //" WHERE " + SQLiteHandler.ADM_COUNTRY_AWARD_TABLE + "." + SQLiteHandler.COUNTRY_CODE_COL + "='" + cCode + "'";
         // Spinner Drop down elements for District
         List<SpinnerHelper> listAward = sqlH.getListAndID(SQLiteHandler.LUP_COMMUNITY_ANIMAL_TABLE, criteria, null, false);
 

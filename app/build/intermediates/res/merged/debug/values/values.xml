@@ -624,6 +624,7 @@
     <string name="action_settings">Settings</string>
     <string name="active_lable">Active</string>
     <string name="after">After</string>
+    <string name="apk_on_device">APK ON DEVICE</string>
     <string name="app_name">GPath</string>
     <string name="assignTitleLabelP2a">Assign Program (Page 2a)</string>
     <string name="assign_ca2_title">Children Above 2 Years-A2</string>
@@ -759,6 +760,7 @@
     <string name="date_label">Date</string>
     <string name="decline">Decline</string>
     <string name="delete">DELETE</string>
+    <string name="device_id">Device Id</string>
     <string name="dob_date">DOB Date</string>
     <string name="dt_response_title">Response</string>
     <string name="e">E.Core Criteria: HHs with PLW or CU2; Secondary Criteria: HH has a total of 4 or more children below 12 years of age</string>
@@ -862,7 +864,7 @@
     <string name="livestock">LIVESTOCK</string>
     <string name="lmp_date">LMP Date</string>
     <string name="location_name">Location Name</string>
-    <string name="log_in_version_lable">GPath-UAT-06</string>
+    <string name="log_in_version_lable">GPath-LIV-07</string>
     <string name="longTitle">Longitude</string>
     <string name="map_mode">Map Source</string>
     <string name="mapbox">MapBox</string>
@@ -992,11 +994,13 @@
     <string name="unsyn_msg">Login with the same user for whom the device was configured.
 Otherwise, initiate to sync and login again.</string>
     <string name="value_id">VALUE ID</string>
+    <string name="version_name">Version Name</string>
     <string name="village_label">Village</string>
     <string name="village_name_label">Village Name</string>
     <string name="wallet_buy_button_place_holder">Buy with Google</string>
     <string name="wd">WD</string>
     <string name="welcome">Welcome</string>
+    <string name="xxxxxx_xxxxxxxx">XXXXXX-XXXXXXXX</string>
     <string name="yn">Y/N</string>
     <string name="zxing_app_name">Barcode Scanner</string>
     <string name="zxing_button_cancel">Cancel</string>

@@ -87,7 +87,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
     // All Static variables
 
     // Database Version
-    private static final int DATABASE_VERSION = 7;
+    private static final int DATABASE_VERSION = 9;
     // Database Name
     private static final String DATABASE_NAME = "pci";
     // Android meta data table
@@ -135,7 +135,8 @@ public class SQLiteHandler extends SQLiteOpenHelper {
 
 
     public static final String SERVICE_TABLE = "Service";
-    public static final String ADM_AWARD_TABLE = "AdmAward";
+    public static final String ADM_COUNTRY_AWARD_TABLE = "AdmAward";
+    public static final String ADM_AWARD_TABLE = "Award";
     public static final String ADM_DONOR_TABLE = "AdmDonor";
     public static final String ADM_PROGRAM_MASTER_TABLE = "ProgramMaster";
     public static final String SERVICE_MASTER_TABLE = "ServiceMaster";
@@ -239,6 +240,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
     public static final String DT_CATEGORY_COL = "DTCategory";
     public static final String DT_GEO_LIST_LEVEL_COL = "DTGeoListLevel";
     public static final String DT_OP_MODE_COL = "DTOPMode";
+    public static final String DT_SHORT_NAME_COL = "DTShortName";
 
     public static final String DT_STF_CODE_COL = "StfCode";
     public static final String DT_ADM_COUNTRY_CODE_COL = "AdmCountryCode";
@@ -538,7 +540,8 @@ public class SQLiteHandler extends SQLiteOpenHelper {
     public static final String AWARD_REF_N_COL = "AwardRefNumber";
     public static final String AWARD_START_DATE_COL = "AwardStartDate";
     public static final String AWARD_END_DATE_COL = "AwardEndDate";
-    public static final String AWARD_S_NAME_COL = "AwardShortName"; // award short name column
+    public static final String AWARD_SHORT_NAME_COL = "AwardShortName";
+    public static final String AWARD_NAME_COL = "AwardName";
     public static final String AWARD_STATUS_COL = "AwardStatus";
 
     // ADDED BY POP COLUMN FOR DONOR TABLE
@@ -951,6 +954,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
         db.execSQL(Schema.sqlCreateRegMember());
         db.execSQL(Schema.sqlCreateServiceTable());
         db.execSQL(Schema.sqlCreateCountryAwardTable());
+        db.execSQL(Schema.sqlCreateAdmAwardTable());
         db.execSQL(Schema.sqlCreateDonorTable());
         db.execSQL(Schema.sqlCreateProgramMasterTable());
         db.execSQL(Schema.sqlCreateServiceMasterTable());
@@ -1048,7 +1052,12 @@ public class SQLiteHandler extends SQLiteOpenHelper {
         refreshDatabase(db);
     }
 
-    public void refreshDatabase(SQLiteDatabase db) {
+    /**
+     * Droup All the Table to alter the Any table column
+     *
+     * @param db database
+     */
+    private void refreshDatabase(SQLiteDatabase db) {
 
         //SQLiteDatabase db = this.getWritableDatabase();
 
@@ -1067,7 +1076,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
             db.execSQL(DROP_TABLE_IF_EXISTS + REGISTRATION_MEMBER_TABLE);
             db.execSQL(DROP_TABLE_IF_EXISTS + RELATION_TABLE);
             db.execSQL(DROP_TABLE_IF_EXISTS + SERVICE_TABLE);
-            db.execSQL(DROP_TABLE_IF_EXISTS + ADM_AWARD_TABLE);
+            db.execSQL(DROP_TABLE_IF_EXISTS + ADM_COUNTRY_AWARD_TABLE);
             db.execSQL(DROP_TABLE_IF_EXISTS + ADM_DONOR_TABLE);
             db.execSQL(DROP_TABLE_IF_EXISTS + ADM_PROGRAM_MASTER_TABLE);
             db.execSQL(DROP_TABLE_IF_EXISTS + SERVICE_MASTER_TABLE);
@@ -1140,6 +1149,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
             db.execSQL(DROP_TABLE_IF_EXISTS + TEMPORARY_COUNTRY_PROGRAM_TABLE);
             db.execSQL(DROP_TABLE_IF_EXISTS + TEMPORARY_OP_MONTH_TABLE);
             db.execSQL(DROP_TABLE_IF_EXISTS + SELECTED_COUNTRY_TABLE);
+            db.execSQL(DROP_TABLE_IF_EXISTS + ADM_AWARD_TABLE);
 
 
             Log.d(TAG, "All table Dropped.");
@@ -1147,7 +1157,6 @@ public class SQLiteHandler extends SQLiteOpenHelper {
             Log.d(TAG, "Error: " + e.getMessage());
         }
 
-        db.close();
 
         // Create tables again
         onCreate(db);
@@ -1168,15 +1177,12 @@ public class SQLiteHandler extends SQLiteOpenHelper {
 
             db.delete(COUNTRY_TABLE, null, null);
             db.delete(VALID_DATE_RANGE, null, null);
-         /*   db.delete(DISTRICT_TABLE, null, null);
-            db.delete(UPAZILLA_TABLE, null, null);
-            db.delete(UNIT_TABLE, null, null);
-            db.delete(VILLAGE_TABLE, null, null);*/
+
             db.delete(RELATION_TABLE, null, null);
             /**
              * todo do not delete AWARd Table program table Service Table
              */
-            db.delete(ADM_AWARD_TABLE, null, null);
+
             db.delete(ADM_DONOR_TABLE, null, null);
             db.delete(ADM_PROGRAM_MASTER_TABLE, null, null);
             db.delete(SERVICE_MASTER_TABLE, null, null);
@@ -1269,7 +1275,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
             db.delete(REGISTRATION_MEMBER_TABLE, null, null);
             db.delete(RELATION_TABLE, null, null);
             db.delete(SERVICE_TABLE, null, null);
-            db.delete(ADM_AWARD_TABLE, null, null);
+            db.delete(ADM_COUNTRY_AWARD_TABLE, null, null);
             db.delete(ADM_DONOR_TABLE, null, null);
             db.delete(ADM_PROGRAM_MASTER_TABLE, null, null);
             db.delete(SERVICE_MASTER_TABLE, null, null);
@@ -1323,6 +1329,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
             db.delete(PROGRAM_ORGANIZATION_ROLE_TABLE, null, null);
             db.delete(STAFF_MASTER_TABLE, null, null);
             db.delete(LUP_GPS_LIST_TABLE, null, null);
+            db.delete(ADM_AWARD_TABLE, null, null);
 
 
             Log.d(TAG, "All User data Deleted.");
@@ -2696,7 +2703,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
         long id = db.insert(GPS_SUB_GROUP_TABLE, null, values);
         db.close(); // Closing database connection
 
-        Log.d(TAG, "New Group inserted into GPS_SUB_GROUP_TABLE: " + id);
+      //  Log.d(TAG, "New Group inserted into GPS_SUB_GROUP_TABLE: " + id);
 
     }
 
@@ -2755,7 +2762,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
         long id = db.insert(STAFF_FDP_ACCESS_TABLE, null, values);
         db.close(); // Closing database connection
 
-        Log.d(TAG, "New Group inserted into " + STAFF_FDP_ACCESS_TABLE + ": " + id);
+        //Log.d(TAG, "New Group inserted into " + STAFF_FDP_ACCESS_TABLE + ": " + id);
 
     }
 
@@ -3552,7 +3559,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
 
         SQLiteDatabase db = this.getReadableDatabase();
         String selectQuery = "SELECT " + AWARD_END_DATE_COL +
-                " FROM " + ADM_AWARD_TABLE +
+                " FROM " + ADM_COUNTRY_AWARD_TABLE +
                 " WHERE " + COUNTRY_CODE_COL + " = '" + cCode + "' "
                 + " AND " + DONOR_CODE_COL + " = '" + donorCode + "' "
                 + " AND " + AWARD_CODE_COL + " = '" + awardCode + "' ";
@@ -5546,6 +5553,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
                 data.setOpMode(cursor.getString(8));
                 data.setDonorCode(cursor.getString(9));
                 data.setProgramActivityCode(cursor.getString(10));
+                data.setDtShortName(cursor.getString(11));
 
 
                 list.add(data);
@@ -6280,26 +6288,45 @@ public class SQLiteHandler extends SQLiteOpenHelper {
 
     }
 
-    // add country award
-    public void addCountryAward(String countryCode, String donorCode, String awardCode, String awardRef, String awardStartD, String awardEndD, String awardShortN, String awardStatus) {
+
+    public void insertIntoAdmAward(String donorCode, String awardCode, String awardName, String awardShortName) {
 
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        values.put(COUNTRY_CODE_COL, countryCode); // country code
+
+        values.put(DONOR_CODE_COL, donorCode);
+        values.put(AWARD_CODE_COL, awardCode);
+        values.put(AWARD_NAME_COL, awardName);
+        values.put(AWARD_SHORT_NAME_COL, awardShortName);
+
+
+        // Inserting Row
+        db.insert(ADM_AWARD_TABLE, null, values);
+        db.close();
+
+
+    }
+
+    public void insertIntoAdmCountryAward(String cCode, String donorCode, String awardCode, String awardRef, String awardStartD, String awardEndD, String awardShortN, String awardStatus) {
+
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(COUNTRY_CODE_COL, cCode); // country code
         values.put(DONOR_CODE_COL, donorCode); // donor code
         values.put(AWARD_CODE_COL, awardCode); //  award code
         values.put(AWARD_REF_N_COL, awardRef); // award refrence code
         values.put(AWARD_START_DATE_COL, awardStartD); // awardStartDate
         values.put(AWARD_END_DATE_COL, awardEndD); // awardEndDate
-        values.put(AWARD_S_NAME_COL, awardShortN); // AwardShort Name
+        values.put(AWARD_SHORT_NAME_COL, awardShortN); // AwardShort Name
         values.put(AWARD_STATUS_COL, awardStatus); // AwardStatus
 
         // Inserting Row
-        long id = db.insert(ADM_AWARD_TABLE, null, values);
+        long id = db.insert(ADM_COUNTRY_AWARD_TABLE, null, values);
         db.close(); // Closing database connection
 
-        Log.d(TAG, "New AWARD inserted into COUNTRY AWARD_TABLE: " + id);
+        //  Log.d(TAG, "New AWARD inserted into COUNTRY AWARD_TABLE: " + id);
     }
 
     // add donor name
@@ -8491,11 +8518,11 @@ public class SQLiteHandler extends SQLiteOpenHelper {
                 selectLabel = "Select Relation";
                 //listItem.add("Select Village");
                 break;
-            case ADM_AWARD_TABLE:
-                selectQuery = "SELECT " + ADM_AWARD_TABLE + "." + DONOR_CODE_COL + " || '' ||  " + ADM_AWARD_TABLE + "." + AWARD_CODE_COL + " AS AwardCode" + " , " +
-                        ADM_DONOR_TABLE + "." + DONOR_NAME_COL + " || '-' ||  " + ADM_AWARD_TABLE + "." + AWARD_S_NAME_COL + " AS AwardName" +
-                        " FROM " + table_name + " JOIN " + ADM_DONOR_TABLE + " ON " + ADM_AWARD_TABLE + "." + DONOR_CODE_COL + " = " + ADM_DONOR_TABLE + "." + DONOR_CODE_COL +
-                        /* CHANGE*/    criteria + "GROUP BY " + ADM_DONOR_TABLE + "." + DONOR_NAME_COL + " || '-' ||  " + ADM_AWARD_TABLE + "." + AWARD_S_NAME_COL + " ORDER BY AwardName ";
+            case ADM_COUNTRY_AWARD_TABLE:
+                selectQuery = "SELECT " + ADM_COUNTRY_AWARD_TABLE + "." + DONOR_CODE_COL + " || '' ||  " + ADM_COUNTRY_AWARD_TABLE + "." + AWARD_CODE_COL + " AS AwardCode" + " , " +
+                        ADM_DONOR_TABLE + "." + DONOR_NAME_COL + " || '-' ||  " + ADM_COUNTRY_AWARD_TABLE + "." + AWARD_SHORT_NAME_COL + " AS AwardName" +
+                        " FROM " + table_name + " JOIN " + ADM_DONOR_TABLE + " ON " + ADM_COUNTRY_AWARD_TABLE + "." + DONOR_CODE_COL + " = " + ADM_DONOR_TABLE + "." + DONOR_CODE_COL +
+                        /* CHANGE*/    criteria + "GROUP BY " + ADM_DONOR_TABLE + "." + DONOR_NAME_COL + " || '-' ||  " + ADM_COUNTRY_AWARD_TABLE + "." + AWARD_SHORT_NAME_COL + " ORDER BY AwardName ";
                 selectLabel = "Select Award";
                 break;
             // Criteria for service
@@ -9282,12 +9309,6 @@ public class SQLiteHandler extends SQLiteOpenHelper {
         return id;
     }
 
-    /**
-     * added by Faisal Mohammad
-     * if any thigoes wroing delete below code
-     * Storing RegN assign Program Service  into database
-     * REMARKS- ok it insert
-     */
 
     public void addRegNassignProgServiceFromOnline(String c_code, String dname, String upname, String uname, String vname, String donor, String award, String hhid, String memid, String program, String service, String regNdate, String grdCode, String gdrDate, String srvMinDate, String srvMaxDate) {
 
@@ -9669,16 +9690,6 @@ public class SQLiteHandler extends SQLiteOpenHelper {
 
         return id;
     }
-
-
-    /**
-     * @author: by Faisal Mohammad
-     * @date: 2015-11-17
-     * @discription: update the regestration value  RegN assign Program Service
-     * into database For Graduation
-     * PROBLEM: -
-     * @remark-
-     */
 
 
     public GraduationDateCode getGRDPeopleDetial(
@@ -10976,7 +10987,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
     public String getGraduatedDate(String countryCode, String donorCode, String awardCode) {
         SQLiteDatabase db = this.getReadableDatabase();
         String selectQuery = "SELECT " + AWARD_END_DATE_COL + " FROM "
-                + ADM_AWARD_TABLE +
+                + ADM_COUNTRY_AWARD_TABLE +
                 " WHERE " + COUNTRY_CODE_COL + " = '" + countryCode + "'"
                 + " AND " + DONOR_CODE_COL + " = '" + donorCode + "' "
                 + " AND " + AWARD_CODE_COL + " = '" + awardCode + "' ";
@@ -11500,7 +11511,10 @@ public class SQLiteHandler extends SQLiteOpenHelper {
         db.close();
     }
 
-    public void addIntoDTBasic(String dtBasic, String dtTitle, String dtSubTitle, String dtDescription, String dtAutoScroll, String dtAutoScrollText, String dtActive, String dtCategory, String dtGeoListLevel, String dtOpMode, String entryBy, String entryDate) {
+    /**
+     * reference table
+     */
+    public void addIntoDTBasic(String dtBasic, String dtTitle, String dtSubTitle, String dtDescription, String dtAutoScroll, String dtAutoScrollText, String dtActive, String dtCategory, String dtGeoListLevel, String dtOpMode, String dtShortName) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
 
@@ -11514,8 +11528,8 @@ public class SQLiteHandler extends SQLiteOpenHelper {
         values.put(DT_CATEGORY_COL, dtCategory);
         values.put(DT_GEO_LIST_LEVEL_COL, dtGeoListLevel);
         values.put(DT_OP_MODE_COL, dtOpMode);
-        values.put(ENTRY_BY, entryBy);
-        values.put(ENTRY_DATE, entryDate);
+        values.put(DT_SHORT_NAME_COL, dtShortName);
+        //    values.put(ENTRY_DATE, entryDate);
 
         db.insert(DT_BASIC_TABLE, null, values);
         db.close();

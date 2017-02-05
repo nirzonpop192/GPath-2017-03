@@ -137,8 +137,9 @@ public class DTResponseRecordingActivity extends BaseActivity implements Compoun
     private List<CheckBox> mCheckBox_List = new ArrayList<CheckBox>();
 
     /**
-     * todo modifies
+     * we use global for
      */
+    SQLServerSyntaxGenerator mSyntaxGenerator = new SQLServerSyntaxGenerator();
 
     private RadioGroup radioGroupForRadioAndEditText;
     // private LinearLayout llRadioGroupAndEditText;
@@ -610,7 +611,7 @@ public class DTResponseRecordingActivity extends BaseActivity implements Compoun
         DTAValue = dtATable.getDt_AValue().equals("null") || dtATable.getDt_AValue().length() == 0 ? ansValue : dtATable.getDt_AValue();
 
 
-        Log.d("MOR_1", " for save process"
+      /*  Log.d("MOR_1", " for save process"
                 + "\n DTBasic          : " + DTBasic
                 + "\n AdmCountryCode   : " + AdmCountryCode
                 + "\n AdmDonorCode     : " + AdmDonorCode
@@ -628,30 +629,29 @@ public class DTResponseRecordingActivity extends BaseActivity implements Compoun
                 + "\n DataType         : " + DataType
                 + "\n DTQText          : " + DTQText
                 + "\n SurveyNum        : " + surveyNumber
-        );
+        );*/
 
 /**
  * todo set upload syntax variable here
  */
 
-        SQLServerSyntaxGenerator syntaxGenerator = new SQLServerSyntaxGenerator();
 
-        syntaxGenerator.setDTBasic(DTBasic);
-        syntaxGenerator.setAdmCountryCode(AdmCountryCode);
-        syntaxGenerator.setAdmDonorCode(AdmDonorCode);
-        syntaxGenerator.setAdmAwardCode(AdmAwardCode);
-        syntaxGenerator.setAdmProgCode(AdmProgCode);
-        syntaxGenerator.setDTEnuID(DTEnuID);
-        syntaxGenerator.setDTQCode(DTQCode);
-        syntaxGenerator.setDTACode(DTACode);
-        syntaxGenerator.setDTRSeq(String.valueOf(mDTRSeq));
-        syntaxGenerator.setDTAValue(DTAValue);
-        syntaxGenerator.setProgActivityCode(ProgActivityCode);
-        syntaxGenerator.setDTTimeString(DTTimeString);
-        syntaxGenerator.setOpMode(OpMode);
-        syntaxGenerator.setOpMonthCode(OpMonthCode);
-        syntaxGenerator.setDataType(DataType);
-        syntaxGenerator.setCompleteness("Y");
+        mSyntaxGenerator.setDTBasic(DTBasic);
+        mSyntaxGenerator.setAdmCountryCode(AdmCountryCode);
+        mSyntaxGenerator.setAdmDonorCode(AdmDonorCode);
+        mSyntaxGenerator.setAdmAwardCode(AdmAwardCode);
+        mSyntaxGenerator.setAdmProgCode(AdmProgCode);
+        mSyntaxGenerator.setDTEnuID(DTEnuID);
+        mSyntaxGenerator.setDTQCode(DTQCode);
+        mSyntaxGenerator.setDTACode(DTACode);
+        mSyntaxGenerator.setDTRSeq(String.valueOf(mDTRSeq));
+        mSyntaxGenerator.setDTAValue(DTAValue);
+        mSyntaxGenerator.setProgActivityCode(ProgActivityCode);
+        mSyntaxGenerator.setDTTimeString(DTTimeString);
+        mSyntaxGenerator.setOpMode(OpMode);
+        mSyntaxGenerator.setOpMonthCode(OpMonthCode);
+        mSyntaxGenerator.setDataType(DataType);
+        mSyntaxGenerator.setCompleteness("Y");
 
 
         /**
@@ -666,7 +666,7 @@ public class DTResponseRecordingActivity extends BaseActivity implements Compoun
             /**
              *  upload syntax
              */
-            sqlH.insertIntoUploadTable(syntaxGenerator.updateIntoDTResponseTable());
+            sqlH.insertIntoUploadTable(mSyntaxGenerator.updateIntoDTResponseTable());
         } else {
 
             sqlH.addIntoDTResponseTable(DTBasic, AdmCountryCode, AdmDonorCode, AdmAwardCode, AdmProgCode, DTEnuID, DTQCode, DTACode,
@@ -677,7 +677,7 @@ public class DTResponseRecordingActivity extends BaseActivity implements Compoun
              *  upload syntax
              */
 
-            sqlH.insertIntoUploadTable(syntaxGenerator.insertIntoDTResponseTable());
+            sqlH.insertIntoUploadTable(mSyntaxGenerator.insertIntoDTResponseTable());
         }
 
 
@@ -714,14 +714,13 @@ public class DTResponseRecordingActivity extends BaseActivity implements Compoun
     }
 
     /**
-     * Load the next Ques
+     * Load the next Question
      */
 
     private void nextQuestion() {
         ++mQusIndex;
-        /**
-         * to check does index exceed the max value
-         */
+
+        //to check does index exceed the max value
 
         if (mQusIndex != totalQuestion)
             hideViews();
@@ -731,36 +730,31 @@ public class DTResponseRecordingActivity extends BaseActivity implements Compoun
             DynamicTableQuesDataModel nextQus = loadNextQuestion(dyIndex.getDtBasicCode(), mQusIndex);
 
             displayQuestion(nextQus);
-
-            /**
-             * set previous  state of previous  button
-             */
-
+            // set arrow icon instead of stop icon . set previous  state
             removeStopIconNextButton(btnPreviousQus);
-
-            if (mQusIndex == totalQuestion - 1) {
-
-//                addSaveIconButton(btnNextQues);
-
-
-            }
+            // no need to delete bellow code
+            //   if (mQusIndex == totalQuestion - 1) {
+            //   addSaveIconButton(btnNextQues);
+            //   }
 
 
         } else if (mQusIndex == totalQuestion) {
+
+            mSyntaxGenerator.setDtShortName(dyIndex.getDtShortName());
+            Log.d("sql", mSyntaxGenerator.sqlSpDTShortName_Save());
+
+            sqlH.insertIntoUploadTable(mSyntaxGenerator.sqlSpDTShortName_Save());
             Toast.makeText(mContext, "Saved Successfully", Toast.LENGTH_SHORT).show();
 
-           /* Bellow Code end the*/
-            Log.d("ICON", "before set icon  ");
+            /// Bellow Code end the
             addStopIconButton(btnNextQues);
-
+      /*      if (surveyCompletness) {
+                surveyCompletness
+            }
+*/
 
         } else if (mQusIndex > totalQuestion) {
-
-            /**
-             * new set of ans
-             * set icon next button
-             */
-
+            // new set of ans .set icon next button
             continueDialog();
 
         }
@@ -808,6 +802,9 @@ public class DTResponseRecordingActivity extends BaseActivity implements Compoun
 
     }
 
+    /**
+     * load previous Question
+     */
 
     private void previousQuestion() {
         --mQusIndex;
@@ -908,24 +905,17 @@ public class DTResponseRecordingActivity extends BaseActivity implements Compoun
      */
     private void viewReference() {
         tv_DtQuestion = (TextView) findViewById(R.id.tv_DtQuestion);
-/**
- * set up home button
- */
-
+        //set up home button
         btnHome = (Button) findViewById(R.id.btnHomeFooter);
         Button btnGone = (Button) findViewById(R.id.btnRegisterFooter);
         btnGone.setVisibility(View.GONE);
-        /**
-         * next & preview button
-         */
-
+        // next & preview button
         btnNextQues = (Button) findViewById(R.id.btn_dt_next);
         btnPreviousQus = (Button) findViewById(R.id.btn_dt_preview);
-        btnNextQues.setText("Next");
-        btnPreviousQus.setText("Previous");
-        /**
-         * dynamic view reference
-         */
+        // btnNextQues.setText("Next");
+        //  btnPreviousQus.setText("Previous");
+        // dynamic view reference
+
 
         parent_layout_onlyFor_CB = (LinearLayout) findViewById(R.id.ll_checkBox);
         _dt_tv_DatePicker = (TextView) findViewById(R.id.tv_dtTimePicker);
@@ -939,17 +929,17 @@ public class DTResponseRecordingActivity extends BaseActivity implements Compoun
         ll_editText = (LinearLayout) findViewById(R.id.llEditText);
 
         radioGroupForRadioAndEditText = (RadioGroup) findViewById(R.id.radioGroupForRadioAndEdit);
-        /**
-         * CheckBox and EditText
-         */
+
+        //CheckBox and EditText
+
         parent_layout_FOR_CB_N_ET = (LinearLayout) findViewById(R.id.ll_CheckBoxAndEditTextParent);
         subParent_CB_layout_FOR_CB_N_ET = (LinearLayout) findViewById(R.id.ll_checkBoxAndEditTextCheckbox);
         subParent_ET_layout_FOR_CB_N_ET = (LinearLayout) findViewById(R.id.et_CheckBoxAndEditText);
         dt_layout_Radio_N_EditText = (LinearLayout) findViewById(R.id.ll_radioGroupAndEditText);
 
-        /**
-         * Error label
-         */
+
+        // Error label
+
 //        tv_ErrorDisplay = (TextView) findViewById(R.id.tv_dt_errorLable);
 
     }
@@ -968,7 +958,7 @@ public class DTResponseRecordingActivity extends BaseActivity implements Compoun
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     private void addSaveIconButton(Button button) {
-        Log.d("ICON", "in icon set icon  ");
+        // Log.d("ICON", "in icon set icon  ");
 
         button.setText("");
         Drawable imageHome = getResources().getDrawable(R.drawable.save_b);
@@ -980,8 +970,6 @@ public class DTResponseRecordingActivity extends BaseActivity implements Compoun
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     private void removeStopIconNextButton(Button button) {
-
-
         button.setText("");
         Drawable imageHome;
         if (button == btnPreviousQus)
@@ -1247,7 +1235,6 @@ public class DTResponseRecordingActivity extends BaseActivity implements Compoun
      */
     public void getCurrentDate() {
         Calendar calendar = Calendar.getInstance();
-
         String strDate = mFormat.format(calendar.getTime());
         displayDate(strDate);
     }
@@ -1283,25 +1270,21 @@ public class DTResponseRecordingActivity extends BaseActivity implements Compoun
 
 
     /**
-     * todo details in latter
+     * this method load spinner value for different dt basic table dynamicly
      *
      * @param cCode      Country Code
      * @param resLupText res lup
      */
     private void loadDynamicSpinnerList(final String cCode, final String resLupText) {
 
-        SpinnerLoader.loadDynamicSpinnerListLoader(mContext, sqlH, dt_spinner, cCode, resLupText, strSpinner, mDTQ);
+        SpinnerLoader.loadDynamicSpinnerListLoader(mContext, sqlH, dt_spinner, cCode, resLupText, strSpinner, mDTQ,dyIndex);
 
 
         dt_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
-
                 strSpinner = ((SpinnerHelper) dt_spinner.getSelectedItem()).getValue();
                 idSpinner = ((SpinnerHelper) dt_spinner.getSelectedItem()).getId();
-
-
             }
 
             @Override
@@ -1329,7 +1312,7 @@ public class DTResponseRecordingActivity extends BaseActivity implements Compoun
 
             rdbtn.setText(radioButtonItemName.get(i).getDt_ALabel()); // set label
 // jodi nicher line ta na execute  kori tahole  ager qus er jei redio button ta select kori pore quesion ta korte pari na
-            if (i==0)
+            if (i == 0)
                 rdbtn.setChecked(true);
 
 
@@ -1364,8 +1347,8 @@ public class DTResponseRecordingActivity extends BaseActivity implements Compoun
 
             rdbtn.setId(i);
             rdbtn.setText(label); // set label
-            // jodi nicher line ta na execute  kori tahole  ager qus er jei redio button ta select kori pore quesion ta korte pari na
-            if (i==0)
+            // jodi nicher line ta na execute  kori tahole  ager qus er jei radio button ta select kori pore question ta korte pari na
+            if (i == 0)
                 rdbtn.setChecked(true);
 
             rdbtn.setTextSize(24); // set text size
@@ -1426,7 +1409,6 @@ public class DTResponseRecordingActivity extends BaseActivity implements Compoun
     private void loadDynamicCheckBoxAndEditText(List<DT_ATableDataModel> List_DtATable, String dataType) {
 
         if (subParent_CB_layout_FOR_CB_N_ET.getChildCount() > 0) {
-
             subParent_ET_layout_FOR_CB_N_ET.removeAllViews();
             subParent_CB_layout_FOR_CB_N_ET.removeAllViews();
             mCheckBoxForCheckBoxAndEdit_List.clear();
@@ -1444,11 +1426,8 @@ public class DTResponseRecordingActivity extends BaseActivity implements Compoun
             CheckBox checkBox = new CheckBox(this);
             checkBox.setOnCheckedChangeListener(DTResponseRecordingActivity.this);
             checkBox.setId(i);
-
             checkBox.setText(label); //  set Text label
-
             row.addView(checkBox);
-
 
             EditText et = new EditText(this);
             et.setHint(label);
@@ -1500,10 +1479,8 @@ public class DTResponseRecordingActivity extends BaseActivity implements Compoun
         int year = c.get(Calendar.YEAR);
         int month = c.get(Calendar.MONTH);
         int day = c.get(Calendar.DATE);
-
         int hourOfDay = c.get(Calendar.HOUR_OF_DAY);
         int minute = c.get(Calendar.MINUTE);
-
         String am_pm = (hourOfDay < 12) ? "AM" : "PM";
         String timeStamp = year + "/" + month + "/" + day + "  " + hourOfDay + ":" + minute + " " + am_pm;
 

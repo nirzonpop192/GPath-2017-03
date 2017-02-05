@@ -18,10 +18,10 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -60,15 +60,10 @@ import java.util.Locale;
 public class MainActivity extends BaseActivity implements View.OnClickListener {
 
     public static final String LIBERIA_COUNTRY_CODE = "0004";
-    /**
-     * constant move to
-     */
 
 
     private final String TAG = MainActivity.class.getSimpleName();
 
-    // for liberai developments  Mode
-    private boolean DEVELOPMENTS_MODE = true;
 
     private SQLiteHandler db;
     // Connection detector class
@@ -102,10 +97,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
     private ProgressDialog progressDialog;
 
-    private TextView textGeoData;
-    private TextView textLastSync;
-    private TextView textSyncRequired;
-    private TextView textOperationMode;
+    private TextView tvGeoData, tvLastSync, tvSyncRequired, tvOperationMode, tvDeviceId;
     private Context mContext;
 
 
@@ -135,12 +127,16 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         settings = getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
         boolean isFirstRun = settings.getBoolean(IS_APP_FIRST_RUN, false);
 
-        operationMode(settings);
+        showOperationModelabel(settings);
         txtName.setText(getUserName());
-        textLastSync.setText(db.lastSyncStatus());
+        tvLastSync.setText(db.lastSyncStatus());
 
+        /**
+         * todo : file e save kori
+         */
+        String imeiNo = getIMEINumber();
 
-
+        tvDeviceId.setText(imeiNo);
 
 
 
@@ -174,35 +170,47 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             editor = settings.edit();
             new Inject_All_DataIntoSQLite().execute();
             editor.putBoolean(IS_APP_FIRST_RUN, false);
-            editor.commit();
+            editor.apply();
         }
         loadCountry();
         setAllButtonDisabled();
         viewAccessController(settings);
-        //operationMode(settings);
+        //showOperationModelabel(settings);
 /**
- * Restore db
+ * back up db
  */
         Button restorDb = (Button) findViewById(R.id.btnRestoreDB);
         restorDb.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                newbackupMethod();
+                newBackupDBfromApp();
             }
         });
     }
 
     /**
-     * this method back up the
+     * this method get the IMEI no
+     *
+     * @return IMEI no odf device
      */
-    public void newbackupMethod() {
+
+    private String getIMEINumber() {
+        TelephonyManager teMg = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+        return teMg.getDeviceId();
+    }
+
+    /**
+     * this method bring the database front Internal memory
+     */
+    public void newBackupDBfromApp() {
         try {
             File sd = Environment.getExternalStorageDirectory();
-            File data = Environment.getDataDirectory();
+            //   File data = Environment.getDataDirectory();
 
             String dbBy = getStaffID();
+            String dbByName = getUserName();
             String backupDate = getDateTime();
-            String backupdbName = "G_path_" + dbBy + "_" + backupDate + ".db";
+            String backupdbName = "G_path_" + dbBy +"-"+ dbByName + "_" + backupDate + ".db";
 
             if (sd.canWrite()) {
                 String currentDBPath = "/data/data/" + getPackageName() + "/databases/pci";
@@ -307,10 +315,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         txtName = (TextView) findViewById(R.id.user_name);
         //txtEmail = (TextView) findViewById(R.id.email);
         btnLogout = (Button) findViewById(R.id.btnLogout);
-        textGeoData = (TextView) findViewById(R.id.tv_geo_data_1);
-        textLastSync = (TextView) findViewById(R.id.tv_last_sync);
-        textSyncRequired = (TextView) findViewById(R.id.tv_sync_required);
-//        textOperationMode = (TextView) findViewById(R.id.tv_operation_mode);
+        tvGeoData = (TextView) findViewById(R.id.tv_geo_data_1);
+        tvLastSync = (TextView) findViewById(R.id.tv_last_sync);
+        tvSyncRequired = (TextView) findViewById(R.id.tv_sync_required);
+//        tvOperationMode = (TextView) findViewById(R.id.tv_operation_mode);
 
         btnNewReg = (Button) findViewById(R.id.btnNewReg);
         btnSummaryRep = (Button) findViewById(R.id.btnSummaryReport);
@@ -321,18 +329,20 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         btnAssign = (Button) findViewById(R.id.btnAssinge);
         btnService = (Button) findViewById(R.id.btnService);
         btnDistribution = (Button) findViewById(R.id.btnDistribution);
-        textLastSync = (TextView) findViewById(R.id.tv_last_sync);
+        tvLastSync = (TextView) findViewById(R.id.tv_last_sync);
         btnGroup = (Button) findViewById(R.id.btnGroup);
         btnDynamicData = (Button) findViewById(R.id.btnDynamicData);
+        tvOperationMode = (TextView) findViewById(R.id.tv_operation_mode);
+        tvGeoData = (TextView) findViewById(R.id.tv_geo_data_1);
+        tvDeviceId = (TextView) findViewById(R.id.tv_deviceId);
 
 
         if (db.selectUploadSyntextRowCount() > 0) {
-            textSyncRequired.setText(Y);
+            tvSyncRequired.setText(Y);
         } else {
-            textSyncRequired.setText(N);
+            tvSyncRequired.setText(N);
         }
-        textOperationMode = (TextView) findViewById(R.id.tv_operation_mode);
-        textGeoData = (TextView) findViewById(R.id.tv_geo_data_1);
+
     }
 
     private void synchronizeData(View v) {
@@ -389,12 +399,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 Date now = new Date();
                 String SyncDate = date.format(now);
                 db.insertIntoLastSyncTraceStatus(getUserID(), getUserName(), SyncDate);
-                //textSyncRequired = (TextView)findViewById(R.id.tv_sync_required);
-                textSyncRequired.setText(N);
+                //tvSyncRequired = (TextView)findViewById(R.id.tv_sync_required);
+                tvSyncRequired.setText(N);
                 if (db.lastSyncStatus().equals("")) {
-                    textLastSync.setText("N/A");
+                    tvLastSync.setText("N/A");
                 } else {
-                    textLastSync.setText(db.lastSyncStatus());
+                    tvLastSync.setText(db.lastSyncStatus());
                 }
                 break;
 
@@ -498,7 +508,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             //SyncDatabase.pDialog.dismiss();
         }
 
-        ;
+
     } // end Asynchronous class MainTask
 
 
@@ -506,19 +516,16 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
      * LOAD :: COUNTRY
      */
     private void loadCountry() {
-
         SharedPreferences settings = getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
         int operationMode = settings.getInt(UtilClass.OPERATION_MODE, 0);
 
         SpinnerLoader.loadCountryLoader(mContext, sqlH, spCountry, operationMode, idCountry, strCountry);
-
-
         spCountry.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 strCountry = ((SpinnerHelper) spCountry.getSelectedItem()).getValue();
                 idCountry = ((SpinnerHelper) spCountry.getSelectedItem()).getId();
-                // create method load the .
+
             }
 
             @Override
@@ -553,23 +560,21 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         @Override
         protected Void doInBackground(Void... params) {
 
-            String retreiveData = readDataFromFile("reg_ass_prog_srv_data");
+            String retrieveData = readDataFromFile("reg_ass_prog_srv_data");
             try {
 
 
                 int size;
 
-                JSONObject jObj = new JSONObject(retreiveData);
+                JSONObject jObj = new JSONObject(retrieveData);
 
                 if (!jObj.isNull(Parser.REG_M_ASSIGN_PROG_SRV_JSON_A)) {
-
                     Parser.regNAssignProgSrvParser(jObj.getJSONArray(Parser.REG_M_ASSIGN_PROG_SRV_JSON_A), db);
 
                 }
 
 
                 publishProgress(++progressIncremental);
-
                 if (!jObj.isNull(Parser.REGN_PW_JSON_A)) {
                     Parser.regNPWParser(jObj.getJSONArray(Parser.REGN_PW_JSON_A), db);
 
@@ -577,7 +582,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
 
                 publishProgress(++progressIncremental);
-
                 if (!jObj.isNull(Parser.REGN_LM_JSON_A)) {
                     Parser.regNLMParser(jObj.getJSONArray(Parser.REGN_LM_JSON_A), db);
 
@@ -585,8 +589,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
 
                 publishProgress(++progressIncremental);
-
-
                 if (!jObj.isNull(Parser.REGN_CU_2_JSON_A)) {
                     Parser.regNCU2Parser(jObj.getJSONArray(Parser.REGN_CU_2_JSON_A), db);
 
@@ -600,7 +602,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
 
                 publishProgress(++progressIncremental);
-
                 if (!jObj.isNull(Parser.REG_N_AGR_JSON_A)) {
 
 
@@ -1081,6 +1082,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 if (!jObj.isNull(Parser.ADM_COUNTRY_AWARD_JSON_A)) {
                     Parser.admCountryAwardParser(jObj.getJSONArray(Parser.ADM_COUNTRY_AWARD_JSON_A), db);
                 }
+                publishProgress(++progressIncremental);
+                if (!jObj.isNull(Parser.ADM_AWARD_JSON_A)) {
+                    Parser.admAwardParser(jObj.getJSONArray(Parser.ADM_AWARD_JSON_A), db);
+                }
+
 
                 publishProgress(++progressIncremental);
                 if (!jObj.isNull(Parser.ADM_DONOR_JSON_A)) {
@@ -1088,30 +1094,16 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 }
 
                 publishProgress(++progressIncremental);
-
                 if (!jObj.isNull(Parser.ADM_PROGRAM_MASTER_JSON_A)) {
                     Parser.admProgramMasterParser(jObj.getJSONArray(Parser.ADM_PROGRAM_MASTER_JSON_A), db);
-
                 }
+
                 publishProgress(++progressIncremental);
-
-
                 if (!jObj.isNull(Parser.ADM_SERVICE_MASTER_JSON_A)) {
-                    JSONArray adm_service_masters = jObj.getJSONArray(Parser.ADM_SERVICE_MASTER_JSON_A);
-                    size = adm_service_masters.length();
-                    for (int i = 0; i < size; i++) {
-                        JSONObject adm_service_master = adm_service_masters.getJSONObject(i);
+                    Parser.admServiceMasterParser(jObj.getJSONArray(Parser.ADM_SERVICE_MASTER_JSON_A), db);
 
-                        String AdmProgCode = adm_service_master.getString(Parser.ADM_PROG_CODE);
-                        String AdmSrvCode = adm_service_master.getString(Parser.ADM_SRV_CODE);
-                        String AdmSrvName = adm_service_master.getString("AdmSrvName");
-                        String AdmSrvShortName = adm_service_master.getString("AdmSrvShortName");
-
-                        db.addServiceMaster(AdmProgCode, AdmSrvCode, AdmSrvName, AdmSrvShortName);
-
-
-                    }
                 }
+
                 publishProgress(++progressIncremental);
                 //adm_op_month
 
@@ -2130,56 +2122,48 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     }
 
 
-    private void operationMode(SharedPreferences settings) {
+    private void showOperationModelabel(SharedPreferences settings) {
         int operationMode = settings.getInt(UtilClass.OPERATION_MODE, 0);
-        Log.d("NIR1", "operation mode : " + operationMode);
+        // Log.d("NIR1", "operation mode : " + operationMode);
         switch (operationMode) {
             case UtilClass.REGISTRATION_OPERATION_MODE:
 
-                textOperationMode.setText("REGISTRATION");
+                tvOperationMode.setText("REGISTRATION");
                 List<String> list;
                 list = db.selectGeoDataVillage();
                 String villageName = "";
                 for (int i = 0; i < list.size(); i++) {
-
                     villageName += list.get(i) + "\n";
                 }
-                textGeoData.setText(villageName);
+                tvGeoData.setText(villageName);
 
                 break;
             case UtilClass.DISTRIBUTION_OPERATION_MODE:
 
-                textOperationMode.setText("DISTRIBUTION");
-
+                tvOperationMode.setText("DISTRIBUTION");
                 list = db.selectGeoDataFDP();
                 String fdPName = "";
                 for (int i = 0; i < list.size(); i++) {
-
                     fdPName += list.get(i) + "\n";
                 }
-                textGeoData.setText(fdPName);
+                tvGeoData.setText(fdPName);
                 break;
             case UtilClass.SERVICE_OPERATION_MODE:
 
-                textOperationMode.setText("SERVICE");
-
+                tvOperationMode.setText("SERVICE");
                 list = db.selectGeoDataCenter();
                 String centerName = "";
                 for (int i = 0; i < list.size(); i++) {
-
                     centerName += list.get(i) + "\n";
                 }
-                textGeoData.setText(centerName);
+                tvGeoData.setText(centerName);
 
                 break;
 
 
             case UtilClass.OTHER_OPERATION_MODE:
-
-                textOperationMode.setText("ORTHER");
-
-
-                textGeoData.setText("NOT APPLICABLE");
+                tvOperationMode.setText("ORTHER");
+                tvGeoData.setText("NOT APPLICABLE");
 
                 break;
         }

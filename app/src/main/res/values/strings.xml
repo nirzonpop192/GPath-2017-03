@@ -193,7 +193,7 @@
     <string name="srv_summary_TitleLable">Service Summary </string>
     <string name="tv_criteria">Criteria</string>
     <!-- LOG IN SCREEN -->
-    <string name="log_in_version_lable">GPath-UAT-06</string>
+    <string name="log_in_version_lable">GPath-LIV-07</string>
     <!-- VERSION -->
 
 
@@ -597,4 +597,8 @@ Otherwise, initiate to sync and login again.</string>
     <string name="house_hold_id">House Hold Id</string>
     <string name="total_days">Total days</string>
     <string name="response_number">Response Number</string>
+    <string name="device_id">Device Id</string>
+    <string name="apk_on_device">APK ON DEVICE</string>
+    <string name="version_name">Version Name</string>
+    <string name="xxxxxx_xxxxxxxx">XXXXXX-XXXXXXXX</string>
 </resources>

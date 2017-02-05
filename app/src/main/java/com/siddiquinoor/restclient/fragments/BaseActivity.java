@@ -298,12 +298,7 @@ public abstract class BaseActivity extends Activity {
 
     }
 
-    /**
-     * this method chck dathe date format is valid or not
-     *
-     * @param testingDate
-     * @return
-     */
+
 
     protected boolean isTheDateValidUSAFormat(String testingDate) {
 
@@ -331,15 +326,7 @@ public abstract class BaseActivity extends Activity {
     }
 
 
-    /**
-     * this method  will compare the date in usa format
-     *
-     * @param test_date
-     * @param sdate
-     * @param edate
-     * @return
-     * @throws ParseException
-     */
+
     protected boolean getValidDateRangeUSAFormat(String test_date, String sdate, String edate) throws ParseException {
 
         String curr_date;
@@ -391,56 +378,24 @@ public abstract class BaseActivity extends Activity {
         return retrieveString;
     }
 
-   /* protected String readErrorDataFromFile(String mfile_name) {
-        String retrieveString = "";
 
-        try {
-            InputStream inputStream = openFileInput("pci_"+mfile_name+".txt");
 
-            if (inputStream != null) {
-                InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
-                BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-                String receiveString = "";
-                StringBuilder stringBuilder = new StringBuilder();
-
-                while ((receiveString = bufferedReader.readLine()).length() < 19) {
-                    //stringBuilder.append(receiveString);
-                    stringBuilder.append((CharSequence) receiveString);
-                }
-
-                inputStream.close();
-                retrieveString = stringBuilder.toString();
-
-                retrieveString = retrieveString.substring(0, 16);
-            }
-        } catch (FileNotFoundException e) {
-            Log.d(TAG, "File not found: " + e.toString());
-        } catch (IOException e) {
-            Log.e(TAG, "Can not read file: " + e.toString());
-        }
-
-        Log.i(TAG, String.valueOf(retrieveString.length()));
-        return retrieveString;
-    }*/
 
     /**
      * dynamically file will create Write bytes on it
-     *
+     * @param str json String
      * @param mfile_name file Name
-     * @des: To reduce hipe memory resources for download the JSON DATA
-     * @param: RequestStringResponse
      */
     protected void writeJSONToTextFile(String str, String mfile_name) {
 
         String fileName = "pci_" + mfile_name + ".txt";
-        // String str;
+
         Log.d(TAG, "String Response write into : " + mfile_name);
         FileOutputStream outputStream;
 
 
         try {
             outputStream = openFileOutput(fileName, Context.MODE_PRIVATE);
-
             outputStream.write(str.getBytes());
 
             outputStream.close();

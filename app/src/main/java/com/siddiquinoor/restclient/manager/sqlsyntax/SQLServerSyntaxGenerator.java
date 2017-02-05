@@ -3932,7 +3932,7 @@ public class SQLServerSyntaxGenerator {
         HomeSupport24H_30d = homeSupport24H_30d;
     }
 
-    public String getHomeSupport24H_60d() {
+    private String getHomeSupport24H_60d() {
 
         return HomeSupport24H_60d;
     }
@@ -5152,7 +5152,20 @@ public class SQLServerSyntaxGenerator {
     }
 
 
-    public String getLTp2Hectres() {
+
+    public String sqlSpDTShortName_Save() {
+        return " DTShortName_Save "
+                + getDTBasic() + " , "
+                + getDtShortName() + " , " // table Name
+                + getAdmCountryCode() + " , "
+                + getAdmDonorCode() + " , "
+                + getAdmAwardCode() + " , "
+                + getAdmProgCode() + " , "
+                + getDTEnuID() + " , "
+                + getOpMonthCode() ;
+    }
+
+    private String getLTp2Hectres() {
         return LTp2Hectres;
     }
 
@@ -5442,6 +5455,15 @@ public class SQLServerSyntaxGenerator {
     // TODO: 10/6/2016  add syntax for the delete method for the  DTResponse  Table
 
     private String DTBasic;
+    private String DtShortName;
+
+    public String getDtShortName() {
+        return DtShortName;
+    }
+
+    public void setDtShortName(String dtShortName) {
+        DtShortName =  checkStringNull(dtShortName);
+    }
 
     public String getAdmProgCode() {
         return AdmProgCode;

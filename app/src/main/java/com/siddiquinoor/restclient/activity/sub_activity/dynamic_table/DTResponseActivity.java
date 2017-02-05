@@ -279,9 +279,9 @@ public class DTResponseActivity extends BaseActivity {
     private void loadAward(final String cCode) {
 
         int position = 0;
-        String criteria = " WHERE " + SQLiteHandler.ADM_AWARD_TABLE + "." + SQLiteHandler.COUNTRY_CODE_COL + " = '" + cCode + "'";
+        String criteria = " WHERE " + SQLiteHandler.ADM_COUNTRY_AWARD_TABLE + "." + SQLiteHandler.COUNTRY_CODE_COL + " = '" + cCode + "'";
 
-        List<SpinnerHelper> listAward = sqlH.getListAndID(SQLiteHandler.ADM_AWARD_TABLE, criteria, null, false);
+        List<SpinnerHelper> listAward = sqlH.getListAndID(SQLiteHandler.ADM_COUNTRY_AWARD_TABLE, criteria, null, false);
         ArrayAdapter<SpinnerHelper> dataAdapter = new ArrayAdapter<SpinnerHelper>(this, R.layout.spinner_layout, listAward);
 
         dataAdapter.setDropDownViewResource(R.layout.spinner_layout);
@@ -373,7 +373,7 @@ public class DTResponseActivity extends BaseActivity {
                 strProgram = ((SpinnerHelper) spProgram.getSelectedItem()).getValue();
                 idProgram = ((SpinnerHelper) spProgram.getSelectedItem()).getId();
 
-                loadDtMonth(cCode, donorCode, awardCode, dyIndex.getOpMode());
+                loadDtMonth(cCode, dyIndex.getOpMode());
             }
 
             @Override
@@ -385,7 +385,7 @@ public class DTResponseActivity extends BaseActivity {
     } // end Load Spinner
 
 
-    private void loadDtMonth(final String cCode, final String donorCode, final String awardCode, String opCode) {
+    private void loadDtMonth(final String cCode, String opCode) {
         SpinnerLoader.loadDtMonthLoader(mContext,sqlH,spDtMonth, cCode,opCode,idMonth,strMonth);
 
 

@@ -3,7 +3,6 @@ package com.siddiquinoor.restclient.parse;
 import android.util.Base64;
 import android.util.Log;
 
-import com.siddiquinoor.restclient.activity.MainActivity;
 import com.siddiquinoor.restclient.data_model.AdmCountryDataModel;
 import com.siddiquinoor.restclient.manager.SQLiteHandler;
 
@@ -143,6 +142,7 @@ public class Parser {
     public static final String ADM_PROGRAM_MASTER_JSON_A = "adm_program_master";
     public static final String ADM_SERVICE_MASTER_JSON_A = "adm_service_master";
     public static final String ADM_COUNTRY_AWARD_JSON_A = "adm_countryaward";
+    public static final String ADM_AWARD_JSON_A = "adm_award";
     public static final String GPS_LOCATION_JSON_A = "gps_location";
     public static final String GPS_SUBGROUP_JSON_A = "gps_subgroup";
     public static final String GPS_GROUP_JSON_A = "gps_group";
@@ -1484,7 +1484,7 @@ public class Parser {
     public static void DTBasicParser(JSONArray jsonArrayData, SQLiteHandler sqlH) {
 
         int size = jsonArrayData.length();
-        String DTBasic, DTTitle, DTSubTitle, DTDescription, DTAutoScroll, DTAutoScrollText, DTActive, DTCategory, DTGeoListLevel, DTOPMode;
+        String DTBasic, DTTitle, DTSubTitle, DTDescription, DTAutoScroll, DTAutoScrollText, DTActive, DTCategory, DTGeoListLevel, DTOPMode,DTShortName;
 
 
         for (int i = 0; i < size; i++) {
@@ -1502,8 +1502,9 @@ public class Parser {
                 DTCategory = jsonObject.getString("DTCategory");
                 DTGeoListLevel = jsonObject.getString("DTGeoListLevel");
                 DTOPMode = jsonObject.getString("DTOPMode");
+                DTShortName = jsonObject.getString("DTShortName");
 
-                sqlH.addIntoDTBasic(DTBasic, DTTitle, DTSubTitle, DTDescription, DTAutoScroll, DTAutoScrollText, DTActive, DTCategory, DTGeoListLevel, DTOPMode, "", "");
+                sqlH.addIntoDTBasic(DTBasic, DTTitle, DTSubTitle, DTDescription, DTAutoScroll, DTAutoScrollText, DTActive, DTCategory, DTGeoListLevel, DTOPMode,DTShortName);
 
 //                Log.d(TAG, " DTBasic Table");
 
@@ -1958,7 +1959,7 @@ public class Parser {
                 AwardStatus = jsonObject.getString(Parser.AWARD_STATUS);
 
 
-                sqlH.addCountryAward(AdmCountryCode, AdmDonorCode, AdmAwardCode, AwardRefNumber, AwardStartDate, AwardEndDate, AwardShortName, AwardStatus);
+                sqlH.insertIntoAdmCountryAward(AdmCountryCode, AdmDonorCode, AdmAwardCode, AwardRefNumber, AwardStartDate, AwardEndDate, AwardShortName, AwardStatus);
 
 
             } catch (Exception e) {
@@ -1970,6 +1971,38 @@ public class Parser {
         }
 
     }
+
+    public static void admAwardParser(JSONArray jsonArrayData, SQLiteHandler sqlH) {
+
+        int size = jsonArrayData.length();
+
+
+        String  AdmDonorCode, AwardCode, AwardName, AwardShort;
+        for (int i = 0; i < size; i++) {
+            try {
+                JSONObject jsonObject = jsonArrayData.getJSONObject(i);
+
+                AwardCode = jsonObject.getString("AwardCode");
+                AdmDonorCode = jsonObject.getString("AdmDonorCode");
+                AwardName = jsonObject.getString("AwardName");
+                AwardShort = jsonObject.getString("AwardShort");
+
+
+
+                sqlH.insertIntoAdmAward( AdmDonorCode, AwardCode, AwardName, AwardShort );
+
+
+            } catch (Exception e) {
+                Log.e(TAG, "Exception : " + e);
+                e.printStackTrace();
+            }
+
+
+        }
+
+    }
+
+
 
     /**
      * Parse and insert into the db
@@ -2069,7 +2102,6 @@ public class Parser {
     public static void admDonorParser(JSONArray jsonArrayData, SQLiteHandler sqlH) {
 
         int size = jsonArrayData.length();
-
         String AdmDonorCode, AdmDonorName;
         for (int i = 0; i < size; i++) {
             try {
@@ -2090,21 +2122,41 @@ public class Parser {
     public static void admProgramMasterParser(JSONArray jsonArrayData, SQLiteHandler sqlH) {
 
         int size = jsonArrayData.length();
-
-
         String AdmProgCode, AdmAwardCode, AdmDonorCode, ProgName, ProgShortName, MultipleSrv;
         for (int i = 0; i < size; i++) {
             try {
-                JSONObject adm_program_master = jsonArrayData.getJSONObject(i);
+                JSONObject jsonObject = jsonArrayData.getJSONObject(i);
 
-                AdmProgCode = adm_program_master.getString(Parser.ADM_PROG_CODE);
-                AdmAwardCode = adm_program_master.getString(Parser.ADM_AWARD_CODE);
-                AdmDonorCode = adm_program_master.getString(Parser.ADM_DONOR_CODE);
-                ProgName = adm_program_master.getString(Parser.PROG_NAME);
-                ProgShortName = adm_program_master.getString(Parser.PROG_SHORT_NAME);
-                MultipleSrv = adm_program_master.getString(Parser.MULTIPLE_SRV);
+                AdmProgCode = jsonObject.getString(Parser.ADM_PROG_CODE);
+                AdmAwardCode = jsonObject.getString(Parser.ADM_AWARD_CODE);
+                AdmDonorCode = jsonObject.getString(Parser.ADM_DONOR_CODE);
+                ProgName = jsonObject.getString(Parser.PROG_NAME);
+                ProgShortName = jsonObject.getString(Parser.PROG_SHORT_NAME);
+                MultipleSrv = jsonObject.getString(Parser.MULTIPLE_SRV);
                 sqlH.addAdmProgramMaster(AdmProgCode, AdmAwardCode, AdmDonorCode, ProgName, ProgShortName, MultipleSrv);
 
+
+            } catch (Exception e) {
+                Log.e(TAG, "Exception : " + e);
+                e.printStackTrace();
+            }
+        }
+
+    }
+
+
+    public static void admServiceMasterParser(JSONArray jsonArrayData, SQLiteHandler sqlH) {
+        int size = jsonArrayData.length();
+        String AdmProgCode, AdmSrvCode, AdmSrvName, AdmSrvShortName;
+        for (int i = 0; i < size; i++) {
+            try {
+                JSONObject jsonObject = jsonArrayData.getJSONObject(i);
+
+                AdmProgCode = jsonObject.getString(Parser.ADM_PROG_CODE);
+                AdmSrvCode = jsonObject.getString(Parser.ADM_SRV_CODE);
+                AdmSrvName = jsonObject.getString("AdmSrvName");
+                AdmSrvShortName = jsonObject.getString("AdmSrvShortName");
+                sqlH.addServiceMaster(AdmProgCode, AdmSrvCode, AdmSrvName, AdmSrvShortName);
 
             } catch (Exception e) {
                 Log.e(TAG, "Exception : " + e);

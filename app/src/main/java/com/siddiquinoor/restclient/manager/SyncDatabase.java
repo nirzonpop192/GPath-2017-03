@@ -500,7 +500,7 @@ public class SyncDatabase {
 
 
                         // * Adding data into adm_countryaward Table
-                        pDialogUpload.setProgress(5);
+                     /*   pDialogUpload.setProgress(5);
                         if (!jObj.isNull(Parser.ADM_COUNTRY_AWARD_JSON_A)) {
                             JSONArray adm_countryawards = jObj.getJSONArray(Parser.ADM_COUNTRY_AWARD_JSON_A);
                             size = adm_countryawards.length();
@@ -517,11 +517,11 @@ public class SyncDatabase {
                                 String AwardStatus = adm_countryaward.getString("AwardStatus");
 
 
-                                sqlH.addCountryAward(AdmCountryCode, AdmDonorCode, AdmAwardCode, AwardRefNumber, AwardStartDate, AwardEndDate, AwardShortName, AwardStatus);
+                                sqlH.insertIntoAdmCountryAward(AdmCountryCode, AdmDonorCode, AdmAwardCode, AwardRefNumber, AwardStartDate, AwardEndDate, AwardShortName, AwardStatus);
 
 
                             }
-                        }
+                        }*/
 
                         if (!jObj.isNull(Parser.ADM_DONOR_JSON_A)) {
 
