@@ -3,7 +3,7 @@ package com.siddiquinoor.restclient.manager;
 /**
  * This class is responsible for Sync Data
  *
- * @author Faisal mohammad , Refat
+ * @author Noor vai ,Faisal mohammad , Refat,
  * @desc TechnoDhaka.
  * @version 1.3.0
  * @since 1.0
@@ -132,17 +132,23 @@ public class SyncDatabase {
 // TODO: 11/28/2016  service & aorther  
                 settings = my_activity.getSharedPreferences(MainActivity.APP_PREFERENCES, Context.MODE_PRIVATE); //1
                 int operationMode = settings.getInt(UtilClass.OPERATION_MODE, 0);
-                /** for sefty rea SON*/
+                /** for sefty rea JSON*/
                 JSONArray array = UtilClass.layR4CodeJSONConverter("SyncDatabase", sqlH.getSelectedVillageList(), sqlH);
 
                 switch (operationMode) {
-                    case 1:
+                    case UtilClass.REGISTRATION_OPERATION_MODE:
                         array = UtilClass.layR4CodeJSONConverter("SyncDatabase", sqlH.getSelectedVillageList(), sqlH);
                         break;
-                    case 2:
+                    case UtilClass.DISTRIBUTION_OPERATION_MODE:
 
                         array = UtilClass.fdpCodeJSONConverter("SyncDatabase", sqlH.getSelectedFDPList(), sqlH);
                         break;
+
+                    case UtilClass.SERVICE_OPERATION_MODE:
+
+                        array = UtilClass.srvCenterCodeJSONConverter("SyncDatabase", sqlH.getSelectedServiceCenterList(), sqlH);
+                        break;
+
                     default:
                         break;
                 }
@@ -315,7 +321,7 @@ public class SyncDatabase {
                                     array = UtilClass.srvCenterCodeJSONConverter("SyncDatabase", sqlH.getSelectedServiceCenterList(), sqlH);
                                     break;
 
-// // TODO: 11/28/2016  for Orther operation  
+// // TODO: 11/28/2016  for Other operation
                                 default:
                                     break;
                             }
@@ -499,29 +505,6 @@ public class SyncDatabase {
                         }
 
 
-                        // * Adding data into adm_countryaward Table
-                     /*   pDialogUpload.setProgress(5);
-                        if (!jObj.isNull(Parser.ADM_COUNTRY_AWARD_JSON_A)) {
-                            JSONArray adm_countryawards = jObj.getJSONArray(Parser.ADM_COUNTRY_AWARD_JSON_A);
-                            size = adm_countryawards.length();
-                            for (int i = 0; i < size; i++) {
-                                JSONObject adm_countryaward = adm_countryawards.getJSONObject(i);
-
-                                String AdmCountryCode = adm_countryaward.getString(Parser.ADM_COUNTRY_CODE);
-                                String AdmDonorCode = adm_countryaward.getString(Parser.ADM_DONOR_CODE);
-                                String AdmAwardCode = adm_countryaward.getString(Parser.ADM_AWARD_CODE);
-                                String AwardRefNumber = adm_countryaward.getString("AwardRefNumber");
-                                String AwardStartDate = adm_countryaward.getString("AwardStartDate");
-                                String AwardEndDate = adm_countryaward.getString("AwardEndDate");
-                                String AwardShortName = adm_countryaward.getString("AwardShortName");
-                                String AwardStatus = adm_countryaward.getString("AwardStatus");
-
-
-                                sqlH.insertIntoAdmCountryAward(AdmCountryCode, AdmDonorCode, AdmAwardCode, AwardRefNumber, AwardStartDate, AwardEndDate, AwardShortName, AwardStatus);
-
-
-                            }
-                        }*/
 
                         if (!jObj.isNull(Parser.ADM_DONOR_JSON_A)) {
 
@@ -597,7 +580,7 @@ public class SyncDatabase {
                         //adm_country_program Table
 
 
-                        if (!jObj.isNull(Parser.ADM_COUNTRY_PROGRAM_JSON_A)) {// this is not servie
+                       /* if (!jObj.isNull(Parser.ADM_COUNTRY_PROGRAM_JSON_A)) {// this is not servie
                             JSONArray adm_country_programs = jObj.getJSONArray(Parser.ADM_COUNTRY_PROGRAM_JSON_A);
                             size = adm_country_programs.length();
                             for (int i = 0; i < size; i++) {
@@ -621,7 +604,7 @@ public class SyncDatabase {
                                         NFoodFlag, CashFlag, VOFlag, DefaultFoodDays, DefaultNFoodDays, DefaultCashDays, DefaultVODays, SrvSpecific);
 
                             }
-                        }
+                        }*/
 
 
                         // * Adding data into  dob_service_center  Table

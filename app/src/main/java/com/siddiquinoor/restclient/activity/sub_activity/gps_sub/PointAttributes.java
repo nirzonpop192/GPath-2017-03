@@ -1,10 +1,11 @@
 package com.siddiquinoor.restclient.activity.sub_activity.gps_sub;
 
+import android.annotation.TargetApi;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
@@ -12,6 +13,7 @@ import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.location.LocationManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -39,7 +41,6 @@ import com.siddiquinoor.restclient.R;
 import com.siddiquinoor.restclient.activity.MainActivity;
 import com.siddiquinoor.restclient.activity.MapActivity;
 
-import com.siddiquinoor.restclient.activity.sub_activity.summary_sub.IdListInGroupSummary;
 import com.siddiquinoor.restclient.data_model.GPS_LocationAttributeDataModel;
 import com.siddiquinoor.restclient.data_model.GPS_LocationDataModel;
 import com.siddiquinoor.restclient.data_model.GPS_SubGroupAttributeDataModel;
@@ -47,16 +48,25 @@ import com.siddiquinoor.restclient.data_model.Lup_gpsListDataModel;
 import com.siddiquinoor.restclient.fragments.BaseActivity;
 import com.siddiquinoor.restclient.manager.SQLiteHandler;
 import com.siddiquinoor.restclient.manager.sqlsyntax.SQLServerSyntaxGenerator;
+import com.siddiquinoor.restclient.manager.sqlsyntax.SQLiteQuery;
+import com.siddiquinoor.restclient.utils.CameraUtils;
 import com.siddiquinoor.restclient.utils.KEY;
 import com.siddiquinoor.restclient.views.adapters.GPSLocationLatLong;
 import com.siddiquinoor.restclient.views.helper.SpinnerHelper;
 import com.siddiquinoor.restclient.views.notifications.ADNotificationManager;
+import com.siddiquinoor.restclient.views.spinner.SpinnerLoader;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.siddiquinoor.restclient.utils.CameraUtils.CAMERA_REQUEST_1;
+import static com.siddiquinoor.restclient.utils.CameraUtils.CAMERA_REQUEST_2;
+import static com.siddiquinoor.restclient.utils.CameraUtils.CAMERA_REQUEST_3;
+import static com.siddiquinoor.restclient.utils.CameraUtils.CAMERA_REQUEST_4;
+import static com.siddiquinoor.restclient.utils.CameraUtils.CAMERA_REQUEST_5;
 
 public class PointAttributes extends BaseActivity {
 
@@ -83,17 +93,11 @@ public class PointAttributes extends BaseActivity {
     private boolean permissionForGoMap = false;
     private TextView lbel_lng, lbel_lat;
     private TextView tv_latitude, tv_longitude;
-    Intent cameraIntent;
 
 
     /**
      * Fixed value for capture Image
      */
-    private static final int CAMERA_REQUEST_1 = 10;
-    private static final int CAMERA_REQUEST_2 = 20;
-    private static final int CAMERA_REQUEST_3 = 30;
-    private static final int CAMERA_REQUEST_4 = 40;
-    private static final int CAMERA_REQUEST_5 = 50;
 
 
     private static final String IMG_CONTENT_CODE_1 = "01";
@@ -108,7 +112,7 @@ public class PointAttributes extends BaseActivity {
     private static final String REMARKS_4 = "4";
     private static final String REMARKS_5 = "5";
 
-    private final Context CONTEXT = PointAttributes.this;
+    private Context mContext;// = PointAttributes.this;
 
     HorizontalScrollView horizontalScrollView;
 
@@ -141,7 +145,7 @@ public class PointAttributes extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_gps);
+        setContentView(R.layout.activity_point_attributes);
         intili();
 
         Intent intent = getIntent();
@@ -169,21 +173,6 @@ public class PointAttributes extends BaseActivity {
             String lon = intent.getStringExtra(KEY.LONGITUDE);
 
 
-    /*        Log.d(TAG, " From Map Sub directoirs \n"
-
-
-                    + " idCountry : " + idCountry
-                    + " idGroup : " + idGroup
-                    + " strGroup : " + strGroup
-
-                    + " idSubGroup : " + idSubGroup
-                    + " strSubGroup : " + strSubGroup
-
-                    + " idLocation : " + idLocation
-                    + " strLocation : " + strLocation
-            );*/
-
-
             setVisibletyLatLongViews(View.VISIBLE);
             tv_latitude.setText(lat);
             tv_longitude.setText(lon);
@@ -192,7 +181,7 @@ public class PointAttributes extends BaseActivity {
 
         }
 
-        loadGroup(idCountry);
+        loadGpsGroup(idCountry);
 
         getGPS();
 
@@ -227,7 +216,7 @@ public class PointAttributes extends BaseActivity {
                     startActivity(iGoToMap);
                 } else {
                     ADNotificationManager dialog = new ADNotificationManager();
-                    dialog.showErrorDialog(CONTEXT, "Select Location");
+                    dialog.showErrorDialog(mContext, "Select Location");
                 }
 
 
@@ -240,7 +229,7 @@ public class PointAttributes extends BaseActivity {
             @Override
             public void onClick(View v) {
                 finish();
-                Intent iHome = new Intent(CONTEXT, MainActivity.class);
+                Intent iHome = new Intent(mContext, MainActivity.class);
                 startActivity(iHome);
             }
         });
@@ -343,8 +332,8 @@ public class PointAttributes extends BaseActivity {
 
                                 Log.d("MOR", "lupCode value :00" + allistedRadioButton.get(i).getId());
 
-                               String attValue=String.valueOf(allistedRadioButton.get(i).getId());
-                                attValue=getPadding(attValue.length(),attValue);
+                                String attValue = String.valueOf(allistedRadioButton.get(i).getId());
+                                attValue = getPadding(attValue.length(), attValue);
 
 
                              /*   Log.d(TAG, " in save method \n "
@@ -374,7 +363,7 @@ public class PointAttributes extends BaseActivity {
                     }
                 }
 
-                Toast.makeText(CONTEXT, "Save successfully ", Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext, "Save successfully ", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -404,8 +393,9 @@ public class PointAttributes extends BaseActivity {
 
     private void intili() {
         sqlH = new SQLiteHandler(this);
+        mContext = PointAttributes.this;
         viewReference();
-        setUpGoButton();
+
         setVisibletyLatLongViews(View.GONE);
     }
 
@@ -437,8 +427,6 @@ public class PointAttributes extends BaseActivity {
         btnSave = (Button) findViewById(R.id.btnHomeFooter);
         btnMap = (Button) findViewById(R.id.btnMap);
 
-        setUpSaveButton();
-        setUpHomeButton();
 
         lbel_lat = (TextView) findViewById(R.id.gps_tv_lat_label);
         lbel_lng = (TextView) findViewById(R.id.gps_tv_lng_label);
@@ -449,12 +437,6 @@ public class PointAttributes extends BaseActivity {
 
     }
 
-    private void setUpGoButton() {
-        btnMap.setText("");
-        Drawable imageGoto = getResources().getDrawable(R.drawable.map_btn_icon);
-        btnMap.setCompoundDrawablesRelativeWithIntrinsicBounds(imageGoto, null, null, null);
-        btnMap.setPadding(380, 5, 380, 5);
-    }
 
     private void implementImageCapture() {
         //image 1
@@ -497,56 +479,59 @@ public class PointAttributes extends BaseActivity {
 
     }
 
-
-    private void setUpSaveButton() {
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
+    private void addIconSaveButton() {
         btnSave.setText("");
         Drawable saveImage = getResources().getDrawable(R.drawable.save_b);
         btnSave.setCompoundDrawablesRelativeWithIntrinsicBounds(saveImage, null, null, null);
-        btnSave.setPadding(180, 20, 180, 20);
+
+        setPaddingButton(mContext, saveImage, btnSave);
     }
 
-    private void setUpHomeButton() {
-
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
+    private void addIconHomeButton() {
         btnHome.setText("");
         Drawable imageHome = getResources().getDrawable(R.drawable.home_b);
         btnHome.setCompoundDrawablesRelativeWithIntrinsicBounds(imageHome, null, null, null);
-        btnHome.setPadding(180, 20, 180, 20);
+        setPaddingButton(mContext, imageHome, btnHome);
+    }
+
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
+    private void addIconGoButton() {
+        btnMap.setText("");
+        Drawable imageGoto = getResources().getDrawable(R.drawable.map_btn_icon);
+        btnMap.setCompoundDrawablesRelativeWithIntrinsicBounds(imageGoto, null, null, null);
+        setPaddingButton(mContext, imageGoto, btnMap);
+
+    }
+
+    /**
+     * calling getWidth() and getHeight() too early:
+     * When  the UI has not been sized and laid out on the screen yet..
+     *
+     * @param hasFocus the value will be true when UI is focus
+     */
+
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        addIconHomeButton();
+        addIconSaveButton();
+        addIconGoButton();
+
     }
 
 
-    private void loadGroup(final String cCode) {
-        int position = 0;
+    private void loadGpsGroup(final String cCode) {
 
-        String criteria = "";
-        // Spinner Drop down elements for District
-        List<SpinnerHelper> listGroup = sqlH.getListAndID(SQLiteHandler.GPS_GROUP_TABLE, criteria, null, false);
-
-        // Creating adapter for spinner
-        ArrayAdapter<SpinnerHelper> dataAdapter = new ArrayAdapter<SpinnerHelper>(CONTEXT, R.layout.spinner_layout, listGroup);
-        // Drop down layout style
-        dataAdapter.setDropDownViewResource(R.layout.spinner_layout);
-        // attaching data adapter to spinner
-        spGroup.setAdapter(dataAdapter);
-
-
-        if (idGroup != null) {
-            for (int i = 1; i < spGroup.getCount(); i++) {
-                String group = spGroup.getItemAtPosition(i).toString();
-                if (group.equals(strGroup)) {
-                    position = i;
-                }
-            }
-            spGroup.setSelection(position);
-        }
-
-
+        SpinnerLoader.loadGpsGroupLoader(mContext, sqlH, spGroup, idGroup, strGroup);
         spGroup.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 strGroup = ((SpinnerHelper) spGroup.getSelectedItem()).getValue();
                 idGroup = ((SpinnerHelper) spGroup.getSelectedItem()).getId();
                 if (idGroup.length() > 2)
-                    loadSubGroup(cCode, idGroup);
+                    loadGpsSubGroup(cCode, idGroup);
             }
 
             @Override
@@ -559,33 +544,11 @@ public class PointAttributes extends BaseActivity {
     }
 
     /**
-     * LOAD :: SUb Group
+     * LOAD :: Gps Sub Group
      */
 
-    private void loadSubGroup(final String cCode, final String idGroup) {
-        int position = 0;
-        String criteria = " WHERE " + SQLiteHandler.GROUP_CODE_COL + "='" + idGroup + "'";
-
-        // Spinner Drop down elements for District
-        List<SpinnerHelper> listsubGroup = sqlH.getListAndID(SQLiteHandler.GPS_SUB_GROUP_TABLE, criteria, null, false);
-
-        // Creating adapter for spinner
-        ArrayAdapter<SpinnerHelper> dataAdapter = new ArrayAdapter<SpinnerHelper>(CONTEXT, R.layout.spinner_layout, listsubGroup);
-        // Drop down layout style
-        dataAdapter.setDropDownViewResource(R.layout.spinner_layout);
-        // attaching data adapter to spinner
-        spSubGroup.setAdapter(dataAdapter);
-
-        // Set the string to the position
-        if (idSubGroup != null) {
-            for (int i = 0; i < spSubGroup.getCount(); i++) {
-                String subGroup = spSubGroup.getItemAtPosition(i).toString();
-                if (subGroup.equals(strSubGroup)) {
-                    position = i;
-                }
-            }
-            spSubGroup.setSelection(position);
-        }
+    private void loadGpsSubGroup(final String cCode, final String idGroup) {
+        SpinnerLoader.loadGpsSubGroupLoader(mContext, sqlH, spSubGroup, idGroup, idSubGroup, strSubGroup);
 
 
         spSubGroup.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -593,11 +556,9 @@ public class PointAttributes extends BaseActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 strSubGroup = ((SpinnerHelper) spSubGroup.getSelectedItem()).getValue();
                 idSubGroup = ((SpinnerHelper) spSubGroup.getSelectedItem()).getId();
-                if (idSubGroup.length() > 2) {
+                if (idSubGroup.length() > 2)
                     loadLocation(cCode, idGroup, idSubGroup);
 
-
-                }
 
             }
 
@@ -614,29 +575,9 @@ public class PointAttributes extends BaseActivity {
      */
 
     private void loadLocation(final String cCode, final String groupCode, final String subGroupCode) {
-        int position = 0;
-        String criteria = " WHERE " + SQLiteHandler.COUNTRY_CODE_COL + " = '" + cCode + "' AND " + sqlH.GROUP_CODE_COL + "='" + groupCode + "' AND " + sqlH.SUB_GROUP_CODE_COL + "='" + subGroupCode + "'";
-
-        // Spinner Drop down elements for Location
-        List<SpinnerHelper> listlocation = sqlH.getListAndID(SQLiteHandler.GPS_LOCATION_TABLE, criteria, null, false);
-
-        // Creating adapter for spinner
-        ArrayAdapter<SpinnerHelper> dataAdapter = new ArrayAdapter<SpinnerHelper>(CONTEXT, R.layout.spinner_layout, listlocation);
-
-        dataAdapter.setDropDownViewResource(R.layout.spinner_layout);  // Set Drop down layout style
-
-        spLocation.setAdapter(dataAdapter);  // attaching data adapter to spinner
 
 
-        if (idLocation != null) {
-            for (int i = 0; i < spLocation.getCount(); i++) {
-                String location = spLocation.getItemAtPosition(i).toString();
-                if (location.equals(strLocation)) {
-                    position = i;
-                }
-            }
-            spLocation.setSelection(position);
-        }
+        SpinnerLoader.loadLocationLoader(mContext, sqlH, spLocation, idLocation, strLocation, SQLiteQuery.loadLocationLoader_sql(cCode, groupCode, subGroupCode));
 
 
         spLocation.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -678,11 +619,6 @@ public class PointAttributes extends BaseActivity {
 
     Uri fileUri;
 
-    static final int REQUEST_IMAGE_CAPTURE = 1;
-
-    private void dispatchTakePictureIntent() {
-
-    }
 
 
 
@@ -702,6 +638,7 @@ public class PointAttributes extends BaseActivity {
         startActivityForResult(intent, CAMERA_CAPTURE_IMAGE_REQUEST_CODE);
     }*/
 
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     private void createDynamicViews(String cCode, String groupCode, String subGroupCode, String locationCode) {
 
 /**
@@ -749,9 +686,9 @@ public class PointAttributes extends BaseActivity {
                     bt.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            Toast.makeText(CONTEXT, "Take photo ", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(mContext, "Take photo ", Toast.LENGTH_SHORT).show();
 
-                            if (!isDeviceSupportCamera()) {
+                            if (!CameraUtils.isDeviceSupportCamera(getApplicationContext())) {
                                 Toast.makeText(getApplicationContext(), "Sorry! Your device doesn't support camera", Toast.LENGTH_LONG).show();
 
                             } else {
@@ -781,7 +718,7 @@ public class PointAttributes extends BaseActivity {
                      * if data exit data will be restore
                      */
                     if (sqlH.isDataExistsInGpsLocationAttributesTable(cCode, groupCode, subGroupCode, locationCode, attList.get(i).getAttributeCode())) {
-                        GPS_LocationAttributeDataModel attData= sqlH.getDataFromInGpsLocationAttributesTable(cCode, groupCode, subGroupCode, locationCode, attList.get(i).getAttributeCode());
+                        GPS_LocationAttributeDataModel attData = sqlH.getDataFromInGpsLocationAttributesTable(cCode, groupCode, subGroupCode, locationCode, attList.get(i).getAttributeCode());
 
                         et.setText(attData.getAttributeValue());
                     } else {
@@ -790,7 +727,7 @@ public class PointAttributes extends BaseActivity {
 
                     et.setId(i);
                     et.setPadding(15, 5, 0, 5);
-//                    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
+
                     et.setBackground(getResources().getDrawable(R.drawable.edit_box_background));
                     switch (attList.get(i).getDataType()) {
                         case TEXT_TYPE:
@@ -822,9 +759,8 @@ public class PointAttributes extends BaseActivity {
                         if (sqlH.isDataExistsInGpsLocationAttributesTable(cCode, groupCode, subGroupCode, locationCode, attList.get(i).getAttributeCode())) {
                             rbtn.setChecked(true);
 
-                         
-                        }
-                        else {
+
+                        } else {
                             rbtn.setChecked(false);
                         }
                         rbtn.setOnClickListener(new View.OnClickListener() {
@@ -869,11 +805,12 @@ public class PointAttributes extends BaseActivity {
         fileUri = savedInstanceState.getParcelable("file_uri");
     }
 
+    // TODO bangla code delete korte hobe method baniyte hobe
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-        // TODO Auto-generated method stub
+
         String entryBy = getStaffID();
 
         String entryDate = "";
@@ -1075,16 +1012,12 @@ public class PointAttributes extends BaseActivity {
     private File getOutputMediaFile(int type) {
 
         // External sdcard location
-        File mediaStorageDir = new File(
-                Environment
-                        .getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),
-                IMAGE_DIRECTORY_NAME);
+        File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), IMAGE_DIRECTORY_NAME);
 
         // Create the storage directory if it does not exist
         if (!mediaStorageDir.exists()) {
             if (!mediaStorageDir.mkdirs()) {
-                Log.d(IMAGE_DIRECTORY_NAME, "Oops! Failed create "
-                        + IMAGE_DIRECTORY_NAME + " directory");
+                Log.d(IMAGE_DIRECTORY_NAME, "Oops! Failed create " + IMAGE_DIRECTORY_NAME + " directory");
                 return null;
             }
         }
@@ -1100,19 +1033,6 @@ public class PointAttributes extends BaseActivity {
         }
 
         return mediaFile;
-    }
-
-
-    /**
-     * @return
-     */
-
-    private boolean isDeviceSupportCamera() {
-        if (getApplicationContext().getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA)) {
-            return true;
-        } else {
-            return false;
-        }
     }
 
 
@@ -1139,43 +1059,9 @@ public class PointAttributes extends BaseActivity {
 
     AlertDialog cameRaDialog;
 
-    /**
-     * @param REQUEST
-     */
-    private void captureOrViewImageOption(final int REQUEST, final String CountryCode, final String GrpCode, final String subGrpCode, final String LocationCode, final String ContentCode) {
 
-       /* AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
-                GPSActivity.this);
+    private void captureOrViewImageOption(final int requestCode, final String CountryCode, final String GrpCode, final String subGrpCode, final String LocationCode, final String ContentCode) {
 
-        // set title
-        alertDialogBuilder.setTitle("");
-
-        // set dialog message
-        alertDialogBuilder
-                .setMessage("Active Camera ?")
-                .setCancelable(false)
-                .setPositiveButton("Yes",new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog,int id) {
-                        // if this button is clicked, close
-                        // current activity
-                        cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                        startActivityForResult(cameraIntent,REQUEST);
-                       // GPSActivity.this.finish();
-                    }
-                })
-                .setNegativeButton("No",new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog,int id) {
-                        // if this button is clicked, just close
-                        // the dialog box and do nothing
-                        dialog.cancel();
-                    }
-                });*/
-
-        // create alert dialog
-        //AlertDialog alertDialog = alertDialogBuilder.create();
-
-        // show it
-        //alertDialog.show();
 
         final CharSequence[] items = getResources().getStringArray(R.array.cameraOption);
 
@@ -1185,15 +1071,15 @@ public class PointAttributes extends BaseActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 switch (which) {
-                    case 0:
-                        //cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                        //startActivityForResult(cameraIntent,REQUEST);
-                        captureImageAlert(REQUEST);
+                    case CameraUtils.CAPTURED_IMAGE:
+                        CameraUtils camera = new CameraUtils();
+                        camera.captureImageAlert(PointAttributes.this, requestCode);
+
                         break;
-                    case 1:
+                    case CameraUtils.DELETE_IMAGE:
                         checkPhotoAvailability(CountryCode, GrpCode, subGrpCode, LocationCode, ContentCode);
                         break;
-                    case 2:
+                    case CameraUtils.CANCEL:
                         cameRaDialog.dismiss();
                         break;
                 }
@@ -1205,21 +1091,8 @@ public class PointAttributes extends BaseActivity {
     }
 
 
-    /**
-     * @param REQUEST
-     */
-    private void captureImageAlert(final int REQUEST) {
-
-        // if this button is clicked, close
-        // current activity
-        cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        startActivityForResult(cameraIntent, REQUEST);
-
-
-    }
-
     private void checkPhotoAvailability(final String CountryCode, final String GrpCode, final String subGrpCode, final String LocationCode, final String ContentCode) {
-        if (sqlH.checkDataAvailableOrNotInGpsLocationContentTable(CountryCode, GrpCode, subGrpCode, LocationCode, ContentCode) != true) {
+        if (!sqlH.checkDataAvailableOrNotInGpsLocationContentTable(CountryCode, GrpCode, subGrpCode, LocationCode, ContentCode)) {
 
             AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
                     PointAttributes.this);
@@ -1288,8 +1161,16 @@ public class PointAttributes extends BaseActivity {
         }
     }
 
-    private void viewImageFromDatabase(String CountryCode, String GrpCode, String subGrpCode, String LocationCode, String ContentCode, ImageView imageView) {
-        sqlH.getImageFromDatabase(CountryCode, GrpCode, subGrpCode, LocationCode, ContentCode, imageView);
+    /**
+     * @param cCode        Country Coded
+     * @param GrpCode      gps Group Code
+     * @param subGrpCode   gps sub Group Code
+     * @param LocationCode Location  Code
+     * @param ContentCode  Content
+     * @param imageView    image view
+     */
+    private void viewImageFromDatabase(String cCode, String GrpCode, String subGrpCode, String LocationCode, String ContentCode, ImageView imageView) {
+        sqlH.getImageFromDatabase(cCode, GrpCode, subGrpCode, LocationCode, ContentCode, imageView);
 
     }
 }

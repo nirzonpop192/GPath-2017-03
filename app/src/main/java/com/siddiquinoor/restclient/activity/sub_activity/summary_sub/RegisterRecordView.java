@@ -84,7 +84,7 @@ public class RegisterRecordView extends BaseActivity {
         idCountry = ext_village.substring(0, 4);
 
 
-        loadVillage();
+        loadLayR4CodeForRegisterRecordView();
 
         if (ext_village != null) {
 
@@ -170,7 +170,7 @@ public class RegisterRecordView extends BaseActivity {
     }
 
 
-    private void loadVillage() {
+    private void loadLayR4CodeForRegisterRecordView() {
         String criteria = "SELECT " + " v." + SQLiteHandler.COUNTRY_CODE_COL + " || '' ||  v." + SQLiteHandler.LAY_R1_LIST_CODE_COL + " || '' || v." + SQLiteHandler.LAY_R2_LIST_CODE_COL + " || '' || v." +
                 SQLiteHandler.LAY_R3_LIST_CODE_COL + " || '' || v." + SQLiteHandler.LAY_R4_LIST_CODE_COL + " AS v_code," +
                 " v." + SQLiteHandler.VILLAGE_NAME_COL + " AS Vill_Name " +
@@ -262,7 +262,7 @@ public class RegisterRecordView extends BaseActivity {
 
 
     /**
-     * @date: 2015-10-12
+     *  2015-10-12
      */
     private class LoadingListView extends AsyncTask<Void, Integer, String> {
 
@@ -287,7 +287,7 @@ public class RegisterRecordView extends BaseActivity {
                 pDialog.dismiss();
                 return "UNKNOWN";
             }
-            return "sucess";
+            return "success";
 
 
         }

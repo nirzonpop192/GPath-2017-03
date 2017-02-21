@@ -16,6 +16,10 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.siddiquinoor.restclient.R;
+import com.siddiquinoor.restclient.activity.MainActivity;
+import com.siddiquinoor.restclient.activity.sub_activity.dynamic_table.DTResponseRecordingActivity;
+import com.siddiquinoor.restclient.fragments.BaseActivity;
+import com.siddiquinoor.restclient.manager.SQLiteHandler;
 
 /**
  * @author : POP
@@ -24,7 +28,8 @@ import com.siddiquinoor.restclient.R;
 public class ADNotificationManager {
 
 
-    // public     AlertDialog alertDialog;
+    public static final int CONFIRM_YES = 1;
+    public static final int CONFIRM_NO = 2;
 
     /**
      * Function to display simple Confirm Alert Dialog
@@ -251,5 +256,113 @@ public class ADNotificationManager {
 
         return dialogBuilder;
     }
+
+    /**
+     * this method will show the dialog of confirmation to delete of in complete response .
+     * if use press yes button than the  {@link DTResponseRecordingActivity#deleteFromResponseTable(String, String, String, String, String, String, String, String, int, SQLiteHandler)} will invoked
+     * to delete the  response then goto the {@link MainActivity }
+     *
+     * @param activity    refer The activity
+     * @param dtBasicCode Dynamic Table  Basic Code
+     * @param cCode       Adm Country Code
+     * @param donorCode   Adm Donor Code
+     * @param awardCode   Adm Award Code
+     * @param progCode    Adm Program Code
+     * @param OpMode      Op Code
+     * @param opMonthCode op Month Code
+     * @param DTEnuID     Dt Eliminator Id
+     * @param DTRSeq      Dynamic Table Response Sequence
+     * @param sqlH        data base
+     */
+    public void deleteResponseConfirmationDialog(final Activity activity, final String dtBasicCode, final String cCode, final String donorCode, final String awardCode, final String progCode, final String OpMode, final String opMonthCode, final String DTEnuID, final int DTRSeq, final SQLiteHandler sqlH) {
+
+        android.support.v7.app.AlertDialog.Builder alertDialog = new android.support.v7.app.AlertDialog.Builder(activity);
+        /**
+         *  in unfinished condition if anyone press home button
+         */
+        //Setting Dialog Title
+        alertDialog.setTitle("Home");
+
+
+        // On pressing Settings button
+        alertDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+
+                DTResponseRecordingActivity.deleteFromResponseTable(dtBasicCode, cCode, donorCode, awardCode, progCode, OpMode, opMonthCode, DTEnuID, DTRSeq, sqlH);
+
+                // goto Main Activity
+                activity.finish();
+                Intent iMainActivity = new Intent(activity, MainActivity.class);
+                activity.startActivity(iMainActivity);
+
+            }
+        });
+
+
+        // Setting Dialog Message4
+        alertDialog.setMessage("Incomplete response will be deleted!!");
+
+        // on pressing no button
+        alertDialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        // Showing Alert Message
+        alertDialog.show();
+
+    }
+/**
+ * Experiment but failed
+ */
+//    private boolean confirmationFlag;
+//
+//    public boolean isConfirmationFlag() {
+//        return confirmationFlag;
+//    }
+//
+//    public void setConfirmationFlag(boolean confirmationFlag) {
+//        this.confirmationFlag = confirmationFlag;
+//    }
+//
+//    public boolean continueConfirmationDialog(Context context) {
+//
+//        setConfirmationFlag(false);
+//
+//        android.support.v7.app.AlertDialog.Builder alertDialog = new android.support.v7.app.AlertDialog.Builder(context);
+//
+//
+//        alertDialog.setTitle("Continue !!");
+//
+//        String massage;
+//
+//
+//        massage = "Do you want to continue ?";
+//        // On pressing Settings button
+//        alertDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+//            public void onClick(DialogInterface dialog, int which) {
+//                setConfirmationFlag(false);
+//
+//            }
+//        });
+//
+//
+//        // Setting Dialog Message
+//        alertDialog.setMessage(massage);
+//
+//        // on pressing cancel button
+//        alertDialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
+//            public void onClick(DialogInterface dialog, int which) {
+//                dialog.dismiss();
+//                setConfirmationFlag(false);
+//            }
+//        });
+//
+//        // Showing Alert Message
+//        alertDialog.show();
+//        return isConfirmationFlag();
+//
+//    }
 
 }

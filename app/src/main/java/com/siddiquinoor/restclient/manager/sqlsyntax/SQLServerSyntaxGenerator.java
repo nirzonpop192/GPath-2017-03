@@ -4601,8 +4601,8 @@ public class SQLServerSyntaxGenerator {
     }
 
     public void setImageFile(String imageFile) {
-        imageFile = checkStringNull(imageFile);
-        this.imageFile = imageFile;
+        this.imageFile = checkStringNull(imageFile);
+
     }
 
     public String getRemarks() {
@@ -5151,8 +5151,65 @@ public class SQLServerSyntaxGenerator {
                 + getEntryDate();
     }
 
+    private String WealthRanking;
+    private String MemberExtGroup;
+
+    public String getMemberExtGroup() {
+        return MemberExtGroup;
+    }
+
+    public void setMemberExtGroup(String memberExtGroup) {
+        MemberExtGroup = checkStringNull(memberExtGroup);
+    }
+
+    public String getWealthRanking() {
+        return WealthRanking;
+    }
+
+    public void setWealthRanking(String wealthRanking) {
+        WealthRanking = checkStringNull(wealthRanking);
+    }
+
+    public String sqlSpRegN_WE_Save_MW() {
+        return " RegN_WE_Save_MW "
+                + getAdmCountryCode() + " , "
+                + getLayR1ListCode() + " , "
+                + getLayR2ListCode() + " , "
+                + getLayR3ListCode() + " , "
+                + getLayR4ListCode() + " , "
+                + getHHID() + " , "
+                + getMemID() + " , "
+                + getRegNDate() + " , "
+                + getWealthRanking() + " , "
+                + getMemberExtGroup() + " , "
+                + getEntryBy() + " , "
+                + getEntryDate();
+    }
+public String sqlSpRegNAssignProgSrv_Save(){
+    return  " RegNAssignProgSrv_Save "
+            + getAdmCountryCode() + " , "
+            + getLayR1ListCode() + " , "
+            + getLayR2ListCode() + " , "
+            + getLayR3ListCode() + " , "
+            + getLayR4ListCode() + " , "
+            + getAdmDonorCode() + " , "
+            + getAdmAwardCode() + " , "
+            + getHHID() + " , "
+            + getMemID() + " , "
+            + getProgCode() + " , "
+            + getSrvCode() + " , "
+            + getRegNDate() + " , "
+            + getEntryBy() + " , "
+            + getEntryDate() ;
+
+}
 
 
+
+    /**
+     *
+     * @return store procedure of sql server DTShortName_Save
+     */
     public String sqlSpDTShortName_Save() {
         return " DTShortName_Save "
                 + getDTBasic() + " , "
@@ -5571,6 +5628,15 @@ public class SQLServerSyntaxGenerator {
     }
 
     private String Completeness;
+    private String UFILE;
+
+    public String getUFILE() {
+        return UFILE;
+    }
+
+    public void setUFILE(String UFILE) {
+        this.UFILE = checkStringNull(UFILE);
+    }
 
     public String getDTQCode() {
         return DTQCode;
@@ -5581,7 +5647,7 @@ public class SQLServerSyntaxGenerator {
     }
 
     private String DTQCode;
-
+// // TODO: 2/16/2017 add photo
 
     public String insertIntoDTResponseTable() {
         return " INSERT INTO [dbo].[DTResponseTable]  " +
@@ -5600,7 +5666,9 @@ public class SQLServerSyntaxGenerator {
                 "            ,[OpMode]  " +
                 "            ,[OpMonthCode]  " +
                 "            ,[DataType]  " +
-                "            ,[Completeness]) " +
+                "            ,[Completeness]" +
+                "            ,[UFILE]" +
+                " ) " +
                 "    VALUES " +
                 "            ( " + getDTBasic() +
                 "            , " + getAdmCountryCode() +
@@ -5617,7 +5685,9 @@ public class SQLServerSyntaxGenerator {
                 "            , " + getOpMode() +
                 "            , " + getOpMonthCode() +
                 "            , " + getDataType() +
-                "            ," + getCompleteness() + ")";
+                "            ," + getCompleteness() +
+                "            ," + getUFILE()
+                + ")";
     }
 
 
@@ -5631,6 +5701,7 @@ public class SQLServerSyntaxGenerator {
                 "        ,[OpMonthCode] =  " + getOpMonthCode() +
                 "        ,[DataType] = " + getDataType() +
                 "        ,[Completeness] = " + getCompleteness() +
+                "        ,[UFILE] = " + getUFILE() +
                 "        WHERE DTBasic =  " + getDTBasic()
                 + "          AND AdmCountryCode =  " + getAdmCountryCode()
                 + "          AND AdmDonorCode =  " + getAdmDonorCode()

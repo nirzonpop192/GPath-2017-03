@@ -335,74 +335,10 @@ public class Parser {
     public static void RegistrationNHHParser(String jsonString, SQLiteHandler sqlH) {
         String AdmCountryCode, DistrictName, UpazillaName, UnitName, VillageName, RegNAddLookupCode, RegistrationID, RegNDate, PersonName, sex, HHSize, Latitude, Longitude, AGLand, VStatus, MStatus, EntryBy, EntryDate, VSLAGroup, GPSLongSwap;
 
-        String LTp2Hectres;
-        String LT3mFoodStock;
-        String NoMajorCommonLiveStock;
-        String ReceiveNoFormalWages;
-        String NoIGA;
-        String RelyPiecework;
-        String HHHeadCat;
-        String LT2yrsM;
-        String LT2yrsF;
-        String M2to5yrs;
-        String F2to5yrs;
-        String M6to12yrs;
-        String F6to12yrs;
-        String M13to17yrs;
-        String F13to17yrs;
-        String Orphn_LT18yrsM;
-        String Orphn_LT18yrsF;
-        String Adlt_18to59M;
-        String Adlt_18to59F;
-        String Eld_60pM;
-        String Eld_60pF;
+        String LTp2Hectres, LT3mFoodStock, NoMajorCommonLiveStock, ReceiveNoFormalWages, NoIGA, RelyPiecework, HHHeadCat, LT2yrsM, LT2yrsF, M2to5yrs, F2to5yrs, M6to12yrs, F6to12yrs, M13to17yrs, F13to17yrs, Orphn_LT18yrsM, Orphn_LT18yrsF, Adlt_18to59M, Adlt_18to59F, Eld_60pM, Eld_60pF;
         String plw;
-        String ChronicallyIll;
-        String LivingDeceasedContractEbola;
-        String ExtraChildBecauseEbola;
-        String ExtraElderlyPersonBecauseEbola;
-        String ExtraChronicallyIllDisabledPersonBecauseEbola;
-        String BRFCntCattle;
-        String BRFValCattle;
-        String AFTCntCattle;
-        String AFTValCattle;
-        String BRFCntSheepGoats;
-        String BRFValSheepGoats;
-        String AFTCntSheepGoats;
-        String AFTValSheepGoats;
-        String BRFCntPoultry;
-        String BRFValPoultry;
-        String AFTCntPoultry;
-        String AFTValPoultry;
-        String BRFCntOther;
-        String BRFValOther;
-        String AFTCntOther;
-        String AFTValOther;
-        String BRFAcreCultivable;
-        String BRFValCultivable;
-        String AFTAcreCultivable;
-        String AFTValCultivable;
-        String BRFAcreNonCultivable;
-        String BRFValNonCultivable;
-        String AFTAcreNonCultivable;
-        String AFTValNonCultivable;
-        String BRFAcreOrchards;
-        String BRFValOrchards;
-        String AFTAcreOrchards;
-        String AFTValOrchards;
-        String BRFValCrop;
-        String AFTValCrop;
-        String BRFValLivestock;
-        String AFTValLivestock;
-        String BRFValSmallBusiness;
-        String AFTValSmallBusiness;
-        String BRFValEmployment;
-        String AFTValEmployment;
-        String BRFValRemittances;
-        String AFTValRemittances;
-        String BRFCntWageEnr;
-        String AFTCntWageEnr;
-        String WRank;
+        String ChronicallyIll, LivingDeceasedContractEbola, ExtraChildBecauseEbola, ExtraElderlyPersonBecauseEbola, ExtraChronicallyIllDisabledPersonBecauseEbola, BRFCntCattle, BRFValCattle, AFTCntCattle, AFTValCattle, BRFCntSheepGoats, BRFValSheepGoats, AFTCntSheepGoats, AFTValSheepGoats, BRFCntPoultry, BRFValPoultry, AFTCntPoultry, AFTValPoultry, BRFCntOther, BRFValOther, AFTCntOther, AFTValOther, BRFAcreCultivable, BRFValCultivable, AFTAcreCultivable, AFTValCultivable, BRFAcreNonCultivable;
+        String BRFValNonCultivable, AFTAcreNonCultivable, AFTValNonCultivable, BRFAcreOrchards, BRFValOrchards, AFTAcreOrchards, AFTValOrchards, BRFValCrop, AFTValCrop, BRFValLivestock, AFTValLivestock, BRFValSmallBusiness, AFTValSmallBusiness, BRFValEmployment, AFTValEmployment, BRFValRemittances, AFTValRemittances, BRFCntWageEnr, AFTCntWageEnr, WRank;
 
 
         try {
@@ -1345,26 +1281,61 @@ public class Parser {
 
         try {
             for (int i = 0; i < size; i++) {
-                JSONObject reg_n_ffa_tableData = jsonArrayData.getJSONObject(i);
+                JSONObject jsonObject = jsonArrayData.getJSONObject(i);
 
-                CountryCode = reg_n_ffa_tableData.getString(ADM_COUNTRY_CODE);
-                DistrictCode = reg_n_ffa_tableData.getString(LAY_R_1_LIST_CODE);
-                UpazillaCode = reg_n_ffa_tableData.getString(LAY_R_2_LIST_CODE);
-                UnitCode = reg_n_ffa_tableData.getString(LAY_R_3_LIST_CODE);
-                VillageCode = reg_n_ffa_tableData.getString(LAY_R_4_LIST_CODE);
-                HhId = reg_n_ffa_tableData.getString(HHID);
-                MemID = reg_n_ffa_tableData.getString(MEM_ID);
-                OrphanedChildren = reg_n_ffa_tableData.getString("OrphanedChildren");
-                ChildHeaded = reg_n_ffa_tableData.getString("ChildHeaded");
-                ElderlyHeaded = reg_n_ffa_tableData.getString("ElderlyHeaded");
-                ChronicallyIll = reg_n_ffa_tableData.getString("ChronicallyIll");
-                FemaleHeaded = reg_n_ffa_tableData.getString("FemaleHeaded");
-                CropFailure = reg_n_ffa_tableData.getString("CropFailure");
-                ChildrenRecSuppFeedN = reg_n_ffa_tableData.getString("ChildrenRecSuppFeedN");
-                Willingness = reg_n_ffa_tableData.getString("Willingness");
+                CountryCode = jsonObject.getString(ADM_COUNTRY_CODE);
+                DistrictCode = jsonObject.getString(LAY_R_1_LIST_CODE);
+                UpazillaCode = jsonObject.getString(LAY_R_2_LIST_CODE);
+                UnitCode = jsonObject.getString(LAY_R_3_LIST_CODE);
+                VillageCode = jsonObject.getString(LAY_R_4_LIST_CODE);
+                HhId = jsonObject.getString(HHID);
+                MemID = jsonObject.getString(MEM_ID);
+                OrphanedChildren = jsonObject.getString("OrphanedChildren");
+                ChildHeaded = jsonObject.getString("ChildHeaded");
+                ElderlyHeaded = jsonObject.getString("ElderlyHeaded");
+                ChronicallyIll = jsonObject.getString("ChronicallyIll");
+                FemaleHeaded = jsonObject.getString("FemaleHeaded");
+                CropFailure = jsonObject.getString("CropFailure");
+                ChildrenRecSuppFeedN = jsonObject.getString("ChildrenRecSuppFeedN");
+                Willingness = jsonObject.getString("Willingness");
 
 
                 sqlH.insertIntoDDR_RegN_FFATable(CountryCode, DistrictCode, UpazillaCode, UnitCode, VillageCode, HhId, MemID, OrphanedChildren, ChildHeaded, ElderlyHeaded, ChronicallyIll, FemaleHeaded, CropFailure, ChildrenRecSuppFeedN, Willingness, "", "");
+            }
+
+        } catch (Exception e) {
+            Log.e(TAG, "Exception : " + e);
+            e.printStackTrace();
+        }
+
+    }
+
+
+    public static void reg_N_WEParser(JSONArray jsonArrayData, SQLiteHandler sqlH) {
+        int size;
+
+        String CountryCode, DistrictCode, UpazillaCode, UnitCode, VillageCode, HhId, MemID, RegNDate, WealthRanking, MemberExtGroup;
+
+
+        size = jsonArrayData.length();
+
+        try {
+            for (int i = 0; i < size; i++) {
+                JSONObject jsonObject = jsonArrayData.getJSONObject(i);
+
+                CountryCode = jsonObject.getString(ADM_COUNTRY_CODE);
+                DistrictCode = jsonObject.getString(LAY_R_1_LIST_CODE);
+                UpazillaCode = jsonObject.getString(LAY_R_2_LIST_CODE);
+                UnitCode = jsonObject.getString(LAY_R_3_LIST_CODE);
+                VillageCode = jsonObject.getString(LAY_R_4_LIST_CODE);
+                HhId = jsonObject.getString(HHID);
+                MemID = jsonObject.getString(MEM_ID);
+                RegNDate = jsonObject.getString("RegNDate");
+                WealthRanking = jsonObject.getString("WealthRanking");
+                MemberExtGroup = jsonObject.getString("MemberExtGroup");
+
+
+                sqlH.insertInto_RegN_WETable(CountryCode, DistrictCode, UpazillaCode, UnitCode, VillageCode, HhId, MemID, RegNDate, WealthRanking, MemberExtGroup, "", "");
             }
 
         } catch (Exception e) {
@@ -1484,7 +1455,7 @@ public class Parser {
     public static void DTBasicParser(JSONArray jsonArrayData, SQLiteHandler sqlH) {
 
         int size = jsonArrayData.length();
-        String DTBasic, DTTitle, DTSubTitle, DTDescription, DTAutoScroll, DTAutoScrollText, DTActive, DTCategory, DTGeoListLevel, DTOPMode,DTShortName;
+        String DTBasic, DTTitle, DTSubTitle, DTDescription, DTAutoScroll, DTAutoScrollText, DTActive, DTCategory, DTGeoListLevel, DTOPMode, DTShortName;
 
 
         for (int i = 0; i < size; i++) {
@@ -1504,7 +1475,7 @@ public class Parser {
                 DTOPMode = jsonObject.getString("DTOPMode");
                 DTShortName = jsonObject.getString("DTShortName");
 
-                sqlH.addIntoDTBasic(DTBasic, DTTitle, DTSubTitle, DTDescription, DTAutoScroll, DTAutoScrollText, DTActive, DTCategory, DTGeoListLevel, DTOPMode,DTShortName);
+                sqlH.addIntoDTBasic(DTBasic, DTTitle, DTSubTitle, DTDescription, DTAutoScroll, DTAutoScrollText, DTActive, DTCategory, DTGeoListLevel, DTOPMode, DTShortName);
 
 //                Log.d(TAG, " DTBasic Table");
 
@@ -1650,7 +1621,7 @@ public class Parser {
     public static void DTResponseTableParser(JSONArray jsonArrayData, SQLiteHandler sqlH) {
 
         int size = jsonArrayData.length();
-        String DTBasic, AdmCountryCode, AdmDonorCode, AdmAwardCode, AdmProgCode, DTEnuID, DTQCode, DTACode, DTRSeq, DTAValue, ProgActivityCode, DTTimeString, OpMode, OpMonthCode, DataType;
+        String DTBasic, AdmCountryCode, AdmDonorCode, AdmAwardCode, AdmProgCode, DTEnuID, DTQCode, DTACode, DTRSeq, DTAValue, ProgActivityCode, DTTimeString, OpMode, OpMonthCode, DataType, ufile;
 
 
         for (int i = 0; i < size; i++) {
@@ -1673,8 +1644,8 @@ public class Parser {
                 OpMode = jsonObject.getString("OpMode");
                 OpMonthCode = jsonObject.getString("OpMonthCode");
                 DataType = jsonObject.getString("DataType");
-
-                sqlH.addIntoDTResponseTable(DTBasic, AdmCountryCode, AdmDonorCode, AdmAwardCode, AdmProgCode, DTEnuID, DTQCode, DTACode, DTRSeq, DTAValue, ProgActivityCode, DTTimeString, OpMode, OpMonthCode, DataType);
+                ufile = "";
+                sqlH.addIntoDTResponseTable(DTBasic, AdmCountryCode, AdmDonorCode, AdmAwardCode, AdmProgCode, DTEnuID, DTQCode, DTACode, DTRSeq, DTAValue, ProgActivityCode, DTTimeString, OpMode, OpMonthCode, DataType, ufile, false);
 
 
             } catch (Exception e) {
@@ -1977,7 +1948,7 @@ public class Parser {
         int size = jsonArrayData.length();
 
 
-        String  AdmDonorCode, AwardCode, AwardName, AwardShort;
+        String AdmDonorCode, AwardCode, AwardName, AwardShort;
         for (int i = 0; i < size; i++) {
             try {
                 JSONObject jsonObject = jsonArrayData.getJSONObject(i);
@@ -1988,8 +1959,7 @@ public class Parser {
                 AwardShort = jsonObject.getString("AwardShort");
 
 
-
-                sqlH.insertIntoAdmAward( AdmDonorCode, AwardCode, AwardName, AwardShort );
+                sqlH.insertIntoAdmAward(AdmDonorCode, AwardCode, AwardName, AwardShort);
 
 
             } catch (Exception e) {
@@ -2001,7 +1971,6 @@ public class Parser {
         }
 
     }
-
 
 
     /**
@@ -2157,6 +2126,40 @@ public class Parser {
                 AdmSrvName = jsonObject.getString("AdmSrvName");
                 AdmSrvShortName = jsonObject.getString("AdmSrvShortName");
                 sqlH.addServiceMaster(AdmProgCode, AdmSrvCode, AdmSrvName, AdmSrvShortName);
+
+            } catch (Exception e) {
+                Log.e(TAG, "Exception : " + e);
+                e.printStackTrace();
+            }
+        }
+
+    }
+
+
+    public static void lupProgGroupCropParser(JSONArray jsonArrayData, SQLiteHandler sqlH) {
+
+        int size = jsonArrayData.length();
+        String AdmCountryCode, AdmDonorCode, AdmAwardCode, AdmProgCode, CropCode, CropList, CropCatCode;
+        for (int i = 0; i < size; i++) {
+            try {
+                JSONObject jsonObject = jsonArrayData.getJSONObject(i);
+
+
+                AdmCountryCode = jsonObject.getString("AdmCountryCode");
+                AdmDonorCode = jsonObject.getString("AdmDonorCode");
+                AdmAwardCode = jsonObject.getString("AdmAwardCode");
+                AdmProgCode = jsonObject.getString("AdmProgCode");
+                CropCode = jsonObject.getString("CropCode");
+                CropList = jsonObject.getString("CropList");
+                CropCatCode = jsonObject.getString("CropCatCode");
+
+
+                    /*    Log.d("InTest", "AdmCountryCode:" + AdmCountryCode
+                                + "AdmDonorCode: " + AdmDonorCode + "AdmAwardCode : " + AdmAwardCode + "AdmProgCode:" + AdmProgCode
+                                + " CropCode: " + CropCode + "CropList:" + CropList + " CropCatCode :" + CropCatCode);
+*/
+                sqlH.addLUP_ProgramGroupCrop(AdmCountryCode, AdmDonorCode, AdmAwardCode, AdmProgCode, CropCode, CropList, CropCatCode);
+
 
             } catch (Exception e) {
                 Log.e(TAG, "Exception : " + e);

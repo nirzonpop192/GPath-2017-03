@@ -245,22 +245,7 @@ public class CA2 extends BaseActivity {
      * ** LOAD: Active Status
      */
     private void loadActiveStatus() {
-        int pos = 0;
-
-        ArrayAdapter<CharSequence> adptMartial = ArrayAdapter.createFromResource(
-                this, R.array.arrActive, R.layout.spinner_layout);
-
-        adptMartial.setDropDownViewResource(R.layout.spinner_layout);
-        spActive.setAdapter(adptMartial);
-
-        if (idActive != null) {
-            if (idActive.equals("Y"))
-                pos = 0;
-            else
-                pos = 1;
-
-            spActive.setSelection(pos);
-        }
+        SpinnerLoader.loadActiveStatusLoader(mContext, spActive, idActive);
 
 
         spActive.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {

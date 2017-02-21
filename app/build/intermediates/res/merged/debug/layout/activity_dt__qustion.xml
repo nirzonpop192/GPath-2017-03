@@ -69,6 +69,12 @@
             android:id="@+id/dt_sp"
             style="@style/spinner_style" />
 
+        <ImageView
+            android:id="@+id/dt_iv_photo"
+            android:layout_width="65dp"
+            android:layout_height="65dp"
+            android:src="@drawable/cam" />
+
 
     </LinearLayout>
 
@@ -166,15 +172,15 @@
     <!--  End  EDIT_TEXT & Check Button -->
 
     <!--Error Label-->
-  <!--  <TextView
-        android:id="@+id/tv_dt_errorLable"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/ll_nextO_preview"
-        android:text="ERROR"
-        android:textColor="@color/red"
-        android:textSize="20sp"
-        android:textStyle="bold" />-->
+    <!--  <TextView
+          android:id="@+id/tv_dt_errorLable"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_above="@+id/ll_nextO_preview"
+          android:text="ERROR"
+          android:textColor="@color/red"
+          android:textSize="20sp"
+          android:textStyle="bold" />-->
 
     <LinearLayout
 

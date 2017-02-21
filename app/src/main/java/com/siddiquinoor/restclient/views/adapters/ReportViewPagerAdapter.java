@@ -21,6 +21,10 @@ public class ReportViewPagerAdapter extends FragmentStatePagerAdapter {
     private ArrayList<SurveyModel> surveyModels = new ArrayList<>();
     private long baseId = 0;
 
+    public SurveyModel getSurveyModels(int position){
+       return surveyModels.get(position);
+    }
+
     public ReportViewPagerAdapter(FragmentManager manager) {
         super(manager);
     }

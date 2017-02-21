@@ -166,8 +166,8 @@ public class GroupSearchPage extends BaseActivity {
                         idAward = idCriteria.substring(2, 4);
                         idProgram = idCriteria.substring(4, 7);
                         // idService = idCriteria.substring(7);
-                        /**                         * for test purpose (to check error )   {@link GroupSearchPage#loadAssignedListData(String, String, String, String, String) method}                   */
-                       // loadAssignedListData(idCountry, idDonor, idAward, idProgram, "");
+                        /**                         * for test purpose (to check error )   {@link GroupSearchPage#loadCommunityGroupListData(String, String, String, String, String) method}                   */
+                       // loadCommunityGroupListData(idCountry, idDonor, idAward, idProgram, "");
                         LoadListView loading = new LoadListView(idCountry, idDonor, idAward, idProgram, "");
                         loading.execute();
                     }
@@ -260,7 +260,7 @@ public class GroupSearchPage extends BaseActivity {
         protected String doInBackground(Void... params) {
 
 
-            loadAssignedListData(temCCode, temDonorCode, temAwardCode, temProgCode, groupName);
+            loadCommunityGroupListData(temCCode, temDonorCode, temAwardCode, temProgCode, groupName);
 
 
             return "successes";
@@ -312,7 +312,7 @@ public class GroupSearchPage extends BaseActivity {
         pDialog.show();
     }
 
-    private void loadAssignedListData(final String cCode, final String donorCode, final String awardCode, final String progCode, final String groupName) { // mwmSId = memeber searchin variable
+    private void loadCommunityGroupListData(final String cCode, final String donorCode, final String awardCode, final String progCode, final String groupName) { // mwmSId = memeber searchin variable
 
         List<CommunityGroupDataModel> groupList = sqlH.getCommunityGroupList(cCode, donorCode, awardCode, progCode, groupName);
 

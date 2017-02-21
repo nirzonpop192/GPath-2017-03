@@ -25,6 +25,38 @@ public class AGR_DataModel extends PrimaryDataModel {
     private String agCu;
     private String agOrther;
 
+    /**
+     *
+     * only for we
+     */
+    private String regNDate;
+    private String wealthRank;
+    private String memExitGrp;
+
+    public String getMemExitGrp() {
+        return memExitGrp;
+    }
+
+    public void setMemExitGrp(String memExitGrp) {
+        this.memExitGrp = memExitGrp;
+    }
+
+    public String getRegNDate() {
+        return regNDate;
+    }
+
+    public void setRegNDate(String regNDate) {
+        this.regNDate = regNDate;
+    }
+
+    public String getWealthRank() {
+        return wealthRank;
+    }
+
+    public void setWealthRank(String wealthRank) {
+        this.wealthRank = wealthRank;
+    }
+
     public String getStrPlantingVcrop() {
         return strPlantingVcrop;
     }

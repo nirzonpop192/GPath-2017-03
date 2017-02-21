@@ -897,7 +897,7 @@ public class MapActivity extends BaseActivity {
      */
 
     private void loadLocation(final String cCode) {
-        SpinnerLoader.loadLocationLoader(mContext, sqlH, spLocation, cCode, idLocation, strLocation);
+        SpinnerLoader.loadLocationLoader(mContext, sqlH, spLocation,  idLocation, strLocation, SQLiteQuery.loadLocationLoader_sql(cCode));
 
 
         spLocation.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {

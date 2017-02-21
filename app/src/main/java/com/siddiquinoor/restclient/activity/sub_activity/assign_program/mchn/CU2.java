@@ -56,19 +56,8 @@ public class CU2 extends BaseActivity {
     private Context mContext;
     private String holderStrAward;
     private String holderStrProgram;
-    /*  private String strRegDate;
-      private String strDobDate;*/
-/*    private String memberAge;
 
 
-    private String holderGender;
-    private String holderIdRelation;
-    private String holderStrRelation;
-    private String holderStrDistrict;
-    private String holderStrUpzilla;
-    private String holderStrUnit;*/
-
-    // EditText tv_HhName;
 
     private SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
     private Calendar calendar = Calendar.getInstance();
@@ -77,9 +66,6 @@ public class CU2 extends BaseActivity {
     AssignDataModel assignMem = new AssignDataModel();
     private String memberId15D;
     private final String TAG = CU2.class.getName();
-//    private String holderStrCriteria;
-//    private String holderStrVillage;
-
 
     //    private boolean isDir4mMemReg;
     private Spinner spGroup;
@@ -95,13 +81,7 @@ public class CU2 extends BaseActivity {
     private EditText edtChildName;
 
 
-/*    public boolean isDir4mMemReg() {
-        return isDir4mMemReg;
-    }
 
-    public void setIsDir4mMemReg(boolean isDir4mMemReg) {
-        this.isDir4mMemReg = isDir4mMemReg;
-    }*/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -251,21 +231,7 @@ public class CU2 extends BaseActivity {
      * ** LOAD: Active Status
      */
     private void loadActiveStatus() {
-        int pos = 0;
-
-        ArrayAdapter<CharSequence> adptMartial = ArrayAdapter.createFromResource(
-                this, R.array.arrActive, R.layout.spinner_layout);
-
-        adptMartial.setDropDownViewResource(R.layout.spinner_layout);
-        spActive.setAdapter(adptMartial);
-        if (idActive != null) {
-            if (idActive.equals("Y"))
-                pos = 0;
-            else
-                pos = 1;
-
-            spActive.setSelection(pos);
-        }
+        SpinnerLoader.loadActiveStatusLoader(mContext, spActive, idActive);
 
 
         spActive.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {

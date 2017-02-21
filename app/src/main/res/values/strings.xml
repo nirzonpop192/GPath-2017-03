@@ -193,7 +193,7 @@
     <string name="srv_summary_TitleLable">Service Summary </string>
     <string name="tv_criteria">Criteria</string>
     <!-- LOG IN SCREEN -->
-    <string name="log_in_version_lable">GPath-LIV-07</string>
+    <string name="log_in_version_lable">GPath-LIV-09</string>
     <!-- VERSION -->
 
 
@@ -601,4 +601,7 @@ Otherwise, initiate to sync and login again.</string>
     <string name="apk_on_device">APK ON DEVICE</string>
     <string name="version_name">Version Name</string>
     <string name="xxxxxx_xxxxxxxx">XXXXXX-XXXXXXXX</string>
+    <string name="dttitle">DTTitle</string>
+    <string name="wealth_rank">Wealth Rank</string>
+    <string name="existing_group">Existing Group</string>
 </resources>

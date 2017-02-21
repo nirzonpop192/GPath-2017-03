@@ -29,12 +29,14 @@ import com.siddiquinoor.restclient.activity.sub_activity.assign_program.peer.Ass
 import com.siddiquinoor.restclient.activity.sub_activity.assign_program.peer.AssignForLiberiaUCT;
 import com.siddiquinoor.restclient.fragments.BaseActivity;
 import com.siddiquinoor.restclient.manager.SQLiteHandler;
+import com.siddiquinoor.restclient.manager.sqlsyntax.SQLiteQuery;
 import com.siddiquinoor.restclient.utils.CalculationPadding;
 import com.siddiquinoor.restclient.utils.KEY;
 import com.siddiquinoor.restclient.views.adapters.AssignDataModel;
 import com.siddiquinoor.restclient.views.adapters.AssignDataModelAdapter;
 import com.siddiquinoor.restclient.views.helper.SpinnerHelper;
 import com.siddiquinoor.restclient.views.notifications.ADNotificationManager;
+import com.siddiquinoor.restclient.views.spinner.SpinnerLoader;
 
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -148,6 +150,7 @@ public class AssignActivity extends BaseActivity {
     public static final String IG = "04";
     public static final String LG = "05";
     public static final String MG = "06";
+    public static final String WE = "07";
     public static final String DDR = "002";
     public static final String VUL = "01";
     public static final String FFA = "02";
@@ -241,25 +244,14 @@ public class AssignActivity extends BaseActivity {
     }
 
 
-
-
-
     private void viewReference() {
         spAward = (Spinner) findViewById(R.id.sp_assine_awardList);
         spProgram = (Spinner) findViewById(R.id.spProgram);
         spCriteria = (Spinner) findViewById(R.id.spCriteriaA);
-
-
         listViewAss = (ListView) findViewById(R.id.lv_assign);
-
         tv_memberID = (TextView) findViewById(R.id.tv_memberId);
-
         btnGoTo = (Button) findViewById(R.id.btnHomeFooter);
-
-
         btnMemberSearchPage = (Button) findViewById(R.id.btnRegisterFooter);
-
-
     }
 
 
@@ -340,8 +332,6 @@ public class AssignActivity extends BaseActivity {
         pDialog = new ProgressDialog(this);
 
 
-
-
         btnGoTo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -410,23 +400,12 @@ public class AssignActivity extends BaseActivity {
                                 break;//PROGRAM CODE DDR CLOSE
 
                             case AGRP://program code AGRP OPEN
-                                switch (srvCode) {
-                                    case AGR:
-                                        iSubAssignClass = new Intent(mContext, com.siddiquinoor.restclient.activity.sub_activity.assign_program.agr.AGR.class);
-                                        break;
-                                    case PG:
-                                        iSubAssignClass = new Intent(mContext, com.siddiquinoor.restclient.activity.sub_activity.assign_program.agr.AGR.class);
-                                        break;
-                                    case IG:
-                                        iSubAssignClass = new Intent(mContext, com.siddiquinoor.restclient.activity.sub_activity.assign_program.agr.AGR.class);
-                                        break;
-                                    case LG:
-                                        iSubAssignClass = new Intent(mContext, com.siddiquinoor.restclient.activity.sub_activity.assign_program.agr.AGR.class);
-                                        break;
-                                    case MG:
-                                        iSubAssignClass = new Intent(mContext, com.siddiquinoor.restclient.activity.sub_activity.assign_program.agr.AGR.class);
-                                        break;
-                                }
+
+
+                                if (srvCode.equals(AGR) || srvCode.equals(PG) || srvCode.equals(IG) || srvCode.equals(LG) || srvCode.equals(MG) || srvCode.equals(WE))
+                                    iSubAssignClass = new Intent(mContext, com.siddiquinoor.restclient.activity.sub_activity.assign_program.agr.AGR.class);
+
+
                                 break;//program code AGRP ClOSE
                         }
                         break;//AWARD CODE NJIRA CLOSE
@@ -567,30 +546,9 @@ public class AssignActivity extends BaseActivity {
     /**
      * LOAD :: Award
      */
-    private void loadAward(final String idCountry) {
+    private void loadAward(final String cCode) {
 
-        int position = 0;
-        String criteria = " WHERE " + SQLiteHandler.ADM_COUNTRY_AWARD_TABLE + "." + SQLiteHandler.COUNTRY_CODE_COL + " = '" + idCountry + "'";
-
-        List<SpinnerHelper> listAward = sqlH.getListAndID(SQLiteHandler.ADM_COUNTRY_AWARD_TABLE, criteria, null, false);
-
-
-        ArrayAdapter<SpinnerHelper> dataAdapter = new ArrayAdapter<SpinnerHelper>(this, R.layout.spinner_layout, listAward);
-
-        dataAdapter.setDropDownViewResource(R.layout.spinner_layout);
-
-        spAward.setAdapter(dataAdapter);
-
-
-        if (idAward != null) {
-            for (int i = 0; i < spAward.getCount(); i++) {
-                String award = spAward.getItemAtPosition(i).toString();
-                if (award.equals(strAward)) {
-                    position = i;
-                }
-            }
-            spAward.setSelection(position);
-        }
+        SpinnerLoader.loadAwardLoader(mContext, sqlH, spAward, cCode, idAward, strAward);
 
 
         spAward.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -603,7 +561,7 @@ public class AssignActivity extends BaseActivity {
                 if (awardCode.length() > 2) {
                     idDonor = awardCode.substring(0, 2);
                     idAward = awardCode.substring(2);
-                    loadProgram(idCountry, idAward, idDonor);
+                    loadProgram(cCode, idAward, idDonor);
 
                 }
 
@@ -673,30 +631,9 @@ public class AssignActivity extends BaseActivity {
     /**
      * LOAD :: Criteria
      */
-    private void loadCriteria(final String idAward, final String donorId, final String idProgram, final String cCode) {
+    private void loadCriteria(final String awardCode, final String donorCode, final String programCode, final String cCode) {
 
-        int position = 0;
-        String criteria = " WHERE " + SQLiteHandler.COUNTRY_PROGRAM_TABLE + "." + SQLiteHandler.AWARD_CODE_COL + "='" + idAward + "'"
-                + " AND " + SQLiteHandler.COUNTRY_PROGRAM_TABLE + "." + SQLiteHandler.DONOR_CODE_COL + "='" + donorId + "'"
-                + " AND " + SQLiteHandler.COUNTRY_PROGRAM_TABLE + "." + SQLiteHandler.PROGRAM_CODE_COL + "='" + idProgram + "'";
-        // Spinner Drop down elements for District
-        List<SpinnerHelper> listCriteria = sqlH.getListAndID(SQLiteHandler.SERVICE_MASTER_TABLE, criteria, null, false);
-
-
-        ArrayAdapter<SpinnerHelper> dataAdapter = new ArrayAdapter<SpinnerHelper>(this, R.layout.spinner_layout, listCriteria);
-        dataAdapter.setDropDownViewResource(R.layout.spinner_layout);
-        spCriteria.setAdapter(dataAdapter);
-
-
-        if (idCriteria != null) {
-            for (int i = 0; i < spCriteria.getCount(); i++) {
-                String criteriaN = spCriteria.getItemAtPosition(i).toString();
-                if (criteriaN.equals(strCriteria)) {
-                    position = i;
-                }
-            }
-            spCriteria.setSelection(position);
-        }
+        SpinnerLoader.loadCriteriaLoader(mContext, sqlH, spCriteria, idCriteria, strCriteria, SQLiteQuery.loadCriteria_sql(awardCode, donorCode, programCode));
 
 
         spCriteria.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -711,7 +648,7 @@ public class AssignActivity extends BaseActivity {
                     //    loadLayRList(cCode, idAward, donorId, idProgram, idCriteria);// idService=idCriteria
                    /* LoadListView loading = new LoadListView(idCountryC, idDistrictC, idUpazilaC, idUnitC, idVillageC, idDonor, idAward, idProgram, idService, "");
                     loading.execute();*/
-                    loadAssignedListData(idCountry, idDistrictC, idUpazilaC, idUnitC, idVillage, idDonor, idAward, idProgram, idCriteria, "");
+                    loadAssignedListData(idCountry, idDistrictC, idUpazilaC, idUnitC, idVillage, idDonor, awardCode, programCode, idCriteria, "");
 
 
                 } else {
@@ -758,7 +695,7 @@ public class AssignActivity extends BaseActivity {
 
             adapter = new AssignDataModelAdapter((Activity) AssignActivity.this, assignedArray, awardCode, strAward, progCode, strProgram, srvCode, idDonor, strCriteria, idCriteria, strCriteria, strVillage, entryBy, entryDate);
 
-            if (adapter.getCount()>0 ) {
+            if (adapter.getCount() > 0) {
 
                 adapter.notifyDataSetChanged();
                 listViewAss.setAdapter(adapter);

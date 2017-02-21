@@ -1,9 +1,11 @@
 package com.siddiquinoor.restclient.activity.sub_activity.summary_sub;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -20,8 +22,8 @@ import com.siddiquinoor.restclient.R;
 import com.siddiquinoor.restclient.fragments.BaseActivity;
 import com.siddiquinoor.restclient.manager.SQLiteHandler;
 import com.siddiquinoor.restclient.utils.KEY;
-import com.siddiquinoor.restclient.views.adapters.SummaryAssignListModel;
-import com.siddiquinoor.restclient.views.adapters.SummaryAssignListModelAdapter;
+import com.siddiquinoor.restclient.views.adapters.SummaryOfMemberAssignedListModel;
+import com.siddiquinoor.restclient.views.adapters.SummaryOfMemberAssignedListAdapter;
 import com.siddiquinoor.restclient.views.notifications.ADNotificationManager;
 
 import java.util.ArrayList;
@@ -44,9 +46,9 @@ public class SummaryAssignBaseCriteria extends BaseActivity implements AdapterVi
     private String idService;
     private ListView lv_assignList;
     private SQLiteHandler sqlH;
-    private Context mcontext;
-    private ArrayList<SummaryAssignListModel> assignLisArray = new ArrayList<SummaryAssignListModel>();
-    private SummaryAssignListModelAdapter adapter;
+    private Context mContext;
+    private ArrayList<SummaryOfMemberAssignedListModel> assignLisArray = new ArrayList<SummaryOfMemberAssignedListModel>();
+    private SummaryOfMemberAssignedListAdapter adapter;
     private String idDonor;
     private String idDistrict;
     private String idUpazila;
@@ -61,10 +63,10 @@ public class SummaryAssignBaseCriteria extends BaseActivity implements AdapterVi
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_summary_assign_base_criteria);
         viewReference();
-        mcontext = SummaryAssignBaseCriteria.this;
+        mContext = this;
         dialog = new ADNotificationManager();
 
-        sqlH = new SQLiteHandler(mcontext);
+        sqlH = new SQLiteHandler(mContext);
         getDataFromIntent();
         tvProgram.setText(strProgram);
 
@@ -72,7 +74,7 @@ public class SummaryAssignBaseCriteria extends BaseActivity implements AdapterVi
         tvCriteria.setText(strCriteria);
         loadAssignSummaryList(idCountry, idDistrict, idUpazila, idUnit, idVillage, idDonor, idAward, idProgram, idService);
 
-       setAllListener();
+        setAllListener();
 
 
     }
@@ -82,14 +84,14 @@ public class SummaryAssignBaseCriteria extends BaseActivity implements AdapterVi
             @Override
             public void onClick(View v) {
                 finish();
-                startActivity(new Intent(mcontext, MainActivity.class));
+                startActivity(new Intent(mContext, MainActivity.class));
             }
         });
         btnAssignSummary.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
-                Intent iAssSummayCri = new Intent(mcontext, SummaryAssignCriteria.class);
+                Intent iAssSummayCri = new Intent(mContext, SummaryAssignCriteria.class);
 //                iAssSummayCri.putExtra("COUNTRY_ID", idCountry);
                 iAssSummayCri.putExtra(KEY.COUNTRY_ID, idCountry);
                 iAssSummayCri.putExtra("ASS_SUMM_DIR", true);
@@ -121,7 +123,7 @@ public class SummaryAssignBaseCriteria extends BaseActivity implements AdapterVi
         idDistrict = intent.getStringExtra(KEY.DISTRICT_CODE);
         idUpazila = intent.getStringExtra(KEY.UPAZILLA_CODE);
         idUnit = intent.getStringExtra(KEY.UNIT_CODE);
-        Log.d(TAG, " in idCountry:"+idCountry);
+        Log.d(TAG, " in idCountry:" + idCountry);
 
        /* Log.d(TAG, " in Assigne summary idService   \n" + idService +
              //   "strCriteria \n" + strCriteria +
@@ -147,25 +149,37 @@ public class SummaryAssignBaseCriteria extends BaseActivity implements AdapterVi
         btnHome = (Button) findViewById(R.id.btnHomeFooter);
         btnAssignSummary = (Button) findViewById(R.id.btnRegisterFooter);
         btnAssignSummary.setText("");
+
+
+    }
+
+    /**
+     * calling getWidth() and getHeight() too early:
+     * When  the UI has not been sized and laid out on the screen yet..
+     *
+     * @param hasFocus the value will be true when UI is focus
+     */
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
         setUpGoToAssgnButton();
         setUpHomeButton();
-
     }
 
-
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     private void setUpGoToAssgnButton() {
         btnAssignSummary.setText("");
-        Drawable saveImage = getResources().getDrawable(R.drawable.goto_back);
-        btnAssignSummary.setCompoundDrawablesRelativeWithIntrinsicBounds(saveImage, null, null, null);
-        btnAssignSummary.setPadding(180, 10, 180, 10);
+        Drawable backImage = getResources().getDrawable(R.drawable.goto_back);
+        btnAssignSummary.setCompoundDrawablesRelativeWithIntrinsicBounds(backImage, null, null, null);
+        setPaddingButton(mContext, backImage, btnAssignSummary);
     }
 
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     private void setUpHomeButton() {
-
         btnHome.setText("");
         Drawable imageHome = getResources().getDrawable(R.drawable.home_b);
         btnHome.setCompoundDrawablesRelativeWithIntrinsicBounds(imageHome, null, null, null);
-        btnHome.setPadding(180, 10, 180, 10);
+        setPaddingButton(mContext, imageHome, btnHome);
     }
 
     /**
@@ -178,22 +192,22 @@ public class SummaryAssignBaseCriteria extends BaseActivity implements AdapterVi
 
 
         // use veriable to like operation
-        List<SummaryAssignListModel> assignList = sqlH.getTotalAssignSummary(cCode, disCode, upCode, unCode, vCode, donorCode, awardCode, progCode, srvCode);
+        List<SummaryOfMemberAssignedListModel> assignList = sqlH.getTotalListOfMemberRAssignedSummary(cCode, disCode, upCode, unCode, vCode, donorCode, awardCode, progCode, srvCode);
         if (assignList.size() != 0) {
             assignLisArray.clear();
-            for (SummaryAssignListModel data : assignList) {
+            for (SummaryOfMemberAssignedListModel data : assignList) {
                 // add contacts data in arrayList
                 assignLisArray.add(data);
             }
 
-            adapter = new SummaryAssignListModelAdapter((Activity) mcontext, assignLisArray);
+            adapter = new SummaryOfMemberAssignedListAdapter((Activity) mContext, assignLisArray);
             adapter.notifyDataSetChanged();
             lv_assignList.setAdapter(adapter);
             lv_assignList.setOnItemClickListener(this);
             lv_assignList.setFocusableInTouchMode(true);
-            Toast.makeText(mcontext, "Size : " + assignList.size(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(mContext, "Size : " + assignList.size(), Toast.LENGTH_SHORT).show();
         } else {
-            dialog.showInfromDialog(mcontext, "No Data", " No data for this village");
+            dialog.showInfromDialog(mContext, "No Data", " No data for this village");
         }
         //hidePDialog();
     }
@@ -205,12 +219,12 @@ public class SummaryAssignBaseCriteria extends BaseActivity implements AdapterVi
     }
 
     /**
-     *  2015-10-17
-     *  Faial Mohammad
-     *  off the back press button
+     * 2015-10-17
+     * Faial Mohammad
+     * off the back press button
      */
 
-  @Override
+    @Override
     public void onBackPressed() {
         //super.onBackPressed();
     }

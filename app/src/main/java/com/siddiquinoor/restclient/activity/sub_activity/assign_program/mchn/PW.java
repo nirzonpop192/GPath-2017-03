@@ -31,6 +31,7 @@ import com.siddiquinoor.restclient.manager.sqlsyntax.SQLServerSyntaxGenerator;
 import com.siddiquinoor.restclient.views.adapters.AssignDataModel;
 import com.siddiquinoor.restclient.views.helper.SpinnerHelper;
 import com.siddiquinoor.restclient.views.notifications.ADNotificationManager;
+import com.siddiquinoor.restclient.views.spinner.SpinnerLoader;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -225,33 +226,7 @@ public class PW extends BaseActivity {
     private void loadGroupCategory(final String cCode, final String donorCode, final String awardCode,
                                    final String progCode) {
 
-        int position = 0;
-        String criteria = " WHERE " + SQLiteHandler.COUNTRY_CODE_COL + " = '" + cCode + "' "
-                + " AND " + SQLiteHandler.DONOR_CODE_COL + " = '" + donorCode + "' "
-                + " AND " + SQLiteHandler.AWARD_CODE_COL + " = '" + awardCode + "' "
-                + " AND " + SQLiteHandler.PROGRAM_CODE_COL + " = '" + progCode + "' ";
-
-
-        // Spinner Drop down elements for District
-        List<SpinnerHelper> listAward = sqlH.getListAndID(SQLiteHandler.COMMUNITY_GROUP_CATEGORY_TABLE, criteria, null, false);
-
-        // Creating adapter for spinner
-        ArrayAdapter<SpinnerHelper> dataAdapter = new ArrayAdapter<SpinnerHelper>(this, R.layout.spinner_layout, listAward);
-        // Drop down layout style
-        dataAdapter.setDropDownViewResource(R.layout.spinner_layout);
-        // attaching data adapter to spinner
-        spGroupCategories.setAdapter(dataAdapter);
-
-
-        if (idGroupCat != null) {
-            for (int i = 0; i < spGroupCategories.getCount(); i++) {
-                String groupCategory = spGroupCategories.getItemAtPosition(i).toString();
-                if (groupCategory.equals(strGroupCat)) {
-                    position = i;
-                }
-            }
-            spGroupCategories.setSelection(position);
-        }
+        SpinnerLoader.loadGroupCatLoader(mContext,sqlH,spGroupCategories,cCode,donorCode,awardCode,progCode,idGroupCat,strGroupCat);
 
 
         spGroupCategories.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -263,7 +238,7 @@ public class PW extends BaseActivity {
                 if (idGroupCat.length() > 2)
                     loadGroup(cCode, donorCode, awardCode, progCode, idGroupCat);
 
-                Log.d(TAG, "Group Category ,idGroupCat:" + idGroupCat + " strGroupCat : " + strGroupCat);
+             //   Log.d(TAG, "Group Category ,idGroupCat:" + idGroupCat + " strGroupCat : " + strGroupCat);
 
             }
 
@@ -288,36 +263,7 @@ public class PW extends BaseActivity {
     private void loadGroup(final String cCode, final String donorCode, final String awardCode
             , final String progCode, final String grpCateCode) {
 
-        int position = 0;
-        String criteria = " WHERE " + SQLiteHandler.COUNTRY_CODE_COL + " = '" + cCode + "' "
-                + " AND " + SQLiteHandler.DONOR_CODE_COL + " = '" + donorCode + "' "
-                + " AND " + SQLiteHandler.AWARD_CODE_COL + " = '" + awardCode + "' "
-                + " AND " + SQLiteHandler.PROGRAM_CODE_COL + " = '" + progCode + "' "
-                + " AND " + SQLiteHandler.GROUP_CAT_CODE_COL + " = '" + grpCateCode + "' "
-                //    + " AND " + SQLiteHandler.SERVICE_CENTER_CODE_COL + " = '" + idSrvCenter + "' "
-                ;
-
-
-        // Spinner Drop down elements for District
-        List<SpinnerHelper> listAward = sqlH.getListAndID(SQLiteHandler.COMMUNITY_GROUP_TABLE, criteria, null, false);
-
-        // Creating adapter for spinner
-        ArrayAdapter<SpinnerHelper> dataAdapter = new ArrayAdapter<SpinnerHelper>(this, R.layout.spinner_layout, listAward);
-        // Drop down layout style
-        dataAdapter.setDropDownViewResource(R.layout.spinner_layout);
-        // attaching data adapter to spinner
-        spGroup.setAdapter(dataAdapter);
-
-
-        if (idGroup != null) {
-            for (int i = 0; i < spGroup.getCount(); i++) {
-                String groupCategory = spGroup.getItemAtPosition(i).toString();
-                if (groupCategory.equals(strGroup)) {
-                    position = i;
-                }
-            }
-            spGroup.setSelection(position);
-        }
+        SpinnerLoader.loadGroupLoader(mContext, sqlH, spGroup, cCode, donorCode, awardCode, progCode, grpCateCode, idGroup, strGroup);
 
 
         spGroup.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -325,14 +271,12 @@ public class PW extends BaseActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 strGroup = ((SpinnerHelper) spGroup.getSelectedItem()).getValue();
                 idGroup = ((SpinnerHelper) spGroup.getSelectedItem()).getId();
-                Log.d("HEO", "Group  ,idGroup:" + idGroup + " strGroup : " + strGroup);
+
                 if (idGroup.length() > 2) {
-
-
                     loadActiveStatus();
 
                 }
-
+                //  Log.d(TAG, "Group  ,idGroup:" + idGroup + " strGroup : " + strGroup);
 
             }
 
@@ -346,25 +290,11 @@ public class PW extends BaseActivity {
 
     /**
      * ** LOAD: Active Status
+     * the value loaded in {@link SpinnerLoader#loadActiveStatusLoader(Context, Spinner, String)} method
      */
     private void loadActiveStatus() {
-        int pos = 0;
 
-        ArrayAdapter<CharSequence> adptMartial = ArrayAdapter.createFromResource(
-                this, R.array.arrActive, R.layout.spinner_layout);
-
-        adptMartial.setDropDownViewResource(R.layout.spinner_layout);
-        spActive.setAdapter(adptMartial);
-
-        if (idActive != null) {
-            if (idActive.equals("Y"))
-                pos = 0;
-            else
-                pos = 1;
-
-            spActive.setSelection(pos);
-        }
-
+        SpinnerLoader.loadActiveStatusLoader(mContext, spActive, idActive);
 
         spActive.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override

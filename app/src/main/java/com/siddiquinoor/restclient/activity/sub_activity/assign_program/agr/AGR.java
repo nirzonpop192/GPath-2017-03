@@ -54,6 +54,7 @@ public class AGR extends BaseActivity {
     public static final int IRRIGATION_GROUP = 04;
     public static final int LIVESTOCK_GROUP = 05;
     public static final int MARKETING_GROUP = 06;
+    public static final int WE_VSL = 07;
 
     public static final String YES = "Y";
     public static final String NO = "N";
@@ -91,7 +92,7 @@ public class AGR extends BaseActivity {
     TextView tvHouseholdName, tvMemberName, tvMemberId, tvCriteria, tvRegDate, tvPageTitle;
     EditText edtLandSize, edtGoat, edtChicken, edtPigions, edtOther;
 
-    TextView labelLandSize, labelElderly, labelWillingness, labelWinterCultivation, labelVurnaableHousehold, labelPlantingVcCrop, labelDependonGunyu, labelDisable;
+    TextView labelLandSize, labelElderly, labelWillingness, labelWinterCultivation, labelVurnaableHousehold, labelPlantingVcCrop, labelDependonGunyu, labelDisable, labelWealthRank, labelMemExitingGroup;
 
     Switch switchElderly, switchWillingness, switchWinterCultivation, switchVurnaableHousehold, switchDependonGunyu, switchDisable;
 
@@ -102,7 +103,7 @@ public class AGR extends BaseActivity {
 
     String holderStrAward, holderStrProgram, holderStrVillage;
 
-    Spinner spVcCrop;
+    Spinner spVcCrop, spWealthRank, spMemExitingGroup;
     /**
      * Button
      */
@@ -398,18 +399,14 @@ public class AGR extends BaseActivity {
      * ** LOAD: Active Status
      */
     private void loadActiveStatus() {
-
-
         SpinnerLoader.loadActiveStatusLoader(mContext, spActive, idActive);
         spActive.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
                 String strActive = parent.getItemAtPosition(position).toString();
-
                 if (strActive.equals("Yes"))
                     idActive = "Y";
-
                 else
                     idActive = "N";
             }
@@ -448,9 +445,13 @@ public class AGR extends BaseActivity {
         labelVurnaableHousehold = (TextView) findViewById(R.id.tv_label_as_agr_mlwai_vulnerablehh);
         labelPlantingVcCrop = (TextView) findViewById(R.id.tv_label_as_agr_mlwai_plantingvcCrop);
         labelDisable = (TextView) findViewById(R.id.tv_label_as_agr_mlwai_disable);
+        labelWealthRank = (TextView) findViewById(R.id.tv_label_as_agr_mlwai_wealthRank);
+        labelMemExitingGroup = (TextView) findViewById(R.id.tv_label_as_agr_mlwai_exitingGroup);
         labelLandSize = (TextView) findViewById(R.id.tv_label_as_agr_mlwai_landSize);
         labelDependonGunyu = (TextView) findViewById(R.id.tv_label_as_agr_mlwai_dependonGanyu);
         spVcCrop = (Spinner) findViewById(R.id.spiner_as_agr_mlwai_vcCrop);
+        spWealthRank = (Spinner) findViewById(R.id.sp_ass_agrWealthRank);
+        spMemExitingGroup = (Spinner) findViewById(R.id.sp_ass_agrMemExitGroup);
 
         /**         * 4 button         */
         btnSave = (Button) findViewById(R.id.btn_assign_agr_save);
@@ -627,73 +628,86 @@ public class AGR extends BaseActivity {
 
                     sqlH.editMemberDataIn_RegNAsgProgSrv(assignDataModel);
                     /**                     * Upload Syntax ( update )                     */
-                    sqlH.insertIntoUploadTable(assign_agr.updateRegAssProgSrvForAssign());
+                       sqlH.insertIntoUploadTable(assign_agr.updateRegAssProgSrvForAssign());
 
                 } else {
                     sqlH.addMemberDataInto_RegNAsgProgSrv(assignDataModel);
                     /**                     * Upload Syntax ( insert )                     */
                     sqlH.insertIntoUploadTable(assign_agr.insertIntoRegAssProgSrv());
+                    // sqlSpRegNAssignProgSrv_Save
 
                 }
 
-                /**                 * check RegN_AGR                 */
-                if (sqlH.ifDataExistIn_RegN_AGR(assignDataModel.getCountryCode(), assignDataModel.getDistrictCode(), assignDataModel.getUpazillaCode(), assignDataModel.getUnitCode(), assignDataModel.getVillageCode(), assignDataModel.getHh_id(), assignDataModel.getMemId())) {
+              //  sqlH.insertIntoUploadTable(assign_agr.sqlSpRegNAssignProgSrv_Save());
+
+                int srvCode = Integer.parseInt(assignDataModel.getService_code());
+                if (srvCode != WE_VSL) {
+                    /**                 * check RegN_AGR                 */
+                    if (sqlH.ifDataExistIn_RegN_AGR(assignDataModel.getCountryCode(), assignDataModel.getDistrictCode(), assignDataModel.getUpazillaCode(), assignDataModel.getUnitCode(), assignDataModel.getVillageCode(), assignDataModel.getHh_id(), assignDataModel.getMemId())) {
+                        String land = edtLandSize.getText().toString();
+
+                        switch (srvCode) {
+                            case ELDERLY:
+                                sqlH.edtAssignAgerIn_Elderley(assignDataModel, getElderley(), strRegDate);
+
+                                break;
+                            case PRODUCER_GROUP:
+                                sqlH.edtAssignAgerIn_PG(assignDataModel, land, getWillingness(), getDependOnGunnyu(), strRegDate, data.getStrOtherAgActivitiesINVC(), data.getStrOtherAgActivitiesNASFAM(), data.getStrOtherAgActivitiesCU(), data.getStrOtherAgActivitiesOther(), data.getIntGoat(), data.getIntChicken(), data.getIntPegion(), data.getIntOther());
+
+                                break;
+                            case MARKETING_GROUP:
+                                sqlH.edtAssignAgerIn_MG(assignDataModel, land, getWillingness(), idVcCrop, strRegDate);
+
+                                break;
+                            case IRRIGATION_GROUP:
+                                sqlH.edtAssignAgerIn_IG(assignDataModel, land, getWillingness(), getWinterCultivation(), strRegDate);
+
+                                break;
+                            case LIVESTOCK_GROUP:
+                                sqlH.edtAssignAgerIn_LG(assignDataModel, land, getWillingness(), getVurnableHousehold(), strRegDate);
+
+                                break;
+
+                        }//End Of Switch
+                    } else {
+                        data.setCountryCode(assignDataModel.getCountryCode());
+
+                        data.setDistrictCode(assignDataModel.getDistrictCode());
+                        data.setUpazillaCode(assignDataModel.getUpazillaCode());
+                        data.setUnitCode(assignDataModel.getUnitCode());
+                        data.setVillageCode(assignDataModel.getVillageCode());
+                        data.setHhId(assignDataModel.getHh_id());
+                        data.setHhMemId(assignDataModel.getMemId());
+                        data.setRegnDate(assignDataModel.getRegNDate());
+                        data.setElderleyYN(getElderley());
+                        data.setLandSize(edtLandSize.getText().toString());
+                        data.setDepenonGanyu(getDependOnGunnyu());
+                        data.setWillingness(getWillingness());
+                        data.setWinterCultivation(getWinterCultivation());
+                        data.setVulnerableHh(getVurnableHousehold());
+                        data.setPlantingVcrop(idVcCrop);
+                        data.setEntryBy(getStaffID());
+                        try {
+                            data.setEntryDate(getDateTime());
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+                        sqlH.insertDataInto_RegNAgrTable(data, data.getStrOtherAgActivitiesINVC(), data.getStrOtherAgActivitiesNASFAM(), data.getStrOtherAgActivitiesCU(), data.getStrOtherAgActivitiesOther(), data.getIntGoat(), data.getIntChicken(), data.getIntPegion(), data.getIntOther());
+                        sqlH.insertIntoUploadTable(assign_agr.insertIntoRegN_Agr_Table());
 
 
-                    int srvCode = Integer.parseInt(assignDataModel.getService_code());
-                    String land = edtLandSize.getText().toString();
+                    }/**                 * end of else                             */
 
-                    switch (srvCode) {
-                        case ELDERLY:
-                            sqlH.edtAssignAgerIn_Elderley(assignDataModel, getElderley(), strRegDate);
-
-                            break;
-                        case PRODUCER_GROUP:
-                            sqlH.edtAssignAgerIn_PG(assignDataModel, land, getWillingness(), getDependOnGunnyu(), strRegDate, data.getStrOtherAgActivitiesINVC(), data.getStrOtherAgActivitiesNASFAM(), data.getStrOtherAgActivitiesCU(), data.getStrOtherAgActivitiesOther(), data.getIntGoat(), data.getIntChicken(), data.getIntPegion(), data.getIntOther());
-
-                            break;
-                        case MARKETING_GROUP:
-                            sqlH.edtAssignAgerIn_MG(assignDataModel, land, getWillingness(), idVcCrop, strRegDate);
-
-                            break;
-                        case IRRIGATION_GROUP:
-                            sqlH.edtAssignAgerIn_IG(assignDataModel, land, getWillingness(), getWinterCultivation(), strRegDate);
-
-                            break;
-                        case LIVESTOCK_GROUP:
-                            sqlH.edtAssignAgerIn_LG(assignDataModel, land, getWillingness(), getVurnableHousehold(), strRegDate);
-
-                            break;
-
-                    }//End Of Switch
                 } else {
-                    data.setCountryCode(assignDataModel.getCountryCode());
+                    if (sqlH.ifDataExistIn_RegN_WE(assignDataModel.getCountryCode(), assignDataModel.getDistrictCode(), assignDataModel.getUpazillaCode(), assignDataModel.getUnitCode(), assignDataModel.getVillageCode(), assignDataModel.getHh_id(), assignDataModel.getMemId())) {
 
-                    data.setDistrictCode(assignDataModel.getDistrictCode());
-                    data.setUpazillaCode(assignDataModel.getUpazillaCode());
-                    data.setUnitCode(assignDataModel.getUnitCode());
-                    data.setVillageCode(assignDataModel.getVillageCode());
-                    data.setHhId(assignDataModel.getHh_id());
-                    data.setHhMemId(assignDataModel.getMemId());
-                    data.setRegnDate(assignDataModel.getRegNDate());
-                    data.setElderleyYN(getElderley());
-                    data.setLandSize(edtLandSize.getText().toString());
-                    data.setDepenonGanyu(getDependOnGunnyu());
-                    data.setWillingness(getWillingness());
-                    data.setWinterCultivation(getWinterCultivation());
-                    data.setVulnerableHh(getVurnableHousehold());
-                    data.setPlantingVcrop(idVcCrop);
-                    data.setEntryBy(getStaffID());
-                    try {
-                        data.setEntryDate(getDateTime());
-                    } catch (ParseException e) {
-                        e.printStackTrace();
+                        sqlH.editInto_RegN_WETable(assignDataModel.getCountryCode(), assignDataModel.getDistrictCode(), assignDataModel.getUpazillaCode(), assignDataModel.getUnitCode(), assignDataModel.getVillageCode(), assignDataModel.getHh_id(), assignDataModel.getMemId(), regDate, wealthRankCode, memExitingGroupCode, entryBy, entryDate);
+                    } else {
+                        sqlH.insertInto_RegN_WETable(assignDataModel.getCountryCode(), assignDataModel.getDistrictCode(), assignDataModel.getUpazillaCode(), assignDataModel.getUnitCode(), assignDataModel.getVillageCode(), assignDataModel.getHh_id(), assignDataModel.getMemId(), regDate, wealthRankCode, memExitingGroupCode, entryBy, entryDate);
                     }
-                    sqlH.insertDataInto_RegNAgrTable(data, data.getStrOtherAgActivitiesINVC(), data.getStrOtherAgActivitiesNASFAM(), data.getStrOtherAgActivitiesCU(), data.getStrOtherAgActivitiesOther(), data.getIntGoat(), data.getIntChicken(), data.getIntPegion(), data.getIntOther());
-                    sqlH.insertIntoUploadTable(assign_agr.insertIntoRegN_Agr_Table());
 
-
-                }/**                 * end of else                             */
+                    sqlH.insertIntoUploadTable(assign_agr.sqlSpRegN_WE_Save_MW());
+                }
                 /**                  * get Group layR  list Code from Community Group                 */
                 LayRCodes grpLayRListCode = sqlH.getLayRListFromCommunityGroup(temAssignMemData.getCountryCode(), temAssignMemData.getDonor_code(), temAssignMemData.getAward_code(), temAssignMemData.getProgram_code(), idGroup, strGroup);
                 assign_agr.setGrpLayR1ListCode(grpLayRListCode.getLayR1Code());
@@ -765,6 +779,8 @@ public class AGR extends BaseActivity {
 
         assign_agr.setActive(idActive);
         assign_agr.setGrpCode(idGroup);
+        assign_agr.setWealthRanking(wealthRankCode);
+        assign_agr.setMemberExtGroup(memExitingGroupCode);
 
     }
 
@@ -876,7 +892,9 @@ public class AGR extends BaseActivity {
         //  tvRegDate.setText(assignDataModel.getRegNDate());
     }
 
-
+    /**
+     * set page title
+     */
     public void titlePage() {
 
 
@@ -903,6 +921,9 @@ public class AGR extends BaseActivity {
                     break;
                 case MARKETING_GROUP:
                     tvPageTitle.setText("Marketing Group");
+                case WE_VSL:
+                    tvPageTitle.setText("WE/VSL");
+
             }
         }
     }
@@ -915,6 +936,8 @@ public class AGR extends BaseActivity {
         labelPlantingVcCrop.setVisibility(View.GONE);
         labelDependonGunyu.setVisibility(View.GONE);
         labelDisable.setVisibility(View.GONE);
+        labelWealthRank.setVisibility(View.GONE);
+        labelMemExitingGroup.setVisibility(View.GONE);
         labelVurnaableHousehold.setVisibility(View.GONE);
         labelElderly.setVisibility(View.GONE);
         lblGoat.setVisibility(View.GONE);
@@ -930,6 +953,8 @@ public class AGR extends BaseActivity {
         switchWinterCultivation.setVisibility(View.GONE);
         switchDisable.setVisibility(View.GONE);
         spVcCrop.setVisibility(View.GONE);
+        spWealthRank.setVisibility(View.GONE);
+        spMemExitingGroup.setVisibility(View.GONE);
         switchVurnaableHousehold.setVisibility(View.GONE);
         switchDependonGunyu.setVisibility(View.GONE);
         switchElderly.setVisibility(View.GONE);
@@ -999,6 +1024,16 @@ public class AGR extends BaseActivity {
 
                 break;
 
+            case WE_VSL:
+                labelWealthRank.setVisibility(View.VISIBLE);
+                labelMemExitingGroup.setVisibility(View.VISIBLE);
+                spWealthRank.setVisibility(View.VISIBLE);
+                spMemExitingGroup.setVisibility(View.VISIBLE);
+                loadWealthRank();
+                loadMemExitingGroup();
+                activeGroupSpinner();
+                break;
+
         }
     }
 
@@ -1025,11 +1060,20 @@ public class AGR extends BaseActivity {
      * todo restore group code
      */
     private void setVisibilityDataExists() {
-        AGR_DataModel agr_dataModel = sqlH.checkAssignCriteriaInAGR_TableForMalwai(assignDataModel.getCountryCode(), assignDataModel.getDistrictCode(),
-                assignDataModel.getUpazillaCode(), assignDataModel.getUnitCode(), assignDataModel.getVillageCode(),
-                assignDataModel.getHh_id(), assignDataModel.getMemId(), false);
 
         int srvCode = Integer.parseInt(assignDataModel.getService_code());
+        AGR_DataModel agr_dataModel = null;
+        if (srvCode != WE_VSL) {
+            agr_dataModel = sqlH.checkAssignCriteriaInAGR_TableForMalwai(assignDataModel.getCountryCode(), assignDataModel.getDistrictCode(),
+                    assignDataModel.getUpazillaCode(), assignDataModel.getUnitCode(), assignDataModel.getVillageCode(),
+                    assignDataModel.getHh_id(), assignDataModel.getMemId(), false);
+        } else {
+            agr_dataModel = sqlH.checkAssignCriteriaInRegN_WE(assignDataModel.getCountryCode(), assignDataModel.getDistrictCode(),
+                    assignDataModel.getUpazillaCode(), assignDataModel.getUnitCode(), assignDataModel.getVillageCode(),
+                    assignDataModel.getHh_id(), assignDataModel.getMemId());
+
+        }
+
 
         switch (srvCode) {
             case ELDERLY:
@@ -1134,15 +1178,87 @@ public class AGR extends BaseActivity {
                     loadVcCrop();
                 }
                 break;
+            case WE_VSL:
+                // // TODO: 2/20/2017   load  wealthRankCode code  and memExitingGroupCode
+
+                if (agr_dataModel.getWealthRank() != null) {
+                    wealthRankCode = agr_dataModel.getWealthRank();
+                    loadWealthRank();
+                }
+
+                if (agr_dataModel.getMemExitGrp() != null) {
+                    memExitingGroupCode = agr_dataModel.getMemExitGrp();
+                    loadMemExitingGroup();
+                }
+
+                if (agr_dataModel.getRegNDate() != null) {
+                    if (agr_dataModel.getRegNDate().length() > 0)
+                        tvRegDate.setText(agr_dataModel.getRegNDate());
+                    else tvRegDate.setHint("Date");
+                }
+                break;
         }
     }
 
 
-    private ADNotificationManager dialog;
 
+
+    String wealthRankCode;
+
+    private void loadWealthRank() {
+
+        SpinnerLoader.loadActiveStatusLoader(mContext, spWealthRank, wealthRankCode);
+
+
+        spWealthRank.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String strActive = parent.getItemAtPosition(position).toString();
+                if (strActive.equals("Yes"))
+                    wealthRankCode = "Y";
+                else
+                    wealthRankCode = "N";
+                /** no dependence */
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+    } // end Load Spinner
+
+    String memExitingGroupCode;
+
+    private void loadMemExitingGroup() {
+
+        SpinnerLoader.loadActiveStatusLoader(mContext, spMemExitingGroup, memExitingGroupCode);
+
+
+        spMemExitingGroup.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String strActive = parent.getItemAtPosition(position).toString();
+                if (strActive.equals("Yes"))
+                    memExitingGroupCode = "Y";
+                else
+                    memExitingGroupCode = "N";
+                /** no dependence */
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+    } // end Load Spinner
 
     /**
-     * TODO: LOAD :: VcCrop
+     * LOAD :: VcCrop
      */
     private void loadVcCrop() {
 

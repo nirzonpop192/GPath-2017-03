@@ -763,11 +763,13 @@
     <string name="device_id">Device Id</string>
     <string name="dob_date">DOB Date</string>
     <string name="dt_response_title">Response</string>
+    <string name="dttitle">DTTitle</string>
     <string name="e">E.Core Criteria: HHs with PLW or CU2; Secondary Criteria: HH has a total of 4 or more children below 12 years of age</string>
     <string name="error.message.call">Call failed</string>
     <string name="error.message.map">Map loading failed</string>
     <string name="error.message.network">Network error</string>
     <string name="evdaffectedhouseholds">EVD-affected Households</string>
+    <string name="existing_group">Existing Group</string>
     <string name="f">F.Core Criteria: HHs with PLW or CU2; Secondary Criteria: the PLW, CU2 or any other person in the HH is disabled or chronically ill</string>
     <string name="fiets_nl">OpenFietsKaart overlay</string>
     <string name="first_fix_message">Got the first fix</string>
@@ -864,7 +866,7 @@
     <string name="livestock">LIVESTOCK</string>
     <string name="lmp_date">LMP Date</string>
     <string name="location_name">Location Name</string>
-    <string name="log_in_version_lable">GPath-LIV-07</string>
+    <string name="log_in_version_lable">GPath-LIV-09</string>
     <string name="longTitle">Longitude</string>
     <string name="map_mode">Map Source</string>
     <string name="mapbox">MapBox</string>
@@ -999,6 +1001,7 @@ Otherwise, initiate to sync and login again.</string>
     <string name="village_name_label">Village Name</string>
     <string name="wallet_buy_button_place_holder">Buy with Google</string>
     <string name="wd">WD</string>
+    <string name="wealth_rank">Wealth Rank</string>
     <string name="welcome">Welcome</string>
     <string name="xxxxxx_xxxxxxxx">XXXXXX-XXXXXXXX</string>
     <string name="yn">Y/N</string>

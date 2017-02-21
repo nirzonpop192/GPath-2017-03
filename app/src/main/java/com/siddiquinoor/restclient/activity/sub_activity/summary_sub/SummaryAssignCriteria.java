@@ -1,9 +1,11 @@
 package com.siddiquinoor.restclient.activity.sub_activity.summary_sub;
 
 
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
 
 import android.util.Log;
@@ -26,6 +28,7 @@ import com.siddiquinoor.restclient.views.adapters.SummaryCriteriaModel;
 import com.siddiquinoor.restclient.views.adapters.SummaryCriteriaListAdapter;
 import com.siddiquinoor.restclient.views.helper.SpinnerHelper;
 import com.siddiquinoor.restclient.views.notifications.ADNotificationManager;
+import com.siddiquinoor.restclient.views.spinner.SpinnerLoader;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,13 +37,13 @@ import java.util.List;
  * @date: 2015-10-15
  */
 
-public class SummaryAssignCriteria extends BaseActivity implements  AdapterView.OnItemClickListener {
+public class SummaryAssignCriteria extends BaseActivity implements AdapterView.OnItemClickListener {
     private static final String TAG = SummaryAssignCriteria.class.getSimpleName();
-    private Button btn_home;
+    private Button btnHome;
 
-    private Button btn_sammary;
+    private Button btnSummary;
 
-    private Context mcontext;
+    private Context mContext;
     private SQLiteHandler sqlH;
     private Spinner spProgram;
     private String idProgram;
@@ -69,9 +72,9 @@ public class SummaryAssignCriteria extends BaseActivity implements  AdapterView.
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_summary_assign_criteria);
-        mcontext = SummaryAssignCriteria.this;
+        mContext = SummaryAssignCriteria.this;
         dialog = new ADNotificationManager();
-        sqlH = new SQLiteHandler(mcontext);
+        sqlH = new SQLiteHandler(mContext);
         viewReference();
         setAllListener();
 
@@ -86,11 +89,6 @@ public class SummaryAssignCriteria extends BaseActivity implements  AdapterView.
             strProgram = intent.getStringExtra(KEY.PROGRAM_NAME);
             idVillage = intent.getStringExtra(KEY.VILLAGE_CODE);
             strVillage = intent.getStringExtra(KEY.VILLAGE_NAME);
-    /*        Log.d(TAG, "in redir :idProgram :" + idProgram);
-            Log.d(TAG, "in redir :strProgram :" + strProgram);
-            Log.d(TAG, "in redir :idVillage :" + idVillage);
-            Log.d(TAG, "in redir :strVillage :" + strVillage);
-            Log.d(TAG, "in redir :idCountry :" + idCountry);*/
         }
         loadProgram(idCountry);
 
@@ -98,57 +96,66 @@ public class SummaryAssignCriteria extends BaseActivity implements  AdapterView.
     }
 
     private void setAllListener() {
-        btn_sammary.setOnClickListener(new View.OnClickListener() {
+        btnSummary.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
-                Intent iSummary = new Intent(mcontext, AllSummaryActivity.class);
+                Intent iSummary = new Intent(mContext, AllSummaryActivity.class);
                 iSummary.putExtra(KEY.COUNTRY_ID, idCountry);
 
                 startActivity(iSummary);
             }
         });
-        btn_home.setOnClickListener(new View.OnClickListener() {
+        btnHome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
-                Intent iHome = new Intent(mcontext, MainActivity.class);
+                Intent iHome = new Intent(mContext, MainActivity.class);
                 startActivity(iHome);
             }
         });
     }
 
     private void viewReference() {
-        btn_home = (Button) findViewById(R.id.btnHomeFooter);
-        btn_sammary = (Button) findViewById(R.id.btnRegisterFooter);
+        btnHome = (Button) findViewById(R.id.btnHomeFooter);
+        btnSummary = (Button) findViewById(R.id.btnRegisterFooter);
         spProgram = (Spinner) findViewById(R.id.sp_programAssgnSummary);
         spVillage = (Spinner) findViewById(R.id.sp_villageAssgnSummary);
 
         lv_CriteriaSummary = (ListView) findViewById(R.id.lv_AssignSumCriteria);
-      //  btn_sammary.setText("Summary");
+        //  btnSummary.setText("Summary");
 
+
+    }
+
+    /**
+     * calling getWidth() and getHeight() too early:
+     * When  the UI has not been sized and laid out on the screen yet..
+     *
+     * @param hasFocus the value will be true when UI is focus
+     */
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
         setUpGoToAssgnButton();
         setUpHomeButton();
     }
 
-
-
-
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     private void setUpGoToAssgnButton() {
-        btn_sammary.setText("");
-        Drawable saveImage = getResources().getDrawable(R.drawable.goto_back);
-        btn_sammary.setCompoundDrawablesRelativeWithIntrinsicBounds(saveImage, null, null, null);
-        btn_sammary.setPadding(180, 10, 180, 10);
+        btnSummary.setText("");
+        Drawable backImage = getResources().getDrawable(R.drawable.goto_back);
+        btnSummary.setCompoundDrawablesRelativeWithIntrinsicBounds(backImage, null, null, null);
+        setPaddingButton(mContext, backImage, btnSummary);
     }
 
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     private void setUpHomeButton() {
-
-        btn_home.setText("");
+        btnHome.setText("");
         Drawable imageHome = getResources().getDrawable(R.drawable.home_b);
-        btn_home.setCompoundDrawablesRelativeWithIntrinsicBounds(imageHome, null, null, null);
-        btn_home.setPadding(180, 10, 180, 10);
+        btnHome.setCompoundDrawablesRelativeWithIntrinsicBounds(imageHome, null, null, null);
+        setPaddingButton(mContext, imageHome, btnHome);
     }
-
 
 
     /**
@@ -195,7 +202,7 @@ public class SummaryAssignCriteria extends BaseActivity implements  AdapterView.
                  /*   Log.d(TAG, "load Donor data " + idDonor);
                     Log.d(TAG, "load Award data " + idAward);*/
 
-                    loadVillage(idCountry);
+                    loadLayR4List(idCountry);
 
                 }
 
@@ -212,29 +219,9 @@ public class SummaryAssignCriteria extends BaseActivity implements  AdapterView.
     /**
      * LOAD :: Village
      */
-    private void loadVillage(String cCode) {
-        int position = 0;
+    private void loadLayR4List(String cCode) {
+        SpinnerLoader.loadLayR4ListLoader(mContext, sqlH, spVillage, idVillage, strVillage, SQLiteQuery.loadVillageInAssignSummary_sql(getCountryCode()));
 
-        String criteria = SQLiteQuery.loadVillageInAssignSummary_sql(getCountryCode());
-        List<SpinnerHelper> listVillage = sqlH.getListAndID(SQLiteHandler.CUSTOM_QUERY, criteria, getCountryCode(), false);
-
-
-        // Creating adapter for spinner
-        final ArrayAdapter<SpinnerHelper> dataAdapter = new ArrayAdapter<SpinnerHelper>(this, R.layout.spinner_layout, listVillage);
-        // Drop down layout style
-        dataAdapter.setDropDownViewResource(R.layout.spinner_layout);
-        // attaching data adapter to spinner
-        spVillage.setAdapter(dataAdapter);
-        //dataAdapter.notifyDataSetChanged();
-        if (idVillage != null) {
-            for (int i = 0; i < spVillage.getCount(); i++) {
-                String village = spVillage.getItemAtPosition(i).toString();
-                if (village.equals(strVillage)) {
-                    position = i;
-                }
-            }
-            spVillage.setSelection(position);
-        }
 
         spVillage.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -244,17 +231,11 @@ public class SummaryAssignCriteria extends BaseActivity implements  AdapterView.
                 Log.d(TAG, "village id :" + idVillage);
                 if (Integer.parseInt(idVillage) > 0) {
 
-
-                    //idCountry = idVillage.substring(0, 4);
                     idDistrict = idVillage.substring(4, 6);
                     idUpazila = idVillage.substring(6, 8);
                     idUnit = idVillage.substring(8, 10);
                     idVillage = idVillage.substring(10);
-
-                    Log.d(TAG, " idDistrict =" + idDistrict +
-                            "\n idUpazila =" + idUpazila +
-                            "\n idUnit = =" + idUnit +
-                            "\n idVillage " + idVillage);
+                    //  Log.d(TAG, " idDistrict =" + idDistrict + "\n idUpazila =" + idUpazila + "\n idUnit = =" + idUnit + "\n idVillage " + idVillage);
                     loadAssignSummaryCriteriaList(idCountry, idDistrict, idUpazila, idUnit, idVillage, idDonor, idAward, idProgram);
 
 
@@ -271,9 +252,9 @@ public class SummaryAssignCriteria extends BaseActivity implements  AdapterView.
     }
 
     /**
-     * @date: 2015-10-16
-     * @autor: Faial Mohammad
-     * @description: LOAD :: Criteria in list view
+     * @since : 2015-10-16
+     * Faial Mohammad
+     * LOAD :: Criteria in list view
      */
     public void loadAssignSummaryCriteriaList(String cCode, String disCode, String upCode, String unCode, String vCode,
                                               String donorCode, String awardCode, String progCode) {
@@ -288,13 +269,13 @@ public class SummaryAssignCriteria extends BaseActivity implements  AdapterView.
                 // add contacts data in arrayList
                 criteriaArray.add(cdata);
             }
-            //   adapter = new SummaryCriteriaListAdapter(this, criteriaArray);
+
             adapter = new SummaryCriteriaListAdapter(this, criteriaArray, cCode, donorCode, awardCode);
             adapter.notifyDataSetChanged();
             lv_CriteriaSummary.setAdapter(adapter);
             lv_CriteriaSummary.setOnItemClickListener(this);
             lv_CriteriaSummary.setFocusableInTouchMode(true);
-            //hidePDialog();
+
         } else {
 
 
@@ -304,7 +285,7 @@ public class SummaryAssignCriteria extends BaseActivity implements  AdapterView.
             lv_CriteriaSummary.setAdapter(adapter);
             adapter.notifyDataSetChanged();
 
-            dialog.showInfromDialog(mcontext, "No Data Found", "There is no data in this program");
+            dialog.showInfromDialog(mContext, "No Data Found", "There is no data in this program");
         }
     }
 
@@ -314,10 +295,9 @@ public class SummaryAssignCriteria extends BaseActivity implements  AdapterView.
 //        Log.d(TAG, "You clicked Item: " + id + " at position:" + position);
         SummaryCriteriaModel criteriaS = (SummaryCriteriaModel) adapter.getItem(position);
 //        Log.d(TAG, "program :" + criteriaS.getCriteria_id().substring(0, 3) + " service : " + criteriaS.getCriteria_id().substring(3, 5));
-        Intent iAssignSummary = new Intent(mcontext, SummaryAssignBaseCriteria.class);
+        Intent iAssignSummary = new Intent(mContext, SummaryAssignBaseCriteria.class);
         finish();
-        //  idProgram=criteriaS.getCriteria_id().substring(0,3);
-        //intent.setClass(this, ListItemDetail.class);
+
         iAssignSummary.putExtra(KEY.COUNTRY_ID, idCountry);
         iAssignSummary.putExtra(KEY.DONOR_CODE, idDonor);
         iAssignSummary.putExtra(KEY.AWARD_CODE, idAward);
@@ -341,8 +321,8 @@ public class SummaryAssignCriteria extends BaseActivity implements  AdapterView.
 
     @Override
     public void onBackPressed() {
-        if (isComingFromAssign) {
-            super.onBackPressed();
-        }
+//        if (isComingFromAssign) {
+//            super.onBackPressed();
+//        }
     }
 }

@@ -241,29 +241,6 @@ public class LM extends BaseActivity {
 
     private void gotoAssignBeneficiaryPage() {
 
-
-       /* Intent iAssign = new Intent(mContext, OldAssignActivity.class);
-        finish();
-
-        iAssign.putExtra(KEY.COUNTRY_ID, assignMem.getCountryCode());
-        iAssign.putExtra(OldAssignActivity.SUB_ASSIGN_DIR, true);
-        iAssign.putExtra(OldAssignActivity.ASSIGN_AWARD_CODE, assignMem.getAward_code());
-        iAssign.putExtra(OldAssignActivity.ASSIGN_AWARD_STR, assignMem.getTemAwardString());
-        iAssign.putExtra(OldAssignActivity.ASSIGN_PROGRAM_CODE, assignMem.getProgram_code());
-        iAssign.putExtra(OldAssignActivity.ASSIGN_PROGRAM_STR, assignMem.getTemProgramString());
-        iAssign.putExtra(OldAssignActivity.ASSIGN_DONOR_CODE, assignMem.getDonor_code());
-        iAssign.putExtra(OldAssignActivity.ASSIGN_CRITERIA_CODE, assignMem.getService_code());// service Code is criteria Code
-        iAssign.putExtra(OldAssignActivity.ASSIGN_CRITERIA_STR, assignMem.getTemCriteriaString());
-        iAssign.putExtra(OldAssignActivity.ASSIGN_VILLAGE_CODE, assignMem.getVillageCode());
-        iAssign.putExtra(OldAssignActivity.ASSIGN_VILLAGE_STR, assignMem.getTemVillageString());
-
-        iAssign.putExtra(OldAssignActivity.ASSIGN_DISTRICT_CODE, assignMem.getDistrictCode());
-        iAssign.putExtra(OldAssignActivity.ASSIGN_UPZELA_CODE, assignMem.getUpazillaCode());
-        iAssign.putExtra(OldAssignActivity.ASSIGN_UNIT_CODE, assignMem.getUnitCode());
-
-
-        startActivity(iAssign);
-        */
         Intent iAssign = new Intent(mContext, AssignActivity.class);
         finish();
 
@@ -294,34 +271,8 @@ public class LM extends BaseActivity {
      */
     private void loadGroupCategory(final String cCode, final String donorCode, final String awardCode,
                                    final String progCode) {
+        SpinnerLoader.loadGroupCatLoader(mContext,sqlH,spGroupCategories,cCode,donorCode,awardCode,progCode,idGroupCat,strGroupCat);
 
-        int position = 0;
-        String criteria = " WHERE " + SQLiteHandler.COUNTRY_CODE_COL + " = '" + cCode + "' "
-                + " AND " + SQLiteHandler.DONOR_CODE_COL + " = '" + donorCode + "' "
-                + " AND " + SQLiteHandler.AWARD_CODE_COL + " = '" + awardCode + "' "
-                + " AND " + SQLiteHandler.PROGRAM_CODE_COL + " = '" + progCode + "' ";
-
-
-        // Spinner Drop down elements for District
-        List<SpinnerHelper> listAward = sqlH.getListAndID(SQLiteHandler.COMMUNITY_GROUP_CATEGORY_TABLE, criteria, null, false);
-
-        // Creating adapter for spinner
-        ArrayAdapter<SpinnerHelper> dataAdapter = new ArrayAdapter<SpinnerHelper>(this, R.layout.spinner_layout, listAward);
-        // Drop down layout style
-        dataAdapter.setDropDownViewResource(R.layout.spinner_layout);
-        // attaching data adapter to spinner
-        spGroupCategories.setAdapter(dataAdapter);
-
-
-        if (idGroupCat != null) {
-            for (int i = 0; i < spGroupCategories.getCount(); i++) {
-                String groupCategory = spGroupCategories.getItemAtPosition(i).toString();
-                if (groupCategory.equals(strGroupCat)) {
-                    position = i;
-                }
-            }
-            spGroupCategories.setSelection(position);
-        }
 
 
         spGroupCategories.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -333,7 +284,7 @@ public class LM extends BaseActivity {
                 if (idGroupCat.length() > 2)
                     loadGroup(cCode, donorCode, awardCode, progCode, idGroupCat);
 
-                Log.d(TAG, "Group Category ,idGroupCat:" + idGroupCat + " strGroupCat : " + strGroupCat);
+             //   Log.d(TAG, "Group Category ,idGroupCat:" + idGroupCat + " strGroupCat : " + strGroupCat);
 
             }
 

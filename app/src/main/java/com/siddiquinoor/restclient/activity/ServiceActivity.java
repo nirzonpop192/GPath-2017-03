@@ -191,7 +191,7 @@ public class ServiceActivity extends BaseActivity implements View.OnClickListene
             idGroupCat = intent.getStringExtra(KEY.GROUP_CATEGORY_CODE);
             strGroupCat = intent.getStringExtra(KEY.GROUP_CATEGORY_NAME);
 
-            Log.d("NIR0", "idGroupCat :" + idGroupCat + "strGroupCat: " + strGroupCat + " idGroup :" + idGroup + " strGroup" + strGroup);
+         //   Log.d("NIR0", "idGroupCat :" + idGroupCat + "strGroupCat: " + strGroupCat + " idGroup :" + idGroup + " strGroup" + strGroup);
 
             loadindingLog(countryId, srDate);
 

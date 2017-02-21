@@ -474,6 +474,7 @@ com/siddiquinoor/restclient/activity/sub_activity/register_sub/RegisterMemberLib
 com/siddiquinoor/restclient/activity/MainActivity$Inject_Service_DataIntoSQLite.class
 com/google/android/gms/ads/internal/util/client/zzb.class
 android/support/v4/util/SparseArrayCompat.class
+com/siddiquinoor/restclient/views/notifications/ADNotificationManager$7.class
 com/siddiquinoor/restclient/activity/LoginActivity$48.class
 com/google/android/gms/internal/zzgm.class
 com/google/android/gms/ads/internal/client/zzc.class
@@ -519,6 +520,7 @@ com/google/android/gms/plus/People.class
 com/google/android/gms/fitness/data/DataType.class
 com/siddiquinoor/restclient/activity/sub_activity/assign_program/mchn/PW$9.class
 com/siddiquinoor/restclient/activity/DistributionActivity$1.class
+com/siddiquinoor/restclient/views/adapters/SummaryOfMemberAssignedListAdapter.class
 com/siddiquinoor/restclient/activity/sub_activity/assign_program/peer/AssignForLiberiaCFW$1.class
 com/siddiquinoor/restclient/activity/MapActivity$4.class
 com/siddiquinoor/restclient/activity/sub_activity/summary_sub/SummaryServiceOrDistributionItemizeAttendance$SummaryItemizeAttendance.class
@@ -545,6 +547,7 @@ com/google/android/gms/ads/internal/purchase/zzd.class
 com/google/android/gms/internal/zzhy.class
 android/support/multidex/MultiDex$V14.class
 com/siddiquinoor/restclient/activity/sub_activity/register_sub/RegisterMemberLiberia$5.class
+com/siddiquinoor/restclient/utils/CameraUtils.class
 com/siddiquinoor/restclient/activity/ServiceActivity$3.class
 com/siddiquinoor/restclient/activity/MainActivity$1.class
 com/siddiquinoor/restclient/activity/sub_activity/assign_program/mchn/LM$10.class
@@ -573,6 +576,7 @@ android/support/v4/app/FragmentManagerImpl$5.class
 com/siddiquinoor/restclient/activity/sub_activity/assign_program/agr/AGR$3.class
 com/google/android/gms/common/internal/safeparcel/AbstractSafeParcelable.class
 com/siddiquinoor/restclient/views/adapters/SummaryGroupListDataModel.class
+com/siddiquinoor/restclient/activity/sub_activity/assign_program/agr/AGR$17.class
 com/google/android/gms/wallet/fragment/WalletFragmentStyle$BuyButtonAppearance.class
 android/support/v4/view/ViewCompatJB.class
 com/google/firebase/iid/zzb$1.class
@@ -814,6 +818,7 @@ com/siddiquinoor/restclient/activity/LoginActivity$63.class
 com/siddiquinoor/restclient/activity/sub_activity/dynamic_table/DT_ReportActivity.class
 com/siddiquinoor/restclient/activity/RegisterLiberia$6.class
 com/siddiquinoor/restclient/activity/LoginActivity$52.class
+com/siddiquinoor/restclient/views/notifications/ADNotificationManager$6.class
 com/siddiquinoor/restclient/activity/sub_activity/assign_program/agr/AGR$9.class
 android/support/v4/media/session/MediaSessionCompat$MediaSessionImplApi21.class
 org/osmdroid/util/GeoPoint.class
@@ -1031,7 +1036,7 @@ com/google/android/gms/identity/intents/AddressConstants$Themes.class
 com/google/android/gms/internal/zzakw.class
 com/siddiquinoor/restclient/activity/sub_activity/assign_program/mchn/PW$8.class
 com/siddiquinoor/restclient/activity/sub_activity/assign_program/peer/AssignForLiberiaCFW.class
-com/siddiquinoor/restclient/views/adapters/SummaryAssignListModel.class
+com/siddiquinoor/restclient/activity/sub_activity/dynamic_table/DT_ReportActivity$7.class
 com/google/android/gms/wearable/MessageApi$FilterType.class
 com/siddiquinoor/restclient/activity/sub_activity/gps_sub/PointAttributes$10.class
 com/google/android/gms/internal/zzjo.class
@@ -1217,6 +1222,7 @@ com/google/android/gms/games/event/Event.class
 com/google/android/gms/ads/internal/overlay/zzv.class
 android/support/v4/view/ScrollingView.class
 com/google/android/gms/ads/internal/overlay/zzn.class
+com/siddiquinoor/restclient/views/adapters/SummaryOfMemberAssignedListModel.class
 android/support/v7/app/ActionBar$Tab.class
 android/support/v7/app/AppCompatDialog.class
 com/siddiquinoor/restclient/activity/LoginActivity$37.class
@@ -1474,6 +1480,7 @@ com/siddiquinoor/restclient/activity/LoginActivity$24.class
 android/support/v4/view/accessibility/AccessibilityNodeInfoCompat.class
 com/siddiquinoor/restclient/activity/sub_activity/summary_sub/SumSrvOrDistAttendance.class
 android/support/v4/app/FragmentManagerImpl$4.class
+com/siddiquinoor/restclient/activity/sub_activity/assign_program/agr/AGR$18.class
 com/google/android/gms/internal/zzgr.class
 android/support/v4/media/MediaMetadataCompat$BitmapKey.class
 com/google/android/gms/internal/zzcq.class
@@ -1490,7 +1497,6 @@ com/google/android/gms/internal/zzep.class
 com/google/android/gms/ads/internal/request/zzc.class
 com/siddiquinoor/restclient/activity/sub_activity/assign_program/mchn/CA2$9.class
 com/google/android/gms/ads/internal/overlay/zzo.class
-com/siddiquinoor/restclient/views/adapters/SummaryAssignListModelAdapter.class
 com/siddiquinoor/restclient/views/adapters/SummaryCriteriaModel.class
 com/siddiquinoor/restclient/activity/sub_activity/assign_program/ddr/FFA$2.class
 com/siddiquinoor/restclient/activity/AllSummaryActivity.class

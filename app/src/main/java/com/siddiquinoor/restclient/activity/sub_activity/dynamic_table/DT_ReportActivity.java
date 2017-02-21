@@ -1,7 +1,10 @@
 package com.siddiquinoor.restclient.activity.sub_activity.dynamic_table;
 
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
@@ -9,6 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
@@ -19,6 +23,7 @@ import com.siddiquinoor.restclient.controller.SessionManager;
 import com.siddiquinoor.restclient.data_model.DTSurveyTableDataModel;
 import com.siddiquinoor.restclient.data_model.SurveyModel;
 import com.siddiquinoor.restclient.manager.SQLiteHandler;
+import com.siddiquinoor.restclient.utils.CalculationPadding;
 import com.siddiquinoor.restclient.utils.KEY;
 import com.siddiquinoor.restclient.views.adapters.DynamicDataIndexDataModel;
 import com.siddiquinoor.restclient.views.adapters.ReportViewPagerAdapter;
@@ -42,6 +47,7 @@ public class DT_ReportActivity extends AppCompatActivity {
 
     private SessionManager session;
     private int currentPosition = 0;
+    private Button btnDynamicPage;
 
     private ArrayList<SurveyModel> surveyModels;
     // private Spinner spDtMonth;
@@ -63,10 +69,22 @@ public class DT_ReportActivity extends AppCompatActivity {
 
         generateSurveyList();
 
+        btnDynamicPage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+
 
         // loadDtMonth(data.getcCode(), data.getOpMode());
 //        setSurveyPager();
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
     }
 
     /**
@@ -93,12 +111,39 @@ public class DT_ReportActivity extends AppCompatActivity {
         tvDTProgram.setText("Program Name : " + progName);
         tvDTActivityTitle.setText("Activity Title  : " + data.getPrgActivityTitle());
 
-        Log.d("MOR","data.getcCode()"+data.getcCode()+"\n data.getOpMonthCode()"+data.getOpMonthCode());
-//        if (data.getOpMonthCode().length() > 0)
-           tvDTMonthTitle.setText("Month  : " + sqlH.getMonthName(data.getcCode()));
+        findViewById(R.id.btnHomeFooter).setVisibility(View.GONE);
+        btnDynamicPage = (Button) findViewById(R.id.btnRegisterFooter);
 
-        // dtSurveyTableDataModel.getOpMonthCode()
+
     }
+
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        addIconHomeButton();
+    }
+
+    /**
+     * couldn't use setPaddingButton()
+     */
+
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
+    private void addIconHomeButton() {
+
+
+        btnDynamicPage.setText("");
+        Drawable imageDynamic = getResources().getDrawable(R.drawable.dynamic_icon_42);
+        btnDynamicPage.setCompoundDrawablesRelativeWithIntrinsicBounds(imageDynamic, null, null, null);
+        //setPaddingButton(mContext, imageHome, btnDynamicPage);
+
+        CalculationPadding calPadd = new CalculationPadding();
+        int leftPadd, rightPadd;
+        leftPadd = rightPadd = calPadd.calculateViewPadding(mContext, imageDynamic, btnDynamicPage);
+        btnDynamicPage.setPadding(leftPadd , 5, rightPadd , 5);
+
+
+    }
+
 
   /*  private void loadDtMonth(final String cCode, String opCode) {
         SpinnerLoader.loadDtMonthLoader(mContext, sqlH, spDtMonth, cCode, opCode, idMonth, strMonth);
@@ -123,22 +168,15 @@ public class DT_ReportActivity extends AppCompatActivity {
     private void generateSurveyList() {
         ArrayList<Integer> surveyList = sqlH.getSurveyList(data.getDtBasicCode(), data.getcCode(), data.getDonorCode(), data.getAwardCode(), data.getProgramCode(), session.getStaffId());
         surveyModels = new ArrayList<>();
-        for (int surveyNum :
-                surveyList) {
+        for (int surveyNum : surveyList) {
             SurveyModel surveyModel = new SurveyModel();
             ArrayList<DTSurveyTableDataModel> dtSurveyTableDataModels = sqlH.dtSurveyTableDataModels(surveyNum, data.getDtBasicCode(), data.getcCode(), data.getDonorCode(), data.getAwardCode(), data.getProgramCode(), session.getStaffId());
             surveyModel.setSurveyNum(surveyNum);
             surveyModel.setDtSurveyTableDataModels(dtSurveyTableDataModels);
             surveyModels.add(surveyModel);
+
             Log.e("SURVEY", "Survey Number:   " + surveyModel.getSurveyNum() + " ");
-            /*int counter = 1;
-            for (DTSurveyTableDataModel dtSurveyTableDataModel :
-                    dtSurveyTableDataModels) {
-                Log.e("QUESTION "+counter, dtSurveyTableDataModel.getDtqText());
-                Log.e("ANSWER "+counter, dtSurveyTableDataModel.getDtaValue());
-                Log.e("TYPE"+counter, dtSurveyTableDataModel.getDataType());
-                counter++;
-            }*/
+
         }
         if (surveyModels != null && surveyModels.size() > 0) {
             rlIndicator.setVisibility(View.VISIBLE);
@@ -189,6 +227,9 @@ public class DT_ReportActivity extends AppCompatActivity {
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
                 tvSurveyNumber.setText(adapter.getPageTitle(position));
                 currentPosition = position;
+                // setOpMonthCode
+                String temp = "Month  : " + sqlH.getDtResponseMonthName(data.getcCode(), adapter.getSurveyModels(currentPosition).getDtSurveyTableDataModels().get(0).getOpMonthCode());
+                tvDTMonthTitle.setText(temp);
             }
 
             @Override
@@ -215,8 +256,7 @@ public class DT_ReportActivity extends AppCompatActivity {
         builder.setMessage("Do you want to delete this survey?\nPress YES to delete, NO to abort.");
         builder.setCancelable(true);
 
-        builder.setNegativeButton(
-                "NO",
+        builder.setNegativeButton("NO",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         dialog.cancel();
@@ -233,6 +273,9 @@ public class DT_ReportActivity extends AppCompatActivity {
         alertDialog.show();
     }
 
+    /**
+     * delete the survey
+     */
     private void deleteSurvey() {
         int position = viewPager.getCurrentItem();
         SurveyModel surveyModel = surveyModels.get(position);

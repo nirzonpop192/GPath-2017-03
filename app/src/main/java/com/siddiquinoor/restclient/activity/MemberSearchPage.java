@@ -26,14 +26,24 @@ import android.widget.Spinner;
 import com.siddiquinoor.restclient.R;
 import com.siddiquinoor.restclient.fragments.BaseActivity;
 import com.siddiquinoor.restclient.manager.SQLiteHandler;
+import com.siddiquinoor.restclient.manager.sqlsyntax.SQLiteQuery;
 import com.siddiquinoor.restclient.utils.KEY;
 import com.siddiquinoor.restclient.views.adapters.AssignDataModel;
 import com.siddiquinoor.restclient.views.adapters.MemberSearchAdapter;
 import com.siddiquinoor.restclient.views.helper.SpinnerHelper;
+import com.siddiquinoor.restclient.views.spinner.SpinnerLoader;
 
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.siddiquinoor.restclient.manager.SQLiteHandler.COUNTRY_CODE_COL;
+import static com.siddiquinoor.restclient.manager.SQLiteHandler.LAY_R1_LIST_CODE_COL;
+import static com.siddiquinoor.restclient.manager.SQLiteHandler.LAY_R2_LIST_CODE_COL;
+import static com.siddiquinoor.restclient.manager.SQLiteHandler.LAY_R3_LIST_CODE_COL;
+import static com.siddiquinoor.restclient.manager.SQLiteHandler.LAY_R4_LIST_CODE_COL;
+import static com.siddiquinoor.restclient.manager.SQLiteHandler.VILLAGE_NAME_COL;
+import static com.siddiquinoor.restclient.manager.SQLiteHandler.VILLAGE_TABLE;
 
 public class MemberSearchPage extends BaseActivity {
 
@@ -69,13 +79,13 @@ public class MemberSearchPage extends BaseActivity {
         String dir = intent.getStringExtra(KEY.DIR_CLASS_NAME_KEY);
         if (dir.equals("MainActivity")) {
             idCountry = intent.getStringExtra(KEY.COUNTRY_ID);
-            loadLayRList(idCountry);
+            loadLayR4List();
         } else {
 
             idCountry = intent.getStringExtra(KEY.COUNTRY_ID);
             idVillage = intent.getStringExtra(KEY.VILLAGE_CODE);
             strVillage = intent.getStringExtra(KEY.VILLAGE_NAME);
-            loadLayRList(idCountry);
+            loadLayR4List();
         }
 
 
@@ -158,43 +168,12 @@ public class MemberSearchPage extends BaseActivity {
     }
 
     /**
-     * @param cCode Country Code
+     *
      */
-    private void loadLayRList(final String cCode) {
-        int position = 0;
+    private void loadLayR4List() {
 
-        String criteria = " AS v   INNER JOIN " + SQLiteHandler.SELECTED_VILLAGE_TABLE + " as S "
-                + " ON S." + SQLiteHandler.COUNTRY_CODE_COL
+        SpinnerLoader.loadLayR4ListLoader(mContext, sqlH, spVillage, idVillage, strVillage, SQLiteQuery.loadLayR4List_sql());
 
-                + " ||''|| S." + SQLiteHandler.LAY_R1_LIST_CODE_COL
-                + " ||''|| S." + SQLiteHandler.LAY_R2_LIST_CODE_COL
-                + " ||''|| S." + SQLiteHandler.LAY_R3_LIST_CODE_COL
-                + " ||''|| S." + SQLiteHandler.LAY_R4_LIST_CODE_COL
-
-                + "  = v." + SQLiteHandler.COUNTRY_CODE_COL
-                + " ||''|| v." + SQLiteHandler.LAY_R1_LIST_CODE_COL
-                + " ||''|| v." + SQLiteHandler.LAY_R2_LIST_CODE_COL
-                + " ||''|| v." + SQLiteHandler.LAY_R3_LIST_CODE_COL
-                + " ||''|| v." + SQLiteHandler.LAY_R4_LIST_CODE_COL + " ";
-
-        List<SpinnerHelper> listVillage = sqlH.getListAndID(SQLiteHandler.VILLAGE_TABLE_FOR_ASSIGN, criteria, cCode, false);
-
-        // Creating adapter for spinner
-        final ArrayAdapter<SpinnerHelper> dataAdapter = new ArrayAdapter<SpinnerHelper>(this, R.layout.spinner_layout, listVillage);
-        // Drop down layout style
-        dataAdapter.setDropDownViewResource(R.layout.spinner_layout);
-        // attaching data adapter to spinner
-        spVillage.setAdapter(dataAdapter);
-        //dataAdapter.notifyDataSetChanged();
-        if (idVillage != null) {
-            for (int i = 0; i < spVillage.getCount(); i++) {
-                String village = spVillage.getItemAtPosition(i).toString();
-                if (village.equals(strVillage)) {
-                    position = i;
-                }
-            }
-            spVillage.setSelection(position);
-        }
 
         spVillage.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -264,10 +243,7 @@ public class MemberSearchPage extends BaseActivity {
 
         @Override
         protected String doInBackground(Void... params) {
-
-
             loadAssignedListData(temCCode, temDistCode, temUpazilaCode, temUnitCode, temVillageCode, memId, temVillageName);
-
 
             return "successes";
 

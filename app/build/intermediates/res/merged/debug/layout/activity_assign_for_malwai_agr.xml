@@ -17,13 +17,8 @@
         android:layout_below="@+id/header">
 
         <TextView
-
             android:id="@+id/tv_ass_pageTitle"
-
-
             style="@style/page_title_style"
-
-
             android:text="AGR" />
 
     </RelativeLayout>
@@ -64,11 +59,6 @@
 
                     style="@style/txt_label"
                     android:text="HH Name :" />
-
-
-
-
-
 
 
                 <TextView
@@ -118,6 +108,16 @@
                     android:id="@+id/tv_label_as_agr_mlwai_disable"
                     style="@style/txt_label"
                     android:text="Disable" />
+
+                <TextView
+                    android:id="@+id/tv_label_as_agr_mlwai_wealthRank"
+                    style="@style/txt_label"
+                    android:text="@string/wealth_rank" />
+
+                <TextView
+                    android:id="@+id/tv_label_as_agr_mlwai_exitingGroup"
+                    style="@style/txt_label"
+                    android:text="@string/existing_group" />
 
                 <TextView
                     android:id="@+id/lbl_ass_agrGroupCategories"
@@ -288,6 +288,14 @@
                     android:textOff="NO"
                     android:textOn="Yes" />
 
+                <Spinner
+                    android:id="@+id/sp_ass_agrWealthRank"
+                    style="@style/spinner_style"
+                    android:layout_width="match_parent" />
+                <Spinner
+                    android:id="@+id/sp_ass_agrMemExitGroup"
+                    style="@style/spinner_style"
+                    android:layout_width="match_parent" />
 
                 <Spinner
                     android:id="@+id/sp_ass_agrGroupCategories"

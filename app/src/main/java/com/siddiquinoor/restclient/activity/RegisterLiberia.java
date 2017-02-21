@@ -29,6 +29,7 @@ import com.siddiquinoor.restclient.manager.sqlsyntax.SQLiteQuery;
 import com.siddiquinoor.restclient.utils.UtilClass;
 import com.siddiquinoor.restclient.views.helper.SpinnerHelper;
 import com.siddiquinoor.restclient.views.notifications.ADNotificationManager;
+import com.siddiquinoor.restclient.views.spinner.SpinnerLoader;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -588,31 +589,8 @@ public class RegisterLiberia extends BaseActivity implements View.OnClickListene
      * LOAD :: HOUSEHOLD CATEGORY
      */
     private void loadHouseHoldCategory(String cCode) {
-        position = 0;
 
-
-        String criteria = " WHERE " + SQLiteHandler.HOUSE_HOLD_CATEGORY_TABLE + "." + SQLiteHandler.COUNTRY_CODE_COL + "='" + cCode + "' ";
-        //GROUP BY "+sqlH.DISTRICT_TABLE+"."+sqlH.LAY_R1_LIST_CODE_COL+", "+sqlH.DISTRICT_TABLE+"."+sqlH.DISTRICT_NAME_COL;
-        // Spinner Drop down elements for District
-        List<SpinnerHelper> listHHCategory = sqlH.getListAndID(SQLiteHandler.HOUSE_HOLD_CATEGORY_TABLE, criteria, cCode, false);
-
-        // Creating adapter for spinner
-        ArrayAdapter<SpinnerHelper> dataAdapter = new ArrayAdapter<SpinnerHelper>(this, R.layout.spinner_layout, listHHCategory);
-        // Drop down layout style
-        dataAdapter.setDropDownViewResource(R.layout.spinner_layout);
-        // attaching data adapter to spinner
-        spHHType.setAdapter(dataAdapter);
-
-
-        if (idHHType != null) {
-            for (int i = 0; i < spHHType.getCount(); i++) {
-                String district = spHHType.getItemAtPosition(i).toString();
-                if (district.equals(strHHType)) {
-                    position = i;
-                }
-            }
-            spHHType.setSelection(position);
-        }
+        SpinnerLoader.loadHouseHoldCategoryLoader(mContext,sqlH,spHHType,cCode,idHHType,strHHType);
 
 
         spHHType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -637,7 +615,7 @@ public class RegisterLiberia extends BaseActivity implements View.OnClickListene
      * @author :
      * @date: 2015-09-20
      * Remarks ::
-     * @perpose: Disable back press button
+     * purpose: Disable back press button
      */
     @Override
     public void onBackPressed() {

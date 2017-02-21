@@ -210,7 +210,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             String dbBy = getStaffID();
             String dbByName = getUserName();
             String backupDate = getDateTime();
-            String backupdbName = "G_path_" + dbBy +"-"+ dbByName + "_" + backupDate + ".db";
+            String backupdbName = "G_path_" + dbBy + "-" + dbByName + "_" + backupDate + ".db";
 
             if (sd.canWrite()) {
                 String currentDBPath = "/data/data/" + getPackageName() + "/databases/pci";
@@ -679,11 +679,13 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
 
                 if (!jObj.isNull("reg_n_ffa")) {
-
-
                     Parser.reg_N_FFAParser(jObj.getJSONArray("reg_n_ffa"), db);
-
                 }
+
+                if (!jObj.isNull("reg_n_we")) {
+                    Parser.reg_N_WEParser(jObj.getJSONArray("reg_n_we"), db);
+                }
+
 
             } catch (Exception e) {
                 Log.e(TAG, "Exception : " + e);
@@ -1145,6 +1147,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                         String AdmAwardCode = adm_country_program.getString(Parser.ADM_AWARD_CODE);
                         String AdmProgCode = adm_country_program.getString(Parser.ADM_PROG_CODE);
                         String AdmSrvCode = adm_country_program.getString(Parser.ADM_SRV_CODE);
+                        String ProgFlag = adm_country_program.getString("ProgFlag");
                         String FoodFlag = adm_country_program.getString(Parser.FOOD_FLAG);
                         String NFoodFlag = adm_country_program.getString(Parser.N_FOOD_FLAG);
                         String CashFlag = adm_country_program.getString(Parser.CASH_FLAG);
@@ -1155,8 +1158,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                         String DefaultVODays = adm_country_program.getString(Parser.DEFAULT_VO_DAYS);
                         String SrvSpecific = adm_country_program.getString(Parser.SRV_SPECIFIC);
 
-
-                        db.insertAdmCountryProgram(AdmCountryCode, AdmDonorCode, AdmAwardCode, AdmProgCode, AdmSrvCode, FoodFlag, NFoodFlag, CashFlag, VOFlag, DefaultFoodDays, DefaultNFoodDays, DefaultCashDays, DefaultVODays, SrvSpecific);
+                        db.insertAdmCountryProgram(AdmCountryCode, AdmDonorCode, AdmAwardCode, AdmProgCode, AdmSrvCode, ProgFlag, FoodFlag, NFoodFlag, CashFlag, VOFlag, DefaultFoodDays, DefaultNFoodDays, DefaultCashDays, DefaultVODays, SrvSpecific);
 
 
                     }
@@ -1705,7 +1707,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                     }
                 }
 
-
+                publishProgress(++progressIncremental);
                 if (!jObj.isNull("vo_country_prog_itm")) {
                     JSONArray vo_country_prog_itmDatas = jObj.getJSONArray("vo_country_prog_itm");
                     size = vo_country_prog_itmDatas.length();
@@ -1747,7 +1749,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                     }
                 }
 
-
+                publishProgress(++progressIncremental);
                 if (!jObj.isNull(Parser.LUP_GPS_TABLE_JSON_A)) {
                     JSONArray lup_gps_table_Datas = jObj.getJSONArray(Parser.LUP_GPS_TABLE_JSON_A);
                     size = lup_gps_table_Datas.length();
@@ -1770,7 +1772,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                     }
                 }
 
-
+                publishProgress(++progressIncremental);
                 if (!jObj.isNull(Parser.GPS_SUB_GROUP_ATTRIBUTES_JSON_A)) {
                     JSONArray gps_sub_group_attributes_Datas = jObj.getJSONArray(Parser.GPS_SUB_GROUP_ATTRIBUTES_JSON_A);
                     size = gps_sub_group_attributes_Datas.length();
@@ -1795,7 +1797,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                     }
                 }
 
-
+                publishProgress(++progressIncremental);
                 if (!jObj.isNull(Parser.GPS_LOCATION_ATTRIBUTES_JSON_A)) {
                     JSONArray gps_location_attributes_Datas = jObj.getJSONArray(Parser.GPS_LOCATION_ATTRIBUTES_JSON_A);
                     size = gps_location_attributes_Datas.length();
@@ -1822,13 +1824,13 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                     }
                 }
 
-
+                publishProgress(++progressIncremental);
                 if (!jObj.isNull("community_group")) {
 
                     Parser.CommunityGroupParser(jObj.getJSONArray("community_group"), db);
                 }
 
-
+                publishProgress(++progressIncremental);
                 if (!jObj.isNull("lup_community_animal")) {
                     JSONArray lup_community_animal_Datas = jObj.getJSONArray("lup_community_animal");
                     size = lup_community_animal_Datas.length();
@@ -1851,31 +1853,13 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 }
 
 
+                publishProgress(++progressIncremental);
                 if (!jObj.isNull("lup_prog_group_crop")) {
-                    JSONArray lup_prog_group_crop_Datas = jObj.getJSONArray("lup_prog_group_crop");
-                    size = lup_prog_group_crop_Datas.length();
-                    for (int i = 0; i < size; i++) {
-                        JSONObject lup_prog_group_crop_Data = lup_prog_group_crop_Datas.getJSONObject(i);
-
-
-                        String AdmCountryCode = lup_prog_group_crop_Data.getString("AdmCountryCode");
-                        String AdmDonorCode = lup_prog_group_crop_Data.getString("AdmDonorCode");
-                        String AdmAwardCode = lup_prog_group_crop_Data.getString("AdmAwardCode");
-                        String AdmProgCode = lup_prog_group_crop_Data.getString("AdmProgCode");
-                        String CropCode = lup_prog_group_crop_Data.getString("CropCode");
-                        String CropList = lup_prog_group_crop_Data.getString("CropList");
-                        String CropCatCode = lup_prog_group_crop_Data.getString("CropCatCode");
-
-
-                    /*    Log.d("InTest", "AdmCountryCode:" + AdmCountryCode
-                                + "AdmDonorCode: " + AdmDonorCode + "AdmAwardCode : " + AdmAwardCode + "AdmProgCode:" + AdmProgCode
-                                + " CropCode: " + CropCode + "CropList:" + CropList + " CropCatCode :" + CropCatCode);
-*/
-                        db.addLUP_ProgramGroupCropFromOnLine(AdmCountryCode, AdmDonorCode, AdmAwardCode, AdmProgCode, CropCode, CropList, CropCatCode);
-                    }
+                    Parser.lupProgGroupCropParser(jObj.getJSONArray("lup_prog_group_crop"), db);
                 }
 
 
+                publishProgress(++progressIncremental);
                 if (!jObj.isNull("lup_community_loan_source")) {
                     JSONArray lup_community_loan_source_Datas = jObj.getJSONArray("lup_community_loan_source");
                     size = lup_community_loan_source_Datas.length();
@@ -1900,7 +1884,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                     }
                 }
 
-
+                publishProgress(++progressIncremental);
                 if (!jObj.isNull("lup_community__lead_position")) {
                     JSONArray lup_community_lead_position_Datas = jObj.getJSONArray("lup_community__lead_position");
                     size = lup_community_lead_position_Datas.length();
@@ -1924,7 +1908,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                     }
                 }
 
-
+                publishProgress(++progressIncremental);
                 if (!jObj.isNull("community_group_category")) {
                     JSONArray community_group_category_Datas = jObj.getJSONArray("community_group_category");
                     size = community_group_category_Datas.length();
@@ -1950,6 +1934,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
                     }
                 }
+                publishProgress(++progressIncremental);
                 if (!jObj.isNull("lup_reg_n_add_lookup")) {
                     JSONArray lup_reg_n_add_lookup = jObj.getJSONArray("lup_reg_n_add_lookup");
                     size = lup_reg_n_add_lookup.length();
@@ -1974,7 +1959,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                     }
                 }
 
-
+                publishProgress(++progressIncremental);
                 if (!jObj.isNull("prog_org_n_role")) {
                     JSONArray prog_org_n_role_Datas = jObj.getJSONArray("prog_org_n_role");
                     size = prog_org_n_role_Datas.length();
@@ -1999,6 +1984,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                         db.insertIntoProgOrgNRole(AdmCountryCode, AdmDonorCode, AdmAwardCode, OrgNCode, PrimeYN, SubYN, TechYN, ImpYN, LogYN, OthYN);
                     }
                 }
+                publishProgress(++progressIncremental);
                 if (!jObj.isNull("org_n_code")) {
                     JSONArray org_n_code_Datas = jObj.getJSONArray("org_n_code");
                     size = org_n_code_Datas.length();
@@ -2013,13 +1999,13 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 }
 //// TODO: 10/18/2016  this parsing of the group detail set to parse class
 
-
+                publishProgress(++progressIncremental);
                 if (!jObj.isNull("community_grp_detail")) {
 
                     Parser.CommunityGroupDetailsParser(jObj.getJSONArray("community_grp_detail"), db);
                 }
 
-
+                publishProgress(++progressIncremental);
                 if (!jObj.isNull("staff_master")) {
                     JSONArray staff_master_Datas = jObj.getJSONArray("staff_master");
                     size = staff_master_Datas.length();
@@ -2055,7 +2041,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                     }
                 }
 
-
+                publishProgress(++progressIncremental);
                 if (!jObj.isNull("gps_lup_list")) {
                     JSONArray gps_lup_list_data = jObj.getJSONArray("gps_lup_list");
                     size = gps_lup_list_data.length();
