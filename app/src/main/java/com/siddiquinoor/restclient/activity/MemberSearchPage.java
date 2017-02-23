@@ -144,14 +144,10 @@ public class MemberSearchPage extends BaseActivity {
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     private void addIconHomeButton() {
-
-
         btnHome.setText("");
         Drawable imageHome = getResources().getDrawable(R.drawable.home_b);
         btnHome.setCompoundDrawablesRelativeWithIntrinsicBounds(imageHome, null, null, null);
         setPaddingButton(mContext, imageHome, btnHome);
-
-
     }
 
     /**
@@ -214,7 +210,8 @@ public class MemberSearchPage extends BaseActivity {
     }// end of the village spinner
 
     /**
-     * This Class i used For  Loading List in thread
+     * This Class i used For  Loading List in thread while data loading into view it will show a loader
+     * dialog
      */
 
     private class LoadListView extends AsyncTask<Void, Integer, String> {
@@ -291,12 +288,10 @@ public class MemberSearchPage extends BaseActivity {
      */
 
     private void startProgressBar(String msg) {
-
         pDialog = new ProgressDialog(this);
         pDialog.setMessage(msg);
         pDialog.setCancelable(true);
         pDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-
         pDialog.show();
     }
 

@@ -67,6 +67,7 @@ public class SummaryIdListInGroupAdapter extends BaseAdapter {
         if (convertView == null) {
             row = inflater.inflate(R.layout.list_row_summary_id_listed_in_group, null);
             holder = new ViewHolder();
+            holder.tv_grpName = (TextView) row.findViewById(R.id.list_row_summ_mem_id_in_grp_tv_grpName);
             holder.tv_memId = (TextView) row.findViewById(R.id.list_row_summ_mem_id_in_grp_tv_memId);
             holder.tv_memName = (TextView) row.findViewById(R.id.list_row_summ_mem_id_in_grp_tv_memName);
             holder.srvName = (TextView) row.findViewById(R.id.list_row_summ_mem_id_in_grp_tv_srvName);
@@ -78,6 +79,7 @@ public class SummaryIdListInGroupAdapter extends BaseAdapter {
         }
         SummaryIdListInGroupDataModel data = getItem(position);
 
+        holder.tv_grpName.setText(data.getGrpName());
         holder.tv_memId.setText(data.getnMemId());
         holder.tv_memName.setText(data.getMemName());
         holder.srvName.setText(data.getSrvName());
@@ -94,6 +96,7 @@ public class SummaryIdListInGroupAdapter extends BaseAdapter {
     }
 
     class ViewHolder {
+        TextView tv_grpName;
         TextView tv_memId;
         TextView tv_memName;
         TextView srvName;
@@ -101,6 +104,7 @@ public class SummaryIdListInGroupAdapter extends BaseAdapter {
     }
 
     private void changeTextColor(int color) {
+        holder.tv_grpName.setTextColor(color);
         holder.tv_memId.setTextColor(color);
         holder.tv_memName.setTextColor(color);
         holder.srvName.setTextColor(color);

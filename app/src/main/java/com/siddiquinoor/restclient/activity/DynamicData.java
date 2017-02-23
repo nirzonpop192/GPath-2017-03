@@ -43,7 +43,6 @@ public class DynamicData extends BaseActivity {
         inti();
         Intent intent = getIntent();
         idCountry = intent.getStringExtra(KEY.COUNTRY_ID);
-
         new LoadList(idCountry, "").execute();
 
         setListener();
@@ -61,7 +60,7 @@ public class DynamicData extends BaseActivity {
             @Override
             public void onClick(View v) {
                 dataArray.clear();
-                adapter = new DynamicDataIndexAdapter((Activity) mContext, dataArray, sqlH);
+                adapter = new DynamicDataIndexAdapter((Activity) mContext, dataArray);
                 lvDynamicTableIndex.setAdapter(adapter);
 
                 if (edtDTSearch.getText().toString().length() > 0) {
@@ -180,7 +179,7 @@ public class DynamicData extends BaseActivity {
 
     private void loadDynamicIndex(final String cCode, final String dtName) {
 
-        List<DynamicDataIndexDataModel> dataList = sqlH.getDynamicTableIndexList(cCode, dtName);
+        List<DynamicDataIndexDataModel> dataList = sqlH.getDynamicTableIndexList(cCode, dtName,session.getStaffId());
 
 
         dataArray = new ArrayList<DynamicDataIndexDataModel>();
@@ -197,7 +196,7 @@ public class DynamicData extends BaseActivity {
 /**
  * Assign the Adapter in list
  */
-            adapter = new DynamicDataIndexAdapter((Activity) mContext, dataArray, sqlH);
+            adapter = new DynamicDataIndexAdapter((Activity) mContext, dataArray);
 
         }
 

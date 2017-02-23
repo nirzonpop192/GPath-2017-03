@@ -361,7 +361,7 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
-            android:name="com.siddiquinoor.restclient.activity.sub_activity.summary_sub.IdListInGroupSummary"
+            android:name="com.siddiquinoor.restclient.activity.sub_activity.summary_sub.GroupMemberSummary"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity

@@ -2,6 +2,7 @@ package com.siddiquinoor.restclient.views.adapters;
 
 import android.app.Activity;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -54,6 +55,7 @@ public class SummaryOfMemberAssignedListAdapter extends BaseAdapter{
             holder.tv_id= (TextView) row.findViewById(R.id.tv_row_assign_id);
             holder.tv_name= (TextView) row.findViewById(R.id.tv_row_assign_name);
             holder.tv_regDate= (TextView) row.findViewById(R.id.tv_row_assign_regDate);
+            holder.tv_ass_group_name = (TextView) row.findViewById(R.id.mems_row_group_name);
 
            row.setTag(holder);
         }
@@ -65,6 +67,8 @@ public class SummaryOfMemberAssignedListAdapter extends BaseAdapter{
         holder.tv_id.setText(assignData.getCustomId());
         holder.tv_name.setText(assignData.getMemberName());
         holder.tv_regDate.setText(assignData.getRegDate());
+     //   Log.d("NIR_SU", assignData.getGroupName());
+        holder.tv_ass_group_name.setText(assignData.getGroupName());
 
         /**
          *  Change the color of background & text color Dynamically in list view
@@ -83,6 +87,8 @@ public class SummaryOfMemberAssignedListAdapter extends BaseAdapter{
         TextView tv_id;
         TextView tv_name;
         TextView tv_regDate;
+        TextView tv_ass_group_name;
+
     }
     /**
      * The method change the color of the textView
@@ -93,5 +99,6 @@ public class SummaryOfMemberAssignedListAdapter extends BaseAdapter{
         holder.tv_id.setTextColor(color);
         holder.tv_name.setTextColor(color);
         holder.tv_regDate.setTextColor(color);
+        holder.tv_ass_group_name.setTextColor(color);
     }
 }

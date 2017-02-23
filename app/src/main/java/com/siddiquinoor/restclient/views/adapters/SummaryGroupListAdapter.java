@@ -52,6 +52,7 @@ public class SummaryGroupListAdapter extends BaseAdapter {
         if (convertView == null) {
             row = inflater.inflate(R.layout.list_row_summary_grp_list, null);
             holder = new ViewHolder();
+            holder.tv_LayR3Name = (TextView) row.findViewById(R.id.list_row_summ_grp_tv_LayR3_Name);
             holder.tv_groupName = (TextView) row.findViewById(R.id.list_row_summ_grp_tv_Grp_Name);
             holder.tv_groupCatName = (TextView) row.findViewById(R.id.list_row_summ_grp_tv_Grp_CatName);
 
@@ -63,10 +64,11 @@ public class SummaryGroupListAdapter extends BaseAdapter {
         }
         SummaryGroupListDataModel data = getItem(position);
 
-        holder.tv_groupName.setText(data.getGroupName());
-        holder.tv_groupCatName.setText(data.getGroupCatShortName());
+        holder.tv_LayR3Name.setText(getItem(position).getLayR3Name());
+        holder.tv_groupName.setText(getItem(position).getGroupName());
+        holder.tv_groupCatName.setText(getItem(position).getGroupCatShortName());
+        holder.tv_count.setText(getItem(position).getCount());
 
-        holder.tv_count.setText(data.getCount());
         if (position % 2 == 0) {
             row.setBackgroundColor(Color.WHITE);
             changeTextColor(mActivity.getResources().getColor(R.color.blue));
@@ -79,18 +81,16 @@ public class SummaryGroupListAdapter extends BaseAdapter {
     }
 
     class ViewHolder {
+        TextView tv_LayR3Name;
         TextView tv_groupName;
         TextView tv_groupCatName;
-
         TextView tv_count;
     }
 
     private void changeTextColor(int color) {
+        holder.tv_LayR3Name.setTextColor(color);
         holder.tv_groupName.setTextColor(color);
         holder.tv_groupCatName.setTextColor(color);
-
         holder.tv_count.setTextColor(color);
-
-
     }
 }

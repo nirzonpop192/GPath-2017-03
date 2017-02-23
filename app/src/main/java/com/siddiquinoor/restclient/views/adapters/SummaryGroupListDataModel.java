@@ -19,6 +19,7 @@ public class SummaryGroupListDataModel implements   Parcelable {
     private String groupName;
     private String srvShortName;
     private String count;
+    private String layR3Name;
 
 
     public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
@@ -41,8 +42,6 @@ public class SummaryGroupListDataModel implements   Parcelable {
     }
 
     private void readFromParcel(Parcel in) {
-
-
         cCode = in.readString();
         donorCode = in.readString();
         awardCode = in.readString();
@@ -54,6 +53,7 @@ public class SummaryGroupListDataModel implements   Parcelable {
         groupName = in.readString();
         srvShortName = in.readString();
         count = in.readString();
+        layR3Name = in.readString();
 
     }
 
@@ -64,8 +64,6 @@ public class SummaryGroupListDataModel implements   Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-
-
         dest.writeString(cCode);
         dest.writeString(donorCode);
         dest.writeString(awardCode);
@@ -77,6 +75,7 @@ public class SummaryGroupListDataModel implements   Parcelable {
         dest.writeString(groupName);
         dest.writeString(srvShortName);
         dest.writeString(count);
+        dest.writeString(layR3Name);
 
 
     }
@@ -168,5 +167,13 @@ public class SummaryGroupListDataModel implements   Parcelable {
 
     public void setCount(String count) {
         this.count = count;
+    }
+
+    public String getLayR3Name() {
+        return layR3Name;
+    }
+
+    public void setLayR3Name(String layR3Name) {
+        this.layR3Name = layR3Name;
     }
 }

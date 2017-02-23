@@ -88,10 +88,6 @@
         "source": "D:\\WorkSpace\\AndroidStudioProject\\Jan-2017\\GPath\\GPath-LOC-02040215\\app\\src\\main\\res\\layout\\activity_register_liberia.xml"
     },
     {
-        "merged": "D:\\WorkSpace\\AndroidStudioProject\\Jan-2017\\GPath\\GPath-LOC-02040215\\app\\build\\intermediates\\res\\merged\\debug\\layout\\activity_id_list_in_group_summary.xml",
-        "source": "D:\\WorkSpace\\AndroidStudioProject\\Jan-2017\\GPath\\GPath-LOC-02040215\\app\\src\\main\\res\\layout\\activity_id_list_in_group_summary.xml"
-    },
-    {
         "merged": "D:\\WorkSpace\\AndroidStudioProject\\Jan-2017\\GPath\\GPath-LOC-02040215\\app\\build\\intermediates\\res\\merged\\debug\\layout\\layout_dtl.xml",
         "source": "D:\\WorkSpace\\AndroidStudioProject\\Jan-2017\\GPath\\GPath-LOC-02040215\\app\\src\\main\\res\\layout\\layout_dtl.xml"
     },
@@ -494,6 +490,10 @@
     {
         "merged": "D:\\WorkSpace\\AndroidStudioProject\\Jan-2017\\GPath\\GPath-LOC-02040215\\app\\build\\intermediates\\res\\merged\\debug\\layout\\list_row_dynamic_table_question.xml",
         "source": "D:\\WorkSpace\\AndroidStudioProject\\Jan-2017\\GPath\\GPath-LOC-02040215\\app\\src\\main\\res\\layout\\list_row_dynamic_table_question.xml"
+    },
+    {
+        "merged": "D:\\WorkSpace\\AndroidStudioProject\\Jan-2017\\GPath\\GPath-LOC-02040215\\app\\build\\intermediates\\res\\merged\\debug\\layout\\activity_group_member_summary.xml",
+        "source": "D:\\WorkSpace\\AndroidStudioProject\\Jan-2017\\GPath\\GPath-LOC-02040215\\app\\src\\main\\res\\layout\\activity_group_member_summary.xml"
     },
     {
         "merged": "D:\\WorkSpace\\AndroidStudioProject\\Jan-2017\\GPath\\GPath-LOC-02040215\\app\\build\\intermediates\\res\\merged\\debug\\layout\\activity_map.xml",

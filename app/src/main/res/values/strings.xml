@@ -193,7 +193,7 @@
     <string name="srv_summary_TitleLable">Service Summary </string>
     <string name="tv_criteria">Criteria</string>
     <!-- LOG IN SCREEN -->
-    <string name="log_in_version_lable">GPath-LIV-09</string>
+    <string name="log_in_version_lable">GPath-UAT-10</string>
     <!-- VERSION -->
 
 
@@ -570,7 +570,7 @@ Otherwise, initiate to sync and login again.</string>
     <string name="srv_name">Srv Name</string>
     <string name="count_lable">Count</string>
     <!-- ID List in Group   Summary page resource-->
-    <string name="title_id_list_in_grp_summary">ID List in Group </string>
+    <string name="title_id_list_in_grp_summary">Group Members</string>
 
     <!--ASSIGN DDR PROGRAM FFA -->
     <string name="_1_child_headed_households_orphan_headed_households_or_where_the_parent_or_grandparent_is_incapable_of_undertaking_the_usual_head_of_household_roles">1. Child-headed households (orphan-headed households or where the parent or grandparent is incapable of undertaking the usual head of household roles)</string>
@@ -604,4 +604,7 @@ Otherwise, initiate to sync and login again.</string>
     <string name="dttitle">DTTitle</string>
     <string name="wealth_rank">Wealth Rank</string>
     <string name="existing_group">Existing Group</string>
+    <string name="search_table">Search Table</string>
+    <string name="dynamic_table">Dynamic Table</string>
+    <string name="layr3_name">LayR3 Name</string>
 </resources>

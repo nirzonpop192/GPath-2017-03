@@ -5207,7 +5207,8 @@ public String sqlSpRegNAssignProgSrv_Save(){
 
 
     /**
-     *
+     * insert into the DTResponse table there are relevant tables that needs to be updated accordingly
+     * the sp insert the data into relevent table
      * @return store procedure of sql server DTShortName_Save
      */
     public String sqlSpDTShortName_Save() {

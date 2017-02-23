@@ -5,21 +5,23 @@ package com.siddiquinoor.restclient.activity.sub_activity.summary_sub;
  * Group Name	Category (Short Name)	Short Name (SrvCode)	Count
  */
 
+import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import com.siddiquinoor.restclient.R;
-import com.siddiquinoor.restclient.activity.AllSummaryActivity;
-import com.siddiquinoor.restclient.activity.MainActivity;
 import com.siddiquinoor.restclient.fragments.BaseActivity;
 import com.siddiquinoor.restclient.manager.SQLiteHandler;
 import com.siddiquinoor.restclient.utils.KEY;
@@ -30,50 +32,51 @@ import com.siddiquinoor.restclient.views.notifications.ADNotificationManager;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GroupSummary extends BaseActivity implements AdapterView.OnItemClickListener {
-    private Button btn_back, btn_home;
-    private ListView lv_group;
+public class GroupSummary extends BaseActivity /*implements AdapterView.OnItemClickListener*/ {
+    private Button btnBack, btnHome;
+    private ListView listView;
+    private TextView tv_lay3Title;
     private final Context mContext = GroupSummary.this;
 
     private String idCountry;
     private SQLiteHandler sqlH;
     private SummaryGroupListAdapter adapter;
-   private ArrayList<SummaryGroupListDataModel>groupLisArray=new ArrayList<SummaryGroupListDataModel>() ;
+    private ArrayList<SummaryGroupListDataModel> groupLisArray = new ArrayList<SummaryGroupListDataModel>();
 
     private ADNotificationManager dialog;
+    private ProgressDialog pDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_group_summary);
         initial();
-        Intent intent = getIntent();
-        idCountry = intent.getStringExtra(KEY.COUNTRY_ID);
 
+        idCountry = sqlH.getSelectedCountryCode();
+        tv_lay3Title.setText(sqlH.getLayerLabel(idCountry,"3"));
         setAllListener();
 
-        loadGroupList(idCountry);
+        new LoadListView(idCountry).execute();
+
     }
 
     private void initial() {
         viewReference();
-        sqlH=new SQLiteHandler(mContext);
-        dialog=new ADNotificationManager();
+        sqlH = new SQLiteHandler(mContext);
+        dialog = new ADNotificationManager();
     }
 
     private void setAllListener() {
-        btn_back.setOnClickListener(new View.OnClickListener() {
+        btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 goToSummaryActivity((Activity) mContext, idCountry);
 
             }
         });
-        btn_home.setOnClickListener(new View.OnClickListener() {
+        btnHome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 goToMainActivity((Activity) mContext);
 
             }
@@ -83,28 +86,41 @@ public class GroupSummary extends BaseActivity implements AdapterView.OnItemClic
     /**
      * refer the non java object into java object
      */
-
     private void viewReference() {
-        btn_back = (Button) findViewById(R.id.btnRegisterFooter);
-        btn_home = (Button) findViewById(R.id.btnHomeFooter);
-        lv_group = (ListView) findViewById(R.id.list_group_records);
-        setUpBackPressButton();
+        btnBack = (Button) findViewById(R.id.btnRegisterFooter);
+        btnHome = (Button) findViewById(R.id.btnHomeFooter);
+        listView = (ListView) findViewById(R.id.list_group_records);
+        tv_lay3Title = (TextView) findViewById(R.id.list_title_LayR3Name);
+    }
+
+
+    /**
+     * calling getWidth() and getHeight() too early:
+     * When  the UI has not been sized and laid out on the screen yet..
+     *
+     * @param hasFocus the value will be true when UI is focus
+     */
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
         setUpHomeButton();
+        setUpBackPressButton();
     }
 
-
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     private void setUpBackPressButton() {
-        btn_back.setText("");
-        Drawable saveImage = getResources().getDrawable(R.drawable.goto_back);
-        btn_back.setCompoundDrawablesRelativeWithIntrinsicBounds(saveImage, null, null, null);
-        btn_back.setPadding(180, 10, 180, 10);
+        btnBack.setText("");
+        Drawable backImage = getResources().getDrawable(R.drawable.goto_back);
+        btnBack.setCompoundDrawablesRelativeWithIntrinsicBounds(backImage, null, null, null);
+        setPaddingButton(mContext, backImage, btnBack);
     }
 
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     private void setUpHomeButton() {
-        btn_home.setText("");
+        btnHome.setText("");
         Drawable imageHome = getResources().getDrawable(R.drawable.home_b);
-        btn_home.setCompoundDrawablesRelativeWithIntrinsicBounds(imageHome, null, null, null);
-        btn_home.setPadding(180, 10, 180, 10);
+        btnHome.setCompoundDrawablesRelativeWithIntrinsicBounds(imageHome, null, null, null);
+        setPaddingButton(mContext, imageHome, btnHome);
     }
 
     /**
@@ -114,13 +130,11 @@ public class GroupSummary extends BaseActivity implements AdapterView.OnItemClic
      */
 
 
-
     public void loadGroupList(String cCode) {
 
 
-
         // use variable to like operation
-        List<SummaryGroupListDataModel> assignList = sqlH.getGroupSummaryList(cCode );
+        List<SummaryGroupListDataModel> assignList = sqlH.getGroupSummaryList(cCode);
         if (assignList.size() != 0) {
             groupLisArray.clear();
             for (SummaryGroupListDataModel data : assignList) {
@@ -129,10 +143,11 @@ public class GroupSummary extends BaseActivity implements AdapterView.OnItemClic
             }
 
             adapter = new SummaryGroupListAdapter((Activity) mContext, groupLisArray);
-            adapter.notifyDataSetChanged();
-            lv_group.setAdapter(adapter);
-            lv_group.setOnItemClickListener(this);
-            lv_group.setFocusableInTouchMode(true);
+            // leave it for test purpose
+//            adapter.notifyDataSetChanged();
+//            listView.setAdapter(adapter);
+//            listView.setOnItemClickListener(this);
+//            listView.setFocusableInTouchMode(true);
 
         } else {
             dialog.showInfromDialog(mContext, "No Data", "");
@@ -140,13 +155,76 @@ public class GroupSummary extends BaseActivity implements AdapterView.OnItemClic
         //hidePDialog();
     }
 
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        SummaryGroupListDataModel data = (SummaryGroupListDataModel) adapter.getItem(position);
+//    @Override
+//    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//        SummaryGroupListDataModel data = (SummaryGroupListDataModel) adapter.getItem(position);
+//
+//        Intent intent = new Intent(mContext, GroupMemberSummary.class);
+//        intent.putExtra(KEY.COMMUNITY_GRP_DATA_OBJECT_KEY, data);
+//        finish();
+//        startActivity(intent);
+//    }
 
-        Intent intent = new Intent(mContext, IdListInGroupSummary.class);
-        intent.putExtra(KEY.COMMUNITY_GRP_DATA_OBJECT_KEY,data);
-        finish();
-        startActivity(intent);
+    /**
+     * @param msg text massage
+     */
+
+    private void startProgressBar(String msg) {
+        pDialog = new ProgressDialog(this);
+        pDialog.setMessage(msg);
+        pDialog.setCancelable(true);
+        pDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        pDialog.show();
+    }
+
+
+    private class LoadListView extends AsyncTask<Void, Integer, String> {
+        String temCountryCode;
+
+        public LoadListView(String temCountryCode) {
+            this.temCountryCode = temCountryCode;
+        }
+
+        @Override
+        protected String doInBackground(Void... params) {
+            loadGroupList(temCountryCode);
+            return "success";
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            startProgressBar("Data is Loading");
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+
+            if (pDialog.isShowing())
+                pDialog.dismiss();
+
+
+            if (adapter != null) {
+                adapter.notifyDataSetChanged();
+                listView.setAdapter(adapter);
+                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        SummaryGroupListDataModel data = (SummaryGroupListDataModel) adapter.getItem(position);
+
+                        Intent intent = new Intent(mContext, GroupMemberSummary.class);
+                        intent.putExtra(KEY.COMMUNITY_GRP_DATA_OBJECT_KEY, data);
+                        finish();
+                        startActivity(intent);
+                    }
+                });
+                listView.setFocusableInTouchMode(true);
+
+            } else {
+                Log.d("MAL", "Adapter Is Empty ");
+
+            }
+        }
     }
 }

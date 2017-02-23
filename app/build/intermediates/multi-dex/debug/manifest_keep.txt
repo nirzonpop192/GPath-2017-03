@@ -48,7 +48,7 @@
 -keep class com.siddiquinoor.restclient.activity.GroupSearchPage { <init>(); }
 -keep class com.siddiquinoor.restclient.activity.sub_activity.commu_group_sub.CommunityGroupNDetailsRecodes { <init>(); }
 -keep class com.siddiquinoor.restclient.activity.sub_activity.summary_sub.GroupSummary { <init>(); }
--keep class com.siddiquinoor.restclient.activity.sub_activity.summary_sub.IdListInGroupSummary { <init>(); }
+-keep class com.siddiquinoor.restclient.activity.sub_activity.summary_sub.GroupMemberSummary { <init>(); }
 -keep class com.siddiquinoor.restclient.activity.DynamicData { <init>(); }
 -keep class com.siddiquinoor.restclient.activity.sub_activity.dynamic_table.DTResponseActivity { <init>(); }
 -keep class com.siddiquinoor.restclient.activity.sub_activity.dynamic_table.DTResponseRecordingActivity { <init>(); }

@@ -142,7 +142,60 @@
         </LinearLayout>
     </LinearLayout>
     <!-- title of list view  -->
-    <LinearLayout android:id="@+id/table_title"
+    <LinearLayout
+        android:id="@+id/table_title"
+        android:layout_below="@+id/ll_viewContanear"
+        android:layout_width="fill_parent"
+        android:layout_height="45dp"
+        android:orientation="horizontal"
+        android:background="#627C9F">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1.5"
+            android:padding="2dp"
+            android:layout_height="match_parent"
+            android:text="Group Name"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:textSize="17sp" />
+
+
+        <TextView
+            android:id="@+id/text_table"
+            android:layout_width="0dp"
+            android:padding="2dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:text="Id"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:textSize="17sp" />
+
+
+        <TextView
+            android:gravity="center"
+            android:padding="2dp"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:text="Name"
+            android:textColor="@color/white"
+            android:textSize="17sp" />
+
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight=".5"
+            android:padding="2dp"
+            android:gravity="center"
+            android:layout_height="match_parent"
+            android:text="Date"
+            android:textColor="@color/white"
+            android:textSize="17sp"
+            android:id="@+id/textView4" />
+    </LinearLayout>
+  <!--  <LinearLayout android:id="@+id/table_title"
         android:layout_below="@+id/ll_viewContanear"
         android:layout_width="fill_parent"
         android:weightSum="1.5"
@@ -171,7 +224,7 @@
         </LinearLayout>
 
 
-        <!-- <LinearLayout
+        &lt;!&ndash; <LinearLayout
              android:layout_width="0dp"
              android:layout_height="wrap_content"
              android:layout_weight=".3"
@@ -188,7 +241,7 @@
                  android:paddingTop="10dp"
                  android:paddingBottom="10dp"
                  android:paddingLeft="10dp"                />
-         </LinearLayout>-->
+         </LinearLayout>&ndash;&gt;
         <LinearLayout
             android:layout_width="0dp"
             android:layout_weight=".5"
@@ -226,7 +279,7 @@
                 android:paddingLeft="55dp"
                 />
         </LinearLayout>
-    </LinearLayout>
+    </LinearLayout>-->
     <ListView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

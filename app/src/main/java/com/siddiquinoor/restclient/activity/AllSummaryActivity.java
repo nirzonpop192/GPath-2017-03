@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.RadioButton;
+import android.widget.Toast;
 
 import com.siddiquinoor.restclient.R;
 import com.siddiquinoor.restclient.activity.sub_activity.summary_sub.GroupSummary;
@@ -19,6 +20,7 @@ import com.siddiquinoor.restclient.activity.sub_activity.summary_sub.ServiceSumm
 import com.siddiquinoor.restclient.fragments.BaseActivity;
 import com.siddiquinoor.restclient.activity.sub_activity.summary_sub.Summary;
 import com.siddiquinoor.restclient.activity.sub_activity.summary_sub.SummaryAssignCriteria;
+import com.siddiquinoor.restclient.manager.SQLiteHandler;
 import com.siddiquinoor.restclient.utils.CalculationPadding;
 import com.siddiquinoor.restclient.utils.KEY;
 import com.siddiquinoor.restclient.utils.UtilClass;
@@ -29,7 +31,7 @@ import com.siddiquinoor.restclient.views.notifications.ADNotificationManager;
  */
 
 
-public class AllSummaryActivity extends BaseActivity implements View.OnClickListener {
+public class AllSummaryActivity extends BaseActivity {
     private RadioButton rbHouseHold, rbService, rbDistribution;
     private Button btnGo, btnHome;
     private String idCountry;
@@ -38,7 +40,7 @@ public class AllSummaryActivity extends BaseActivity implements View.OnClickList
 
     private ADNotificationManager dialog;
     private final Context mContext = AllSummaryActivity.this;
-
+    private SQLiteHandler sqlH;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,25 +49,76 @@ public class AllSummaryActivity extends BaseActivity implements View.OnClickList
         setContentView(R.layout.activity_all_summary);
 
         initial();
-
-        Intent innt = getIntent();
-
-        idCountry = innt.getStringExtra(KEY.COUNTRY_ID);
+        //Intent innt = getIntent();
+        idCountry = sqlH.getSelectedCountryCode();//innt.getStringExtra(KEY.COUNTRY_ID);
 
         viewAccessController();
+        btnGo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+////                if(rbtGroup.isChecked()){
+//               // Toast.makeText(mContext,"Hun marbo",Toast.LENGTH_SHORT).show();
+//                Intent grpIntent = new Intent(AllSummaryActivity.this, GroupSummary.class);
+//                finish();
+//                startActivity(grpIntent);
+//                }
 
-        btnGo.setOnClickListener(this);
-        btnHome.setOnClickListener(this);
+                //Intent intent = null;
+                if (rbHouseHold.isChecked()) {
+                    Intent iRegSum = new Intent(AllSummaryActivity.this, Summary.class);
+                    iRegSum.putExtra(KEY.COUNTRY_ID, idCountry);
+                    finish();
+                    startActivity(iRegSum);
+                } else if (rbService.isChecked()) {
+                    Intent iSrvSum = new Intent(AllSummaryActivity.this, ServiceSummaryMenu.class);
+                    iSrvSum.putExtra(KEY.COUNTRY_ID, idCountry);
+                    iSrvSum.putExtra(KEY.FLAG, KEY.SRV_FLAG);
+                    iSrvSum.putExtra(KEY.DIR_CLASS_NAME_KEY, "AllSummaryActivity");
+                    finish();
+                    startActivity(iSrvSum);
+                } else if (rbAssign.isChecked()) {
+                    Intent iAsgSum = new Intent(AllSummaryActivity.this, SummaryAssignCriteria.class);
+                    iAsgSum.putExtra(KEY.COUNTRY_ID, idCountry);
+                    finish();
+                    startActivity(iAsgSum);
+                } else if (rbDistribution.isChecked()) {
+                   Intent iDistSum= new Intent(AllSummaryActivity.this, ServiceSummaryMenu.class);
+                    iDistSum.putExtra(KEY.COUNTRY_ID, idCountry);
+                    iDistSum.putExtra(KEY.FLAG, KEY.DIST_FLAG);
+                    iDistSum.putExtra(KEY.DIR_CLASS_NAME_KEY, "AllSummaryActivity");
+                    finish();
+                    startActivity(iDistSum);
+                } else if (rbtGroup.isChecked()) {
+                    Intent iGrpSum= new Intent(AllSummaryActivity.this, GroupSummary.class);
+                    finish();
+                    startActivity(iGrpSum);
+                    //   intent.putExtra(KEY.COUNTRY_ID, idCountry);
+                } else
+                    dialog.showErrorDialog(mContext, "No Menu is selected yet");
 
 
+                /*if (intent != null) {
 
+                    startActivity(intent);
+                }*/
+
+
+            }
+        });
+        btnHome.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+                Intent iHome = new Intent(mContext, MainActivity.class);
+                startActivity(iHome);
+            }
+        });
     }
 
     private void initial() {
         reference();
         dialog = new ADNotificationManager();
-
-
+        sqlH = new SQLiteHandler(mContext);
         rbDistribution.setEnabled(false);
         rbHouseHold.setEnabled(false);
         rbService.setEnabled(false);
@@ -74,7 +127,7 @@ public class AllSummaryActivity extends BaseActivity implements View.OnClickList
     }
 
 
-    private void viewAccessController( ) {
+    private void viewAccessController() {
 
         SharedPreferences settings;
 
@@ -114,8 +167,6 @@ public class AllSummaryActivity extends BaseActivity implements View.OnClickList
         btnGo = (Button) findViewById(R.id.btnHomeFooter);
 
 
-
-
     }
 
     /**
@@ -131,21 +182,23 @@ public class AllSummaryActivity extends BaseActivity implements View.OnClickList
         setUpHomeButton();
         setUpGoButton();
     }
-    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
 
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     private void setUpGoButton() {
         btnGo.setText("");
         Drawable imageGoto = getResources().getDrawable(R.drawable.goto_forward);
         btnGo.setCompoundDrawablesRelativeWithIntrinsicBounds(imageGoto, null, null, null);
-        int leftPadd, rightPadd,topPadd,bottomPadd;
-        CalculationPadding calPadd = new CalculationPadding();
+        //  int leftPadd, rightPadd,topPadd,bottomPadd;
+        //  CalculationPadding calPadd = new CalculationPadding();
 
-        leftPadd = rightPadd = calPadd.calculateViewPadding(mContext, imageGoto, btnGo);
+        //  leftPadd = rightPadd = calPadd.calculateViewPadding(mContext, imageGoto, btnGo);
         /**
          * set the value in resource
          */
-        topPadd=bottomPadd=getResources().getInteger(R.integer.top_bottom_icon_pad_int_5);
-        btnGo.setPadding(leftPadd,topPadd , rightPadd, bottomPadd);
+        // topPadd=bottomPadd=getResources().getInteger(R.integer.top_bottom_icon_pad_int_5);
+        // btnGo.setPadding(leftPadd,topPadd , rightPadd, bottomPadd);
+
+        setPaddingButton(mContext, imageGoto, btnGo);
     }
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
@@ -154,19 +207,20 @@ public class AllSummaryActivity extends BaseActivity implements View.OnClickList
         btnHome.setText("");
         Drawable imageHome = getResources().getDrawable(R.drawable.home_b);
         btnHome.setCompoundDrawablesRelativeWithIntrinsicBounds(imageHome, null, null, null);
-        int leftPadd, rightPadd,topPadd,bottomPadd;
-        CalculationPadding calPadd = new CalculationPadding();
+        // int leftPadd, rightPadd,topPadd,bottomPadd;
+        // CalculationPadding calPadd = new CalculationPadding();
 
-        leftPadd = rightPadd = calPadd.calculateViewPadding(mContext, imageHome, btnHome);
+        //  leftPadd = rightPadd = calPadd.calculateViewPadding(mContext, imageHome, btnHome);
         /**
          * set the value in resource
          */
-        topPadd=bottomPadd=getResources().getInteger(R.integer.top_bottom_icon_pad_int_5);
+        //  topPadd=bottomPadd=getResources().getInteger(R.integer.top_bottom_icon_pad_int_5);
 
-        btnHome.setPadding(leftPadd, topPadd, rightPadd, bottomPadd);
+        //  btnHome.setPadding(leftPadd, topPadd, rightPadd, bottomPadd);
+        setPaddingButton(mContext, imageHome, btnHome);
     }
 
-    @Override
+   /* @Override
     public void onClick(View v) {
         switch (v.getId()) {
             // go button
@@ -189,16 +243,17 @@ public class AllSummaryActivity extends BaseActivity implements View.OnClickList
                     intent.putExtra(KEY.FLAG, KEY.DIST_FLAG);
                     intent.putExtra(KEY.DIR_CLASS_NAME_KEY, "AllSummaryActivity");
                 }else if(rbtGroup.isChecked()){
-                    intent = new Intent(AllSummaryActivity.this, GroupSummary.class);
-                    intent.putExtra(KEY.COUNTRY_ID, idCountry);
+                  Intent   grpIntent = new Intent(AllSummaryActivity.this, GroupSummary.class);
+                    startActivity(grpIntent);
+                 //   intent.putExtra(KEY.COUNTRY_ID, idCountry);
                 } else
                     dialog.showErrorDialog(mContext, "No Menu is selected yet");
 
 
-                if (intent != null) {
-
-                    startActivity(intent);
-                }
+//                if (intent != null) {
+//
+//                    startActivity(intent);
+//                }
 
 
                 break;
@@ -210,7 +265,7 @@ public class AllSummaryActivity extends BaseActivity implements View.OnClickList
 
                 break;
         }
-    }
+    }*/
 
 
   /*  @Override

@@ -962,7 +962,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
         db.execSQL(Schema.sqlCreateLayerLabel());
         db.execSQL(Schema.sqlCreateDistrict());
         db.execSQL(Schema.sqlCreateUpazilla());
-        db.execSQL(sqlCreateUnit());
+        db.execSQL(Schema.sqlCreateUnit());
         db.execSQL(Schema.sqlCreateVillage());
         db.execSQL(Schema.sqlCreateDateRange());
         db.execSQL(Schema.sqlCreateRegistration());
@@ -3456,6 +3456,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
                 assignedPeople.setCustomId(cursor.getString(cursor.getColumnIndex("NewID")));
                 assignedPeople.setMemberName(cursor.getString(cursor.getColumnIndex("memberName")));
                 assignedPeople.setRegDate(cursor.getString(cursor.getColumnIndex("regDate")));
+                assignedPeople.setGroupName(cursor.getString(cursor.getColumnIndex("grpName")));
 
                 assignList.add(assignedPeople);
                 //   Log.d(TAG, " Assigne summary List : " + cursor.getString(0) + " : " + cursor.getString(1) + " : " + cursor.getString(2) + " : " + cursor.getString(3));
@@ -3534,6 +3535,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
                 data.setGroupName(cursor.getString(cursor.getColumnIndex(GROUP_NAME_COL)));
                 data.setSrvShortName(cursor.getString(cursor.getColumnIndex(SERVICE_SHORT_NAME_COL)));
                 data.setCount(cursor.getString(cursor.getColumnIndex("c")));
+                data.setLayR3Name(cursor.getString(cursor.getColumnIndex(UNITE_NAME_COL)));
 
                 list.add(data);
 
@@ -3561,6 +3563,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
                 data.setnMemId(cursor.getString(cursor.getColumnIndex("idMem")));
                 data.setMemName(cursor.getString(cursor.getColumnIndex("memName")));
                 data.setSrvName(cursor.getString(cursor.getColumnIndex(SERVICE_SHORT_NAME_COL)));
+                data.setGrpName(cursor.getString(cursor.getColumnIndex(GROUP_NAME_COL)));
 
 
                 list.add(data);
@@ -5587,11 +5590,11 @@ public class SQLiteHandler extends SQLiteOpenHelper {
      * @return DT index list
      */
 
-    public ArrayList<DynamicDataIndexDataModel> getDynamicTableIndexList(final String cCode, String dtTitleSearch) {
+    public ArrayList<DynamicDataIndexDataModel> getDynamicTableIndexList(final String cCode, String dtTitleSearch, final String staffId) {
 
         ArrayList<DynamicDataIndexDataModel> list = new ArrayList<DynamicDataIndexDataModel>();
         SQLiteDatabase db = this.getReadableDatabase();
-        String sql = SQLiteQuery.getDynamicTableIndexList_sql(cCode, dtTitleSearch);
+        String sql = SQLiteQuery.getDynamicTableIndexList_sql(cCode, dtTitleSearch, staffId);
 
 
         Cursor cursor = db.rawQuery(sql, null);
@@ -5791,8 +5794,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
     public boolean ifExistsInRegNAssProgSrv(AssignDataModel data) {
         SQLiteDatabase db = this.getReadableDatabase();
         boolean flag;
-        String sql = SQLiteQuery.ifExistsInRegNAssProgSrv_sql(data.getCountryCode(),data.getDistrictCode(),data.getUpazillaCode(),data.getUnitCode(),data.getVillageCode(),data.getHh_id(),data.getMemId(),data.getProgram_code(),data.getService_code());
-
+        String sql = SQLiteQuery.ifExistsInRegNAssProgSrv_sql(data.getCountryCode(), data.getDistrictCode(), data.getUpazillaCode(), data.getUnitCode(), data.getVillageCode(), data.getHh_id(), data.getMemId(), data.getProgram_code(), data.getService_code());
 
 
         Cursor cursor = db.rawQuery(sql, null);
@@ -9128,9 +9130,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
         Log.d(TAG, "New UPAZILLA_ inserted into Upazilla: " + id);
     }
 
-    private String sqlCreateUnit() {
-        return "CREATE TABLE IF NOT EXISTS " + UNIT_TABLE + "(" + ID_COL + " INTEGER PRIMARY KEY AUTOINCREMENT, " + COUNTRY_CODE_COL + " VARCHAR(50), " + LAYER_CODE_COL + " VARCHAR(2)," + LAY_R1_LIST_CODE_COL + " VARCHAR(50), " + LAY_R2_LIST_CODE_COL + " VARCHAR(50), " + LAY_R3_LIST_CODE_COL + " VARCHAR(50), " + UNITE_NAME_COL + " VARCHAR(50))";
-    }
+
 
     /**
      * Storing Unit details into database
@@ -10792,23 +10792,43 @@ public class SQLiteHandler extends SQLiteOpenHelper {
 
     }
 
+
+    public String getSelectedCountryCode() {
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        String cCode="";
+        String sql = SQLiteQuery.getSelectedCountryCode_sql();
+
+        Cursor cursor = db.rawQuery(sql, null);
+        if ((cursor != null) && cursor.moveToFirst()) {
+            cCode = cursor.getString(cursor.getColumnIndex(COUNTRY_CODE_COL));
+
+            cursor.close();
+        }
+        db.close();
+        return cCode;
+    }
+
+
     public ArrayList<VillageItem> getSelectedVillageList() {
         ArrayList<VillageItem> selectedVillage = new ArrayList<VillageItem>();
         SQLiteDatabase db = this.getReadableDatabase();
-        String query = "SELECT " + LAYER_CODE_COL
-                + " , " + VILLAGE_NAME_COL + " FROM " + SELECTED_VILLAGE_TABLE;
-        Cursor cursor = db.rawQuery(query, null);
+
+        String sql = SQLiteQuery.getSelectedVillageList_sql();
+
+        Cursor cursor = db.rawQuery(sql, null);
         if (cursor.moveToFirst()) {
             do {
                 VillageItem vi = new VillageItem();
                 vi.setLayRCode(cursor.getString(cursor.getColumnIndex(LAYER_CODE_COL)));
                 vi.setLayR4ListName(cursor.getString(cursor.getColumnIndex(VILLAGE_NAME_COL)));
-                Log.d(TAG, " setLayRCode :" + vi.getLayRCode());
+                // Log.d(TAG, " setLayRCode :" + vi.getLayRCode());
                 selectedVillage.add(vi);
             } while (cursor.moveToNext());
             cursor.close();
-            db.close();
+
         }
+        db.close();
         return selectedVillage;
     }
 

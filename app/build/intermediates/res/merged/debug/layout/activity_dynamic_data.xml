@@ -19,7 +19,7 @@
         <TextView
             android:id="@+id/tv_ass_page2Title"
             style="@style/page_title_style"
-            android:text="Dynamic Table" />
+            android:text="@string/dynamic_table" />
 
     </RelativeLayout>
 
@@ -39,9 +39,7 @@
             style="@style/edit_text"
             android:layout_width="match_parent"
             android:layout_height="30dp"
-
-            android:hint="@string/search_id"
-
+            android:hint="@string/search_table"
             android:padding="0dp"
             android:layout_toLeftOf="@+id/btn_DTSearch"
             android:layout_toStartOf="@+id/btn_DTSearch" />
@@ -65,8 +63,6 @@
         android:layout_below="@+id/rl_searchPanel"
         android:background="@color/title_bg_col"
         android:orientation="horizontal">
-
-
     </LinearLayout>
 
 

@@ -7,6 +7,7 @@ public class SummaryIdListInGroupDataModel {
     private String nMemId;// 15 digit id
     private String memName;
     private String srvName; // criteria
+    private String grpName; // criteria
 
     public String getnMemId() {
         return nMemId;
@@ -30,5 +31,13 @@ public class SummaryIdListInGroupDataModel {
 
     public void setSrvName(String srvName) {
         this.srvName = srvName;
+    }
+
+    public String getGrpName() {
+        return grpName;
+    }
+
+    public void setGrpName(String grpName) {
+        this.grpName = grpName;
     }
 }

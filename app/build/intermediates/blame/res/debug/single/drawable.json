@@ -412,12 +412,12 @@
         "source": "D:\\WorkSpace\\AndroidStudioProject\\Jan-2017\\GPath\\GPath-LOC-02040215\\app\\src\\main\\res\\drawable\\camera_icon.png"
     },
     {
-        "merged": "D:\\WorkSpace\\AndroidStudioProject\\Jan-2017\\GPath\\GPath-LOC-02040215\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\ic_menu_offline.png",
-        "source": "D:\\WorkSpace\\AndroidStudioProject\\Jan-2017\\GPath\\GPath-LOC-02040215\\app\\build\\intermediates\\exploded-aar\\org.osmdroid\\osmdroid-android\\5.2\\res\\drawable\\ic_menu_offline.png"
-    },
-    {
         "merged": "D:\\WorkSpace\\AndroidStudioProject\\Jan-2017\\GPath\\GPath-LOC-02040215\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\qr_code.png",
         "source": "D:\\WorkSpace\\AndroidStudioProject\\Jan-2017\\GPath\\GPath-LOC-02040215\\app\\src\\main\\res\\drawable\\qr_code.png"
+    },
+    {
+        "merged": "D:\\WorkSpace\\AndroidStudioProject\\Jan-2017\\GPath\\GPath-LOC-02040215\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\ic_menu_offline.png",
+        "source": "D:\\WorkSpace\\AndroidStudioProject\\Jan-2017\\GPath\\GPath-LOC-02040215\\app\\build\\intermediates\\exploded-aar\\org.osmdroid\\osmdroid-android\\5.2\\res\\drawable\\ic_menu_offline.png"
     },
     {
         "merged": "D:\\WorkSpace\\AndroidStudioProject\\Jan-2017\\GPath\\GPath-LOC-02040215\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\book_20.png",

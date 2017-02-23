@@ -764,6 +764,7 @@
     <string name="dob_date">DOB Date</string>
     <string name="dt_response_title">Response</string>
     <string name="dttitle">DTTitle</string>
+    <string name="dynamic_table">Dynamic Table</string>
     <string name="e">E.Core Criteria: HHs with PLW or CU2; Secondary Criteria: HH has a total of 4 or more children below 12 years of age</string>
     <string name="error.message.call">Call failed</string>
     <string name="error.message.map">Map loading failed</string>
@@ -838,6 +839,7 @@
     <string name="label_vitA_under5">Vitamin ‘A’ supplementation for under 5 </string>
     <string name="label_weight_status">Weight gain/loss Status </string>
     <string name="latiTitle">Latitude</string>
+    <string name="layr3_name">LayR3 Name</string>
     <string name="lbl_GVH">GVH :</string>
     <string name="lbl_birthYear">Birth Year</string>
     <string name="lbl_bsc_mem_1">Verified by: BSC Member 1</string>
@@ -866,7 +868,7 @@
     <string name="livestock">LIVESTOCK</string>
     <string name="lmp_date">LMP Date</string>
     <string name="location_name">Location Name</string>
-    <string name="log_in_version_lable">GPath-LIV-09</string>
+    <string name="log_in_version_lable">GPath-LIV-10</string>
     <string name="longTitle">Longitude</string>
     <string name="map_mode">Map Source</string>
     <string name="mapbox">MapBox</string>
@@ -936,6 +938,7 @@
     <string name="samples">Samples</string>
     <string name="saved_coord">Saved Coordinate :</string>
     <string name="search_id">Search ID</string>
+    <string name="search_table">Search Table</string>
     <string name="service_center_label">Service Center</string>
     <string name="service_date_label">Service Date</string>
     <string name="service_label">Service</string>
@@ -981,7 +984,7 @@
     <string name="title_activity_summary_service">SummaryService</string>
     <string name="title_categories">FAMILY COMPOSITION AND  HOUSING</string>
     <string name="title_grp_summary">Group Summary</string>
-    <string name="title_id_list_in_grp_summary">ID List in Group </string>
+    <string name="title_id_list_in_grp_summary">Group Members</string>
     <string name="title_register">HHRegistration</string>
     <string name="title_register_member">Member Registration</string>
     <string name="topo">Topographic</string>

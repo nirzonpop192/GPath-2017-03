@@ -318,7 +318,7 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
-            android:name=".activity.sub_activity.summary_sub.IdListInGroupSummary"
+            android:name=".activity.sub_activity.summary_sub.GroupMemberSummary"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity

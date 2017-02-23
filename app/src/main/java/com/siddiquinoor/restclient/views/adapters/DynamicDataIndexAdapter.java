@@ -11,42 +11,40 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.siddiquinoor.restclient.R;
 import com.siddiquinoor.restclient.activity.sub_activity.dynamic_table.DT_ReportActivity;
 import com.siddiquinoor.restclient.activity.sub_activity.dynamic_table.DTResponseActivity;
-import com.siddiquinoor.restclient.controller.SessionManager;
-import com.siddiquinoor.restclient.manager.SQLiteHandler;
 import com.siddiquinoor.restclient.utils.KEY;
 
 import java.util.ArrayList;
 
 /**
- * Created by USER on 9/26/2016.
+ * Created by Faisal on 9/26/2016.
+ * @since version 03
  */
 public class DynamicDataIndexAdapter extends BaseAdapter {
     private Activity activity;
     private LayoutInflater inflater;
-    private SQLiteHandler sqLiteHandler;
-    private SessionManager session;
-    private ArrayList<DynamicDataIndexDataModel> datas = new ArrayList<DynamicDataIndexDataModel>();
+    //private SQLiteHandler sqLiteHandler;
+    // private SessionManager session;
+    private ArrayList<DynamicDataIndexDataModel> data = new ArrayList<DynamicDataIndexDataModel>();
 
-    public DynamicDataIndexAdapter(Activity activity, ArrayList<DynamicDataIndexDataModel> datas, SQLiteHandler sqLiteHandler) {
+    public DynamicDataIndexAdapter(Activity activity, ArrayList<DynamicDataIndexDataModel> data) {
         this.activity = activity;
-        this.datas = datas;
-        this.sqLiteHandler = sqLiteHandler;
-        session = new SessionManager(activity);
+        this.data = data;
+        // this.sqLiteHandler = sqLiteHandler;
+        //  session = new SessionManager(activity);
     }
 
     @Override
     public int getCount() {
-        return datas.size();
+        return data.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return datas.get(position);
+        return data.get(position);
     }
 
     @Override
@@ -66,15 +64,15 @@ public class DynamicDataIndexAdapter extends BaseAdapter {
         View row = convertView;
         final DynamicDataIndexDataModel data = getDynamicDataIndex(position);
 
+        // convert xml layout  to java object
         if (inflater == null)
             inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         if (convertView == null) {
             row = inflater.inflate(R.layout.list_row_dynamic_data_index, null);
 
             holder = new ViewHolder();
-            /**
-             * view reference
-             */
+
+            //view reference
             holder.llRow = (LinearLayout) row.findViewById(R.id.llRow);
             holder.tv_dtTitle = (TextView) row.findViewById(R.id.dt_index_row_tv_dtTitle);
             holder.tv_awardName = (TextView) row.findViewById(R.id.dt_index_row_tv_AwardName);
@@ -88,36 +86,38 @@ public class DynamicDataIndexAdapter extends BaseAdapter {
             holder = (ViewHolder) row.getTag();
         }
 
-        holder.tv_dtTitle.setText( data.getDtTittle());
+        holder.tv_dtTitle.setText(data.getDtTittle());
         holder.tv_awardName.setText("Award Name : " + data.getAwardName());
-        String progName=data.getProgramCode().equals("000")?" Cross Cutting":data.getProgramName();
-        holder.tv_progName.setText("Program Name : " +progName);
+        String progName = data.getProgramCode().equals("000") ? " Cross Cutting" : data.getProgramName();
+        holder.tv_progName.setText("Program Name : " + progName);
         holder.tv_ActivityName.setText("Activity Title  : " + data.getPrgActivityTitle());
 
 
         holder.iv_Go.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(sqLiteHandler.checkDTBasic(data.getDtBasicCode(), session.getStaffId())) {
-                    Intent intent = new Intent(activity.getApplicationContext(), DTResponseActivity.class);
-                    intent.putExtra(KEY.DYNAMIC_INDEX_DATA_OBJECT_KEY, data);
-                    activity.startActivity(intent);
-                }else{
-                    Toast.makeText(activity.getApplicationContext(), "You do not have access permission", Toast.LENGTH_SHORT).show();
-                }
+                // no need comment code  all table viewed by access
+//                if(sqLiteHandler.checkDTBasic(data.getDtBasicCode(), session.getStaffId())) {
+                Intent intent = new Intent(activity.getApplicationContext(), DTResponseActivity.class);
+                intent.putExtra(KEY.DYNAMIC_INDEX_DATA_OBJECT_KEY, data);
+                activity.startActivity(intent);
+//                }else{
+//                    Toast.makeText(activity.getApplicationContext(), "You do not have access permission", Toast.LENGTH_SHORT).show();
+//                }
             }
         });
 
         holder.iv_view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(sqLiteHandler.checkDTBasic(data.getDtBasicCode(), session.getStaffId())) {
-                    Intent intent = new Intent(activity.getApplicationContext(), DT_ReportActivity.class);
-                    intent.putExtra(KEY.DYNAMIC_INDEX_DATA_OBJECT_KEY, data);
-                    activity.startActivity(intent);
-                }else{
-                    Toast.makeText(activity.getApplicationContext(), "You do not have access permission", Toast.LENGTH_SHORT).show();
-                }
+                // no need comment code all viewed by access
+//                if(sqLiteHandler.checkDTBasic(data.getDtBasicCode(), session.getStaffId())) {
+                Intent intent = new Intent(activity.getApplicationContext(), DT_ReportActivity.class);
+                intent.putExtra(KEY.DYNAMIC_INDEX_DATA_OBJECT_KEY, data);
+                activity.startActivity(intent);
+//                }else{
+//                    Toast.makeText(activity.getApplicationContext(), "You do not have access permission", Toast.LENGTH_SHORT).show();
+//                }
             }
         });
 
@@ -135,6 +135,7 @@ public class DynamicDataIndexAdapter extends BaseAdapter {
 
         return row;
     }
+
 
     private void changeTextColor(int color) {
         holder.tv_dtTitle.setTextColor(color);
