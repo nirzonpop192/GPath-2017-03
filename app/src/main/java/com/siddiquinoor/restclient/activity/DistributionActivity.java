@@ -86,7 +86,11 @@ public class DistributionActivity extends BaseActivity {
     SparseBooleanArray mChecked = new SparseBooleanArray();
     private DistributionDataListAdapter adapter;
     private EditText edtMemSearch;
-    private ADNotificationManager dialog;
+
+    /**
+     * mDialog is Custom Dialog manager
+     */
+    private ADNotificationManager mDialog;
     private Button btnDistQR;
     private TextView titleLayerSet;
     private boolean fromQR;
@@ -200,7 +204,7 @@ public class DistributionActivity extends BaseActivity {
 
     private void intil() {
         sqlH = new SQLiteHandler(this);
-        dialog = new ADNotificationManager();
+        mDialog = new ADNotificationManager();
         viewReference();
     }
 
@@ -862,10 +866,10 @@ public class DistributionActivity extends BaseActivity {
 
 
                 if (adapter.getCount() == 0) {
-                    dialog.showInfromDialog(mContext, "No Data", "No Data found");
+                    mDialog.showInfromDialog(mContext, "No Data", "No Data found");
                 }
             } else {
-                dialog.showInfromDialog(mContext, "No Data", "No Data found");
+                mDialog.showInfromDialog(mContext, "No Data", "No Data found");
             }
 
         }
@@ -917,9 +921,9 @@ public class DistributionActivity extends BaseActivity {
 
         if (invalid) {
             invalid = true;
-            dialog.showErrorDialog(mContext, "Please select a Date");
+            mDialog.showErrorDialog(mContext, "Please select a Date");
         } else if (adapter == null) {
-            dialog.showErrorDialog(mContext, "Invalid Attempt to save");
+            mDialog.showErrorDialog(mContext, "Invalid Attempt to save");
         } else {
 
             ArrayList<DistributionGridDataModel> alist = new ArrayList<DistributionGridDataModel>();

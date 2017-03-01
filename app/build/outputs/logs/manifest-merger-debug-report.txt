@@ -2871,7 +2871,7 @@ ADDED from D:\WorkSpace\AndroidStudioProject\Jan-2017\GPath\GPath-LOC-02040215\a
 		ADDED from D:\WorkSpace\AndroidStudioProject\Jan-2017\GPath\GPath-LOC-02040215\app\src\main\AndroidManifest.xml:103:13-48
 	android:name
 		ADDED from D:\WorkSpace\AndroidStudioProject\Jan-2017\GPath\GPath-LOC-02040215\app\src\main\AndroidManifest.xml:102:13-53
-activity#com.siddiquinoor.restclient.activity.MapActivity
+activity#com.siddiquinoor.restclient.activity.sub_activity.gps_sub.MapActivity
 ADDED from D:\WorkSpace\AndroidStudioProject\Jan-2017\GPath\GPath-LOC-02040215\app\src\main\AndroidManifest.xml:108:9-112:52
 	android:screenOrientation
 		ADDED from D:\WorkSpace\AndroidStudioProject\Jan-2017\GPath\GPath-LOC-02040215\app\src\main\AndroidManifest.xml:112:13-49
@@ -2880,7 +2880,7 @@ ADDED from D:\WorkSpace\AndroidStudioProject\Jan-2017\GPath\GPath-LOC-02040215\a
 	android:configChanges
 		ADDED from D:\WorkSpace\AndroidStudioProject\Jan-2017\GPath\GPath-LOC-02040215\app\src\main\AndroidManifest.xml:110:13-48
 	android:name
-		ADDED from D:\WorkSpace\AndroidStudioProject\Jan-2017\GPath\GPath-LOC-02040215\app\src\main\AndroidManifest.xml:109:13-49
+		ADDED from D:\WorkSpace\AndroidStudioProject\Jan-2017\GPath\GPath-LOC-02040215\app\src\main\AndroidManifest.xml:109:13-70
 activity#com.siddiquinoor.restclient.activity.AllSummaryActivity
 ADDED from D:\WorkSpace\AndroidStudioProject\Jan-2017\GPath\GPath-LOC-02040215\app\src\main\AndroidManifest.xml:113:9-117:52
 	android:screenOrientation
@@ -3219,14 +3219,14 @@ ADDED from D:\WorkSpace\AndroidStudioProject\Jan-2017\GPath\GPath-LOC-02040215\a
 		ADDED from D:\WorkSpace\AndroidStudioProject\Jan-2017\GPath\GPath-LOC-02040215\app\src\main\AndroidManifest.xml:287:13-67
 	android:name
 		ADDED from D:\WorkSpace\AndroidStudioProject\Jan-2017\GPath\GPath-LOC-02040215\app\src\main\AndroidManifest.xml:285:13-74
-activity#com.siddiquinoor.restclient.activity.sub_activity.gps_sub.SearchLocation
+activity#com.siddiquinoor.restclient.activity.GPSLocationSearchPage
 ADDED from D:\WorkSpace\AndroidStudioProject\Jan-2017\GPath\GPath-LOC-02040215\app\src\main\AndroidManifest.xml:288:9-291:70
 	android:screenOrientation
 		ADDED from D:\WorkSpace\AndroidStudioProject\Jan-2017\GPath\GPath-LOC-02040215\app\src\main\AndroidManifest.xml:290:13-49
 	android:windowSoftInputMode
 		ADDED from D:\WorkSpace\AndroidStudioProject\Jan-2017\GPath\GPath-LOC-02040215\app\src\main\AndroidManifest.xml:291:13-67
 	android:name
-		ADDED from D:\WorkSpace\AndroidStudioProject\Jan-2017\GPath\GPath-LOC-02040215\app\src\main\AndroidManifest.xml:289:13-73
+		ADDED from D:\WorkSpace\AndroidStudioProject\Jan-2017\GPath\GPath-LOC-02040215\app\src\main\AndroidManifest.xml:289:13-59
 activity#com.siddiquinoor.restclient.activity.MemberSearchPage
 ADDED from D:\WorkSpace\AndroidStudioProject\Jan-2017\GPath\GPath-LOC-02040215\app\src\main\AndroidManifest.xml:292:9-295:70
 	android:screenOrientation
@@ -3291,12 +3291,12 @@ ADDED from D:\WorkSpace\AndroidStudioProject\Jan-2017\GPath\GPath-LOC-02040215\a
 		ADDED from D:\WorkSpace\AndroidStudioProject\Jan-2017\GPath\GPath-LOC-02040215\app\src\main\AndroidManifest.xml:323:13-67
 	android:name
 		ADDED from D:\WorkSpace\AndroidStudioProject\Jan-2017\GPath\GPath-LOC-02040215\app\src\main\AndroidManifest.xml:321:13-81
-activity#com.siddiquinoor.restclient.activity.DynamicData
+activity#com.siddiquinoor.restclient.activity.DynamicTable
 ADDED from D:\WorkSpace\AndroidStudioProject\Jan-2017\GPath\GPath-LOC-02040215\app\src\main\AndroidManifest.xml:324:9-326:70
 	android:windowSoftInputMode
 		ADDED from D:\WorkSpace\AndroidStudioProject\Jan-2017\GPath\GPath-LOC-02040215\app\src\main\AndroidManifest.xml:326:13-67
 	android:name
-		ADDED from D:\WorkSpace\AndroidStudioProject\Jan-2017\GPath\GPath-LOC-02040215\app\src\main\AndroidManifest.xml:325:13-49
+		ADDED from D:\WorkSpace\AndroidStudioProject\Jan-2017\GPath\GPath-LOC-02040215\app\src\main\AndroidManifest.xml:325:13-50
 activity#com.siddiquinoor.restclient.activity.sub_activity.dynamic_table.DTResponseActivity
 ADDED from D:\WorkSpace\AndroidStudioProject\Jan-2017\GPath\GPath-LOC-02040215\app\src\main\AndroidManifest.xml:327:9-92
 	android:name

@@ -4,6 +4,7 @@ package com.siddiquinoor.restclient.activity;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
@@ -11,7 +12,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -21,29 +21,38 @@ import com.siddiquinoor.restclient.R;
 import com.siddiquinoor.restclient.activity.sub_activity.commu_group_sub.CommunityGroupNDetailsRecodes;
 import com.siddiquinoor.restclient.fragments.BaseActivity;
 import com.siddiquinoor.restclient.manager.SQLiteHandler;
+import com.siddiquinoor.restclient.manager.sqlsyntax.SQLiteQuery;
 import com.siddiquinoor.restclient.utils.KEY;
 import com.siddiquinoor.restclient.views.adapters.CommunityGroupAdapter;
 import com.siddiquinoor.restclient.views.adapters.CommunityGroupDataModel;
 import com.siddiquinoor.restclient.views.helper.SpinnerHelper;
+import com.siddiquinoor.restclient.views.notifications.ADNotificationManager;
+import com.siddiquinoor.restclient.views.spinner.SpinnerLoader;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class GroupSearchPage extends BaseActivity {
     // TODO: 10/18/2016  page reloading problem  
-    private static final String TAG = "GroupSearchPage";
+    private static final String TAG = GroupSearchPage.class.getSimpleName();
     private SQLiteHandler sqlH;
     private static ProgressDialog pDialog;
-    private Button btnAddGroup,btnHome,btn_searchGroup;
+    private Button btnAddGroup, btnHome, btn_searchGroup;
 
     private EditText edt_groupSearch;
-    private ListView listOfGroup;
+    private ListView listView;
     private CommunityGroupAdapter adapter;
     private String idCountry;
-    private Spinner spCriteria;
+    private Spinner spProgram;
     private String strCriteria;
     private String idCriteria;
-    private String idAward,idDonor,idProgram;
+    private String idAward, idDonor, idProgram;
+    private Context mContext;
+
+    /**
+     * mDialog is Custom Dialog manager to provide information to user
+     */
+    private ADNotificationManager mDialog;
 
     //   private String idService;
 
@@ -72,16 +81,7 @@ public class GroupSearchPage extends BaseActivity {
         btn_searchGroup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                String grpName = edt_groupSearch.getText().toString();
-                if (grpName.length() > 0) {
-                    if (idCriteria.length() > 2) {
-                        LoadListView loading = new LoadListView(idCountry, idDonor, idAward, idProgram,grpName);
-                        loading.execute();
-                    }
-                }
-
-
+                searchGroupName();
             }
         });
 
@@ -101,9 +101,35 @@ public class GroupSearchPage extends BaseActivity {
         });
     }
 
-    private void initialize() {
-        sqlH = new SQLiteHandler(GroupSearchPage.this);
+    /**
+     * this method Execute  LoadListView anonymous object's thread
+     */
+    private void searchGroupName() {
+        String grpName = edt_groupSearch.getText().toString();
+        if (grpName.length() == 0) {
 
+            //safety block
+            if (idCriteria.length() > 2) {
+
+                // anonymous object
+                new LoadListView(idCountry, idDonor, idAward, idProgram, "").execute();
+            }
+        } else {
+
+            //safety block
+            if (idCriteria.length() > 2) {
+
+                // search with group name
+                // anonymous object
+                new LoadListView(idCountry, idDonor, idAward, idProgram, grpName).execute();
+            }
+        }
+    }
+
+    private void initialize() {
+        mContext = GroupSearchPage.this;
+        sqlH = new SQLiteHandler(mContext);
+        mDialog = new ADNotificationManager();
         viewReference();
 
 
@@ -116,49 +142,14 @@ public class GroupSearchPage extends BaseActivity {
      */
     private void loadProgram(final String cCode) {
 
-        int position = 0;
-        String criteria = "SELECT " +
-                SQLiteHandler.ADM_PROGRAM_MASTER_TABLE + "." + SQLiteHandler.DONOR_CODE_COL + " || '' || "
-                + SQLiteHandler.ADM_PROGRAM_MASTER_TABLE + "." + SQLiteHandler.AWARD_CODE_COL + " || '' || "
-                + SQLiteHandler.ADM_PROGRAM_MASTER_TABLE + "." + SQLiteHandler.PROGRAM_CODE_COL + " AS criteriaId" + " , " +
-                SQLiteHandler.ADM_PROGRAM_MASTER_TABLE + "." + SQLiteHandler.PROGRAM_SHORT_NAME_COL + " AS Criteria" +
-                " FROM " + SQLiteHandler.ADM_PROGRAM_MASTER_TABLE
-
-                + " INNER JOIN " + SQLiteHandler.COUNTRY_PROGRAM_TABLE
-                + " ON " + SQLiteHandler.ADM_PROGRAM_MASTER_TABLE + "." + SQLiteHandler.DONOR_CODE_COL + " = " + SQLiteHandler.COUNTRY_PROGRAM_TABLE + "." + SQLiteHandler.DONOR_CODE_COL
-                + " AND " + SQLiteHandler.ADM_PROGRAM_MASTER_TABLE + "." + SQLiteHandler.AWARD_CODE_COL + " = " + SQLiteHandler.COUNTRY_PROGRAM_TABLE + "." + SQLiteHandler.AWARD_CODE_COL
-                + " AND " + SQLiteHandler.ADM_PROGRAM_MASTER_TABLE + "." + SQLiteHandler.PROGRAM_CODE_COL + " =  " + SQLiteHandler.COUNTRY_PROGRAM_TABLE + "." + SQLiteHandler.PROGRAM_CODE_COL
-
-                + " WHERE " + SQLiteHandler.COUNTRY_PROGRAM_TABLE + "." + SQLiteHandler.COUNTRY_CODE_COL + " = '" + cCode + "' "
-
-                + " GROUP BY " + SQLiteHandler.ADM_PROGRAM_MASTER_TABLE + "." + SQLiteHandler.PROGRAM_SHORT_NAME_COL
-                + " ORDER BY Criteria ";
+        SpinnerLoader.loadProgramLoader(mContext, sqlH, spProgram, idCriteria, strCriteria, SQLiteQuery.loadProgram_sql(cCode));
 
 
-
-        List<SpinnerHelper> listCriteria = sqlH.getListAndID(SQLiteHandler.CUSTOM_QUERY, criteria, null, false);
-        ArrayAdapter<SpinnerHelper> dataAdapter = new ArrayAdapter<SpinnerHelper>(this, R.layout.spinner_layout, listCriteria);
-        dataAdapter.setDropDownViewResource(R.layout.spinner_layout);
-
-        spCriteria.setAdapter(dataAdapter);
-
-
-        if (idCriteria != null) {
-            for (int i = 0; i < spCriteria.getCount(); i++) {
-                String award = spCriteria.getItemAtPosition(i).toString();
-                if (award.equals(strCriteria)) {
-                    position = i;
-                }
-            }
-            spCriteria.setSelection(position);
-        }
-
-
-        spCriteria.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        spProgram.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                strCriteria = ((SpinnerHelper) spCriteria.getSelectedItem()).getValue();
-                idCriteria = ((SpinnerHelper) spCriteria.getSelectedItem()).getId();
+                strCriteria = ((SpinnerHelper) spProgram.getSelectedItem()).getValue();
+                idCriteria = ((SpinnerHelper) spProgram.getSelectedItem()).getId();
                 if (idCriteria.length() > 2) {
 
                     if (idCriteria.length() > 2) {
@@ -167,17 +158,12 @@ public class GroupSearchPage extends BaseActivity {
                         idProgram = idCriteria.substring(4, 7);
                         // idService = idCriteria.substring(7);
                         /**                         * for test purpose (to check error )   {@link GroupSearchPage#loadCommunityGroupListData(String, String, String, String, String) method}                   */
-                       // loadCommunityGroupListData(idCountry, idDonor, idAward, idProgram, "");
+                        // loadCommunityGroupListData(idCountry, idDonor, idAward, idProgram, "");
                         LoadListView loading = new LoadListView(idCountry, idDonor, idAward, idProgram, "");
                         loading.execute();
                     }
-
-
                 }
-
-
             }
-
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
@@ -192,11 +178,10 @@ public class GroupSearchPage extends BaseActivity {
      * Refer the XML views with java object
      */
     private void viewReference() {
-
-        listOfGroup = (ListView) findViewById(R.id.lv_group);
+        listView = (ListView) findViewById(R.id.lv_group);
         btnHome = (Button) findViewById(R.id.btnRegisterFooter);
         btnAddGroup = (Button) findViewById(R.id.btnHomeFooter);
-        spCriteria = (Spinner) findViewById(R.id.search_Group_spCriteria);
+        spProgram = (Spinner) findViewById(R.id.search_Group_spCriteria);
         btn_searchGroup = (Button) findViewById(R.id.btn_groupSearch);
         edt_groupSearch = (EditText) findViewById(R.id.edt_groupSearch);
 
@@ -207,7 +192,7 @@ public class GroupSearchPage extends BaseActivity {
         btnHome.setText("");
         Drawable imageHome = getResources().getDrawable(R.drawable.home_b);
         btnHome.setCompoundDrawablesRelativeWithIntrinsicBounds(imageHome, null, null, null);
-        setPaddingButton(GroupSearchPage.this, imageHome, btnHome);
+        setPaddingButton(mContext, imageHome, btnHome);
 
     }
 
@@ -216,8 +201,7 @@ public class GroupSearchPage extends BaseActivity {
         btnAddGroup.setText("");
         Drawable addImage = getResources().getDrawable(R.drawable.add);
         btnAddGroup.setCompoundDrawablesRelativeWithIntrinsicBounds(addImage, null, null, null);
-        setPaddingButton(GroupSearchPage.this, addImage, btnAddGroup);
-
+        setPaddingButton(mContext, addImage, btnAddGroup);
     }
 
     /**
@@ -236,36 +220,27 @@ public class GroupSearchPage extends BaseActivity {
 
     private class LoadListView extends AsyncTask<Void, Integer, String> {
 
-        // private String mMemberIdS;// for member id search
+
         private String temCCode;
         private String temDonorCode;
         private String temAwardCode;
         private String temProgCode;
-        private String temSrvCode;
         private String groupName;
 
 
-        public LoadListView(final String temCCode, final String temDonorCode, final String temAwardCode, final String temProgCode, final String groupName) {
-            /*this.mMemberIdS = mMemberIdS;*/
+        private LoadListView(final String temCCode, final String temDonorCode, final String temAwardCode, final String temProgCode, final String groupName) {
+
             this.temCCode = temCCode;
             this.temDonorCode = temDonorCode;
             this.temAwardCode = temAwardCode;
             this.temProgCode = temProgCode;
-            // this.temSrvCode = temSrvCode;
             this.groupName = groupName;
-
         }
 
         @Override
         protected String doInBackground(Void... params) {
-
-
             loadCommunityGroupListData(temCCode, temDonorCode, temAwardCode, temProgCode, groupName);
-
-
             return "successes";
-
-
         }
 
 
@@ -273,34 +248,38 @@ public class GroupSearchPage extends BaseActivity {
         protected void onPreExecute() {
             super.onPreExecute();
             startProgressBar("Data is Loading");
-
         }
 
 
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
-            if (pDialog.isShowing())
-                pDialog.dismiss();
+            hideProgressBar();
+
 
             if (adapter != null) {
 
                 adapter.notifyDataSetChanged();
-                listOfGroup.setAdapter(adapter);
+                listView.setAdapter(adapter);
 
-                listOfGroup.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                     }
                 });
-                listOfGroup.setFocusableInTouchMode(true);
+                listView.setFocusableInTouchMode(true);
 
             } else {
 //                Log.d(TAG, "Adapter Is Empety ");
-
+                mDialog.showInfromDialog(mContext, "No Data", "No Data found");
             }
 
         }
+    }
+
+    private void hideProgressBar() {
+        if (pDialog.isShowing())
+            pDialog.dismiss();
     }
 
     private void startProgressBar(String msg) {

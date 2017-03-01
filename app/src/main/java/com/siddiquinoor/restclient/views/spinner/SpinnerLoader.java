@@ -8,6 +8,7 @@ import android.widget.Spinner;
 
 import com.siddiquinoor.restclient.R;
 import com.siddiquinoor.restclient.activity.MemberSearchPage;
+import com.siddiquinoor.restclient.activity.sub_activity.gps_sub.MapActivity;
 import com.siddiquinoor.restclient.manager.SQLiteHandler;
 import com.siddiquinoor.restclient.manager.sqlsyntax.SQLiteQuery;
 import com.siddiquinoor.restclient.utils.UtilClass;
@@ -19,15 +20,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.siddiquinoor.restclient.manager.SQLiteHandler.AWARD_CODE_COL;
-import static com.siddiquinoor.restclient.manager.SQLiteHandler.COMMUNITY_GROUP_TABLE;
 import static com.siddiquinoor.restclient.manager.SQLiteHandler.COUNTRY_CODE_COL;
 import static com.siddiquinoor.restclient.manager.SQLiteHandler.DONOR_CODE_COL;
 import static com.siddiquinoor.restclient.manager.SQLiteHandler.GROUP_CAT_CODE_COL;
 import static com.siddiquinoor.restclient.manager.SQLiteHandler.GROUP_CODE_COL;
-import static com.siddiquinoor.restclient.manager.SQLiteHandler.GROUP_NAME_COL;
-import static com.siddiquinoor.restclient.manager.SQLiteHandler.GRP_LAY_R1_LIST_CODE_COL;
-import static com.siddiquinoor.restclient.manager.SQLiteHandler.GRP_LAY_R2_LIST_CODE_COL;
-import static com.siddiquinoor.restclient.manager.SQLiteHandler.GRP_LAY_R3_LIST_CODE_COL;
 import static com.siddiquinoor.restclient.manager.SQLiteHandler.LAY_R1_LIST_CODE_COL;
 import static com.siddiquinoor.restclient.manager.SQLiteHandler.LAY_R2_LIST_CODE_COL;
 import static com.siddiquinoor.restclient.manager.SQLiteHandler.LAY_R3_LIST_CODE_COL;
@@ -135,21 +131,7 @@ public class SpinnerLoader {
      */
     public static void loadGroupLoader(Context context, SQLiteHandler sqlH, Spinner spGroup, String cCode, String donorCode, String awardCode, String progCode, String grpCateCode, String groupCode, String strGroup) {
         int position = 0;
-        String criteria = " SELECT  " + GROUP_CODE_COL + " , " + GROUP_NAME_COL
-                + " FROM " + COMMUNITY_GROUP_TABLE
-                + " INNER JOIN " + SELECTED_VILLAGE_TABLE
-                + " ON " + GRP_LAY_R1_LIST_CODE_COL + " = " + LAY_R1_LIST_CODE_COL
-                + " AND " + GRP_LAY_R2_LIST_CODE_COL + " = " + LAY_R2_LIST_CODE_COL
-                + " AND " + GRP_LAY_R3_LIST_CODE_COL + " = " + LAY_R3_LIST_CODE_COL
-                + " WHERE " + COMMUNITY_GROUP_TABLE + "." + COUNTRY_CODE_COL + " = '" + cCode + "' "
-                + " AND " + DONOR_CODE_COL + " = '" + donorCode + "' "
-                + " AND " + AWARD_CODE_COL + " = '" + awardCode + "' "
-                + " AND " + PROGRAM_CODE_COL + " = '" + progCode + "' "
-                + " AND " + GROUP_CAT_CODE_COL + " = '" + grpCateCode + "' "
-
-
-                + " GROUP BY  " + GROUP_CODE_COL
-                + " ORDER BY  " + GROUP_NAME_COL;
+        String criteria = SQLiteQuery.loadGroupLoader_sql(cCode,donorCode,awardCode,progCode,grpCateCode);
 
 
         List<SpinnerHelper> listAward = sqlH.getListAndID(SQLiteHandler.CUSTOM_QUERY, criteria, null, false);
@@ -223,7 +205,6 @@ public class SpinnerLoader {
         int position = 0;
         String criteria = SQLiteQuery.loadServiceRecodeCriteria(cCode, donorCode, awardCode, foodFlagTypeQuery);
 
-
         List<SpinnerHelper> listCriteria = sqlH.getListAndID(SQLiteHandler.CUSTOM_QUERY, criteria, null, false);
         ArrayAdapter<SpinnerHelper> dataAdapter = new ArrayAdapter<SpinnerHelper>(context, R.layout.spinner_layout, listCriteria);
         dataAdapter.setDropDownViewResource(R.layout.spinner_layout);
@@ -254,7 +235,6 @@ public class SpinnerLoader {
         ArrayAdapter<SpinnerHelper> dataAdapter = new ArrayAdapter<SpinnerHelper>(context, R.layout.spinner_layout, listAward);
         dataAdapter.setDropDownViewResource(R.layout.spinner_layout);
         spServiceCenter.setAdapter(dataAdapter);
-
 
         if (idSrvCenter != null) {
             for (int i = 0; i < spServiceCenter.getCount(); i++) {
@@ -478,7 +458,7 @@ public class SpinnerLoader {
     /**
      * load location Name And it's Code in spinner . and restore the previous state if data exits .
      * use in
-     * {@link com.siddiquinoor.restclient.activity.MapActivity#loadLocation(String)}
+     * {@link MapActivity#loadLocation(String)}
      * {@link com.siddiquinoor.restclient.activity.sub_activity.gps_sub.PointAttributes#loadLocation(String, String, String)}
      *
      * @param context     refer to the activity which will invoke this method.
@@ -625,6 +605,47 @@ public class SpinnerLoader {
             }
             spVillage.setSelection(position);
         }
+
+    }
+
+    public static void loadProgramLoader(Context context, SQLiteHandler sqlH, Spinner spProgram, String idProgCode, String strProgName, String sql) {
+        int position = 0;
+/*        String criteria = "SELECT " +
+                SQLiteHandler.ADM_PROGRAM_MASTER_TABLE + "." + SQLiteHandler.DONOR_CODE_COL + " || '' || "
+                + SQLiteHandler.ADM_PROGRAM_MASTER_TABLE + "." + SQLiteHandler.AWARD_CODE_COL + " || '' || "
+                + SQLiteHandler.ADM_PROGRAM_MASTER_TABLE + "." + SQLiteHandler.PROGRAM_CODE_COL + " AS criteriaId" + " , " +
+                SQLiteHandler.ADM_PROGRAM_MASTER_TABLE + "." + SQLiteHandler.PROGRAM_SHORT_NAME_COL + " AS Criteria" +
+                " FROM " + SQLiteHandler.ADM_PROGRAM_MASTER_TABLE
+
+                + " INNER JOIN " + SQLiteHandler.COUNTRY_PROGRAM_TABLE
+                + " ON " + SQLiteHandler.ADM_PROGRAM_MASTER_TABLE + "." + SQLiteHandler.DONOR_CODE_COL + " = " + SQLiteHandler.COUNTRY_PROGRAM_TABLE + "." + SQLiteHandler.DONOR_CODE_COL
+                + " AND " + SQLiteHandler.ADM_PROGRAM_MASTER_TABLE + "." + SQLiteHandler.AWARD_CODE_COL + " = " + SQLiteHandler.COUNTRY_PROGRAM_TABLE + "." + SQLiteHandler.AWARD_CODE_COL
+                + " AND " + SQLiteHandler.ADM_PROGRAM_MASTER_TABLE + "." + SQLiteHandler.PROGRAM_CODE_COL + " =  " + SQLiteHandler.COUNTRY_PROGRAM_TABLE + "." + SQLiteHandler.PROGRAM_CODE_COL
+
+                + " WHERE " + SQLiteHandler.COUNTRY_PROGRAM_TABLE + "." + SQLiteHandler.COUNTRY_CODE_COL + " = '" + cCode + "' "
+
+                + " GROUP BY " + SQLiteHandler.ADM_PROGRAM_MASTER_TABLE + "." + SQLiteHandler.PROGRAM_SHORT_NAME_COL
+                + " ORDER BY Criteria ";*/
+
+
+
+        List<SpinnerHelper> listCriteria = sqlH.getListAndID(SQLiteHandler.CUSTOM_QUERY, sql, null, false);
+        ArrayAdapter<SpinnerHelper> dataAdapter = new ArrayAdapter<SpinnerHelper>(context, R.layout.spinner_layout, listCriteria);
+        dataAdapter.setDropDownViewResource(R.layout.spinner_layout);
+
+        spProgram.setAdapter(dataAdapter);
+
+
+        if (idProgCode != null) {
+            for (int i = 0; i < spProgram.getCount(); i++) {
+                String progName = spProgram.getItemAtPosition(i).toString();
+                if (progName.equals(strProgName)) {
+                    position = i;
+                }
+            }
+            spProgram.setSelection(position);
+        }
+
 
     }
 }// end of the class

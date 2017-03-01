@@ -1,7 +1,7 @@
 package com.siddiquinoor.restclient.activity.sub_activity.summary_sub;
 /**
  * Created by Faisal on 9/5/2016.
- * This Activity show the Group Summary List
+ * This Activity show the Group Summary List number of people Assigned in  Group
  * Group Name	Category (Short Name)	Short Name (SrvCode)	Count
  */
 
@@ -14,7 +14,6 @@ import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -33,17 +32,58 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GroupSummary extends BaseActivity /*implements AdapterView.OnItemClickListener*/ {
+    /**
+     * buttons of the page.
+     * btnBack is used to back to {@link com.siddiquinoor.restclient.activity.AllSummaryActivity} page
+     * btnHome  is used to  goto {@link com.siddiquinoor.restclient.activity.MainActivity} page
+     */
     private Button btnBack, btnHome;
-    private ListView listView;
+
+    /**
+     * mListView is UI view which will show the data to user (group)
+     */
+    private ListView mListView;
+
+    /**
+     * layR3 label
+     */
     private TextView tv_lay3Title;
+
+    /**
+     * mContext is GroupSummary class Context class
+     */
     private final Context mContext = GroupSummary.this;
 
+    /**
+     * idCountry is global country code
+     */
     private String idCountry;
-    private SQLiteHandler sqlH;
-    private SummaryGroupListAdapter adapter;
-    private ArrayList<SummaryGroupListDataModel> groupLisArray = new ArrayList<SummaryGroupListDataModel>();
 
-    private ADNotificationManager dialog;
+    /**
+     * data base instance
+     */
+    private SQLiteHandler sqlH;
+
+    /**
+     * mAdapter is custom made list view adapter.
+     * {@link SummaryGroupListAdapter} class object
+     */
+    private SummaryGroupListAdapter mAdapter;
+
+    /**
+     * mGroupListA is Custom List Array of {@link SummaryGroupListDataModel} class
+     */
+    private ArrayList<SummaryGroupListDataModel> mGroupListA = new ArrayList<SummaryGroupListDataModel>();
+
+    /**
+     * mDialog is Custom Dialog manager
+     */
+    private ADNotificationManager mDialog;
+
+    /**
+     * pDialog is progress bar dialog . which is only used in {@link LoadListView} class .
+     * it's works as loader
+     */
     private ProgressDialog pDialog;
 
     @Override
@@ -52,20 +92,32 @@ public class GroupSummary extends BaseActivity /*implements AdapterView.OnItemCl
         setContentView(R.layout.activity_group_summary);
         initial();
 
-        idCountry = sqlH.getSelectedCountryCode();
-        tv_lay3Title.setText(sqlH.getLayerLabel(idCountry,"3"));
         setAllListener();
 
+        // anonymous class object
         new LoadListView(idCountry).execute();
 
     }
 
     private void initial() {
         viewReference();
+
+        // initiate the db instance
         sqlH = new SQLiteHandler(mContext);
-        dialog = new ADNotificationManager();
+
+        // initiate the Dialog Manager
+        mDialog = new ADNotificationManager();
+
+        // get country Code from db
+        idCountry = sqlH.getSelectedCountryCode();
+
+        // get the layR3 Label  name from db
+        tv_lay3Title.setText(sqlH.getLayerLabel(idCountry, "3"));
     }
 
+    /**
+     *  button listener
+     */
     private void setAllListener() {
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -89,7 +141,7 @@ public class GroupSummary extends BaseActivity /*implements AdapterView.OnItemCl
     private void viewReference() {
         btnBack = (Button) findViewById(R.id.btnRegisterFooter);
         btnHome = (Button) findViewById(R.id.btnHomeFooter);
-        listView = (ListView) findViewById(R.id.list_group_records);
+        mListView = (ListView) findViewById(R.id.list_group_records);
         tv_lay3Title = (TextView) findViewById(R.id.list_title_LayR3Name);
     }
 
@@ -123,46 +175,38 @@ public class GroupSummary extends BaseActivity /*implements AdapterView.OnItemCl
         setPaddingButton(mContext, imageHome, btnHome);
     }
 
+
     /**
-     * : 2016-10-17
-     * : Faisal Mohammad
-     * description: LOAD :: Criteria in list view
+     * this method get the list of group and assigned member total number from db .
+     * set into the {@link #mAdapter} to load into the list view .
+     * @param cCode country code
+     * @since 2016-10-17
      */
-
-
     public void loadGroupList(String cCode) {
 
 
         // use variable to like operation
         List<SummaryGroupListDataModel> assignList = sqlH.getGroupSummaryList(cCode);
         if (assignList.size() != 0) {
-            groupLisArray.clear();
+            mGroupListA.clear();
             for (SummaryGroupListDataModel data : assignList) {
                 // add contacts data in arrayList
-                groupLisArray.add(data);
+                mGroupListA.add(data);
             }
 
-            adapter = new SummaryGroupListAdapter((Activity) mContext, groupLisArray);
+            mAdapter = new SummaryGroupListAdapter((Activity) mContext, mGroupListA);
             // leave it for test purpose
-//            adapter.notifyDataSetChanged();
-//            listView.setAdapter(adapter);
-//            listView.setOnItemClickListener(this);
-//            listView.setFocusableInTouchMode(true);
+//            mAdapter.notifyDataSetChanged();
+//            mListView.setAdapter(mAdapter);
+//            mListView.setOnItemClickListener(this);
+//            mListView.setFocusableInTouchMode(true);
 
-        } else {
-            dialog.showInfromDialog(mContext, "No Data", "");
         }
-        //hidePDialog();
     }
 
 //    @Override
 //    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//        SummaryGroupListDataModel data = (SummaryGroupListDataModel) adapter.getItem(position);
-//
-//        Intent intent = new Intent(mContext, GroupMemberSummary.class);
-//        intent.putExtra(KEY.COMMUNITY_GRP_DATA_OBJECT_KEY, data);
-//        finish();
-//        startActivity(intent);
+
 //    }
 
     /**
@@ -177,11 +221,19 @@ public class GroupSummary extends BaseActivity /*implements AdapterView.OnItemCl
         pDialog.show();
     }
 
-
+    /**
+     * AsyncTask enables proper and easy use of the UI thread. This class allows you to perform
+     * ( get the group Array list from db  )
+     * background operations and publish results on the UI thread  without having to manipulate threads and/or handlers.
+     */
     private class LoadListView extends AsyncTask<Void, Integer, String> {
         String temCountryCode;
 
-        public LoadListView(String temCountryCode) {
+        /**
+         *  constructor
+         * @param temCountryCode country Code
+         */
+        private LoadListView(String temCountryCode) {
             this.temCountryCode = temCountryCode;
         }
 
@@ -205,24 +257,24 @@ public class GroupSummary extends BaseActivity /*implements AdapterView.OnItemCl
                 pDialog.dismiss();
 
 
-            if (adapter != null) {
-                adapter.notifyDataSetChanged();
-                listView.setAdapter(adapter);
-                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            if (mAdapter != null) {
+                mAdapter.notifyDataSetChanged();
+                mListView.setAdapter(mAdapter);
+                mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        SummaryGroupListDataModel data = (SummaryGroupListDataModel) adapter.getItem(position);
-
+                        SummaryGroupListDataModel data = (SummaryGroupListDataModel) mAdapter.getItem(position);
                         Intent intent = new Intent(mContext, GroupMemberSummary.class);
                         intent.putExtra(KEY.COMMUNITY_GRP_DATA_OBJECT_KEY, data);
                         finish();
                         startActivity(intent);
                     }
                 });
-                listView.setFocusableInTouchMode(true);
+                mListView.setFocusableInTouchMode(true);
 
             } else {
-                Log.d("MAL", "Adapter Is Empty ");
+                mDialog.showInfromDialog(mContext, "No Data", "");
+                // Log.d("MAL", "Adapter Is Empty ");
 
             }
         }

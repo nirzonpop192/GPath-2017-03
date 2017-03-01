@@ -10,7 +10,7 @@
 -keep class com.siddiquinoor.restclient.activity.sub_activity.summary_sub.ViewRecordDetail { <init>(); }
 -keep class com.siddiquinoor.restclient.activity.sub_activity.register_sub.RegisterMember { <init>(); }
 -keep class com.siddiquinoor.restclient.activity.ServiceActivity { <init>(); }
--keep class com.siddiquinoor.restclient.activity.MapActivity { <init>(); }
+-keep class com.siddiquinoor.restclient.activity.sub_activity.gps_sub.MapActivity { <init>(); }
 -keep class com.siddiquinoor.restclient.activity.AllSummaryActivity { <init>(); }
 -keep class com.siddiquinoor.restclient.activity.sub_activity.summary_sub.SumSrvOrDistCriteria { <init>(); }
 -keep class com.siddiquinoor.restclient.activity.OldAssignActivity { <init>(); }
@@ -40,7 +40,7 @@
 -keep class com.siddiquinoor.restclient.activity.sub_activity.summary_sub.SummaryServiceOrDistributionItemizeAttendance { <init>(); }
 -keep class com.siddiquinoor.restclient.activity.sub_activity.service_sub.ServiceSpecification { <init>(); }
 -keep class com.siddiquinoor.restclient.activity.sub_activity.gps_sub.PointAttributes { <init>(); }
--keep class com.siddiquinoor.restclient.activity.sub_activity.gps_sub.SearchLocation { <init>(); }
+-keep class com.siddiquinoor.restclient.activity.GPSLocationSearchPage { <init>(); }
 -keep class com.siddiquinoor.restclient.activity.MemberSearchPage { <init>(); }
 -keep class com.siddiquinoor.restclient.activity.AssignActivity { <init>(); }
 -keep class com.siddiquinoor.restclient.activity.sub_activity.assign_program.ddr.FFA { <init>(); }
@@ -49,7 +49,7 @@
 -keep class com.siddiquinoor.restclient.activity.sub_activity.commu_group_sub.CommunityGroupNDetailsRecodes { <init>(); }
 -keep class com.siddiquinoor.restclient.activity.sub_activity.summary_sub.GroupSummary { <init>(); }
 -keep class com.siddiquinoor.restclient.activity.sub_activity.summary_sub.GroupMemberSummary { <init>(); }
--keep class com.siddiquinoor.restclient.activity.DynamicData { <init>(); }
+-keep class com.siddiquinoor.restclient.activity.DynamicTable { <init>(); }
 -keep class com.siddiquinoor.restclient.activity.sub_activity.dynamic_table.DTResponseActivity { <init>(); }
 -keep class com.siddiquinoor.restclient.activity.sub_activity.dynamic_table.DTResponseRecordingActivity { <init>(); }
 -keep class com.siddiquinoor.restclient.activity.sub_activity.dynamic_table.DT_ReportActivity { <init>(); }

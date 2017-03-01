@@ -28,7 +28,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.siddiquinoor.restclient.R;
-import com.siddiquinoor.restclient.activity.sub_activity.gps_sub.SearchLocation;
 import com.siddiquinoor.restclient.controller.AppController;
 import com.siddiquinoor.restclient.data_model.AGR_DataModel;
 import com.siddiquinoor.restclient.data_model.CTDataModel;
@@ -435,7 +434,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             case R.id.btnGPS:
                 //   Intent iMap = new Intent(getApplicationContext(), MapActivity.class);
                 finish();
-                Intent iMap = new Intent(getApplicationContext(), SearchLocation.class);
+                Intent iMap = new Intent(getApplicationContext(), GPSLocationSearchPage.class);
                 iMap.putExtra(KEY.COUNTRY_ID, idCountry);
                 iMap.putExtra(KEY.STR_COUNTRY, strCountry);
                 iMap.putExtra(KEY.DIR_CLASS_NAME_KEY, "MainActivity");
@@ -473,7 +472,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 break;
             case R.id.btnDynamicData:
                 finish();
-                Intent iDynamicData = new Intent(getApplicationContext(), DynamicData.class);
+                Intent iDynamicData = new Intent(getApplicationContext(), DynamicTable.class);
                 iDynamicData.putExtra(KEY.COUNTRY_ID, idCountry);
 
                 startActivity(iDynamicData);

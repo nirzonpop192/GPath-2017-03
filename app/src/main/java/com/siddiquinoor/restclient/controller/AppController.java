@@ -35,7 +35,7 @@ public class AppController extends Application {
 	private static AppController mInstance;
 
 
-    private boolean status = false;
+   // private boolean status = false;
     private int current_record = 0;
     private int record_total = 0;
     private Context main_view;
@@ -46,13 +46,13 @@ public class AppController extends Application {
         MultiDex.install(base);
     }
 
-    public boolean getAsyncStatus() {
-        return this.status;
-    }
-
-    public void setAsyncStatus(boolean new_status) {
-        this.status = new_status;
-    }
+//    public boolean getAsyncStatus() {
+//        return this.status;
+//    }
+//
+//    public void setAsyncStatus(boolean new_status) {
+//        this.status = new_status;
+//    }
 
     public void setTotalNumber(int record_total) {
         this.record_total = record_total;

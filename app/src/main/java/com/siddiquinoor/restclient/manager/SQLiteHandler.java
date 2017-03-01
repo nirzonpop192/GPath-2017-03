@@ -21,6 +21,7 @@ import android.util.Log;
 import android.widget.ImageView;
 
 import com.siddiquinoor.restclient.activity.sub_activity.dynamic_table.DTResponseRecordingActivity;
+import com.siddiquinoor.restclient.activity.GPSLocationSearchPage;
 import com.siddiquinoor.restclient.data_model.AGR_DataModel;
 import com.siddiquinoor.restclient.data_model.AssignDDR_FFA_DataModel;
 import com.siddiquinoor.restclient.data_model.CTDataModel;
@@ -8895,28 +8896,23 @@ public class SQLiteHandler extends SQLiteOpenHelper {
         return listItem;
     }
 
-
+    /**
+     * this method invoke in {@link GPSLocationSearchPage#loadLocation(String, String)}
+     * @param cCode country Code
+     * @param searchLocName Searching loaction Name
+     * @return list of location
+     */
     public List<LocationHelper> getLocationList(String cCode, String searchLocName) {
         int position = 0;
         List<LocationHelper> list = new ArrayList<LocationHelper>();
-        String sql = "SELECT " + GPS_LOCATION_TABLE + "." + SQLiteHandler.GROUP_CODE_COL + " || '' || " + GPS_LOCATION_TABLE + "." + SQLiteHandler.SUB_GROUP_CODE_COL + " || '' || " + GPS_LOCATION_TABLE + "." + SQLiteHandler.LOCATION_CODE_COL
-                + " , " + GPS_LOCATION_TABLE + "." + SQLiteHandler.LOCATION_NAME_COL
-
-                + ", CASE WHEN  ifnull(length(" + SQLiteHandler.GPS_LOCATION_TABLE + "." + SQLiteHandler.LATITUDE_COL + "), 0) = 0  THEN 'N' ELSE 'Y' END AS dataExit "
-                + " , " + GPS_GROUP_TABLE + "." + GROUP_NAME_COL
-                + " FROM " + SQLiteHandler.GPS_LOCATION_TABLE
-                + " LEFT JOIN " + GPS_GROUP_TABLE
-                + " ON " + GPS_GROUP_TABLE + "." + GROUP_CODE_COL + " = " + GPS_LOCATION_TABLE + "." + GROUP_CODE_COL
-                + " WHERE " + GPS_LOCATION_TABLE + "." + SQLiteHandler.COUNTRY_CODE_COL + " = '" + cCode + "'"
-                + " AND " + GPS_LOCATION_TABLE + "." + SQLiteHandler.LOCATION_NAME_COL + " LIKE '%" + searchLocName + "%' "
-                + " ORDER BY " + GPS_LOCATION_TABLE + "." + SQLiteHandler.LOCATION_NAME_COL + " ASC ";
+        String sql = SQLiteQuery.getLocationList_sql(cCode, searchLocName);
 
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(sql, null);
 
         if (cursor.moveToFirst()) {
             do {
-
+                    // what the fuck . totally short cut.
                 list.add(new LocationHelper(position, cursor.getString(0), cursor.getString(1), cursor.getString(2), cursor.getString(3)));
 
                 position++;
@@ -9129,7 +9125,6 @@ public class SQLiteHandler extends SQLiteOpenHelper {
 
         Log.d(TAG, "New UPAZILLA_ inserted into Upazilla: " + id);
     }
-
 
 
     /**
@@ -10796,7 +10791,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
     public String getSelectedCountryCode() {
         SQLiteDatabase db = this.getReadableDatabase();
 
-        String cCode="";
+        String cCode = "";
         String sql = SQLiteQuery.getSelectedCountryCode_sql();
 
         Cursor cursor = db.rawQuery(sql, null);

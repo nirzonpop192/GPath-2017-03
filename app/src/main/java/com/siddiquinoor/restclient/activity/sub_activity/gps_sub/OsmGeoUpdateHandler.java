@@ -5,8 +5,6 @@ import android.location.LocationListener;
 import android.os.Bundle;
 import android.widget.Toast;
 
-import com.siddiquinoor.restclient.activity.MapActivity;
-
 import org.osmdroid.util.GeoPoint;
 
 /**

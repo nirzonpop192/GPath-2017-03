@@ -12,10 +12,9 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.siddiquinoor.restclient.R;
-import com.siddiquinoor.restclient.activity.MapActivity;
+import com.siddiquinoor.restclient.activity.sub_activity.gps_sub.MapActivity;
 import com.siddiquinoor.restclient.utils.KEY;
 import com.siddiquinoor.restclient.views.helper.LocationHelper;
-import com.siddiquinoor.restclient.views.helper.SpinnerHelper;
 
 import java.util.ArrayList;
 import java.util.List;

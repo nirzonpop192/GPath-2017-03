@@ -25,7 +25,7 @@ import static com.siddiquinoor.restclient.manager.SQLiteHandler.DONOR_CODE_COL;
 import static com.siddiquinoor.restclient.manager.SQLiteHandler.GRP_LAY_R1_LIST_CODE_COL;
 import static com.siddiquinoor.restclient.manager.SQLiteHandler.LAY_R1_LIST_CODE_COL;
 
-import com.siddiquinoor.restclient.activity.MapActivity;
+import com.siddiquinoor.restclient.activity.sub_activity.gps_sub.MapActivity;
 
 /**
  * @author FAISAL MOHAMMAD on 1/17/2016.
@@ -2266,7 +2266,7 @@ public class SQLiteQuery {
                 + " , " + "rgAss." + REG_N_DAT_COL + " AS regDate "
                 // + " || '' || " + "memGrp." + GROUP_CODE_COL
                 + " , memGrp." + GROUP_CODE_COL
-                + " , CASE WHEN cg." + GROUP_NAME_COL+" IS NULL  THEN '' ELSE cg." + GROUP_NAME_COL+ " END AS grpName "
+                + " , CASE WHEN cg." + GROUP_NAME_COL + " IS NULL  THEN '' ELSE cg." + GROUP_NAME_COL + " END AS grpName "
                 + " FROM " + REG_N_ASSIGN_PROG_SRV_TABLE + " AS rgAss "
                 + " INNER JOIN " + REGISTRATION_MEMBER_TABLE
                 + " ON " + "rgAss." + COUNTRY_CODE_COL + " = " + REGISTRATION_MEMBER_TABLE + "." + COUNTRY_CODE_COL +
@@ -2297,10 +2297,10 @@ public class SQLiteQuery {
                 + " AND cg." + AWARD_CODE_COL + " = " + " rgAss." + AWARD_CODE_COL
                 + " AND cg." + DONOR_CODE_COL + " = " + " rgAss." + DONOR_CODE_COL
                 + " AND cg." + PROGRAM_CODE_COL + " = " + " rgAss." + PROGRAM_CODE_COL
-                + " AND cg." + GROUP_CODE_COL + " = " + " memGrp." + GROUP_CODE_COL+
+                + " AND cg." + GROUP_CODE_COL + " = " + " memGrp." + GROUP_CODE_COL +
                 " AND cg." + GRP_LAY_R1_LIST_CODE_COL + " = " + " memGrp." + GRP_LAY_R1_LIST_CODE_COL
-               + " AND cg." + GRP_LAY_R2_LIST_CODE_COL + " = " + " memGrp." + GRP_LAY_R2_LIST_CODE_COL
-               + " AND cg." + GRP_LAY_R3_LIST_CODE_COL + " = " + " memGrp." + GRP_LAY_R3_LIST_CODE_COL +
+                + " AND cg." + GRP_LAY_R2_LIST_CODE_COL + " = " + " memGrp." + GRP_LAY_R2_LIST_CODE_COL
+                + " AND cg." + GRP_LAY_R3_LIST_CODE_COL + " = " + " memGrp." + GRP_LAY_R3_LIST_CODE_COL +
 
                 " WHERE " + "rgAss." + COUNTRY_CODE_COL + "= '" + countryCode + "'" +
                 " AND " + "rgAss." + DONOR_CODE_COL + " = '" + donorCode + "'" +
@@ -4148,6 +4148,55 @@ public class SQLiteQuery {
         return "SELECT " + COUNTRY_CODE_COL
                 + " FROM " + SELECTED_VILLAGE_TABLE
                 + " GROUP BY " + COUNTRY_CODE_COL;
+    }
+
+    public static String loadGroupLoader_sql(String cCode, String donorCode, String awardCode, String progCode, String grpCateCode) {
+        return " SELECT  " + GROUP_CODE_COL + " , " + GROUP_NAME_COL
+                + " FROM " + COMMUNITY_GROUP_TABLE
+                + " INNER JOIN " + SELECTED_VILLAGE_TABLE
+                + " ON " + GRP_LAY_R1_LIST_CODE_COL + " = " + LAY_R1_LIST_CODE_COL
+                + " AND " + GRP_LAY_R2_LIST_CODE_COL + " = " + LAY_R2_LIST_CODE_COL
+                + " AND " + GRP_LAY_R3_LIST_CODE_COL + " = " + LAY_R3_LIST_CODE_COL
+                + " WHERE " + COMMUNITY_GROUP_TABLE + "." + COUNTRY_CODE_COL + " = '" + cCode + "' "
+                + " AND " + DONOR_CODE_COL + " = '" + donorCode + "' "
+                + " AND " + AWARD_CODE_COL + " = '" + awardCode + "' "
+                + " AND " + PROGRAM_CODE_COL + " = '" + progCode + "' "
+                + " AND " + GROUP_CAT_CODE_COL + " = '" + grpCateCode + "' "
+                + " GROUP BY  " + GROUP_CODE_COL
+                + " ORDER BY  " + GROUP_NAME_COL;
+    }
+
+    public static String loadProgram_sql(String cCode) {
+        return "SELECT " +
+                ADM_PROGRAM_MASTER_TABLE + "." + DONOR_CODE_COL + " || '' || "
+                + ADM_PROGRAM_MASTER_TABLE + "." + AWARD_CODE_COL + " || '' || "
+                + ADM_PROGRAM_MASTER_TABLE + "." + PROGRAM_CODE_COL + " AS criteriaId" + " , " +
+                ADM_PROGRAM_MASTER_TABLE + "." + PROGRAM_SHORT_NAME_COL + " AS Criteria" +
+                " FROM " + ADM_PROGRAM_MASTER_TABLE
+
+                + " INNER JOIN " + COUNTRY_PROGRAM_TABLE
+                + " ON " + ADM_PROGRAM_MASTER_TABLE + "." + DONOR_CODE_COL + " = " + COUNTRY_PROGRAM_TABLE + "." + DONOR_CODE_COL
+                + " AND " + ADM_PROGRAM_MASTER_TABLE + "." + AWARD_CODE_COL + " = " + COUNTRY_PROGRAM_TABLE + "." + AWARD_CODE_COL
+                + " AND " + ADM_PROGRAM_MASTER_TABLE + "." + PROGRAM_CODE_COL + " =  " + COUNTRY_PROGRAM_TABLE + "." + PROGRAM_CODE_COL
+
+                + " WHERE " + COUNTRY_PROGRAM_TABLE + "." + COUNTRY_CODE_COL + " = '" + cCode + "' "
+
+                + " GROUP BY " + ADM_PROGRAM_MASTER_TABLE + "." + PROGRAM_SHORT_NAME_COL
+                + " ORDER BY Criteria ";
+    }
+
+    public static String getLocationList_sql(String cCode, String searchLocName) {
+        return  "SELECT " + GPS_LOCATION_TABLE + "." + GROUP_CODE_COL + " || '' || " + GPS_LOCATION_TABLE + "." + SUB_GROUP_CODE_COL + " || '' || " + GPS_LOCATION_TABLE + "." + SQLiteHandler.LOCATION_CODE_COL
+                + " , " + GPS_LOCATION_TABLE + "." + LOCATION_NAME_COL
+
+                + ", CASE WHEN  ifnull(length(" + GPS_LOCATION_TABLE + "." + LATITUDE_COL + "), 0) = 0  THEN 'N' ELSE 'Y' END AS dataExit "
+                + " , " + GPS_GROUP_TABLE + "." + GROUP_NAME_COL
+                + " FROM " + GPS_LOCATION_TABLE
+                + " LEFT JOIN " + GPS_GROUP_TABLE
+                + " ON " + GPS_GROUP_TABLE + "." + GROUP_CODE_COL + " = " + GPS_LOCATION_TABLE + "." + GROUP_CODE_COL
+                + " WHERE " + GPS_LOCATION_TABLE + "." + COUNTRY_CODE_COL + " = '" + cCode + "'"
+                + " AND " + GPS_LOCATION_TABLE + "." + LOCATION_NAME_COL + " LIKE '%" + searchLocName + "%' "
+                + " ORDER BY " + GPS_LOCATION_TABLE + "." + LOCATION_NAME_COL + " ASC ";
     }
 
 }//end of class

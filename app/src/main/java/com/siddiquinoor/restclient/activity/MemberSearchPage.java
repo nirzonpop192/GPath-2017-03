@@ -17,7 +17,6 @@ import android.util.Log;
 import android.view.View;
 
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -31,23 +30,14 @@ import com.siddiquinoor.restclient.utils.KEY;
 import com.siddiquinoor.restclient.views.adapters.AssignDataModel;
 import com.siddiquinoor.restclient.views.adapters.MemberSearchAdapter;
 import com.siddiquinoor.restclient.views.helper.SpinnerHelper;
+import com.siddiquinoor.restclient.views.notifications.ADNotificationManager;
 import com.siddiquinoor.restclient.views.spinner.SpinnerLoader;
 
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.siddiquinoor.restclient.manager.SQLiteHandler.COUNTRY_CODE_COL;
-import static com.siddiquinoor.restclient.manager.SQLiteHandler.LAY_R1_LIST_CODE_COL;
-import static com.siddiquinoor.restclient.manager.SQLiteHandler.LAY_R2_LIST_CODE_COL;
-import static com.siddiquinoor.restclient.manager.SQLiteHandler.LAY_R3_LIST_CODE_COL;
-import static com.siddiquinoor.restclient.manager.SQLiteHandler.LAY_R4_LIST_CODE_COL;
-import static com.siddiquinoor.restclient.manager.SQLiteHandler.VILLAGE_NAME_COL;
-import static com.siddiquinoor.restclient.manager.SQLiteHandler.VILLAGE_TABLE;
-
 public class MemberSearchPage extends BaseActivity {
-
-
     private static final String TAG = "MemberSearchPage";
     private SQLiteHandler sqlH;
     private Spinner spVillage;
@@ -56,42 +46,45 @@ public class MemberSearchPage extends BaseActivity {
     private String idCountry;
     private static ProgressDialog pDialog;
     private ListView listOfMember;
-    private MemberSearchAdapter adapter;
 
-    private String idDistrictC;
-    private String idUpazilaC;
-    private String idUnitC;
-    private String idVillageC;
+    /**
+     * mAdapter is Custom Adapter
+     */
+    private MemberSearchAdapter mAdapter;
 
+    private String idLayR1Code;
+    private String idLayR2Code;
+    private String idLayR3Code;
+    private String idLayR4Code;
+
+    /**
+     * Button to go home
+     */
     private Button btnHome;
 
-    private Button btn_searchMember;
+    /**
+     * Button to Search Member
+     */
+    private Button btn_searMem;
+
+    /**
+     * edt_memberId is Edit Text which is used to search Id
+     */
     private EditText edt_memberId;
     private final Context mContext = MemberSearchPage.this;
+
+    /**
+     * mDialog is Custom Dialog manager
+     */
+    private ADNotificationManager mDialog;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_member_search_page);
         initialize();
-
-        Intent intent = getIntent();
-        String dir = intent.getStringExtra(KEY.DIR_CLASS_NAME_KEY);
-        if (dir.equals("MainActivity")) {
-            idCountry = intent.getStringExtra(KEY.COUNTRY_ID);
-            loadLayR4List();
-        } else {
-
-            idCountry = intent.getStringExtra(KEY.COUNTRY_ID);
-            idVillage = intent.getStringExtra(KEY.VILLAGE_CODE);
-            strVillage = intent.getStringExtra(KEY.VILLAGE_NAME);
-            loadLayR4List();
-        }
-
-
         setListener();
-
-
     }
 
     private void setListener() {
@@ -102,18 +95,32 @@ public class MemberSearchPage extends BaseActivity {
             }
         });
 
-        btn_searchMember.setOnClickListener(new View.OnClickListener() {
+        btn_searMem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String idMember = edt_memberId.getText().toString();
-                if (idMember.length() > 0) {
-
-                    LoadListView loading = new LoadListView(idCountry, idDistrictC, idUpazilaC, idUnitC, idVillageC, idMember, strVillage);
-                    loading.execute();
-                }
+                searchMember();
             }
         });
     }
+
+    /**
+     * this method Execute  LoadListView anonymous object's thread
+     */
+    private void searchMember() {
+        String idMember = edt_memberId.getText().toString();
+
+        // jodi Edit Text kisu na thake o search korte parbe tokhon sob list asb
+        if (idMember.length() == 0) {
+
+            // anonymous object
+            new LoadListView(idCountry, idLayR1Code, idLayR2Code, idLayR3Code, idLayR4Code, "", strVillage).execute();
+        } else {
+            // search with member id
+            // anonymous object
+            new LoadListView(idCountry, idLayR1Code, idLayR2Code, idLayR3Code, idLayR4Code, idMember, strVillage).execute();
+        }
+    }
+
 
     /**
      * initialize the global variable
@@ -121,10 +128,23 @@ public class MemberSearchPage extends BaseActivity {
 
     private void initialize() {
         sqlH = new SQLiteHandler(MemberSearchPage.this);
-
         viewReference();
 
+        mDialog= new ADNotificationManager();
 
+        // get data from  intent data
+        Intent intent = getIntent();
+        String dir = intent.getStringExtra(KEY.DIR_CLASS_NAME_KEY);
+        if (dir.equals("MainActivity")) {
+            idCountry = sqlH.getSelectedCountryCode();
+            loadLayR4List();
+        } else {
+
+            idCountry = intent.getStringExtra(KEY.COUNTRY_ID);
+            idVillage = intent.getStringExtra(KEY.VILLAGE_CODE);
+            strVillage = intent.getStringExtra(KEY.VILLAGE_NAME);
+            loadLayR4List();
+        }
     }
 
     /**
@@ -136,8 +156,7 @@ public class MemberSearchPage extends BaseActivity {
         btnHome = (Button) findViewById(R.id.btnHomeFooter);
         Button btnSummary = (Button) findViewById(R.id.btnRegisterFooter);
         btnSummary.setVisibility(View.GONE);
-
-        btn_searchMember = (Button) findViewById(R.id.btn_memberSearch);
+        btn_searMem = (Button) findViewById(R.id.btn_memberSearch);
         edt_memberId = (EditText) findViewById(R.id.edt_memberSearch);
 
     }
@@ -177,25 +196,24 @@ public class MemberSearchPage extends BaseActivity {
                 strVillage = ((SpinnerHelper) spVillage.getSelectedItem()).getValue();
                 idVillage = ((SpinnerHelper) spVillage.getSelectedItem()).getId();
                 Log.d(TAG, "village id :" + idVillage);
-                if (Integer.parseInt(idVillage) > 0) {
+                if (Integer.parseInt(idVillage) > 5) {
                     // after the village is loaded the search button is enable
 
-
                     String countryCode = idVillage.substring(0, 4);
-                    idDistrictC = idVillage.substring(4, 6);
-                    idUpazilaC = idVillage.substring(6, 8);
-                    idUnitC = idVillage.substring(8, 10);
-                    idVillageC = idVillage.substring(10);
+                    idLayR1Code = idVillage.substring(4, 6);
+                    idLayR2Code = idVillage.substring(6, 8);
+                    idLayR3Code = idVillage.substring(8, 10);
+                    idLayR4Code = idVillage.substring(10);
 
 
-                    LoadListView loading = new LoadListView(countryCode, idDistrictC, idUpazilaC, idUnitC, idVillageC, "", strVillage);
+                    LoadListView loading = new LoadListView(countryCode, idLayR1Code, idLayR2Code, idLayR3Code, idLayR4Code, "", strVillage);
                     loading.execute();
 
 
                 } else {
-                    adapter = new MemberSearchAdapter();
-                    adapter.notifyDataSetChanged();
-                    listOfMember.setAdapter(adapter);
+                    mAdapter = new MemberSearchAdapter();
+                    mAdapter.notifyDataSetChanged();
+                    listOfMember.setAdapter(mAdapter);
 
                 }
 
@@ -216,7 +234,6 @@ public class MemberSearchPage extends BaseActivity {
 
     private class LoadListView extends AsyncTask<Void, Integer, String> {
 
-
         private String temCCode;
         private String temDistCode;
         private String temUpazilaCode;
@@ -226,7 +243,7 @@ public class MemberSearchPage extends BaseActivity {
         private String temVillageName;
 
 
-        public LoadListView(final String temCCode, final String temDistCode, final String temUpazilaCode, final String temUnitCode, final String temVillageCode, final String memId, final String temVillageName) {
+        private LoadListView(final String temCCode, final String temDistCode, final String temUpazilaCode, final String temUnitCode, final String temVillageCode, final String memId, final String temVillageName) {
 
             this.temCCode = temCCode;
             this.temDistCode = temDistCode;
@@ -241,10 +258,7 @@ public class MemberSearchPage extends BaseActivity {
         @Override
         protected String doInBackground(Void... params) {
             loadAssignedListData(temCCode, temDistCode, temUpazilaCode, temUnitCode, temVillageCode, memId, temVillageName);
-
             return "successes";
-
-
         }
 
         /**
@@ -260,13 +274,12 @@ public class MemberSearchPage extends BaseActivity {
 
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
-            if (pDialog.isShowing())
-                pDialog.dismiss();
+            hideProgressBar();
 
 
-            if (adapter != null) {
-                adapter.notifyDataSetChanged();
-                listOfMember.setAdapter(adapter);
+            if (mAdapter != null) {
+                mAdapter.notifyDataSetChanged();
+                listOfMember.setAdapter(mAdapter);
                 listOfMember.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -277,16 +290,20 @@ public class MemberSearchPage extends BaseActivity {
 
             } else {
                 Log.d(TAG, "Adapter Is Empty ");
-
+                mDialog.showInfromDialog(mContext, "No Data", "No Data found");
             }
 
         }
     }
 
+    private void hideProgressBar() {
+        if (pDialog.isShowing())
+            pDialog.dismiss();
+    }
+
     /**
      * @param msg text massage
      */
-
     private void startProgressBar(String msg) {
         pDialog = new ProgressDialog(this);
         pDialog.setMessage(msg);
@@ -308,21 +325,17 @@ public class MemberSearchPage extends BaseActivity {
 
         List<AssignDataModel> memberList = sqlH.getMemberList(cCode, dCode, upCode, uCode, vCode, memId);
 
-
         ArrayList<AssignDataModel> assignedArray = new ArrayList<AssignDataModel>();
         if (memberList.size() != 0) {
 
             assignedArray.clear();
-
             for (AssignDataModel data : memberList) {
                 // add contacts data in arrayList
                 assignedArray.add(data);
             }
 
-/**
- * Assign the Adapter in list
- */
-            adapter = new MemberSearchAdapter((Activity) MemberSearchPage.this, assignedArray, vCode, vName);
+            //Assign the Adapter in list
+            mAdapter = new MemberSearchAdapter((Activity) MemberSearchPage.this, assignedArray, vCode, vName);
         }
     }
 

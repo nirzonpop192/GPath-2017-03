@@ -19,7 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.siddiquinoor.restclient.R;
-import com.siddiquinoor.restclient.activity.DynamicData;
+import com.siddiquinoor.restclient.activity.DynamicTable;
 import com.siddiquinoor.restclient.fragments.BaseActivity;
 import com.siddiquinoor.restclient.manager.SQLiteHandler;
 import com.siddiquinoor.restclient.utils.KEY;
@@ -131,7 +131,7 @@ public class DTResponseActivity extends BaseActivity {
         btn_BackToQustion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(mContext, DynamicData.class);
+                Intent intent = new Intent(mContext, DynamicTable.class);
                 intent.putExtra(KEY.COUNTRY_ID, dyIndex.getcCode());
                 finish();
                 startActivity(intent);

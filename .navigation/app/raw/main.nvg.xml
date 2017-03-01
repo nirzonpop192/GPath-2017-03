@@ -86,7 +86,7 @@
     <statePointEntry>
       <state      
         class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
-        className = "com.siddiquinoor.restclient.activity.MapActivity"/>
+        className = "com.siddiquinoor.restclient.activity.sub_activity.gps_sub.MapActivity"/>
       <point      
         x = "2470"      
         y = "2120"/>

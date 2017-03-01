@@ -49,21 +49,15 @@ public class AllSummaryActivity extends BaseActivity {
         setContentView(R.layout.activity_all_summary);
 
         initial();
-        //Intent innt = getIntent();
-        idCountry = sqlH.getSelectedCountryCode();//innt.getStringExtra(KEY.COUNTRY_ID);
+
+        idCountry = sqlH.getSelectedCountryCode();
 
         viewAccessController();
         btnGo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-////                if(rbtGroup.isChecked()){
-//               // Toast.makeText(mContext,"Hun marbo",Toast.LENGTH_SHORT).show();
-//                Intent grpIntent = new Intent(AllSummaryActivity.this, GroupSummary.class);
-//                finish();
-//                startActivity(grpIntent);
-//                }
 
-                //Intent intent = null;
+
                 if (rbHouseHold.isChecked()) {
                     Intent iRegSum = new Intent(AllSummaryActivity.this, Summary.class);
                     iRegSum.putExtra(KEY.COUNTRY_ID, idCountry);
@@ -97,10 +91,6 @@ public class AllSummaryActivity extends BaseActivity {
                     dialog.showErrorDialog(mContext, "No Menu is selected yet");
 
 
-                /*if (intent != null) {
-
-                    startActivity(intent);
-                }*/
 
 
             }
@@ -158,10 +148,6 @@ public class AllSummaryActivity extends BaseActivity {
         rbAssign = (RadioButton) findViewById(R.id.rbtn_Assign_summary);
         rbtGroup = (RadioButton) findViewById(R.id.rbtn_Group_summary);
 
-        /**
-         * view swipt views
-         *
-         */
 
         btnHome = (Button) findViewById(R.id.btnRegisterFooter);
         btnGo = (Button) findViewById(R.id.btnHomeFooter);
@@ -188,15 +174,6 @@ public class AllSummaryActivity extends BaseActivity {
         btnGo.setText("");
         Drawable imageGoto = getResources().getDrawable(R.drawable.goto_forward);
         btnGo.setCompoundDrawablesRelativeWithIntrinsicBounds(imageGoto, null, null, null);
-        //  int leftPadd, rightPadd,topPadd,bottomPadd;
-        //  CalculationPadding calPadd = new CalculationPadding();
-
-        //  leftPadd = rightPadd = calPadd.calculateViewPadding(mContext, imageGoto, btnGo);
-        /**
-         * set the value in resource
-         */
-        // topPadd=bottomPadd=getResources().getInteger(R.integer.top_bottom_icon_pad_int_5);
-        // btnGo.setPadding(leftPadd,topPadd , rightPadd, bottomPadd);
 
         setPaddingButton(mContext, imageGoto, btnGo);
     }
@@ -207,65 +184,10 @@ public class AllSummaryActivity extends BaseActivity {
         btnHome.setText("");
         Drawable imageHome = getResources().getDrawable(R.drawable.home_b);
         btnHome.setCompoundDrawablesRelativeWithIntrinsicBounds(imageHome, null, null, null);
-        // int leftPadd, rightPadd,topPadd,bottomPadd;
-        // CalculationPadding calPadd = new CalculationPadding();
-
-        //  leftPadd = rightPadd = calPadd.calculateViewPadding(mContext, imageHome, btnHome);
-        /**
-         * set the value in resource
-         */
-        //  topPadd=bottomPadd=getResources().getInteger(R.integer.top_bottom_icon_pad_int_5);
-
-        //  btnHome.setPadding(leftPadd, topPadd, rightPadd, bottomPadd);
         setPaddingButton(mContext, imageHome, btnHome);
     }
 
-   /* @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            // go button
-            case R.id.btnHomeFooter:
-                Intent intent = null;
-                if (rbHouseHold.isChecked()) {
-                    intent = new Intent(AllSummaryActivity.this, Summary.class);
-                    intent.putExtra(KEY.COUNTRY_ID, idCountry);
-                } else if (rbService.isChecked()) {
-                    intent = new Intent(AllSummaryActivity.this, ServiceSummaryMenu.class);
-                    intent.putExtra(KEY.COUNTRY_ID, idCountry);
-                    intent.putExtra(KEY.FLAG, KEY.SRV_FLAG);
-                    intent.putExtra(KEY.DIR_CLASS_NAME_KEY, "AllSummaryActivity");
-                } else if (rbAssign.isChecked()) {
-                    intent = new Intent(AllSummaryActivity.this, SummaryAssignCriteria.class);
-                    intent.putExtra(KEY.COUNTRY_ID, idCountry);
-                } else if (rbDistribution.isChecked()) {
-                    intent = new Intent(AllSummaryActivity.this, ServiceSummaryMenu.class);
-                    intent.putExtra(KEY.COUNTRY_ID, idCountry);
-                    intent.putExtra(KEY.FLAG, KEY.DIST_FLAG);
-                    intent.putExtra(KEY.DIR_CLASS_NAME_KEY, "AllSummaryActivity");
-                }else if(rbtGroup.isChecked()){
-                  Intent   grpIntent = new Intent(AllSummaryActivity.this, GroupSummary.class);
-                    startActivity(grpIntent);
-                 //   intent.putExtra(KEY.COUNTRY_ID, idCountry);
-                } else
-                    dialog.showErrorDialog(mContext, "No Menu is selected yet");
 
-
-//                if (intent != null) {
-//
-//                    startActivity(intent);
-//                }
-
-
-                break;
-            // home button
-            case R.id.btnRegisterFooter:
-                finish();
-                Intent iHome = new Intent(mContext, MainActivity.class);
-                startActivity(iHome);
-
-                break;
-        }
-    }*/
 
 
   /*  @Override

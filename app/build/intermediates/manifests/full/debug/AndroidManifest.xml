@@ -149,7 +149,7 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|stateHidden" />
         <activity
-            android:name="com.siddiquinoor.restclient.activity.MapActivity"
+            android:name="com.siddiquinoor.restclient.activity.sub_activity.gps_sub.MapActivity"
             android:configChanges="orientation"
             android:label="@string/title_activity_map"
             android:screenOrientation="portrait" />
@@ -329,7 +329,7 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
-            android:name="com.siddiquinoor.restclient.activity.sub_activity.gps_sub.SearchLocation"
+            android:name="com.siddiquinoor.restclient.activity.GPSLocationSearchPage"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
@@ -365,7 +365,7 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
-            android:name="com.siddiquinoor.restclient.activity.DynamicData"
+            android:name="com.siddiquinoor.restclient.activity.DynamicTable"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity android:name="com.siddiquinoor.restclient.activity.sub_activity.dynamic_table.DTResponseActivity" />
         <activity

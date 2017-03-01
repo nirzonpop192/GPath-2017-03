@@ -50,7 +50,7 @@
     <init>();
 }
 
--keep class com.siddiquinoor.restclient.activity.MapActivity {
+-keep class com.siddiquinoor.restclient.activity.sub_activity.gps_sub.MapActivity {
     <init>();
 }
 
@@ -170,7 +170,7 @@
     <init>();
 }
 
--keep class com.siddiquinoor.restclient.activity.sub_activity.gps_sub.SearchLocation {
+-keep class com.siddiquinoor.restclient.activity.GPSLocationSearchPage {
     <init>();
 }
 
@@ -206,7 +206,7 @@
     <init>();
 }
 
--keep class com.siddiquinoor.restclient.activity.DynamicData {
+-keep class com.siddiquinoor.restclient.activity.DynamicTable {
     <init>();
 }
 
