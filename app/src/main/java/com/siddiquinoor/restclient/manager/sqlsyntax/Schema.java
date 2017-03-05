@@ -1639,8 +1639,8 @@ public class Schema {
                 "   " + SQLiteHandler.DTSKIP_DTQ_CODE_COL + "    TEXT,   " +
                 "   " + SQLiteHandler.DTA_COMPARE_CODE_COL + "    TEXT,   " +
                 "   " + SQLiteHandler.SHOW_HIDE_COL + "    TEXT,   " +
-                "   " + SQLiteHandler.MAX_VALUE_COL + "    NUMERIC,   " +
-                "   " + SQLiteHandler.MIN_VALUE_COL + "    NUMERIC,   " +
+                "   " + SQLiteHandler.MAX_VALUE_COL + "    TEXT,   " +
+                "   " + SQLiteHandler.MIN_VALUE_COL + "    TEXT,   " +
                 "   " + DATA_TYPE_COL + "    TEXT,   " +
                 "   " + SQLiteHandler.MARK_ON_GRID_COL + "    TEXT,   " +
                 "   " + ENTRY_BY + "    TEXT,   " +

@@ -181,6 +181,7 @@ com/siddiquinoor/restclient/views/adapters/DynamicDataIndexAdapter$2.class
 com/google/android/gms/ads/internal/client/zzae.class
 com/siddiquinoor/restclient/activity/sub_activity/dynamic_table/DTResponseActivity.class
 com/siddiquinoor/restclient/activity/sub_activity/assign_program/mchn/PW.class
+com/siddiquinoor/restclient/parse/Parse.class
 com/google/android/gms/internal/zzmf$zza.class
 com/siddiquinoor/restclient/activity/DistributionActivity$2.class
 com/siddiquinoor/restclient/activity/AssignActivity$4.class

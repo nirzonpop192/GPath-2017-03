@@ -90,7 +90,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
     // All Static variables
 
     // Database Version
-    private static final int DATABASE_VERSION = 12;
+    private static final int DATABASE_VERSION = 13;
     // Database Name
     private static final String DATABASE_NAME = "pci";
     // Android meta data table
@@ -5525,8 +5525,8 @@ public class SQLiteHandler extends SQLiteOpenHelper {
                 dta.setDt_SkipDTQCode(cursor.getString(8));
                 dta.setDt_ACompareCode(cursor.getString(9));
                 dta.setShowHide(cursor.getString(10));
-                dta.setMaxValue(cursor.getInt(11));
-                dta.setMinValue(cursor.getInt(12));
+                dta.setMaxValue(cursor.getString(11));
+                dta.setMinValue(cursor.getString(12));
                 dta.setDataType(cursor.getString(13));
                 dta.setMarkOnGrid(cursor.getString(14));
 
@@ -11637,7 +11637,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
 
     public void addIntoDTATable(String dtBasic, String dtqCode, String dtaCode, String dtaLabel, String dtaValue,
                                 long dtSeq, String dtaShort, String dtScoreCode, String dtSkipDTQCode, String dtaCompareCode, String showHide,
-                                long maxValue, long minValue, String dataType, String markOnGrid, String entryBy, String entryDate) {
+                                String maxValue, String minValue, String dataType, String markOnGrid, String entryBy, String entryDate) {
 
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();

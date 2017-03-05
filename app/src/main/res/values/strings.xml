@@ -193,7 +193,7 @@
     <string name="srv_summary_TitleLable">Service Summary </string>
     <string name="tv_criteria">Criteria</string>
     <!-- LOG IN SCREEN -->
-    <string name="log_in_version_lable">GPath-UAT-10</string>
+    <string name="log_in_version_lable">GPath-UAT-11</string>
     <!-- VERSION -->
 
 
@@ -607,4 +607,5 @@ Otherwise, initiate to sync and login again.</string>
     <string name="search_table">Search Table</string>
     <string name="dynamic_table">Dynamic Table</string>
     <string name="layr3_name">LayR3 Name</string>
+    <string name="country">Country</string>
 </resources>

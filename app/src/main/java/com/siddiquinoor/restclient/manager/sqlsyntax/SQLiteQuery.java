@@ -11,6 +11,11 @@ import com.siddiquinoor.restclient.views.adapters.ServiceDataModel;
 import com.siddiquinoor.restclient.activity.sub_activity.gps_sub.PointAttributes;
 
 import static com.siddiquinoor.restclient.activity.sub_activity.dynamic_table.DTResponseRecordingActivity.COMMUNITY_GROUP;
+import static com.siddiquinoor.restclient.activity.sub_activity.dynamic_table.DTResponseRecordingActivity.COMMUNITY_GROUP_IG;
+import static com.siddiquinoor.restclient.activity.sub_activity.dynamic_table.DTResponseRecordingActivity.COMMUNITY_GROUP_LG;
+import static com.siddiquinoor.restclient.activity.sub_activity.dynamic_table.DTResponseRecordingActivity.COMMUNITY_GROUP_MG;
+import static com.siddiquinoor.restclient.activity.sub_activity.dynamic_table.DTResponseRecordingActivity.COMMUNITY_GROUP_PG;
+import static com.siddiquinoor.restclient.activity.sub_activity.dynamic_table.DTResponseRecordingActivity.COMMUNITY_GROUP_WE;
 import static com.siddiquinoor.restclient.activity.sub_activity.dynamic_table.DTResponseRecordingActivity.DISTRIBUTION_POINT;
 import static com.siddiquinoor.restclient.activity.sub_activity.dynamic_table.DTResponseRecordingActivity.GEO_LAYER_1;
 import static com.siddiquinoor.restclient.activity.sub_activity.dynamic_table.DTResponseRecordingActivity.GEO_LAYER_2;
@@ -3851,47 +3856,45 @@ public class SQLiteQuery {
 
 
             case COMMUNITY_GROUP:
-                udf = "SELECT "
-
-                        + " commGrp." + DONOR_CODE_COL + " || '' || "
-                        + " commGrp." + AWARD_CODE_COL + " || '' ||"
-                        + " commGrp." + PROGRAM_CODE_COL + " || '' ||"
-
-                        + " commGrp." + GROUP_CODE_COL + " || '' || "
-                        + " commGrp." + GRP_LAY_R1_LIST_CODE_COL + " || '' || "
-                        + " commGrp." + GRP_LAY_R2_LIST_CODE_COL + " || '' || "
-                        + " commGrp." + GRP_LAY_R3_LIST_CODE_COL
-
-                        + " , award." + AWARD_SHORT_NAME_COL + " || '-' ||"
-                        + " counAward." + AWARD_SHORT_NAME_COL + " || '-' ||"
-                        + " admProg." + PROGRAM_SHORT_NAME_COL + " || '-' ||"
-                        + " commGrp." + GROUP_NAME_COL
-                        + " FROM " + COMMUNITY_GROUP_TABLE + " AS commGrp "
-
-                        + " LEFT JOIN " + ADM_AWARD_TABLE + " AS award "
-                        + " ON award." + DONOR_CODE_COL + " = commGrp." + DONOR_CODE_COL
-                        + " AND award." + AWARD_CODE_COL + " = commGrp." + AWARD_CODE_COL
-
-                        + " INNER JOIN " + ADM_COUNTRY_AWARD_TABLE + " AS counAward "
-
-                        + " ON counAward." + DONOR_CODE_COL + " = commGrp." + DONOR_CODE_COL
-                        + " AND counAward." + AWARD_CODE_COL + " = commGrp." + AWARD_CODE_COL
-
-                        + " INNER JOIN " + ADM_PROGRAM_MASTER_TABLE + " AS admProg "
-
-                        + " ON admProg." + DONOR_CODE_COL + " = commGrp." + DONOR_CODE_COL
-                        + " AND admProg." + AWARD_CODE_COL + " = commGrp." + AWARD_CODE_COL
-                        + " AND admProg." + PROGRAM_CODE_COL + " = commGrp." + PROGRAM_CODE_COL
-
-
-                        + " WHERE " + "commGrp." + COUNTRY_CODE_COL + "='" + cCode + "'"
-                        + " ORDER BY award." + AWARD_SHORT_NAME_COL + " || '-' ||"
-                        + " counAward." + AWARD_SHORT_NAME_COL + " || '-' ||"
-                        + " admProg." + PROGRAM_SHORT_NAME_COL + " || '-' ||"
-                        + " commGrp." + GROUP_NAME_COL;
-
+                udf = loadCommunityGroup( " WHERE " + "commGrp." + COUNTRY_CODE_COL + "='" + cCode + "'") ;
 
                 break;
+
+
+            case COMMUNITY_GROUP_PG:
+                udf = loadCommunityGroup(  " WHERE " + "commGrp." + COUNTRY_CODE_COL + "='" + cCode + "'"
+                        + " AND  " + "commGrp." + GROUP_CAT_CODE_COL + "= '001' " // Producer group= 001
+                        + " AND  " + "commGrp." + PROGRAM_CODE_COL + "= '003' " // agr= 001
+                );
+                break;
+            case COMMUNITY_GROUP_IG:
+                udf = loadCommunityGroup(  " WHERE " + "commGrp." + COUNTRY_CODE_COL + "='" + cCode + "'"
+                        + " AND  " + "commGrp." + GROUP_CAT_CODE_COL + "= '003' " // Irrigation Group= 003
+                        + " AND  " + "commGrp." + PROGRAM_CODE_COL + "= '003' " // agr= 001
+                );
+                break;
+
+            case COMMUNITY_GROUP_MG:
+                udf = loadCommunityGroup(  " WHERE " + "commGrp." + COUNTRY_CODE_COL + "='" + cCode + "'"
+                        + " AND  " + "commGrp." + GROUP_CAT_CODE_COL + "= '002' " // Marketing Group= 002
+                        + " AND  " + "commGrp." + PROGRAM_CODE_COL + "= '003' " // agr= 001
+                );
+                break;
+
+            case COMMUNITY_GROUP_WE:
+                udf = loadCommunityGroup(  " WHERE " + "commGrp." + COUNTRY_CODE_COL + "='" + cCode + "'"
+                        + " AND  " + "commGrp." + GROUP_CAT_CODE_COL + "= '004' " // WeVSL= 004
+                        + " AND  " + "commGrp." + PROGRAM_CODE_COL + "= '003' " // agr= 001
+                );
+                break;
+
+            case COMMUNITY_GROUP_LG:
+                udf = loadCommunityGroup(  " WHERE " + "commGrp." + COUNTRY_CODE_COL + "='" + cCode + "'"
+                        + " AND  " + "commGrp." + GROUP_CAT_CODE_COL + "= '005' " // Livestock Group= 005
+                        + " AND  " + "commGrp." + PROGRAM_CODE_COL + "= '003' " // agr= 001
+                );
+                break;
+
             case ORGANIZATION_LIST:
 
                 udf = "SELECT  progOR." + ORG_CODE_COL + ", pOrg." + ORGANIZATION_NAME + " " +
@@ -3911,6 +3914,53 @@ public class SQLiteQuery {
         return udf;
     }
 
+    private static String loadCommunityGroup(String whereCondition) {
+        return " SELECT DISTINCT "
+
+                + " commGrp." + DONOR_CODE_COL + " || '' || "
+                + " commGrp." + AWARD_CODE_COL + " || '' ||"
+                + " commGrp." + PROGRAM_CODE_COL + " || '' ||"
+                + " commGrp." + GROUP_CODE_COL + " || '' || "
+                + " commGrp." + GRP_LAY_R1_LIST_CODE_COL + " || '' || "
+                + " commGrp." + GRP_LAY_R2_LIST_CODE_COL + " || '' || "
+                + " commGrp." + GRP_LAY_R3_LIST_CODE_COL
+
+                + " , award." + AWARD_SHORT_NAME_COL + " || '-' ||"
+                + " counAward." + AWARD_SHORT_NAME_COL + " || '-' ||"
+                + " admProg." + PROGRAM_SHORT_NAME_COL + " || '-' ||"
+                + " commGrp." + GROUP_NAME_COL
+                + " FROM " + COMMUNITY_GROUP_TABLE + " AS commGrp "
+
+                + " LEFT JOIN " + ADM_AWARD_TABLE + " AS award "
+                + " ON award." + DONOR_CODE_COL + " = commGrp." + DONOR_CODE_COL
+                + " AND award." + AWARD_CODE_COL + " = commGrp." + AWARD_CODE_COL
+
+                + " INNER JOIN " + ADM_COUNTRY_AWARD_TABLE + " AS counAward "
+
+                + " ON counAward." + DONOR_CODE_COL + " = commGrp." + DONOR_CODE_COL
+                + " AND counAward." + AWARD_CODE_COL + " = commGrp." + AWARD_CODE_COL
+
+                + " INNER JOIN " + ADM_PROGRAM_MASTER_TABLE + " AS admProg "
+
+                + " ON admProg." + DONOR_CODE_COL + " = commGrp." + DONOR_CODE_COL
+                + " AND admProg." + AWARD_CODE_COL + " = commGrp." + AWARD_CODE_COL
+                + " AND admProg." + PROGRAM_CODE_COL + " = commGrp." + PROGRAM_CODE_COL
+
+                // where condition would be dy namic
+           //     + " WHERE " + "commGrp." + COUNTRY_CODE_COL + "='" + cCode + "'"
+                + whereCondition
+                + " GROUP BY commGrp." + DONOR_CODE_COL
+                + " , commGrp." + AWARD_CODE_COL
+                + " , commGrp." + PROGRAM_CODE_COL
+                + " , commGrp." + GROUP_CODE_COL
+                + " , commGrp." + GRP_LAY_R1_LIST_CODE_COL
+                + " , commGrp." + GRP_LAY_R2_LIST_CODE_COL
+                + " , commGrp." + GRP_LAY_R3_LIST_CODE_COL
+                + " ORDER BY award." + AWARD_SHORT_NAME_COL + " || '-' ||"
+                + " counAward." + AWARD_SHORT_NAME_COL + " || '-' ||"
+                + " admProg." + PROGRAM_SHORT_NAME_COL + " || '-' ||"
+                + " commGrp." + GROUP_NAME_COL;
+    }
 
     public static String loadDtMonth_sql(String cCode, String opCode, String opMonthCode) {
 
@@ -4186,7 +4236,7 @@ public class SQLiteQuery {
     }
 
     public static String getLocationList_sql(String cCode, String searchLocName) {
-        return  "SELECT " + GPS_LOCATION_TABLE + "." + GROUP_CODE_COL + " || '' || " + GPS_LOCATION_TABLE + "." + SUB_GROUP_CODE_COL + " || '' || " + GPS_LOCATION_TABLE + "." + SQLiteHandler.LOCATION_CODE_COL
+        return "SELECT " + GPS_LOCATION_TABLE + "." + GROUP_CODE_COL + " || '' || " + GPS_LOCATION_TABLE + "." + SUB_GROUP_CODE_COL + " || '' || " + GPS_LOCATION_TABLE + "." + SQLiteHandler.LOCATION_CODE_COL
                 + " , " + GPS_LOCATION_TABLE + "." + LOCATION_NAME_COL
 
                 + ", CASE WHEN  ifnull(length(" + GPS_LOCATION_TABLE + "." + LATITUDE_COL + "), 0) = 0  THEN 'N' ELSE 'Y' END AS dataExit "

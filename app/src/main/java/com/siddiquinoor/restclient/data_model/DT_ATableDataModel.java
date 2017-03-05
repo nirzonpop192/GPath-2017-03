@@ -6,7 +6,7 @@ import android.os.Parcelable;
 /**
  * Created by USER on 10/1/2016.
  */
-public class DT_ATableDataModel implements Parcelable{
+public class DT_ATableDataModel implements Parcelable {
 
     private String DTBasic;
     private String dt_QCode;
@@ -19,14 +19,14 @@ public class DT_ATableDataModel implements Parcelable{
     private String dt_SkipDTQCode;
     private String dt_ACompareCode;
     private String ShowHide;
-    private int    maxValue;
-    private int    minValue;
+    private String maxValue;
+    private String minValue;
     private String dataType;
     private String markOnGrid;
     private String entryBy;
     private String entryDate;
 
-    public static final Parcelable.Creator CREATOR= new Parcelable.Creator(){
+    public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
         @Override
         public DT_ATableDataModel createFromParcel(Parcel in) {
             return new DT_ATableDataModel(in);
@@ -38,7 +38,7 @@ public class DT_ATableDataModel implements Parcelable{
         }
     };
 
-    public DT_ATableDataModel(String DTBasic, String dt_QCode, String dt_ACode, String dt_ALabel, String dt_AValue, String dt_Seq, String dt_AShort, String dt_ScoreCode, String dt_SkipDTQCode, String dt_ACompareCode, String showHide, int maxValue, int minValue, String dataType, String markOnGrid) {
+    public DT_ATableDataModel(String DTBasic, String dt_QCode, String dt_ACode, String dt_ALabel, String dt_AValue, String dt_Seq, String dt_AShort, String dt_ScoreCode, String dt_SkipDTQCode, String dt_ACompareCode, String showHide, String maxValue, String minValue, String dataType, String markOnGrid) {
         this.DTBasic = DTBasic;
         this.dt_QCode = dt_QCode;
         this.dt_ACode = dt_ACode;
@@ -63,31 +63,30 @@ public class DT_ATableDataModel implements Parcelable{
     public DT_ATableDataModel() {
     }
 
-    public DT_ATableDataModel(Parcel in){
+    public DT_ATableDataModel(Parcel in) {
         readFromParcel(in);
     }
 
     private void readFromParcel(Parcel in) {
 
-        DTBasic=in.readString();
-        dt_QCode=in.readString();
-        dt_ACode=in.readString();
-        dt_ALabel=in.readString();
-        dt_AValue=in.readString();
-        dt_Seq=in.readString();
-        dt_AShort=in.readString();
-        dt_ScoreCode=in.readString();
-        dt_SkipDTQCode=in.readString();
-        dt_ACompareCode=in.readString();
-        ShowHide=in.readString();
-        maxValue=in.readInt();
-        minValue=in.readInt();
-        dataType=in.readString();
-        markOnGrid=in.readString();
-        entryBy=in.readString();
-        entryDate=in.readString();
+        DTBasic = in.readString();
+        dt_QCode = in.readString();
+        dt_ACode = in.readString();
+        dt_ALabel = in.readString();
+        dt_AValue = in.readString();
+        dt_Seq = in.readString();
+        dt_AShort = in.readString();
+        dt_ScoreCode = in.readString();
+        dt_SkipDTQCode = in.readString();
+        dt_ACompareCode = in.readString();
+        ShowHide = in.readString();
+        maxValue = in.readString();
+        minValue = in.readString();
+        dataType = in.readString();
+        markOnGrid = in.readString();
+        entryBy = in.readString();
+        entryDate = in.readString();
     }
-
 
 
     @Override
@@ -104,8 +103,8 @@ public class DT_ATableDataModel implements Parcelable{
         dest.writeString(dt_SkipDTQCode);
         dest.writeString(dt_ACompareCode);
         dest.writeString(ShowHide);
-        dest.writeInt(maxValue);
-        dest.writeInt(minValue);
+        dest.writeString(maxValue);
+        dest.writeString(minValue);
         dest.writeString(dataType);
         dest.writeString(markOnGrid);
         dest.writeString(entryBy);
@@ -201,19 +200,19 @@ public class DT_ATableDataModel implements Parcelable{
         ShowHide = showHide;
     }
 
-    public int getMaxValue() {
+    public String getMaxValue() {
         return maxValue;
     }
 
-    public void setMaxValue(int maxValue) {
+    public void setMaxValue(String maxValue) {
         this.maxValue = maxValue;
     }
 
-    public int getMinValue() {
+    public String getMinValue() {
         return minValue;
     }
 
-    public void setMinValue(int minValue) {
+    public void setMinValue(String minValue) {
         this.minValue = minValue;
     }
 

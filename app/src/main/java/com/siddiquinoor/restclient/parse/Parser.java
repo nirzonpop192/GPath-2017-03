@@ -13,9 +13,9 @@ import java.util.ArrayList;
 
 /**
  * Created by Faisal on 7/16/2016.
- * this Class DCeserializ the Json data
+ * this Class parse Json Deserialization  the Json data
  */
-public class Parser {
+public class Parser  extends Parse{
 
     /**
      * Json column values constant
@@ -323,7 +323,11 @@ public class Parser {
     public static final String GPS_LOCATION_ATTRIBUTES_JSON_A = "gps_location_attributes";
 
 
-    private static final String TAG = "JsonDeserialization";
+    private static final String TAG = Parser.class.getSimpleName();
+
+
+
+
 
     /**
      * This method desirizie the JSon data and insert in the  sqlite data base
@@ -537,30 +541,14 @@ public class Parser {
 
     }
 
-    public static void SrvExtTableParser(JSONArray services_exe_table, SQLiteHandler sqlH) {
+    public static void SrvExtTableParser(JSONArray jsonArray, SQLiteHandler sqlH) {
         try {
 
 
             int size;
 
 
-            String AdmCountryCode;
-            String AdmDonorCode;
-            String AdmAwardCode;
-            String LayR1ListCode;
-            String LayR2ListCode;
-            String LayR3ListCode;
-            String LayR4ListCode;
-            String hhID;
-            String MemID;
-            String ProgCode;
-            String SrvCode;
-            String OpCode;
-            String OpMonthCode;
-            String VOItmSpec;
-            String VOItmUnit;
-            String VORefNumber;
-            String VOItmCost;
+            String AdmCountryCode, AdmDonorCode, AdmAwardCode, LayR1ListCode, LayR2ListCode, LayR3ListCode, LayR4ListCode, hhID, MemID, ProgCode, SrvCode, OpCode, OpMonthCode, VOItmSpec, VOItmUnit, VORefNumber, VOItmCost;
 
             /**
              * The total string Convert into JSON object
@@ -570,27 +558,27 @@ public class Parser {
 
      /*       if (!jObj.isNull("service_exe_table")) {// this is not servie
                 JSONArray services_exe_table = jObj.getJSONArray("service_exe_table");*/
-            size = services_exe_table.length();
+            size = jsonArray.length();
             for (int i = 0; i < size; i++) {
-                JSONObject services_exe = services_exe_table.getJSONObject(i);
+                JSONObject jsonObject = jsonArray.getJSONObject(i);
 
-                AdmCountryCode = services_exe.getString(ADM_COUNTRY_CODE);
-                AdmDonorCode = services_exe.getString(ADM_DONOR_CODE);
-                AdmAwardCode = services_exe.getString(ADM_AWARD_CODE);
-                LayR1ListCode = services_exe.getString(LAY_R_1_LIST_CODE);
-                LayR2ListCode = services_exe.getString(LAY_R_2_LIST_CODE);
-                LayR3ListCode = services_exe.getString(LAY_R_3_LIST_CODE);
-                LayR4ListCode = services_exe.getString(LAY_R_4_LIST_CODE);
-                hhID = services_exe.getString(HHID);
-                MemID = services_exe.getString(MEM_ID);
-                ProgCode = services_exe.getString(PROG_CODE);
-                SrvCode = services_exe.getString(SRV_CODE);
-                OpCode = services_exe.getString(OP_CODE);
-                OpMonthCode = services_exe.getString(OP_MONTH_CODE);
-                VOItmSpec = services_exe.getString(VO_ITM_SPEC);
-                VOItmUnit = services_exe.getString(VO_ITM_UNIT);
-                VORefNumber = services_exe.getString(VO_REF_NUMBER);
-                VOItmCost = services_exe.getString(VO_ITM_COST);
+                AdmCountryCode = jsonObject.getString(ADM_COUNTRY_CODE);
+                AdmDonorCode = jsonObject.getString(ADM_DONOR_CODE);
+                AdmAwardCode = jsonObject.getString(ADM_AWARD_CODE);
+                LayR1ListCode = jsonObject.getString(LAY_R_1_LIST_CODE);
+                LayR2ListCode = jsonObject.getString(LAY_R_2_LIST_CODE);
+                LayR3ListCode = jsonObject.getString(LAY_R_3_LIST_CODE);
+                LayR4ListCode = jsonObject.getString(LAY_R_4_LIST_CODE);
+                hhID = jsonObject.getString(HHID);
+                MemID = jsonObject.getString(MEM_ID);
+                ProgCode = jsonObject.getString(PROG_CODE);
+                SrvCode = jsonObject.getString(SRV_CODE);
+                OpCode = jsonObject.getString(OP_CODE);
+                OpMonthCode = jsonObject.getString(OP_MONTH_CODE);
+                VOItmSpec = jsonObject.getString(VO_ITM_SPEC);
+                VOItmUnit = jsonObject.getString(VO_ITM_UNIT);
+                VORefNumber = jsonObject.getString(VO_REF_NUMBER);
+                VOItmCost = jsonObject.getString(VO_ITM_COST);
 // todo : add dist flag
 
                 sqlH.addServiceExtendedFromOnline(AdmCountryCode, AdmDonorCode, AdmAwardCode, LayR1ListCode, LayR2ListCode, LayR3ListCode,
@@ -1378,7 +1366,7 @@ public class Parser {
                 DataType = jsonObject.getString("DataType");
                 MarkOnGrid = jsonObject.getString("MarkOnGrid");
 
-                sqlH.addIntoDTATable(DTBasic, DTQCode, DTACode, DTALabel, DTAValue, StringToLongNullCheck(DTSeq), DTAShort, DTScoreCode, DTSkipDTQCode, DTACompareCode, ShowHide, StringToLongNullCheck(MaxValue), StringToLongNullCheck(MinValue), DataType, MarkOnGrid, "", "");
+                sqlH.addIntoDTATable(DTBasic, DTQCode, DTACode, DTALabel, DTAValue, StringToLongNullCheck(DTSeq), DTAShort, DTScoreCode, DTSkipDTQCode, DTACompareCode, ShowHide, MaxValue, MinValue, DataType, MarkOnGrid, "", "");
 
 
             } catch (Exception e) {
@@ -1435,20 +1423,6 @@ public class Parser {
 
         }
 
-    }
-
-    private static long StringToLongNullCheck(String string) {
-
-        long lgMaxValue = -1;
-        if (string != null) {
-            if (string.equals("null") || string.length() == 0) {
-                lgMaxValue = 0;
-            } else {
-                lgMaxValue = (long) Double.parseDouble(string);
-            }
-        }
-
-        return lgMaxValue;
     }
 
 

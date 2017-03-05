@@ -42,6 +42,7 @@ import com.siddiquinoor.restclient.data_model.DT_ATableDataModel;
 import com.siddiquinoor.restclient.fragments.BaseActivity;
 import com.siddiquinoor.restclient.manager.SQLiteHandler;
 import com.siddiquinoor.restclient.manager.sqlsyntax.SQLServerSyntaxGenerator;
+import com.siddiquinoor.restclient.parse.Parse;
 import com.siddiquinoor.restclient.utils.CameraUtils;
 import com.siddiquinoor.restclient.utils.KEY;
 import com.siddiquinoor.restclient.views.adapters.DynamicDataIndexDataModel;
@@ -79,6 +80,12 @@ public class DTResponseRecordingActivity extends BaseActivity implements Compoun
     public static final String SERVICE_SITE = "Service Site";
     public static final String DISTRIBUTION_POINT = "Distribution Point";
     public static final String COMMUNITY_GROUP = "Community Group";
+    public static final String COMMUNITY_GROUP_PG = "Community Group (PG)";
+    public static final String COMMUNITY_GROUP_IG = "Community Group (IG)";
+    public static final String COMMUNITY_GROUP_WE = "Community Group (WE)";
+    public static final String COMMUNITY_GROUP_MG = "Community Group (MG)";
+    public static final String COMMUNITY_GROUP_LG = "Community Group (LG)";
+
     public static final String ORGANIZATION_LIST = "Organization List";
     public static final String CHECK_BOX = "Checkbox";
     public static final String RADIO_BUTTON = "Radio Button";
@@ -92,13 +99,22 @@ public class DTResponseRecordingActivity extends BaseActivity implements Compoun
      * Database helper
      */
     private SQLiteHandler sqlH;
+
     /**
      * alert Dialog
      */
     private ADNotificationManager dialogManager;
+
+    /**
+     * mContext Class System Context variable
+     */
     private final Context mContext = DTResponseRecordingActivity.this;
     private DynamicDataIndexDataModel dyIndex;
     private int totalQuestion;
+
+    /**
+     * text view where  question v appear
+     */
     private TextView tv_DtQuestion;
     private Button btnNextQues;
     private Button btnHome;
@@ -162,8 +178,6 @@ public class DTResponseRecordingActivity extends BaseActivity implements Compoun
     /**
      * we use global for
      */
-
-
     private RadioGroup radioGroupForRadioAndEditText;
 
     /**
@@ -323,7 +337,6 @@ public class DTResponseRecordingActivity extends BaseActivity implements Compoun
             alertDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int which) {
                     dialog.cancel();
-
                     dialogManager.deleteResponseConfirmationDialog(DTResponseRecordingActivity.this, dyIndex.getDtBasicCode(), dyIndex.getcCode(), dyIndex.getDonorCode(), dyIndex.getAwardCode(), dyIndex.getProgramCode(), dyIndex.getOpMode(), dyIndex.getOpMonthCode(), getStaffID(), mDTRSeq, sqlH);
                 }
             });
@@ -386,11 +399,33 @@ public class DTResponseRecordingActivity extends BaseActivity implements Compoun
                         errorIndicator();
                         displayError("Insert  Text");
                     } else {
-                        normalIndicator();
-                        saveData(edtInput, "", mDTATableList.get(0));
 
-                        // load next Question
-                        nextQuestion();
+
+                        //  if DTA type is number then it gonna check the max & min Value
+                        if (mDTATableList.get(0).getDataType().equals("Number")) {
+//                            normalIndicator();
+//                            saveData(edtInput, "", mDTATableList.get(0));
+//
+//                            // load next Question
+//                            nextQuestion();
+                            // comparing the highest input value an  lowest value
+                            if ((Double.parseDouble(edtInput) <= Parse.StringToDoubleNullCheck(mDTATableList.get(0).getMaxValue())) && (Double.parseDouble(edtInput) >= Parse.StringToDoubleNullCheck(mDTATableList.get(0).getMinValue()))) {
+                                normalIndicator();
+                                saveData(edtInput, "", mDTATableList.get(0));
+
+                                // load next Question
+                                nextQuestion();
+                            } else {
+                                errorIndicator();
+                                displayError("Out of range input! ");
+                            }
+                        } else {  // else the input method would  be the text
+                            normalIndicator();
+                            saveData(edtInput, "", mDTATableList.get(0));
+                            // load next Question
+                            nextQuestion();
+                        }
+
 
                     }
 
@@ -504,7 +539,6 @@ public class DTResponseRecordingActivity extends BaseActivity implements Compoun
                                 break;
                             } else {
                                 normalIndicator();
-
                                 saveData(mEditTextForCheckBoxAndEdit_List.get(k).getText().toString(), "", mDTATableList.get(k));
                             }
 
@@ -524,7 +558,7 @@ public class DTResponseRecordingActivity extends BaseActivity implements Compoun
                         saveData("", getImageString(), mDTATableList.get(i));
                         normalIndicator();
                         nextQuestion();
-//                        Toast.makeText(mContext, "PHOto save ", Toast.LENGTH_SHORT).show();
+
                     }
                     break;
 
@@ -541,9 +575,7 @@ public class DTResponseRecordingActivity extends BaseActivity implements Compoun
 //                    saveData("");
 
 
-            /**
-             * //NEXT QUESTION
-             */
+            //NEXT QUESTION
             nextQuestion();
 
 
@@ -680,12 +712,10 @@ public class DTResponseRecordingActivity extends BaseActivity implements Compoun
         if (btnPreviousQus.getVisibility() == View.INVISIBLE)
             btnPreviousQus.setVisibility(View.VISIBLE);
 
-
         // increments the question no index
         ++mQusIndex;
 
         //to check does index exceed the maximum value
-
         if (mQusIndex != totalQuestion)
             hideViews();
 
@@ -713,10 +743,11 @@ public class DTResponseRecordingActivity extends BaseActivity implements Compoun
             mSyntaxGenerator.setAdmAwardCode(dyIndex.getAwardCode());
             mSyntaxGenerator.setAdmProgCode(dyIndex.getProgramCode());
             mSyntaxGenerator.setOpMonthCode(dyIndex.getOpMonthCode());
+            mSyntaxGenerator.setDTEnuID(getStaffID());
 
 
             sqlH.insertIntoUploadTable(mSyntaxGenerator.sqlSpDTShortName_Save());
-            Toast.makeText(mContext, "Saved Successfully", Toast.LENGTH_SHORT).show();
+            Toast.makeText(mContext, "Saved Successfully " , Toast.LENGTH_SHORT).show();
 
             /// Bellow Code end the
             addStopIconButton(btnNextQues);
@@ -741,8 +772,14 @@ public class DTResponseRecordingActivity extends BaseActivity implements Compoun
         // On pressing Settings button
         alertDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
-                mPhotoBitmap.recycle();
+
+                // check the bitmap is null or not otherwise recycle() method invoked the virtual
+                //  method , which cause the null point exception
+                if (mPhotoBitmap != null)
+                    mPhotoBitmap.recycle();
                 mPhotoBitmap = null;
+
+                // the stop icon
                 removeStopIconNextButton(btnNextQues);
                 initialWithFirstQues();
             }
@@ -794,6 +831,8 @@ public class DTResponseRecordingActivity extends BaseActivity implements Compoun
 
     private void displayQuestion(DynamicTableQuesDataModel qusObject) {
         tv_DtQuestion.setText(qusObject.getqText());
+
+        // get Dynamic table Answer mode
         mDTATableList = sqlH.getDTA_Table(qusObject.getDtBasicCode(), qusObject.getDtQCode());
         /**
          * {@link #mDTATableList} if it's size is zero than there will be IndexOutOfBoundsException
@@ -801,7 +840,7 @@ public class DTResponseRecordingActivity extends BaseActivity implements Compoun
          * the poxy data prevent to occur that Exception
          */
         if (mDTATableList.size() == 0) {
-            DT_ATableDataModel proxyDATA_data = new DT_ATableDataModel(mDTQ.getDtBasicCode(), mDTQ.getDtQCode(), "null", "No Recoded in DB", "null", "null", "null", "null", "null", "null", "N", 0, 0, "Text", "null");
+            DT_ATableDataModel proxyDATA_data = new DT_ATableDataModel(mDTQ.getDtBasicCode(), mDTQ.getDtQCode(), "null", "No Recoded in DB", "null", "null", "null", "null", "null", "null", "N", "null", "null", "Text", "null");
             mDTATableList.add(proxyDATA_data);
         }
 
@@ -820,7 +859,10 @@ public class DTResponseRecordingActivity extends BaseActivity implements Compoun
         viewReference();
         sqlH = new SQLiteHandler(mContext);
 
+        // initiate with dialog Manager
         dialogManager = new ADNotificationManager();
+
+        //get intent
         Intent intent = getIntent();
         dyIndex = intent.getParcelableExtra(KEY.DYNAMIC_INDEX_DATA_OBJECT_KEY);
         totalQuestion = intent.getIntExtra(KEY.DYNAMIC_T_QUES_SIZE, 0);
@@ -1013,11 +1055,13 @@ public class DTResponseRecordingActivity extends BaseActivity implements Compoun
                         case NUMBER:
 
                             dt_edt.setHint("Number");
-                            if (resLupText.equals("Number (not decimal)"))
+                            dt_edt.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
+                            // all number dec format
+                     /*       if (resLupText.equals("Number (not decimal)"))
                                 dt_edt.setInputType(InputType.TYPE_CLASS_NUMBER);
                             else
                                 dt_edt.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
-                            break;
+                            break;*/
 
                     }// end of switch
 
@@ -1144,7 +1188,6 @@ public class DTResponseRecordingActivity extends BaseActivity implements Compoun
 
     private void showPhotoCaptureDialog(final int requestCode) {
 
-
         final CharSequence[] items = getResources().getStringArray(R.array.cameraOption);
 
         android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(new ContextThemeWrapper(mContext, android.R.style.Theme_Holo_Light_Dialog));
@@ -1172,27 +1215,6 @@ public class DTResponseRecordingActivity extends BaseActivity implements Compoun
         imageCaptureOptionDialog.show();
     }
 
-
-    /**
-     * Here we store the file url as it will be null after returning from camera
-     * app. save file url in bundle as it will be null on screen orientation change
-     */
-//    @Override
-//    protected void onSaveInstanceState(Bundle outState) {
-//        super.onSaveInstanceState(outState);
-//        outState.putParcelable("file_uri", fileUri);
-//    }
-//
-//    /**
-//     * get the file url
-//     *
-//     * @param savedInstanceState bundle of image
-//     */
-//    @Override
-//    protected void onRestoreInstanceState(Bundle savedInstanceState) {
-//        super.onRestoreInstanceState(savedInstanceState);
-//        fileUri = savedInstanceState.getParcelable("file_uri");
-//    }
 
     /**
      * @param requestCode Request Code For Camera

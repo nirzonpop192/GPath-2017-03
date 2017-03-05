@@ -750,6 +750,7 @@
     <string name="compass">Compass</string>
     <string name="count">COUNT</string>
     <string name="count_lable">Count</string>
+    <string name="country">Country</string>
     <string name="create_calendar_message">Allow Ad to create a calendar event?</string>
     <string name="create_calendar_title">Create calendar event</string>
     <string name="criteria_label">Criteria</string>
@@ -868,7 +869,7 @@
     <string name="livestock">LIVESTOCK</string>
     <string name="lmp_date">LMP Date</string>
     <string name="location_name">Location Name</string>
-    <string name="log_in_version_lable">GPath-UAT-10</string>
+    <string name="log_in_version_lable">GPath-UAT-11</string>
     <string name="longTitle">Longitude</string>
     <string name="map_mode">Map Source</string>
     <string name="mapbox">MapBox</string>
