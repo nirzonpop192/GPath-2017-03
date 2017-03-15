@@ -23,8 +23,8 @@ import com.siddiquinoor.restclient.activity.DynamicTable;
 import com.siddiquinoor.restclient.fragments.BaseActivity;
 import com.siddiquinoor.restclient.manager.SQLiteHandler;
 import com.siddiquinoor.restclient.utils.KEY;
+import com.siddiquinoor.restclient.views.adapters.DTQTableDataModel;
 import com.siddiquinoor.restclient.views.adapters.DynamicDataIndexDataModel;
-import com.siddiquinoor.restclient.views.adapters.DynamicTableQuesDataModel;
 import com.siddiquinoor.restclient.views.adapters.DynamicTableQusDataModelAdapter;
 import com.siddiquinoor.restclient.views.helper.SpinnerHelper;
 import com.siddiquinoor.restclient.views.spinner.SpinnerLoader;
@@ -414,15 +414,15 @@ public class DTResponseActivity extends BaseActivity {
 
     public void loadDT_questionView(String dtBasicCode) {
 
-        List<DynamicTableQuesDataModel> dataList = sqlH.getDynamicQuestionList(dtBasicCode);
+        List<DTQTableDataModel> dataList = sqlH.getDynamicQuestionList(dtBasicCode);
 
 
-        ArrayList<DynamicTableQuesDataModel> dataArray = new ArrayList<DynamicTableQuesDataModel>();
+        ArrayList<DTQTableDataModel> dataArray = new ArrayList<DTQTableDataModel>();
         if (dataList.size() != 0) {
 
             dataArray.clear();
 
-            for (DynamicTableQuesDataModel data : dataList) {
+            for (DTQTableDataModel data : dataList) {
                 /**
                  * add contacts data in arrayList
                  * */

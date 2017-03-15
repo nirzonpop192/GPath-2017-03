@@ -727,46 +727,59 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                     Parser.DTA_Parser(jObj.getJSONArray("D_T_answer"), db);
                 }
 
+                publishProgress(++progressIncremental);
                 if (!jObj.isNull("D_T_basic")) {
                     Parser.DTBasicParser(jObj.getJSONArray("D_T_basic"), db);
                 }
 
+                publishProgress(++progressIncremental);
                 if (!jObj.isNull("D_T_category")) {
                     Parser.DTCategoryParser(jObj.getJSONArray("D_T_category"), db);
                 }
 
+                publishProgress(++progressIncremental);
                 if (!jObj.isNull("D_T_CountryProgram")) {
                     Parser.DTCountryProgramParser(jObj.getJSONArray("D_T_CountryProgram"), db);
                 }
 
-
+                publishProgress(++progressIncremental);
                 if (!jObj.isNull("D_T_GeoListLevel")) {
                     Parser.DTGeoListLevelParser(jObj.getJSONArray("D_T_GeoListLevel"), db);
                 }
 
-
+                publishProgress(++progressIncremental);
                 if (!jObj.isNull("D_T_QTable")) {
                     Parser.DTQTableParser(jObj.getJSONArray("D_T_QTable"), db);
                 }
 
+                publishProgress(++progressIncremental);
                 if (!jObj.isNull("D_T_QResMode")) {
                     Parser.DTQResModeParser(jObj.getJSONArray("D_T_QResMode"), db);
                 }
 
+                publishProgress(++progressIncremental);
                 if (!jObj.isNull("D_T_ResponseTable")) {
                     Parser.DTResponseTableParser(jObj.getJSONArray("D_T_ResponseTable"), db);
                 }
 
+                publishProgress(++progressIncremental);
                 if (!jObj.isNull("D_T_TableDefinition")) {
                     Parser.DTTableDefinitionParser(jObj.getJSONArray("D_T_TableDefinition"), db);
                 }
 
+                publishProgress(++progressIncremental);
                 if (!jObj.isNull("D_T_TableListCategory")) {
                     Parser.DTTableListCategoryParser(jObj.getJSONArray("D_T_TableListCategory"), db);
                 }
 
+                publishProgress(++progressIncremental);
                 if (!jObj.isNull("D_T_LUP")) {
                     Parser.DTLUPParser(jObj.getJSONArray("D_T_LUP"), db);
+                }
+
+                publishProgress(++progressIncremental);
+                if (!jObj.isNull("DTA_Skip_Table")) {
+                    Parser.DTA_Skip_TableParser(jObj.getJSONArray("DTA_Skip_Table"), db);
                 }
 
 
@@ -970,15 +983,15 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         @Override
         protected Void doInBackground(Void... params) {
 
-            String retreiveData = readDataFromFile(LoginActivity.REG_MEMBER_PROG_GROUP_DATA);
+            String retrieveData = readDataFromFile(LoginActivity.REG_MEMBER_PROG_GROUP_DATA);
 // todo change the  structure
-            Parser.RegNMemProGrpParser(retreiveData, db);
+            Parser.RegNMemProGrpParser(retrieveData, db);
             publishProgress(++progressIncremental);
 
-            Parser.GpsLocationContentParser(retreiveData, db);
+            Parser.GpsLocationContentParser(retrieveData, db);
             publishProgress(++progressIncremental);
 
-            Parser.SrvSpecificTableParser(retreiveData, db);
+            Parser.SrvSpecificTableParser(retrieveData, db);
             publishProgress(++progressIncremental);
 
 

@@ -57,8 +57,8 @@ public class SyncDatabase {
     // added by Siddiqui Noor on 23 Feb 2014 at 1:06pm
     public static ProgressDialog pDialogUpload;
     public static ProgressDialog pDialogDownload;
-    private int progressBarStatus = 0;
-    private Handler progressBarHandler = new Handler();
+   // private int progressBarStatus = 0;
+  //  private Handler progressBarHandler = new Handler();
 
 
     private ArrayList<dataUploadDB> queryData = new ArrayList<dataUploadDB>();
@@ -577,34 +577,7 @@ public class SyncDatabase {
                         }
 
 
-                        //adm_country_program Table
 
-
-                       /* if (!jObj.isNull(Parser.ADM_COUNTRY_PROGRAM_JSON_A)) {// this is not servie
-                            JSONArray adm_country_programs = jObj.getJSONArray(Parser.ADM_COUNTRY_PROGRAM_JSON_A);
-                            size = adm_country_programs.length();
-                            for (int i = 0; i < size; i++) {
-                                JSONObject adm_country_program = adm_country_programs.getJSONObject(i);
-                                String AdmCountryCode = adm_country_program.getString(Parser.ADM_COUNTRY_CODE);
-                                String AdmDonorCode = adm_country_program.getString(Parser.ADM_DONOR_CODE);
-                                String AdmAwardCode = adm_country_program.getString(Parser.ADM_AWARD_CODE);
-                                String AdmProgCode = adm_country_program.getString(Parser.ADM_PROG_CODE);
-                                String AdmSrvCode = adm_country_program.getString(Parser.ADM_SRV_CODE);
-                                String FoodFlag = adm_country_program.getString(Parser.FOOD_FLAG);
-                                String NFoodFlag = adm_country_program.getString(Parser.N_FOOD_FLAG);
-                                String CashFlag = adm_country_program.getString(Parser.CASH_FLAG);
-                                String VOFlag = adm_country_program.getString(Parser.VO_FLAG);
-                                String DefaultFoodDays = adm_country_program.getString(Parser.DEFAULT_FOOD_DAYS);
-                                String DefaultNFoodDays = adm_country_program.getString(Parser.DEFAULT_N_FOOD_DAYS);
-                                String DefaultCashDays = adm_country_program.getString(Parser.DEFAULT_CASH_DAYS);
-                                String DefaultVODays = adm_country_program.getString(Parser.DEFAULT_VO_DAYS);
-                                String SrvSpecific = adm_country_program.getString(Parser.SRV_SPECIFIC);
-
-                                sqlH.insertAdmCountryProgram(AdmCountryCode, AdmDonorCode, AdmAwardCode, AdmProgCode, AdmSrvCode, FoodFlag,
-                                        NFoodFlag, CashFlag, VOFlag, DefaultFoodDays, DefaultNFoodDays, DefaultCashDays, DefaultVODays, SrvSpecific);
-
-                            }
-                        }*/
 
 
                         // * Adding data into  dob_service_center  Table
@@ -795,8 +768,8 @@ public class SyncDatabase {
 
                                 sqlH.addStaffFDPAccess(StfCode, AdmCountryCode, FDPCode, btnNew, btnSave, btnDel);
 
-                                Log.d(TAG, "In addStaff FDP Access : StfCode : " + AdmCountryCode + " StfCode : " + StfCode + " LayR1ListCode : " + FDPCode + " btnNew : "
-                                        + btnNew + " btnDel : " + btnDel);
+                           /*     Log.d(TAG, "In addStaff FDP Access : StfCode : " + AdmCountryCode + " StfCode : " + StfCode + " LayR1ListCode : " + FDPCode + " btnNew : "
+                                        + btnNew + " btnDel : " + btnDel);*/
                             }
                         }
 

@@ -66,6 +66,7 @@ com/google/android/gms/measurement/AppMeasurementReceiver.class
 com/google/android/gms/ads/internal/zzk.class
 com/google/android/gms/ads/internal/request/AutoClickProtectionConfigurationParcel.class
 com/google/zxing/client/android/R$string.class
+com/siddiquinoor/restclient/views/adapters/DTQTableDataModel.class
 com/siddiquinoor/restclient/activity/sub_activity/summary_sub/RegisterRecordView$2.class
 com/android/volley/toolbox/ImageLoader.class
 com/siddiquinoor/restclient/activity/sub_activity/summary_sub/GroupSummary$1.class
@@ -594,6 +595,7 @@ com/google/android/gms/ads/mediation/NetworkExtras.class
 com/siddiquinoor/restclient/activity/MainActivity$Inject_DynamicTableIntoSQLite.class
 android/support/v4/util/ArrayMap.class
 com/siddiquinoor/restclient/views/adapters/SummaryServiceListModel.class
+com/siddiquinoor/restclient/data_model/DT_ATableDataModel$1.class
 com/siddiquinoor/restclient/activity/OldAssignActivity$3.class
 android/support/v7/widget/RecyclerView$RecyclerListener.class
 com/siddiquinoor/restclient/activity/LoginActivity$35.class
@@ -806,7 +808,6 @@ com/siddiquinoor/restclient/activity/LoginActivity$22.class
 android/support/annotation/DimenRes.class
 android/support/v4/view/ViewCompat$HCViewCompatImpl.class
 com/siddiquinoor/restclient/activity/sub_activity/assign_program/agr/AGR$11.class
-com/siddiquinoor/restclient/views/adapters/DynamicTableQuesDataModel.class
 android/support/v7/widget/RecyclerView$State.class
 com/google/firebase/FirebaseApp.class
 com/siddiquinoor/restclient/activity/Register$7.class
@@ -1373,6 +1374,7 @@ com/siddiquinoor/restclient/activity/sub_activity/service_sub/ServiceRecordDetai
 com/google/android/gms/location/places/internal/PlaceEntity.class
 com/google/android/gms/internal/zzfr.class
 com/google/android/gms/internal/zzfb.class
+com/siddiquinoor/restclient/views/adapters/DTQTableDataModel$1.class
 com/siddiquinoor/restclient/activity/sub_activity/summary_sub/RegisterRecordView$1.class
 com/google/android/gms/wearable/NodeApi$NodeListener.class
 com/siddiquinoor/restclient/activity/sub_activity/assign_program/mchn/CU2$4.class

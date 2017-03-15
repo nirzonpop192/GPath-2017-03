@@ -45,8 +45,10 @@ public class SurveyAdapter extends RecyclerView.Adapter<SurveyAdapter.SurveyItem
             holder.tvAnswer.setText("Yes");
         } else if (dtSurveyTableDataModel.getDtaValue().equalsIgnoreCase("N")) {
             holder.tvAnswer.setText("No");
-        } else {
+        } else if (dtSurveyTableDataModel.getDtALabel()==null) {    //if the answer control is not Radio button or check Box  then set the DtaValue
             holder.tvAnswer.setText(dtSurveyTableDataModel.getDtaValue());
+        }else {
+            holder.tvAnswer.setText(dtSurveyTableDataModel.getDtALabel());
         }
     }
 

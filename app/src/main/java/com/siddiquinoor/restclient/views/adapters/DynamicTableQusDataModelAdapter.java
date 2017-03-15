@@ -8,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageButton;
 
 import android.widget.TextView;
 
@@ -23,10 +22,10 @@ public class DynamicTableQusDataModelAdapter extends BaseAdapter {
 
     private Activity activity;
     private LayoutInflater inflater;
-    private ArrayList<DynamicTableQuesDataModel> datas = new ArrayList<DynamicTableQuesDataModel>();
+    private ArrayList<DTQTableDataModel> datas = new ArrayList<DTQTableDataModel>();
 
 
-    public DynamicTableQusDataModelAdapter(Activity activity, ArrayList<DynamicTableQuesDataModel> datas) {
+    public DynamicTableQusDataModelAdapter(Activity activity, ArrayList<DTQTableDataModel> datas) {
         this.activity = activity;
         this.datas = datas;
     }
@@ -46,8 +45,8 @@ public class DynamicTableQusDataModelAdapter extends BaseAdapter {
         return position;
     }
 
-    public DynamicTableQuesDataModel getDynamicDataQuestion(int pos) {
-        return (DynamicTableQuesDataModel) getItem(pos);
+    public DTQTableDataModel getDynamicDataQuestion(int pos) {
+        return (DTQTableDataModel) getItem(pos);
     }
 
     private ViewHolder holder;
@@ -55,7 +54,7 @@ public class DynamicTableQusDataModelAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View row = convertView;
-        final DynamicTableQuesDataModel data = getDynamicDataQuestion(position);
+        final DTQTableDataModel data = getDynamicDataQuestion(position);
 
         if (inflater == null)
             inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);

@@ -20,6 +20,15 @@ public class DTResponseTableDataModel {
     private String opMode;
     private String opMonthCode;
     private String dataType;
+    private String dtALabel;
+
+    public String getDtALabel() {
+        return dtALabel;
+    }
+
+    public void setDtALabel(String dtALabel) {
+        this.dtALabel = dtALabel;
+    }
 
     public String getDtBasic() {
         return dtBasic;

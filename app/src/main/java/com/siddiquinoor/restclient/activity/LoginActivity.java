@@ -1044,11 +1044,11 @@ public class LoginActivity extends BaseActivity {
 
                     } else {
                         // Error in login. Invalid UserName or Password
-                        hideDialog();
+
                         String errorMsg = response.substring(response.indexOf("error_msg") + 11);
-                        Toast.makeText(getApplicationContext(),
-                                errorMsg, Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), errorMsg, Toast.LENGTH_LONG).show();
                         // hideDialog();
+                        refreshTheActivity();
                     }
 
                 } catch (JSONException e) {
@@ -1550,7 +1550,7 @@ public class LoginActivity extends BaseActivity {
                                 if (((AlertDialog) dialog).getListView().getCheckedItemCount() <= 2) {
                                     itemChecked[selectedItemId] = isSelected;
 
-                                    Log.d("REFAT----> position ", "" + selectedItemId);
+                                    //   Log.d("REFAT----> position ", "" + selectedItemId);
                                 } else {
                                     Toast.makeText(LoginActivity.this, "You can not permitted to select more than Two ServiceCenter ", Toast.LENGTH_SHORT).show();
 
@@ -1675,8 +1675,9 @@ public class LoginActivity extends BaseActivity {
             mdialog = builder.create();
             mdialog.show();
         } else {
-            hideDialog();
+            // hideDialog();
             Toast.makeText(LoginActivity.this, "No FDP assigned. Contact Admin.", Toast.LENGTH_LONG).show();
+            refreshTheActivity();
         }
 
     }
@@ -1750,10 +1751,19 @@ public class LoginActivity extends BaseActivity {
             mdialog = builder.create();
             mdialog.show();
         } else {
-            hideDialog();
+
             Toast.makeText(LoginActivity.this, "No village assigned. Contact Admin.", Toast.LENGTH_LONG).show();
+
+            refreshTheActivity();
+
+
         }
 
+    }
+
+    private void refreshTheActivity() {
+        finish();
+        startActivity(getIntent());
     }
 
 

@@ -2,95 +2,7 @@ package com.siddiquinoor.restclient.manager.sqlsyntax;
 
 import com.siddiquinoor.restclient.manager.SQLiteHandler;
 
-import static com.siddiquinoor.restclient.manager.SQLiteHandler.AWARD_CODE_COL;
-import static com.siddiquinoor.restclient.manager.SQLiteHandler.AWARD_END_DATE_COL;
-import static com.siddiquinoor.restclient.manager.SQLiteHandler.AWARD_NAME_COL;
-import static com.siddiquinoor.restclient.manager.SQLiteHandler.AWARD_REF_N_COL;
-import static com.siddiquinoor.restclient.manager.SQLiteHandler.AWARD_START_DATE_COL;
-import static com.siddiquinoor.restclient.manager.SQLiteHandler.AWARD_STATUS_COL;
-import static com.siddiquinoor.restclient.manager.SQLiteHandler.AWARD_SHORT_NAME_COL;
-import static com.siddiquinoor.restclient.manager.SQLiteHandler.CHILDREN_REC_SUPP_FEED_N_COL;
-import static com.siddiquinoor.restclient.manager.SQLiteHandler.CHILD_HEADED_COL;
-import static com.siddiquinoor.restclient.manager.SQLiteHandler.CHRONICALLY_ILL_COL;
-import static com.siddiquinoor.restclient.manager.SQLiteHandler.COUNTRY_CODE_COL;
-import static com.siddiquinoor.restclient.manager.SQLiteHandler.CROP_FAILURE_COL;
-import static com.siddiquinoor.restclient.manager.SQLiteHandler.DATA_TYPE_COL;
-import static com.siddiquinoor.restclient.manager.SQLiteHandler.DISTRIBUTION_STATUS_COL;
-import static com.siddiquinoor.restclient.manager.SQLiteHandler.DIST_DATE_COL;
-import static com.siddiquinoor.restclient.manager.SQLiteHandler.DIST_FLAG_COL;
-import static com.siddiquinoor.restclient.manager.SQLiteHandler.DONOR_CODE_COL;
-import static com.siddiquinoor.restclient.manager.SQLiteHandler.DTA_CODE_COL;
-import static com.siddiquinoor.restclient.manager.SQLiteHandler.DTA_VALUE_COL;
-import static com.siddiquinoor.restclient.manager.SQLiteHandler.DTQ_CODE_COL;
-import static com.siddiquinoor.restclient.manager.SQLiteHandler.DTTIME_STRING_COL;
-import static com.siddiquinoor.restclient.manager.SQLiteHandler.DT_ENU_ID_COL;
-import static com.siddiquinoor.restclient.manager.SQLiteHandler.DT_R_SEQ_COL;
-import static com.siddiquinoor.restclient.manager.SQLiteHandler.ELDERLY_HEADED_COL;
-import static com.siddiquinoor.restclient.manager.SQLiteHandler.ENTRY_BY;
-import static com.siddiquinoor.restclient.manager.SQLiteHandler.ENTRY_DATE;
-import static com.siddiquinoor.restclient.manager.SQLiteHandler.FDP_CODE_COL;
-import static com.siddiquinoor.restclient.manager.SQLiteHandler.FEMALE_HEADED_COL;
-import static com.siddiquinoor.restclient.manager.SQLiteHandler.FOOD_FLAG;
-import static com.siddiquinoor.restclient.manager.SQLiteHandler.GRD_CODE_COL;
-import static com.siddiquinoor.restclient.manager.SQLiteHandler.GRD_DATE_COL;
-import static com.siddiquinoor.restclient.manager.SQLiteHandler.GRD_STATUS_COL;
-import static com.siddiquinoor.restclient.manager.SQLiteHandler.GROUP_CAT_CODE_COL;
-import static com.siddiquinoor.restclient.manager.SQLiteHandler.GROUP_CODE_COL;
-import static com.siddiquinoor.restclient.manager.SQLiteHandler.GROUP_NAME_COL;
-import static com.siddiquinoor.restclient.manager.SQLiteHandler.GRP_LAY_R1_LIST_CODE_COL;
-import static com.siddiquinoor.restclient.manager.SQLiteHandler.GRP_LAY_R2_LIST_CODE_COL;
-import static com.siddiquinoor.restclient.manager.SQLiteHandler.GRP_LAY_R3_LIST_CODE_COL;
-import static com.siddiquinoor.restclient.manager.SQLiteHandler.HHID_COL;
-import static com.siddiquinoor.restclient.manager.SQLiteHandler.HH_MEM_ID;
-import static com.siddiquinoor.restclient.manager.SQLiteHandler.ID_COL;
-import static com.siddiquinoor.restclient.manager.SQLiteHandler.LAYER_CODE_COL;
-import static com.siddiquinoor.restclient.manager.SQLiteHandler.LAY_R1_LIST_CODE_COL;
-import static com.siddiquinoor.restclient.manager.SQLiteHandler.LAY_R2_LIST_CODE_COL;
-import static com.siddiquinoor.restclient.manager.SQLiteHandler.LAY_R3_LIST_CODE_COL;
-import static com.siddiquinoor.restclient.manager.SQLiteHandler.LAY_R4_LIST_CODE_COL;
-import static com.siddiquinoor.restclient.manager.SQLiteHandler.MEMBER_EXT_GROUP_COL;
-import static com.siddiquinoor.restclient.manager.SQLiteHandler.MONTH_LABEL;
-import static com.siddiquinoor.restclient.manager.SQLiteHandler.MULTIPLE_SERVICE_FLAG_COL;
-import static com.siddiquinoor.restclient.manager.SQLiteHandler.NON_FOOD_FLAG;
-import static com.siddiquinoor.restclient.manager.SQLiteHandler.OPERATION_CODE_COL;
-import static com.siddiquinoor.restclient.manager.SQLiteHandler.OP_MODE_COL;
-import static com.siddiquinoor.restclient.manager.SQLiteHandler.OP_MONTH_CODE_COL;
-import static com.siddiquinoor.restclient.manager.SQLiteHandler.ORPHAN_CHILDREN_COL;
-import static com.siddiquinoor.restclient.manager.SQLiteHandler.PROGRAM_CODE_COL;
-import static com.siddiquinoor.restclient.manager.SQLiteHandler.PROGRAM_NAME_COL;
-import static com.siddiquinoor.restclient.manager.SQLiteHandler.PROGRAM_SHORT_NAME_COL;
-import static com.siddiquinoor.restclient.manager.SQLiteHandler.PROG_ACTIVITY_CODE_COL;
-import static com.siddiquinoor.restclient.manager.SQLiteHandler.PROG_FLAG;
-import static com.siddiquinoor.restclient.manager.SQLiteHandler.REGN_ADDRESS_LOOKUP_CODE_COL;
-import static com.siddiquinoor.restclient.manager.SQLiteHandler.REG_DATE_COL;
-import static com.siddiquinoor.restclient.manager.SQLiteHandler.REG_N_DAT_COL;
-import static com.siddiquinoor.restclient.manager.SQLiteHandler.REG_N_STATUS_COL;
-import static com.siddiquinoor.restclient.manager.SQLiteHandler.REG_N_WE_TABLE;
-import static com.siddiquinoor.restclient.manager.SQLiteHandler.SELECTED_OPERATION_MODE_CODE_COL;
-import static com.siddiquinoor.restclient.manager.SQLiteHandler.SELECTED_OPERATION_MODE_NAME_COL;
-import static com.siddiquinoor.restclient.manager.SQLiteHandler.SELECTED_OPERATION_MODE_TABLE;
-import static com.siddiquinoor.restclient.manager.SQLiteHandler.SERVICE_CENTER_CODE_COL;
-import static com.siddiquinoor.restclient.manager.SQLiteHandler.SERVICE_CODE_COL;
-import static com.siddiquinoor.restclient.manager.SQLiteHandler.SERVICE_DT_COL;
-import static com.siddiquinoor.restclient.manager.SQLiteHandler.SERVICE_SL_COL;
-import static com.siddiquinoor.restclient.manager.SQLiteHandler.SERVICE_STATUS_COL;
-import static com.siddiquinoor.restclient.manager.SQLiteHandler.SRV_MAX_DATE_COL;
-import static com.siddiquinoor.restclient.manager.SQLiteHandler.SRV_MIN_DATE_COL;
-import static com.siddiquinoor.restclient.manager.SQLiteHandler.SYNC_COL;
-import static com.siddiquinoor.restclient.manager.SQLiteHandler.TABLE_NAME_COL;
-import static com.siddiquinoor.restclient.manager.SQLiteHandler.TABLE_GROUP_CODE_COL;
-import static com.siddiquinoor.restclient.manager.SQLiteHandler.UNITE_NAME_COL;
-import static com.siddiquinoor.restclient.manager.SQLiteHandler.UNIT_TABLE;
-import static com.siddiquinoor.restclient.manager.SQLiteHandler.USE_ADMIN_ONLY_COL;
-import static com.siddiquinoor.restclient.manager.SQLiteHandler.USE_LUP_COL;
-import static com.siddiquinoor.restclient.manager.SQLiteHandler.USE_REPORT_COL;
-import static com.siddiquinoor.restclient.manager.SQLiteHandler.USE_TRANSACTION_COL;
-import static com.siddiquinoor.restclient.manager.SQLiteHandler.U_FILE_COL;
-import static com.siddiquinoor.restclient.manager.SQLiteHandler.VILLAGE_NAME_COL;
-import static com.siddiquinoor.restclient.manager.SQLiteHandler.WEALTH_RANKING_COL;
-import static com.siddiquinoor.restclient.manager.SQLiteHandler.WILLINGNESS_COL;
-import static com.siddiquinoor.restclient.manager.SQLiteHandler.WORK_DAY_COL;
-import static com.siddiquinoor.restclient.manager.SQLiteHandler.W_RANK_COL;
+import static com.siddiquinoor.restclient.manager.SQLiteHandler.*;
 
 /**
  * Created by Faisal on 2/18/2016.
@@ -1157,8 +1069,6 @@ public class Schema {
     public static String sqlCreateSelectedServiceCenter_Table() {
 
         return CREATE_TABLE_IF_NOT_EXISTS + SQLiteHandler.SELECTED_SERVICE_CENTER_TABLE + " ("
-
-
                 + COUNTRY_CODE_COL + " VARCHAR(4), "
                 + SERVICE_CENTER_CODE_COL + " VARCHAR(4), "
                 + SQLiteHandler.SERVICE_CENTER_NAME_COL + " VARCHAR(100) "
@@ -1628,7 +1538,7 @@ public class Schema {
      */
     public static String createTableDTATable() {
         return CREATE_TABLE_IF_NOT_EXISTS + "  " + SQLiteHandler.DT_A_TABLE + "  (   " +
-                "   " + SQLiteHandler.DT_BASIC_COL + "  TEXT NOT NULL,   " +
+                "   " + DT_BASIC_COL + "  TEXT NOT NULL,   " +
                 "   " + DTQ_CODE_COL + "  TEXT NOT NULL,   " +
                 "   " + DTA_CODE_COL + "  TEXT NOT NULL,   " +
                 "   " + SQLiteHandler.DTA_LABEL_COL + "  TEXT,   " +
@@ -1652,7 +1562,7 @@ public class Schema {
 
     public static String createTableDTBasic() {
         return CREATE_TABLE_IF_NOT_EXISTS + "   " + SQLiteHandler.DT_BASIC_TABLE + "  (   " +
-                "   " + SQLiteHandler.DT_BASIC_COL + "   TEXT NOT NULL,   " +
+                "   " + DT_BASIC_COL + "   TEXT NOT NULL,   " +
                 "   " + SQLiteHandler.DT_TITLE_COL + "   TEXT,   " +
                 "   " + SQLiteHandler.DT_SUB_TITLE_COL + "   TEXT,   " +
                 "   " + SQLiteHandler.DT_DESCRIPTION_COL + "   TEXT,   " +
@@ -1690,7 +1600,7 @@ public class Schema {
                 "    " + PROGRAM_CODE_COL + "    TEXT NOT NULL,  " +
                 "    " + PROG_ACTIVITY_CODE_COL + "    TEXT NOT NULL,  " +
                 "    " + SQLiteHandler.PROG_ACTIVITY_TITLE_COL + "    TEXT,  " +
-                "    " + SQLiteHandler.DT_BASIC_COL + "    TEXT NOT NULL,  " +
+                "    " + DT_BASIC_COL + "    TEXT NOT NULL,  " +
                 "    " + SQLiteHandler.REF_IDENTIFIER_COL + "    TEXT,  " +
                 "    " + SQLiteHandler.STATUS + "    TEXT,  " +
                 "    " + SQLiteHandler.RPT_FREQUENCY_COL + "    TEXT,  " +
@@ -1714,7 +1624,7 @@ public class Schema {
 
     public static String createTableDTQResMode() {
         return CREATE_TABLE_IF_NOT_EXISTS + "   " + SQLiteHandler.DTQRES_MODE_TABLE + "   (   " +
-                "      " + SQLiteHandler.QRES_MODE_COL + "      TEXT NOT NULL,   " +
+                "      " + QRES_MODE_COL + "      TEXT NOT NULL,   " +
                 "      " + SQLiteHandler.QRES_LUP_TEXT_COL + "      TEXT,   " +
                 "      " + DATA_TYPE_COL + "      TEXT,   " +
                 "      " + SQLiteHandler.LOOK_UP_UDF_NAME_COL + "      TEXT,   " +
@@ -1724,14 +1634,14 @@ public class Schema {
     }
 
     public static String createTableDTQTable() {
-        return CREATE_TABLE_IF_NOT_EXISTS + "   " + SQLiteHandler.DTQ_TABLE + "    (   " +
-                "      " + SQLiteHandler.DT_BASIC_COL + "      TEXT NOT NULL,   " +
+        return CREATE_TABLE_IF_NOT_EXISTS + "   " + DTQ_TABLE + "    (   " +
+                "      " + DT_BASIC_COL + "      TEXT NOT NULL,   " +
                 "      " + DTQ_CODE_COL + "      TEXT NOT NULL,   " +
-                "      " + SQLiteHandler.QTEXT_COL + "      TEXT,   " +
-                "      " + SQLiteHandler.QRES_MODE_COL + "      TEXT,   " +
-                "      " + SQLiteHandler.QSEQ_SCOL + "      INTEGER,   " +
-                "      " + SQLiteHandler.ALLOW_NULL_COL + "      TEXT,   " +
-                "      " + SQLiteHandler.LUP_TABLE_NAME + "      TEXT" +
+                "      " + QTEXT_COL + "      TEXT,   " +
+                "      " + QRES_MODE_COL + "      TEXT,   " +
+                "      " + QSEQ_SCOL + "      INTEGER,   " +
+                "      " + ALLOW_NULL_COL + "      TEXT,   " +
+                "      " + LUP_TABLE_NAME + "      TEXT" +
                 //",   " +
                 //    "   " + PRIMARY_KEY + "(" + SQLiteHandler.DT_BASIC_COL + " ," + SQLiteHandler.DTQ_CODE_COL + " )   " +
                 ")";
@@ -1739,7 +1649,7 @@ public class Schema {
 
     public static String createTableDTResponseTable() {
         return CREATE_TABLE_IF_NOT_EXISTS + "   " + SQLiteHandler.DT_RESPONSE_TABLE + "    (   " +
-                "      " + SQLiteHandler.DT_BASIC_COL + "      TEXT NOT NULL,   " +
+                "      " + DT_BASIC_COL + "      TEXT NOT NULL,   " +
                 "      " + COUNTRY_CODE_COL + "      TEXT NOT NULL,   " +
                 "      " + DONOR_CODE_COL + "      TEXT NOT NULL,   " +
                 "      " + AWARD_CODE_COL + "      TEXT NOT NULL,   " +
@@ -1762,7 +1672,7 @@ public class Schema {
 
     public static String createTableDTSurveyTable() {
         return CREATE_TABLE_IF_NOT_EXISTS + "   " + SQLiteHandler.DT_SURVEY_TABLE + "    (   " +
-                "      " + SQLiteHandler.DT_BASIC_COL + "      TEXT NOT NULL,   " +
+                "      " + DT_BASIC_COL + "      TEXT NOT NULL,   " +
                 "      " + COUNTRY_CODE_COL + "      TEXT NOT NULL,   " +
                 "      " + DONOR_CODE_COL + "      TEXT NOT NULL,   " +
                 "      " + AWARD_CODE_COL + "      TEXT NOT NULL,   " +
@@ -1788,7 +1698,7 @@ public class Schema {
         return CREATE_TABLE_IF_NOT_EXISTS + "   " + SQLiteHandler.DT_ENU_TABLE + "    (   " +
                 "      " + SQLiteHandler.DT_STF_CODE_COL + "      TEXT NOT NULL ,   " +
                 "      " + SQLiteHandler.DT_ADM_COUNTRY_CODE_COL + "      TEXT ,   " +
-                "      " + SQLiteHandler.DT_BASIC_COL + "      TEXT ,   " +
+                "      " + DT_BASIC_COL + "      TEXT ,   " +
                 "      " + SQLiteHandler.DT_BTN_SAVE_COL + "      TEXT ,   " +
                 "      " + SQLiteHandler.DT_ENTRY_BY_COL + "      TEXT ,   " +
                 "     " + SQLiteHandler.DT_USA_ENTRY_DATE_COL + "       TEXT   " +
@@ -1935,5 +1845,16 @@ public class Schema {
 
     }
 
+    public static String createTableDTASkipTable() {
+        return CREATE_TABLE_IF_NOT_EXISTS + DTA_SKIP_TABLE
+                + " ( "
+                + DT_BASIC_COL + " VARCHAR(8) "
+                + " , " + DTQ_CODE_COL + " VARCHAR(10) "
+                + " , " + SKIP_CODE_COL + " VARCHAR(10) "
+                + " , " + DTA_CODE_COMB_N_COL + " TEXT "
+                + " , " + DTSKIP_DTQ_CODE_COL + " VARCHAR(10) "
+                + " , " + PRIMARY_KEY + " (" + DT_BASIC_COL + ", " + DTQ_CODE_COL + ", " + SKIP_CODE_COL + " ) "
+                + " ) ";
 
+    }
 }

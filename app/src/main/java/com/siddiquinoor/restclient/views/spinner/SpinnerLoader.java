@@ -13,7 +13,7 @@ import com.siddiquinoor.restclient.manager.SQLiteHandler;
 import com.siddiquinoor.restclient.manager.sqlsyntax.SQLiteQuery;
 import com.siddiquinoor.restclient.utils.UtilClass;
 import com.siddiquinoor.restclient.views.adapters.DynamicDataIndexDataModel;
-import com.siddiquinoor.restclient.views.adapters.DynamicTableQuesDataModel;
+import com.siddiquinoor.restclient.views.adapters.DTQTableDataModel;
 import com.siddiquinoor.restclient.views.helper.SpinnerHelper;
 
 import java.util.ArrayList;
@@ -131,7 +131,7 @@ public class SpinnerLoader {
      */
     public static void loadGroupLoader(Context context, SQLiteHandler sqlH, Spinner spGroup, String cCode, String donorCode, String awardCode, String progCode, String grpCateCode, String groupCode, String strGroup) {
         int position = 0;
-        String criteria = SQLiteQuery.loadGroupLoader_sql(cCode,donorCode,awardCode,progCode,grpCateCode);
+        String criteria = SQLiteQuery.loadGroupLoader_sql(cCode, donorCode, awardCode, progCode, grpCateCode);
 
 
         List<SpinnerHelper> listAward = sqlH.getListAndID(SQLiteHandler.CUSTOM_QUERY, criteria, null, false);
@@ -292,7 +292,7 @@ public class SpinnerLoader {
      * @param strSpinner spinner T7ext
      * @param mDTQ       Dynamic Table Question
      */
-    public static void loadDynamicSpinnerListLoader(Context context, SQLiteHandler sqlH, Spinner dt_spinner, String cCode, String resLupText, String strSpinner, DynamicTableQuesDataModel mDTQ, DynamicDataIndexDataModel dyBasic) {
+    public static void loadDynamicSpinnerListLoader(Context context, SQLiteHandler sqlH, Spinner dt_spinner, String cCode, String resLupText, String strSpinner, DTQTableDataModel mDTQ, DynamicDataIndexDataModel dyBasic) {
 
         int position = 0;
         List<SpinnerHelper> list = new ArrayList<SpinnerHelper>();
@@ -584,7 +584,7 @@ public class SpinnerLoader {
      * @param spVillage  spinner view.
      * @param idVillage  layR4Code Code
      * @param strVillage layR4Code Name
-     * @param sql        sql qurey
+     * @param sql        sql query
      */
     public static void loadLayR4ListLoader(Context context, SQLiteHandler sqlH, Spinner spVillage, String idVillage, String strVillage, String sql) {
         int position = 0;
@@ -608,25 +608,93 @@ public class SpinnerLoader {
 
     }
 
+    /**
+     * this is dedicated layer 4 list loader . only used in Registration
+     *
+     * @param context    refer to the activity which will invoke this method.
+     * @param sqlH       database reference.
+     * @param spVillage  spinner view.
+     * @param idVillage  layR4Code Code
+     * @param strVillage layR4Code Name
+     * @param cCode      country Code
+     * @param idDist     layR1 code
+     * @param idUP       layR2 code
+     * @param idUnion    layR3 code
+     */
+    public static void loadLayR4ListLoader(Context context, SQLiteHandler sqlH, Spinner spVillage, String idVillage, String strVillage, String cCode, String idDist, String idUP, String idUnion) {
+        int position = 0;
+
+        // joining query for test purpose .
+//        String criteria = SQLiteQuery.getVillageJoinQuery(cCode, idDist, idUP, idUnion);
+
+        List<SpinnerHelper> listVillage = sqlH.getListAndID(SQLiteHandler.VILLAGE_TABLE, SQLiteQuery.getVillageJoinQuery(cCode, idDist, idUP, idUnion), cCode, false);
+        ArrayAdapter<SpinnerHelper> dataAdapter = new ArrayAdapter<SpinnerHelper>(context, R.layout.spinner_layout, listVillage);
+
+        dataAdapter.setDropDownViewResource(R.layout.spinner_layout);
+
+        spVillage.setAdapter(dataAdapter);
+
+        if (idVillage != null) {
+            for (int i = 0; i < spVillage.getCount(); i++) {
+                String village = spVillage.getItemAtPosition(i).toString();
+                if (village.equals(strVillage)) {
+                    position = i;
+                }
+            }
+            spVillage.setSelection(position);
+        }
+    }
+
+    /**
+     * @param context  refer to the activity which will invoke this method.
+     * @param sqlH     database reference.
+     * @param spUnion  spinner view.
+     * @param idUnion  layR4Code Code
+     * @param strUnion layR4Code Name
+     * @param cCode
+     * @param idDist
+     * @param idUP
+     */
+    public static void loadLayR3ListLoader(Context context, SQLiteHandler sqlH, Spinner spUnion, String idUnion, String strUnion, String cCode, String idDist, String idUP) {
+        int position = 0;
+
+
+        String criteria = SQLiteQuery.getUnionJoinQuery(cCode, idDist, idUP);
+
+        List<SpinnerHelper> listUnion = sqlH.getListAndID(SQLiteHandler.UNIT_TABLE, criteria, cCode, false);
+
+        ArrayAdapter<SpinnerHelper> dataAdapter = new ArrayAdapter<SpinnerHelper>(context, R.layout.spinner_layout, listUnion);
+
+        dataAdapter.setDropDownViewResource(R.layout.spinner_layout);
+
+        spUnion.setAdapter(dataAdapter);
+
+
+        if (idUnion != null) {
+            for (int i = 0; i < spUnion.getCount(); i++) {
+                String union = spUnion.getItemAtPosition(i).toString();
+                if (union.equals(strUnion)) {
+                    position = i;
+                }
+            }
+            spUnion.setSelection(position);
+        }
+    }
+
+    /**
+     * used  in {@link com.siddiquinoor.restclient.activity.GroupSearchPage#loadProgram(String)}
+     * This method  load the program name to the spinner
+     *
+     * @param context     refer to the activity which will invoke this method.
+     * @param sqlH        database reference.
+     * @param spProgram   spinner view.
+     * @param idProgCode  program Code
+     * @param strProgName Program Name
+     * @param sql         sql Query
+     */
+
     public static void loadProgramLoader(Context context, SQLiteHandler sqlH, Spinner spProgram, String idProgCode, String strProgName, String sql) {
         int position = 0;
-/*        String criteria = "SELECT " +
-                SQLiteHandler.ADM_PROGRAM_MASTER_TABLE + "." + SQLiteHandler.DONOR_CODE_COL + " || '' || "
-                + SQLiteHandler.ADM_PROGRAM_MASTER_TABLE + "." + SQLiteHandler.AWARD_CODE_COL + " || '' || "
-                + SQLiteHandler.ADM_PROGRAM_MASTER_TABLE + "." + SQLiteHandler.PROGRAM_CODE_COL + " AS criteriaId" + " , " +
-                SQLiteHandler.ADM_PROGRAM_MASTER_TABLE + "." + SQLiteHandler.PROGRAM_SHORT_NAME_COL + " AS Criteria" +
-                " FROM " + SQLiteHandler.ADM_PROGRAM_MASTER_TABLE
-
-                + " INNER JOIN " + SQLiteHandler.COUNTRY_PROGRAM_TABLE
-                + " ON " + SQLiteHandler.ADM_PROGRAM_MASTER_TABLE + "." + SQLiteHandler.DONOR_CODE_COL + " = " + SQLiteHandler.COUNTRY_PROGRAM_TABLE + "." + SQLiteHandler.DONOR_CODE_COL
-                + " AND " + SQLiteHandler.ADM_PROGRAM_MASTER_TABLE + "." + SQLiteHandler.AWARD_CODE_COL + " = " + SQLiteHandler.COUNTRY_PROGRAM_TABLE + "." + SQLiteHandler.AWARD_CODE_COL
-                + " AND " + SQLiteHandler.ADM_PROGRAM_MASTER_TABLE + "." + SQLiteHandler.PROGRAM_CODE_COL + " =  " + SQLiteHandler.COUNTRY_PROGRAM_TABLE + "." + SQLiteHandler.PROGRAM_CODE_COL
-
-                + " WHERE " + SQLiteHandler.COUNTRY_PROGRAM_TABLE + "." + SQLiteHandler.COUNTRY_CODE_COL + " = '" + cCode + "' "
-
-                + " GROUP BY " + SQLiteHandler.ADM_PROGRAM_MASTER_TABLE + "." + SQLiteHandler.PROGRAM_SHORT_NAME_COL
-                + " ORDER BY Criteria ";*/
-
 
 
         List<SpinnerHelper> listCriteria = sqlH.getListAndID(SQLiteHandler.CUSTOM_QUERY, sql, null, false);

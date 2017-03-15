@@ -53,7 +53,7 @@ import com.siddiquinoor.restclient.views.adapters.CommunityGroupDataModel;
 import com.siddiquinoor.restclient.views.adapters.DistributionGridDataModel;
 import com.siddiquinoor.restclient.views.adapters.DistributionSaveDataModel;
 import com.siddiquinoor.restclient.views.adapters.DynamicDataIndexDataModel;
-import com.siddiquinoor.restclient.views.adapters.DynamicTableQuesDataModel;
+import com.siddiquinoor.restclient.views.adapters.DTQTableDataModel;
 import com.siddiquinoor.restclient.views.adapters.GPSLocationLatLong;
 import com.siddiquinoor.restclient.views.adapters.GraduationGridDataModel;
 import com.siddiquinoor.restclient.views.adapters.ListDataModel;
@@ -90,7 +90,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
     // All Static variables
 
     // Database Version
-    private static final int DATABASE_VERSION = 13;
+    private static final int DATABASE_VERSION = 14;
     // Database Name
     private static final String DATABASE_NAME = "pci";
     // Android meta data table
@@ -198,6 +198,8 @@ public class SQLiteHandler extends SQLiteOpenHelper {
     public static final String LAST_SYNC_TYRACE_TABLE = "LastSyncTrace";
     public static final String REG_N_FFA_TABLE = "RegN_FFA";
     public static final String REG_N_WE_TABLE = "RegN_WE";
+    public static final String DTA_SKIP_TABLE = "DTASkipTable";
+
     public static final String DIST_N_PLAN_BASIC_TABLE = "DistNPlanBasic";
     public static final String LUP_REGN_ADDRESS_LOOKUP_TABLE = "LUP_RegNAddLookup";
     public static final String COMMUNITY_GRP_DETAIL_TABLE = "CommunityGrpDetail";
@@ -228,6 +230,8 @@ public class SQLiteHandler extends SQLiteOpenHelper {
     public static final String DTQ_TEXT_COL = "DTQText";
     public static final String DTA_CODE_COL = "DTACode";
     public static final String DTA_LABEL_COL = "DTALabel";
+    public static final String SKIP_CODE_COL = "SkipCode";
+    public static final String DTA_CODE_COMB_N_COL = "DTACodeCombN";
 
     public static final String DT_SURVEY_NUM = "DTSurveyNumber";
 
@@ -1040,7 +1044,9 @@ public class SQLiteHandler extends SQLiteOpenHelper {
         db.execSQL(Schema.createDTEnuTable());
         db.execSQL(Schema.createTableDTTableDefinition());
         db.execSQL(Schema.createTaleDTTableListCategory());
-        db.execSQL(Schema.createTaleDT_LUP_Table());        /** * temporary  table */
+        db.execSQL(Schema.createTaleDT_LUP_Table());
+        db.execSQL(Schema.createTableDTASkipTable());
+        /** * temporary  table */
         db.execSQL(Schema.sqlCreateTemporary_CountryProgram());
         db.execSQL(Schema.sqlCreateTemporary_OpMonthTable());
         db.execSQL(Schema.sqlCreateSelectedVillage_Table());
@@ -1155,6 +1161,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
             db.execSQL(DROP_TABLE_IF_EXISTS + DTTABLE_LIST_CATEGORY_TABLE);
             db.execSQL(DROP_TABLE_IF_EXISTS + DT_ENU_TABLE);
             db.execSQL(DROP_TABLE_IF_EXISTS + DT_LUP_TABLE);
+            db.execSQL(DROP_TABLE_IF_EXISTS + DTA_SKIP_TABLE);
             db.execSQL(DROP_TABLE_IF_EXISTS + TEMPORARY_COUNTRY_PROGRAM_TABLE);
             db.execSQL(DROP_TABLE_IF_EXISTS + TEMPORARY_OP_MONTH_TABLE);
             db.execSQL(DROP_TABLE_IF_EXISTS + SELECTED_COUNTRY_TABLE);
@@ -5428,13 +5435,21 @@ public class SQLiteHandler extends SQLiteOpenHelper {
         return false;
     }
 
-    public DynamicTableQuesDataModel getSingleDynamicQuestion(String dtBasicCode, int index) {
-        DynamicTableQuesDataModel singleQus = new DynamicTableQuesDataModel();
+    /**
+     * this method get single  question  of Dynamic table  with respect to Dt Basic Code and
+     * sequence index (ascending order ) one by one .
+     *
+     * @param dtBasicCode Dynamic basic Code
+     * @param index       question index
+     * @return {@link DTQTableDataModel }
+     */
+    public DTQTableDataModel getSingleDynamicQuestion(String dtBasicCode, int index) {
+        DTQTableDataModel singleQus = new DTQTableDataModel();
 
         SQLiteDatabase db = this.getReadableDatabase();
-        String sql = "SELECT * FROM " + DTQ_TABLE +
-                " WHERE " + DT_BASIC_COL + "= '" + dtBasicCode + "'" +
-                " LIMIT 1 OFFSET " + String.valueOf(index);
+
+        // this query didn't maintain the sequence
+        String sql = SQLiteQuery.getSingleDynamicQuestion_sql(dtBasicCode, index);
 
 
         Cursor cursor = db.rawQuery(sql, null);
@@ -5453,6 +5468,33 @@ public class SQLiteHandler extends SQLiteOpenHelper {
         }
         return singleQus;
     }
+
+    public DTQTableDataModel getSingleDynamicQuestion(String dtBasicCode, String dtqCode) {
+        DTQTableDataModel singleQus = new DTQTableDataModel();
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        String sql = "SELECT * FROM " + DTQ_TABLE +
+                " WHERE " + DT_BASIC_COL + "= '" + dtBasicCode + "'" +
+                " AND " + DTQ_CODE_COL + "= '" + dtqCode + "'";
+
+
+        Cursor cursor = db.rawQuery(sql, null);
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+                singleQus.setDtBasicCode(cursor.getString(0));
+                singleQus.setDtQCode(cursor.getString(1));
+                singleQus.setqText(cursor.getString(2));
+                singleQus.setqResModeCode(cursor.getString(3));
+                singleQus.setqSeq(cursor.getString(4));
+                singleQus.setAllowNullFlag(cursor.getString(5));
+                singleQus.setLup_TableName(cursor.getString(6));
+            }
+            cursor.close();
+            db.close();
+        }
+        return singleQus;
+    }
+
 
     /**
      * invoking
@@ -5493,7 +5535,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
 
     /**
      * <p>The DTA Table store the Default Value of All Dynamic View's default value </p>
-     * invoke in {@link DTResponseRecordingActivity#displayQuestion(DynamicTableQuesDataModel)}
+     * invoke in {@link DTResponseRecordingActivity#displayQuestion(DTQTableDataModel)}
      *
      * @param dtBasic Basic Code
      * @param dtQCode Question Code
@@ -5555,8 +5597,8 @@ public class SQLiteHandler extends SQLiteOpenHelper {
 
     }
 
-    public ArrayList<DynamicTableQuesDataModel> getDynamicQuestionList(String dtBasicCode) {
-        ArrayList<DynamicTableQuesDataModel> list = new ArrayList<DynamicTableQuesDataModel>();
+    public ArrayList<DTQTableDataModel> getDynamicQuestionList(String dtBasicCode) {
+        ArrayList<DTQTableDataModel> list = new ArrayList<DTQTableDataModel>();
         SQLiteDatabase db = this.getReadableDatabase();
         String sql = "SELECT * FROM " + DTQ_TABLE +
                 " WHERE " + DT_BASIC_COL + "= '" + dtBasicCode + "'";
@@ -5564,7 +5606,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
 
         if (cursor.moveToFirst()) {
             do {
-                DynamicTableQuesDataModel data = new DynamicTableQuesDataModel();
+                DTQTableDataModel data = new DTQTableDataModel();
 
                 data.setDtBasicCode(cursor.getString(0));
                 data.setDtQCode(cursor.getString(1));
@@ -8898,7 +8940,8 @@ public class SQLiteHandler extends SQLiteOpenHelper {
 
     /**
      * this method invoke in {@link GPSLocationSearchPage#loadLocation(String, String)}
-     * @param cCode country Code
+     *
+     * @param cCode         country Code
      * @param searchLocName Searching loaction Name
      * @return list of location
      */
@@ -8912,7 +8955,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
 
         if (cursor.moveToFirst()) {
             do {
-                    // what the fuck . totally short cut.
+                // what the fuck . totally short cut.
                 list.add(new LocationHelper(position, cursor.getString(0), cursor.getString(1), cursor.getString(2), cursor.getString(3)));
 
                 position++;
@@ -11753,6 +11796,21 @@ public class SQLiteHandler extends SQLiteOpenHelper {
         db.close();
     }
 
+    public void addIntoDTASkipTable(String dtBasicCode, String dtQCode, String skipCode, String dtaCodeComB, String dtSkipDTQCode) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+
+        values.put(DT_BASIC_COL, dtBasicCode);
+        values.put(DTQ_CODE_COL, dtQCode);
+        values.put(SKIP_CODE_COL, skipCode);
+        values.put(DTA_CODE_COMB_N_COL, dtaCodeComB);
+        values.put(DTSKIP_DTQ_CODE_COL, dtSkipDTQCode);
+
+
+        db.insert(DTA_SKIP_TABLE, null, values);
+        db.close();
+    }
+
     public void addIntoDTQResMode(String qResMode, String qResLupText, String dataType, String lookUpUDFName, String responseValueControl) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -12139,13 +12197,119 @@ public class SQLiteHandler extends SQLiteOpenHelper {
         return dtResponse;
     }
 
+    // todo: generic it
+    public DTResponseTableDataModel getRadioDTResponseTableData(String dtBasic, String countryCode, String donorCode, String awardCode, String programCode,
+                                                                String dtEnuId, String dtqCode, int dtrSeq) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        DTResponseTableDataModel dtResponse = null;
+        String sql = "SELECT * FROM " + DT_RESPONSE_TABLE + "" +
+
+                " WHERE " + DT_BASIC_COL + " = '" + dtBasic + "' " +
+                " AND " + COUNTRY_CODE_COL + " = '" + countryCode + "' " +
+                " AND " + DONOR_CODE_COL + " = '" + donorCode + "' " +
+                " AND " + AWARD_CODE_COL + " = '" + awardCode + "' " +
+                " AND " + PROGRAM_CODE_COL + " = '" + programCode + "' " +
+                " AND " + DT_ENU_ID_COL + " = '" + dtEnuId + "' " +
+                " AND " + DTQ_CODE_COL + " = '" + dtqCode + "' " +
+                " AND " + DT_R_SEQ_COL + " = " + dtrSeq;
+        Cursor cursor = db.rawQuery(sql, null);
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+
+                dtResponse = new DTResponseTableDataModel();
+                dtResponse.setDtaCode(cursor.getString(cursor.getColumnIndex(DTA_CODE_COL)));
+                dtResponse.setDtaValue(cursor.getString(9));
+                dtResponse.setDtBasic(cursor.getString(cursor.getColumnIndex(DT_BASIC_COL)));
+                dtResponse.setDtqCode(cursor.getString(cursor.getColumnIndex(DTQ_CODE_COL)));
+                dtResponse.setDtaCode(cursor.getString(cursor.getColumnIndex(DTA_CODE_COL)));
+
+
+
+            }
+            cursor.close();
+            db.close();
+        }
+        return dtResponse;
+    }
+
+    public List<DTResponseTableDataModel> getCheckBoxesDTResponseTableData(String dtBasic, String countryCode, String donorCode, String awardCode, String programCode,
+                                                                           String dtEnuId, String dtqCode, int dtrSeq) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        List<DTResponseTableDataModel> list = new ArrayList<DTResponseTableDataModel>();
+
+        String sql = "SELECT "+
+                "  dtRes." + DTA_CODE_COL +
+                " , dtRes." + DTA_VALUE_COL +
+                " , dtRes." + DT_BASIC_COL +
+                " , dtRes." + DTQ_CODE_COL +
+
+                " , dtan." + DTA_LABEL_COL +
+                " FROM " + DT_RESPONSE_TABLE + " AS dtRes " +
+
+                " left join "+DT_A_TABLE +" AS dtan ON "+
+                " dtRes."+DT_BASIC_COL+" =  dtan."+DT_BASIC_COL+
+                " AND  dtRes."+DTQ_CODE_COL+" =  dtan."+DTQ_CODE_COL+
+                " AND  dtRes."+DTA_CODE_COL+" =  dtan."+DTA_CODE_COL+
+                " AND  dtRes."+DTA_VALUE_COL+" =  dtan."+DTA_VALUE_COL+
+
+                " WHERE dtRes." + DT_BASIC_COL + " = '" + dtBasic + "' " +
+                " AND dtRes." + COUNTRY_CODE_COL + " = '" + countryCode + "' " +
+                " AND dtRes." + DONOR_CODE_COL + " = '" + donorCode + "' " +
+                " AND dtRes." + AWARD_CODE_COL + " = '" + awardCode + "' " +
+                " AND dtRes." + PROGRAM_CODE_COL + " = '" + programCode + "' " +
+                " AND dtRes." + DT_ENU_ID_COL + " = '" + dtEnuId + "' " +
+                " AND dtRes." + DTQ_CODE_COL + " = '" + dtqCode + "' " +
+                " AND dtRes." + DT_R_SEQ_COL + " = " + dtrSeq;
+        Cursor cursor = db.rawQuery(sql, null);
+        if (cursor != null && cursor.moveToFirst()) {
+            do {
+
+                DTResponseTableDataModel dtResponse = new DTResponseTableDataModel();
+                dtResponse.setDtaCode(cursor.getString(cursor.getColumnIndex(DTA_CODE_COL)));
+
+                dtResponse.setDtaValue(cursor.getString(cursor.getColumnIndex(DTA_VALUE_COL)));
+                dtResponse.setDtBasic(cursor.getString(cursor.getColumnIndex(DT_BASIC_COL)));
+                dtResponse.setDtqCode(cursor.getString(cursor.getColumnIndex(DTQ_CODE_COL)));
+                dtResponse.setDtaCode(cursor.getString(cursor.getColumnIndex(DTA_CODE_COL)));
+                dtResponse.setDtALabel(cursor.getString(cursor.getColumnIndex(DTA_LABEL_COL)));
+
+
+                list.add(dtResponse);
+
+            }while (cursor.moveToNext());
+            cursor.close();
+            db.close();
+        }
+        return list;
+    }
+
+    public String getDTSkipDTQCde(String dtBasicCode, String dtQCode, String dtaCodeComB) {
+        String dtSkipDTQCode = "";
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        String sql = "SELECT " + DTSKIP_DTQ_CODE_COL + " FROM " + DTA_SKIP_TABLE + "" +
+
+                " WHERE " + DT_BASIC_COL + " = '" + dtBasicCode + "' " +
+                " AND " + DTQ_CODE_COL + " = '" + dtQCode + "' " +
+                " AND " + DTA_CODE_COMB_N_COL + " = '" + dtaCodeComB + "' ";
+
+        Cursor cursor = db.rawQuery(sql, null);
+        if (cursor != null && cursor.moveToFirst()) {
+            dtSkipDTQCode = cursor.getString(cursor.getColumnIndex(DTSKIP_DTQ_CODE_COL));
+
+            cursor.close();
+        }
+
+        db.close();
+        return dtSkipDTQCode;
+    }
+
 
     public ArrayList<DTSurveyTableDataModel> dtSurveyTableDataModels(int surveyNum, String dtBasic, String cCode, String donorCode, String awardCode, String prgCode, String entryBy) {
         SQLiteDatabase db = this.getReadableDatabase();
         ArrayList<DTSurveyTableDataModel> dtSurveyTableDataModels = new ArrayList<>();
-        String sql = "SELECT * FROM " + DT_SURVEY_TABLE +
-                " WHERE " + DT_SURVEY_NUM + " = " + surveyNum +
-                " AND " + DT_BASIC_COL + " = '" + dtBasic + "' ";
+        String sql = SQLiteQuery.dtSurveyTableDataModels_sql(surveyNum, dtBasic);
+        ;
         Cursor cursor = db.rawQuery(sql, null);
         if (cursor != null) {
             if (cursor.moveToFirst()) {
@@ -12169,6 +12333,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
                     dtSurveyTableDataModel.setDataType(cursor.getString(cursor.getColumnIndex(DATA_TYPE_COL)));
                     dtSurveyTableDataModel.setDtqText(cursor.getString(cursor.getColumnIndex(DTQ_TEXT_COL)));
                     dtSurveyTableDataModel.setDtSurveyNumber(cursor.getInt(cursor.getColumnIndex(DT_SURVEY_NUM)));
+                    dtSurveyTableDataModel.setDtALabel(cursor.getString(cursor.getColumnIndex(DTA_LABEL_COL)));
                     dtSurveyTableDataModels.add(dtSurveyTableDataModel);
                     count++;
                 } while (cursor.moveToNext());

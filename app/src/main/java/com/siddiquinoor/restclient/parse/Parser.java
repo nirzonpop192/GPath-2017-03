@@ -15,7 +15,7 @@ import java.util.ArrayList;
  * Created by Faisal on 7/16/2016.
  * this Class parse Json Deserialization  the Json data
  */
-public class Parser  extends Parse{
+public class Parser extends Parse {
 
     /**
      * Json column values constant
@@ -324,9 +324,6 @@ public class Parser  extends Parse{
 
 
     private static final String TAG = Parser.class.getSimpleName();
-
-
-
 
 
     /**
@@ -1750,6 +1747,36 @@ public class Parser  extends Parse{
 
     }
 
+    public static void DTA_Skip_TableParser(JSONArray jsonArrayData, SQLiteHandler sqlH) {
+
+
+        String DTBasic, DTQCode, SkipCode, DTACodeCombN, DTSkipDTQCode;
+
+
+        int size = jsonArrayData.length();
+        for (int i = 0; i < size; i++) {
+            try {
+
+                JSONObject jsonObject = jsonArrayData.getJSONObject(i);
+
+                DTBasic = jsonObject.getString("DTBasic");
+                DTQCode = jsonObject.getString("DTQCode");
+                SkipCode = jsonObject.getString("SkipCode");
+                DTACodeCombN = jsonObject.getString("DTACodeCombN");
+                DTSkipDTQCode = jsonObject.getString("DTSkipDTQCode");
+
+
+                sqlH.addIntoDTASkipTable(DTBasic, DTQCode, SkipCode, DTACodeCombN,DTSkipDTQCode);
+
+            } catch (Exception e) {
+                Log.e(TAG, "Exception : " + e);
+                e.printStackTrace();
+            }
+
+
+        }
+
+    }
 
     public static void CommunityGroupParser(JSONArray jsonArrayData, SQLiteHandler sqlH) {
 

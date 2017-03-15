@@ -25,6 +25,15 @@ public class DTSurveyTableDataModel implements Parcelable {
     private String dataType;
     private String dtqText;
     private int dtSurveyNumber;
+    private String dtALabel;
+
+    public String getDtALabel() {
+        return dtALabel;
+    }
+
+    public void setDtALabel(String dtALabel) {
+        this.dtALabel = dtALabel;
+    }
 
     public DTSurveyTableDataModel() {
     }
@@ -47,6 +56,7 @@ public class DTSurveyTableDataModel implements Parcelable {
         dataType = in.readString();
         dtqText = in.readString();
         dtSurveyNumber = in.readInt();
+        dtALabel = in.readString();
     }
 
     public static final Creator<DTSurveyTableDataModel> CREATOR = new Creator<DTSurveyTableDataModel>() {
@@ -221,5 +231,6 @@ public class DTSurveyTableDataModel implements Parcelable {
         dest.writeString(dataType);
         dest.writeString(dtqText);
         dest.writeInt(dtSurveyNumber);
+        dest.writeString(dtALabel);
     }
 }

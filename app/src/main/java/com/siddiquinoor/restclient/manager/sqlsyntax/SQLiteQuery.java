@@ -3856,40 +3856,40 @@ public class SQLiteQuery {
 
 
             case COMMUNITY_GROUP:
-                udf = loadCommunityGroup( " WHERE " + "commGrp." + COUNTRY_CODE_COL + "='" + cCode + "'") ;
+                udf = loadCommunityGroup(" WHERE " + "commGrp." + COUNTRY_CODE_COL + "='" + cCode + "'");
 
                 break;
 
 
             case COMMUNITY_GROUP_PG:
-                udf = loadCommunityGroup(  " WHERE " + "commGrp." + COUNTRY_CODE_COL + "='" + cCode + "'"
+                udf = loadCommunityGroup(" WHERE " + "commGrp." + COUNTRY_CODE_COL + "='" + cCode + "'"
                         + " AND  " + "commGrp." + GROUP_CAT_CODE_COL + "= '001' " // Producer group= 001
                         + " AND  " + "commGrp." + PROGRAM_CODE_COL + "= '003' " // agr= 001
                 );
                 break;
             case COMMUNITY_GROUP_IG:
-                udf = loadCommunityGroup(  " WHERE " + "commGrp." + COUNTRY_CODE_COL + "='" + cCode + "'"
+                udf = loadCommunityGroup(" WHERE " + "commGrp." + COUNTRY_CODE_COL + "='" + cCode + "'"
                         + " AND  " + "commGrp." + GROUP_CAT_CODE_COL + "= '003' " // Irrigation Group= 003
                         + " AND  " + "commGrp." + PROGRAM_CODE_COL + "= '003' " // agr= 001
                 );
                 break;
 
             case COMMUNITY_GROUP_MG:
-                udf = loadCommunityGroup(  " WHERE " + "commGrp." + COUNTRY_CODE_COL + "='" + cCode + "'"
+                udf = loadCommunityGroup(" WHERE " + "commGrp." + COUNTRY_CODE_COL + "='" + cCode + "'"
                         + " AND  " + "commGrp." + GROUP_CAT_CODE_COL + "= '002' " // Marketing Group= 002
                         + " AND  " + "commGrp." + PROGRAM_CODE_COL + "= '003' " // agr= 001
                 );
                 break;
 
             case COMMUNITY_GROUP_WE:
-                udf = loadCommunityGroup(  " WHERE " + "commGrp." + COUNTRY_CODE_COL + "='" + cCode + "'"
+                udf = loadCommunityGroup(" WHERE " + "commGrp." + COUNTRY_CODE_COL + "='" + cCode + "'"
                         + " AND  " + "commGrp." + GROUP_CAT_CODE_COL + "= '004' " // WeVSL= 004
                         + " AND  " + "commGrp." + PROGRAM_CODE_COL + "= '003' " // agr= 001
                 );
                 break;
 
             case COMMUNITY_GROUP_LG:
-                udf = loadCommunityGroup(  " WHERE " + "commGrp." + COUNTRY_CODE_COL + "='" + cCode + "'"
+                udf = loadCommunityGroup(" WHERE " + "commGrp." + COUNTRY_CODE_COL + "='" + cCode + "'"
                         + " AND  " + "commGrp." + GROUP_CAT_CODE_COL + "= '005' " // Livestock Group= 005
                         + " AND  " + "commGrp." + PROGRAM_CODE_COL + "= '003' " // agr= 001
                 );
@@ -3947,7 +3947,7 @@ public class SQLiteQuery {
                 + " AND admProg." + PROGRAM_CODE_COL + " = commGrp." + PROGRAM_CODE_COL
 
                 // where condition would be dy namic
-           //     + " WHERE " + "commGrp." + COUNTRY_CODE_COL + "='" + cCode + "'"
+                //     + " WHERE " + "commGrp." + COUNTRY_CODE_COL + "='" + cCode + "'"
                 + whereCondition
                 + " GROUP BY commGrp." + DONOR_CODE_COL
                 + " , commGrp." + AWARD_CODE_COL
@@ -4248,5 +4248,48 @@ public class SQLiteQuery {
                 + " AND " + GPS_LOCATION_TABLE + "." + LOCATION_NAME_COL + " LIKE '%" + searchLocName + "%' "
                 + " ORDER BY " + GPS_LOCATION_TABLE + "." + LOCATION_NAME_COL + " ASC ";
     }
+
+    public static String getSingleDynamicQuestion_sql(String dtBasicCode, int index) {
+        // this query didn't maintain the sequence
+       /*  "SELECT * FROM " + DTQ_TABLE +
+                " WHERE " + DT_BASIC_COL + "= '" + dtBasicCode + "'" +
+                " LIMIT 1 OFFSET " + String.valueOf(index);*/
+
+        return "SELECT * FROM " + DTQ_TABLE +
+                " WHERE " + DT_BASIC_COL + "= '" + dtBasicCode + "'" +
+                " AND " + QSEQ_SCOL + "= " + index ;/*+
+                " LIMIT 1 OFFSET " + String.valueOf(index);*/
+
+    }
+    public static String dtSurveyTableDataModels_sql(int surveyNum, String dtBasic){
+        return "SELECT dtSrv." + DT_BASIC_COL +
+                " , dtSrv." + COUNTRY_CODE_COL +
+                " , dtSrv." + DONOR_CODE_COL +
+                " , dtSrv." + AWARD_CODE_COL +
+                " , dtSrv." + PROGRAM_CODE_COL +
+                " , dtSrv." + DT_ENU_ID_COL +
+                " , dtSrv." + DTQ_CODE_COL +
+                " , dtSrv." + DTA_CODE_COL +
+                " , dtSrv." + DT_R_SEQ_COL +
+                " , dtSrv." + DTA_VALUE_COL +
+                " , dtSrv." + PROG_ACTIVITY_CODE_COL +
+                " , dtSrv." + DTTIME_STRING_COL +
+                " , dtSrv." + OP_MODE_COL +
+                " , dtSrv." + OP_MONTH_CODE_COL +
+                " , dtSrv." + DATA_TYPE_COL +
+                " , dtSrv." + DTQ_TEXT_COL +
+                " , dtSrv." + DT_SURVEY_NUM +
+                " , dtan." + DTA_LABEL_COL +
+                " FROM " + DT_SURVEY_TABLE + " AS dtSrv " +
+                " left join "+DT_A_TABLE +" AS dtan ON "+
+                " dtSrv."+DT_BASIC_COL+" =  dtan."+DT_BASIC_COL+
+                " AND  dtSrv."+DTQ_CODE_COL+" =  dtan."+DTQ_CODE_COL+
+                " AND  dtSrv."+DTA_CODE_COL+" =  dtan."+DTA_CODE_COL+
+                " AND  dtSrv."+DTA_VALUE_COL+" =  dtan."+DTA_VALUE_COL+
+
+                " WHERE dtSrv." + DT_SURVEY_NUM + " = " + surveyNum +
+                " AND dtSrv." + DT_BASIC_COL + " = '" + dtBasic + "' ";
+    }
+
 
 }//end of class

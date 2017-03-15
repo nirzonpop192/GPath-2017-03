@@ -44,6 +44,7 @@ import com.siddiquinoor.restclient.utils.KEY;
 import com.siddiquinoor.restclient.utils.UtilClass;
 import com.siddiquinoor.restclient.views.helper.SpinnerHelper;
 import com.siddiquinoor.restclient.views.notifications.ADNotificationManager;
+import com.siddiquinoor.restclient.views.spinner.SpinnerLoader;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -53,7 +54,7 @@ import java.util.List;
 import java.util.Locale;
 
 
-public class Register extends BaseActivity  {
+public class Register extends BaseActivity {
 
     private static final String TAG = Register.class.getSimpleName();
 
@@ -160,7 +161,6 @@ public class Register extends BaseActivity  {
         viewReference();
 
 
-
         // Getting GPS data
         // check if GPS enabled
         if (gps.canGetLocation()) {
@@ -170,7 +170,7 @@ public class Register extends BaseActivity  {
             txtLongitude.setText(String.valueOf(longitude));
 
             // \n is for new line
-            //Toast.makeText(getApplicationContext(), "Your Location is - \nLat: " + latitude + "\nLong: " + longitude, Toast.LENGTH_LONG).show();
+
         } else {
             // can't get location
             // GPS or Network is not enabled
@@ -231,7 +231,7 @@ public class Register extends BaseActivity  {
             loadLayR1List(idCountry);
             loadLayR2List(idCountry);
             loadLayR3List(idCountry);
-            loadLayR4List(idCountry);
+            loadLayR4List(idCountry, idDist, idUP, idUnion);
 
 
             chkBxHhCat1.setChecked(sqlH.getHouseHoldRegistrationIsChecked(SQLiteHandler.LTP_2_HECTRES_COL, idCountry, idDist, idUP, idUnion, idVill, intnt.getStringExtra(KEY.REG_ID)));
@@ -263,7 +263,7 @@ public class Register extends BaseActivity  {
         btnSaveData.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(mContext, idAddress + "", Toast.LENGTH_SHORT).show();
+
                 if (idDist.equals("00"))
                     dialog.showErrorDialog(mContext, "Select " + tv_LayR1Label.getText());
                 else if (idUP.equals("00"))
@@ -273,11 +273,9 @@ public class Register extends BaseActivity  {
                 else if (idVill.equals("00"))
                     dialog.showErrorDialog(mContext, "Select " + tv_LayR4Label.getText());
 
-                else if (idAddress.equals("00")){
-                    dialog.showErrorDialog(mContext,"Select Address please");
-                }
-
-                else {
+                else if (idAddress.equals("00")) {
+                    dialog.showErrorDialog(mContext, "Select Address please");
+                } else {
                     saveData();
                 }
 
@@ -331,9 +329,6 @@ public class Register extends BaseActivity  {
     }
 
 
-
-
-
     private void viewReference() {
         // spCountry = (Spinner) findViewById(R.id.spCountry);
         spDistrict = (Spinner) findViewById(R.id.spDistrict);
@@ -369,7 +364,6 @@ public class Register extends BaseActivity  {
         chkBxHhCat6 = (CheckBox) findViewById(R.id.cb_hh_type_6);
 
 
-
     }
 
     private void setLayRLable() {
@@ -388,7 +382,6 @@ public class Register extends BaseActivity  {
         loadLayR1List(idCountry);
         setLayRLable();
     }
-
 
 
     private void gotoTheMemberRegistrationPage() {
@@ -444,7 +437,7 @@ public class Register extends BaseActivity  {
         regId.setText(next_id);
 
         btnAddMember.setEnabled(false);
-      //  btnAddMember.setTextColor(getResources().getColor(R.color.input_label_hint));
+        //  btnAddMember.setTextColor(getResources().getColor(R.color.input_label_hint));
 
 
         chkBxHhCat1.setChecked(false);
@@ -579,13 +572,6 @@ public class Register extends BaseActivity  {
             }
 
 
-                                 /*   finish();
-                                    String tem=idCountry+idDist+idUP+idUnion+idVill;
-                                    Intent vIntent = new Intent(Register.this, MW_RegisterViewRecord.class);
-                                    vIntent.putExtra("village_code", tem);
-                                    vIntent.putExtra("village", strVillage);
-
-                                    startActivity(vIntent);*/
         }
         //Insert postion
         else    // Add data
@@ -609,9 +595,7 @@ public class Register extends BaseActivity  {
             else if (regDate.equals("")) {
                 //    invalid = true;
                 Toast.makeText(getApplicationContext(), "Select a Date", Toast.LENGTH_SHORT).show();
-            }
-
-            else if (HHSize.equals("")) {
+            } else if (HHSize.equals("")) {
                 dialog.showErrorDialog(mContext, " Invalid HH Size. Save attempt denied.");
             } else if (spGender.equals("")) {
                 //   invalid = true;
@@ -690,7 +674,6 @@ public class Register extends BaseActivity  {
         }
 
 
-
         spDistrict.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -762,28 +745,8 @@ public class Register extends BaseActivity  {
      */
     private void loadLayR3List(String cCode) {
 
-        criteria = SQLiteQuery.getUnionJoinQuery(idCountry, idDist, idUP);
 
-        List<SpinnerHelper> listUnion = sqlH.getListAndID(SQLiteHandler.UNIT_TABLE, criteria, cCode, false);
-
-        ArrayAdapter<SpinnerHelper> dataAdapter = new ArrayAdapter<SpinnerHelper>(this, R.layout.spinner_layout, listUnion);
-
-        dataAdapter.setDropDownViewResource(R.layout.spinner_layout);
-
-        spUnion.setAdapter(dataAdapter);
-
-
-        if (idUnion != null) {
-            for (int i = 0; i < spUnion.getCount(); i++) {
-                String union = spUnion.getItemAtPosition(i).toString();
-                if (union.equals(strUnion)) {
-                    position = i;
-                }
-            }
-            spUnion.setSelection(position);
-        }
-
-
+        SpinnerLoader.loadLayR3ListLoader(mContext, sqlH, spUnion, idUnion, strUnion, idCountry, idDist, idUP);
         spUnion.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -792,7 +755,7 @@ public class Register extends BaseActivity  {
                 strUnion = ((SpinnerHelper) spUnion.getSelectedItem()).getValue();
                 idUnion = ((SpinnerHelper) spUnion.getSelectedItem()).getId();
 
-                loadLayR4List(idCountry);
+                loadLayR4List(idCountry, idDist, idUP, idUnion);
 
 
             }
@@ -807,30 +770,10 @@ public class Register extends BaseActivity  {
     /**
      * LOAD :: Village :loadLayR4List
      */
-    private void loadLayR4List(String cCode) {
-
-        criteria = SQLiteQuery.getVillageJoinQuery(idCountry, idDist, idUP, idUnion);
-
-        List<SpinnerHelper> listVillage = sqlH.getListAndID(SQLiteHandler.VILLAGE_TABLE, criteria, cCode, false);
+    private void loadLayR4List(String cCode, String layR1Code, String layR2Code, String layR3Code) {
 
 
-        ArrayAdapter<SpinnerHelper> dataAdapter = new ArrayAdapter<SpinnerHelper>(this, R.layout.spinner_layout, listVillage);
-
-        dataAdapter.setDropDownViewResource(R.layout.spinner_layout);
-
-        spVillage.setAdapter(dataAdapter);
-
-        if (idVill != null) {
-            for (int i = 0; i < spVillage.getCount(); i++) {
-                String village = spVillage.getItemAtPosition(i).toString();
-                if (village.equals(strVillage)) {
-                    position = i;
-                }
-            }
-            spVillage.setSelection(position);
-        }
-
-
+        SpinnerLoader.loadLayR4ListLoader(mContext, sqlH, spVillage, idVill, strVillage, cCode, layR1Code, layR2Code, layR3Code);
         spVillage.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -841,12 +784,7 @@ public class Register extends BaseActivity  {
 
                 loadAddress(idCountry, idDist, idUP, idUnion, idVill);
 
-              /*  if (!is_edit) {
-                    String next_id = sqlH.getRegistrationID(idCountry, idDist, idUP, idUnion, idVill);
-                    regId.setText(next_id);
-                }*/
 
-                //Log.d(TAG, "Village selected: " + strVillage);
             }
 
             @Override
@@ -996,10 +934,9 @@ public class Register extends BaseActivity  {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
-                //strVillage = parent.getItemAtPosition(position).toString();
+
                 strAddress = ((SpinnerHelper) spAddress.getSelectedItem()).getValue();
                 idAddress = ((SpinnerHelper) spAddress.getSelectedItem()).getId();
-
 
                 if (!is_edit) {
                     String next_id = sqlH.getRegistrationID(idCountry, idDist, idUP, idUnion, idVill);
@@ -1064,8 +1001,6 @@ public class Register extends BaseActivity  {
     }
 
 
-
-
     /**
      * DatePicker code Start
      **/
@@ -1087,6 +1022,7 @@ public class Register extends BaseActivity  {
             updateDate();
         }
     };
+
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     private void setHomeButtonIcon() {
         btnHome.setText("");
@@ -1102,6 +1038,7 @@ public class Register extends BaseActivity  {
         btnRegistrationRecode.setCompoundDrawablesRelativeWithIntrinsicBounds(search, null, null, null);
         setPaddingButton(mContext, search, btnRegistrationRecode);
     }
+
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     private void setSaveButtonIcon() {
         btnSaveData.setText("");

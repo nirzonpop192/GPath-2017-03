@@ -5,8 +5,10 @@ import android.os.Parcelable;
 
 /**
  * Created by USER on 9/27/2016.
+ *
+ * DTQTableDataModel
  */
-public class DynamicTableQuesDataModel implements Parcelable {
+public class DTQTableDataModel implements Parcelable {
     private String dtBasicCode;
     private String dtQCode;
     private String qText;
@@ -18,20 +20,20 @@ public class DynamicTableQuesDataModel implements Parcelable {
     // to pass the class object
     public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
         @Override
-        public DynamicTableQuesDataModel createFromParcel(Parcel in) {
-            return new DynamicTableQuesDataModel(in);
+        public DTQTableDataModel createFromParcel(Parcel in) {
+            return new DTQTableDataModel(in);
         }
 
         @Override
-        public DynamicTableQuesDataModel[] newArray(int size) {
-            return new DynamicTableQuesDataModel[size];
+        public DTQTableDataModel[] newArray(int size) {
+            return new DTQTableDataModel[size];
         }
     };
 
-    public DynamicTableQuesDataModel() {
+    public DTQTableDataModel() {
     }
 
-    public DynamicTableQuesDataModel(Parcel in) {
+    public DTQTableDataModel(Parcel in) {
         readFromParcel(in);
     }
 
