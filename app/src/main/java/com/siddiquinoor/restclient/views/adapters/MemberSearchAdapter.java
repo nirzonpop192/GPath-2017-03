@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.siddiquinoor.restclient.R;
 import com.siddiquinoor.restclient.activity.AssignActivity;
 import com.siddiquinoor.restclient.activity.GraduationActivity;
+import com.siddiquinoor.restclient.data_model.adapters.AssignDataModel;
 import com.siddiquinoor.restclient.utils.KEY;
 
 import java.util.ArrayList;

@@ -51,7 +51,7 @@ public class DT_ReportActivity extends AppCompatActivity {
 
     private ArrayList<SurveyModel> surveyModels;
     // private Spinner spDtMonth;
-    private String idMonth, strMonth;
+    //  private String idMonth, strMonth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -134,17 +134,17 @@ public class DT_ReportActivity extends AppCompatActivity {
         btnDynamicPage.setText("");
         Drawable imageDynamic = getResources().getDrawable(R.drawable.dynamic_icon_42);
         btnDynamicPage.setCompoundDrawablesRelativeWithIntrinsicBounds(imageDynamic, null, null, null);
-        //setPaddingButton(mContext, imageHome, btnDynamicPage);
+
 
         CalculationPadding calPadd = new CalculationPadding();
         int leftPadd, rightPadd;
         leftPadd = rightPadd = calPadd.calculateViewPadding(mContext, imageDynamic, btnDynamicPage);
-        btnDynamicPage.setPadding(leftPadd , 5, rightPadd , 5);
+        btnDynamicPage.setPadding(leftPadd, 5, rightPadd, 5);
 
 
     }
 
-
+// donn't delete  the bellow code
   /*  private void loadDtMonth(final String cCode, String opCode) {
         SpinnerLoader.loadDtMonthLoader(mContext, sqlH, spDtMonth, cCode, opCode, idMonth, strMonth);
 

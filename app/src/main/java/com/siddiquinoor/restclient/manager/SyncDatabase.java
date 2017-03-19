@@ -129,7 +129,7 @@ public class SyncDatabase {
                 pDialogUpload.show();
 
                 SharedPreferences settings;
-// TODO: 11/28/2016  service & aorther  
+// TODO: 11/28/2016   orther
                 settings = my_activity.getSharedPreferences(MainActivity.APP_PREFERENCES, Context.MODE_PRIVATE); //1
                 int operationMode = settings.getInt(UtilClass.OPERATION_MODE, 0);
                 /** for sefty rea JSON*/

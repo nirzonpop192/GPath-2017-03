@@ -22,8 +22,8 @@ public class AppConfig {
     //  public static final String API_LINK = "http://pciapp.cloudapp.net/apilive/";
     /************************************************************************/
     //LIVE LINK
-    // public static final String API_LINK = "http://pciapp.cloudapp.net/datacraft/apilive/";
-    // public static final String API_LINK_ENU = "http://pciapp.cloudapp.net/datacraft/apilive/index.php?enu";
+    //public static final String API_LINK = "http://pciapp.cloudapp.net/datacraft/apilive/";
+  //  public static final String API_LINK_ENU = "http://pciapp.cloudapp.net/datacraft/apilive/index.php?enu";
 
 
     /***********************************************************************

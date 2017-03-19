@@ -193,7 +193,7 @@
     <string name="srv_summary_TitleLable">Service Summary </string>
     <string name="tv_criteria">Criteria</string>
     <!-- LOG IN SCREEN -->
-    <string name="log_in_version_lable">GPath-UAT-11</string>
+    <string name="log_in_version_lable">GPath-LIV-12</string>
     <!-- VERSION -->
 
 
@@ -584,7 +584,7 @@ Otherwise, initiate to sync and login again.</string>
     <string name="dt_response_title">Response</string>
     <string name="title_activity_dt__qustion">DT_QustionActivity</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
+
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
     <string name="google_maps_key" translatable="false" templateMergeStrategy="preserve">

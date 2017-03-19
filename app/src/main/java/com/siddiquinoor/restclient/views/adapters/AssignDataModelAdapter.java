@@ -10,6 +10,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.siddiquinoor.restclient.R;
+import com.siddiquinoor.restclient.data_model.adapters.AssignDataModel;
 
 import java.util.ArrayList;
 

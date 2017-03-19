@@ -43,6 +43,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
+            android:paddingTop="5dp"
             android:weightSum="1">
 
             <LinearLayout
@@ -102,7 +103,16 @@
 
                 <TextView
                     android:id="@+id/tv_dtResponse_activity_title"
-                    style="@style/spinner_style" />
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/ass_spinner_height"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginBottom="5dp"
+                    android:background="@drawable/edit_box_background"
+                    android:drawSelectorOnTop="true"
+                    android:hint="name"
+                    android:padding="10dp"
+                    android:paddingLeft="20dp"
+                    android:textColor="@color/dark_black" />
 
                 <Spinner
                     android:id="@+id/sp_dtMonth"
@@ -110,8 +120,16 @@
 
                 <TextView
                     android:id="@+id/txt_dtResponse_date"
-                    style="@style/spinner_style"
-                    android:hint="00.00.0000" />
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/ass_spinner_height"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginBottom="5dp"
+                    android:background="@drawable/edit_box_background"
+                    android:drawSelectorOnTop="true"
+                    android:hint="00.00.0000"
+                    android:padding="10dp"
+                    android:paddingLeft="20dp"
+                    android:textColor="@color/dark_black" />
             </LinearLayout>
 
         </LinearLayout>
@@ -132,16 +150,7 @@
 
     </LinearLayout>
 
-<!--    <ListView
-        android:id="@+id/lv_DTQList"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/footer"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@id/table_title"
-        android:layout_centerVertical="true"
-        android:layout_marginBottom="5dp" />-->
+
 
 
     <!-- Search Button -->

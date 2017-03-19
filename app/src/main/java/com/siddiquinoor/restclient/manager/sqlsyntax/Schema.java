@@ -168,9 +168,6 @@ public class Schema {
     }
 
 
-    /**
-     * todo : add primary key
-     */
     public static String sqlCreateRegMemberCardPrintTable() {
         return CREATE_TABLE_IF_NOT_EXISTS + SQLiteHandler.MEMBER_CARD_PRINT_TABLE + " ( "
                 + SQLiteHandler.ID_COL + " INTEGER " + PRIMARY_KEY + " AUTOINCREMENT, "
@@ -857,7 +854,8 @@ public class Schema {
                 + FDP_CODE_COL + " VARCHAR(4) , "
                 + WORK_DAY_COL + " VARCHAR(6) , "
                 + DIST_FLAG_COL + " VARCHAR(100), "
-                /** todo: this column may not be necessary in future delete id no use now */
+
+                /**  this column may not be necessary in future delete id no use now */
                 + GROUP_CODE_COL + " VARCHAR(4)  , "
                 // for total synch summary report need entry by & entry date
                 + ENTRY_BY + " VARCHAR(4) DEFAULT '00' , "

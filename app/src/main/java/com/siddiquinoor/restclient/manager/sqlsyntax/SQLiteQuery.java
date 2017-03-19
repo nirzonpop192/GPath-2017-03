@@ -3910,7 +3910,7 @@ public class SQLiteQuery {
 
         }
 
-        Log.d("toma", udf);
+        //Log.d("toma", udf);
         return udf;
     }
 

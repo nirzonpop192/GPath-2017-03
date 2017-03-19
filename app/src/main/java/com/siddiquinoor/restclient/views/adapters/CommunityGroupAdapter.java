@@ -65,11 +65,8 @@ public class CommunityGroupAdapter extends BaseAdapter {
             holder = new ViewHolder();
 
             holder.tv_GroupName = (TextView) row.findViewById(R.id.groupSear_row_groupName);
-
             holder.tv_CatShortName = (TextView) row.findViewById(R.id.groupSear_tv_CateName);
-
             holder.tv_ProgShortName = (TextView) row.findViewById(R.id.groupSear_row_progShort);
-
             holder.imgEdit = (ImageView) row.findViewById(R.id.ibtn_group_sear_edit);
 
             row.setTag(holder);

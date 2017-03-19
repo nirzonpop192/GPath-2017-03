@@ -32,7 +32,7 @@ import com.siddiquinoor.restclient.manager.SQLiteHandler;
 import com.siddiquinoor.restclient.manager.sqlsyntax.SQLiteQuery;
 import com.siddiquinoor.restclient.utils.CalculationPadding;
 import com.siddiquinoor.restclient.utils.KEY;
-import com.siddiquinoor.restclient.views.adapters.AssignDataModel;
+import com.siddiquinoor.restclient.data_model.adapters.AssignDataModel;
 import com.siddiquinoor.restclient.views.adapters.AssignDataModelAdapter;
 import com.siddiquinoor.restclient.views.helper.SpinnerHelper;
 import com.siddiquinoor.restclient.views.notifications.ADNotificationManager;

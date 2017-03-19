@@ -36,6 +36,10 @@
         "source": "D:\\WorkSpace\\AndroidStudioProject\\Jan-2017\\GPath\\GPath-LOC-02040215\\app\\build\\intermediates\\exploded-aar\\com.android.support\\mediarouter-v7\\23.0.0\\res\\drawable\\mr_ic_media_route_connecting_mono_dark.xml"
     },
     {
+        "merged": "D:\\WorkSpace\\AndroidStudioProject\\Jan-2017\\GPath\\GPath-LOC-02040215\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\freeze.png",
+        "source": "D:\\WorkSpace\\AndroidStudioProject\\Jan-2017\\GPath\\GPath-LOC-02040215\\app\\src\\main\\res\\drawable\\freeze.png"
+    },
+    {
         "merged": "D:\\WorkSpace\\AndroidStudioProject\\Jan-2017\\GPath\\GPath-LOC-02040215\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\book_40.png",
         "source": "D:\\WorkSpace\\AndroidStudioProject\\Jan-2017\\GPath\\GPath-LOC-02040215\\app\\src\\main\\res\\drawable\\book_40.png"
     },
@@ -70,6 +74,10 @@
     {
         "merged": "D:\\WorkSpace\\AndroidStudioProject\\Jan-2017\\GPath\\GPath-LOC-02040215\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\zoom_in.png",
         "source": "D:\\WorkSpace\\AndroidStudioProject\\Jan-2017\\GPath\\GPath-LOC-02040215\\app\\build\\intermediates\\exploded-aar\\org.osmdroid\\osmdroid-android\\5.2\\res\\drawable\\zoom_in.png"
+    },
+    {
+        "merged": "D:\\WorkSpace\\AndroidStudioProject\\Jan-2017\\GPath\\GPath-LOC-02040215\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\custom_toast_border.xml",
+        "source": "D:\\WorkSpace\\AndroidStudioProject\\Jan-2017\\GPath\\GPath-LOC-02040215\\app\\src\\main\\res\\drawable\\custom_toast_border.xml"
     },
     {
         "merged": "D:\\WorkSpace\\AndroidStudioProject\\Jan-2017\\GPath\\GPath-LOC-02040215\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_spinner_textfield_background_material.xml",
@@ -146,6 +154,10 @@
     {
         "merged": "D:\\WorkSpace\\AndroidStudioProject\\Jan-2017\\GPath\\GPath-LOC-02040215\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\previous.png",
         "source": "D:\\WorkSpace\\AndroidStudioProject\\Jan-2017\\GPath\\GPath-LOC-02040215\\app\\build\\intermediates\\exploded-aar\\org.osmdroid\\osmdroid-android\\5.2\\res\\drawable\\previous.png"
+    },
+    {
+        "merged": "D:\\WorkSpace\\AndroidStudioProject\\Jan-2017\\GPath\\GPath-LOC-02040215\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\toast_icon.png",
+        "source": "D:\\WorkSpace\\AndroidStudioProject\\Jan-2017\\GPath\\GPath-LOC-02040215\\app\\src\\main\\res\\drawable\\toast_icon.png"
     },
     {
         "merged": "D:\\WorkSpace\\AndroidStudioProject\\Jan-2017\\GPath\\GPath-LOC-02040215\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\search_20_20.png",
@@ -258,6 +270,10 @@
     {
         "merged": "D:\\WorkSpace\\AndroidStudioProject\\Jan-2017\\GPath\\GPath-LOC-02040215\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\logout.png",
         "source": "D:\\WorkSpace\\AndroidStudioProject\\Jan-2017\\GPath\\GPath-LOC-02040215\\app\\src\\main\\res\\drawable\\logout.png"
+    },
+    {
+        "merged": "D:\\WorkSpace\\AndroidStudioProject\\Jan-2017\\GPath\\GPath-LOC-02040215\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\toggole_selector.xml",
+        "source": "D:\\WorkSpace\\AndroidStudioProject\\Jan-2017\\GPath\\GPath-LOC-02040215\\app\\src\\main\\res\\drawable\\toggole_selector.xml"
     },
     {
         "merged": "D:\\WorkSpace\\AndroidStudioProject\\Jan-2017\\GPath\\GPath-LOC-02040215\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\navigation_icon.png",
@@ -466,6 +482,10 @@
     {
         "merged": "D:\\WorkSpace\\AndroidStudioProject\\Jan-2017\\GPath\\GPath-LOC-02040215\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_cab_background_internal_bg.xml",
         "source": "D:\\WorkSpace\\AndroidStudioProject\\Jan-2017\\GPath\\GPath-LOC-02040215\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\drawable\\abc_cab_background_internal_bg.xml"
+    },
+    {
+        "merged": "D:\\WorkSpace\\AndroidStudioProject\\Jan-2017\\GPath\\GPath-LOC-02040215\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\unfreeze.png",
+        "source": "D:\\WorkSpace\\AndroidStudioProject\\Jan-2017\\GPath\\GPath-LOC-02040215\\app\\src\\main\\res\\drawable\\unfreeze.png"
     },
     {
         "merged": "D:\\WorkSpace\\AndroidStudioProject\\Jan-2017\\GPath\\GPath-LOC-02040215\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\shape_box.xml",

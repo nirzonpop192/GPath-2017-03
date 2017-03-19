@@ -48,7 +48,7 @@ import com.siddiquinoor.restclient.manager.sqlsyntax.SQLiteQuery;
 import com.siddiquinoor.restclient.manager.sqlsyntax.Schema;
 import com.siddiquinoor.restclient.utils.KEY;
 import com.siddiquinoor.restclient.utils.UtilClass;
-import com.siddiquinoor.restclient.views.adapters.AssignDataModel;
+import com.siddiquinoor.restclient.data_model.adapters.AssignDataModel;
 import com.siddiquinoor.restclient.views.adapters.CommunityGroupDataModel;
 import com.siddiquinoor.restclient.views.adapters.DistributionGridDataModel;
 import com.siddiquinoor.restclient.views.adapters.DistributionSaveDataModel;
@@ -11864,7 +11864,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
      * @param imageString      image base64 String fromat
      * @param unSync           unSync
      */
-    public void addIntoDTResponseTable(String dtBasic, String countryCode, String donorCode, String awardCode, String programCode,
+    public long addIntoDTResponseTable(String dtBasic, String countryCode, String donorCode, String awardCode, String programCode,
                                        String dtEnuId, String dtqCode, String dtaCode, String dtrSeq, String dtaValue,
                                        String progActivityCode, String dttTimeString, String opMode, String opMonthCode, String dataType, String imageString, boolean unSync) {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -11887,7 +11887,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
         values.put(DATA_TYPE_COL, dataType);
         values.put(U_FILE_COL, imageString);
 
-        db.insert(DT_RESPONSE_TABLE, null, values);
+        long row = db.insert(DT_RESPONSE_TABLE, null, values);
         db.close();
         // upload syntax section if the data is unsync
         if (unSync) {
@@ -11910,8 +11910,10 @@ public class SQLiteHandler extends SQLiteOpenHelper {
             mSyntaxGenerator.setCompleteness("Y");
             mSyntaxGenerator.setUFILE(imageString);
             insertIntoUploadTable(mSyntaxGenerator.insertIntoDTResponseTable());
-        }
 
+            Log.i(TAG, mSyntaxGenerator.insertIntoDTResponseTable());
+        }
+        return row;
     }
 
     public void updateIntoDTResponseTable(String dtBasic, String countryCode, String donorCode, String awardCode, String programCode,
@@ -12224,7 +12226,6 @@ public class SQLiteHandler extends SQLiteOpenHelper {
                 dtResponse.setDtaCode(cursor.getString(cursor.getColumnIndex(DTA_CODE_COL)));
 
 
-
             }
             cursor.close();
             db.close();
@@ -12237,7 +12238,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
         List<DTResponseTableDataModel> list = new ArrayList<DTResponseTableDataModel>();
 
-        String sql = "SELECT "+
+        String sql = "SELECT " +
                 "  dtRes." + DTA_CODE_COL +
                 " , dtRes." + DTA_VALUE_COL +
                 " , dtRes." + DT_BASIC_COL +
@@ -12246,11 +12247,11 @@ public class SQLiteHandler extends SQLiteOpenHelper {
                 " , dtan." + DTA_LABEL_COL +
                 " FROM " + DT_RESPONSE_TABLE + " AS dtRes " +
 
-                " left join "+DT_A_TABLE +" AS dtan ON "+
-                " dtRes."+DT_BASIC_COL+" =  dtan."+DT_BASIC_COL+
-                " AND  dtRes."+DTQ_CODE_COL+" =  dtan."+DTQ_CODE_COL+
-                " AND  dtRes."+DTA_CODE_COL+" =  dtan."+DTA_CODE_COL+
-                " AND  dtRes."+DTA_VALUE_COL+" =  dtan."+DTA_VALUE_COL+
+                " left join " + DT_A_TABLE + " AS dtan ON " +
+                " dtRes." + DT_BASIC_COL + " =  dtan." + DT_BASIC_COL +
+                " AND  dtRes." + DTQ_CODE_COL + " =  dtan." + DTQ_CODE_COL +
+                " AND  dtRes." + DTA_CODE_COL + " =  dtan." + DTA_CODE_COL +
+                " AND  dtRes." + DTA_VALUE_COL + " =  dtan." + DTA_VALUE_COL +
 
                 " WHERE dtRes." + DT_BASIC_COL + " = '" + dtBasic + "' " +
                 " AND dtRes." + COUNTRY_CODE_COL + " = '" + countryCode + "' " +
@@ -12276,7 +12277,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
 
                 list.add(dtResponse);
 
-            }while (cursor.moveToNext());
+            } while (cursor.moveToNext());
             cursor.close();
             db.close();
         }

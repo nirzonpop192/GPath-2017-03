@@ -28,7 +28,7 @@ import com.siddiquinoor.restclient.fragments.BaseActivity;
 import com.siddiquinoor.restclient.manager.SQLiteHandler;
 import com.siddiquinoor.restclient.utils.KEY;
 import com.siddiquinoor.restclient.utils.UtilClass;
-import com.siddiquinoor.restclient.views.adapters.AssignDataModel;
+import com.siddiquinoor.restclient.data_model.adapters.AssignDataModel;
 import com.siddiquinoor.restclient.views.adapters.AssignDataModelAdapter;
 import com.siddiquinoor.restclient.views.helper.SpinnerHelper;
 import com.siddiquinoor.restclient.views.notifications.ADNotificationManager;

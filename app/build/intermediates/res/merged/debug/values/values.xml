@@ -362,6 +362,9 @@
     <color name="switch_thumb_normal_material_dark">#ffbdbdbd</color>
     <color name="switch_thumb_normal_material_light">#fff1f1f1</color>
     <color name="title_bg_col">#627C9F</color>
+    <color name="toast_gradient_end_col">#616460</color>
+    <color name="toast_gradient_start_col">#616460</color>
+    <color name="toast_stroke_color">#3d3d3d</color>
     <color name="wallet_bright_foreground_disabled_holo_light">#ffb2b2b2</color>
     <color name="wallet_bright_foreground_holo_dark">#fff3f3f3</color>
     <color name="wallet_bright_foreground_holo_light">#ff000000</color>
@@ -553,6 +556,9 @@
     <dimen name="spinner_height">40dp</dimen>
     <dimen name="title">17dp</dimen>
     <dimen name="title_text_size">13sp</dimen>
+    <dimen name="toast_corners_radius">20dp</dimen>
+    <dimen name="toast_padding_7dp">7dp</dimen>
+    <dimen name="toast_stroke_width">1dp</dimen>
     <dimen name="txt_size_list_row_14sp">14sp</dimen>
     <dimen name="txt_size_list_row_15sp">15sp</dimen>
     <dimen name="txt_size_list_row_20sp">20sp</dimen>
@@ -869,7 +875,7 @@
     <string name="livestock">LIVESTOCK</string>
     <string name="lmp_date">LMP Date</string>
     <string name="location_name">Location Name</string>
-    <string name="log_in_version_lable">GPath-UAT-11</string>
+    <string name="log_in_version_lable">GPath-LIV-12</string>
     <string name="longTitle">Longitude</string>
     <string name="map_mode">Map Source</string>
     <string name="mapbox">MapBox</string>

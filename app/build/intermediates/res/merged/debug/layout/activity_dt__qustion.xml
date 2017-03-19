@@ -37,6 +37,7 @@
 
 
     <LinearLayout
+        android:padding="5dp"
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -146,6 +147,7 @@
         android:orientation="horizontal"
         android:weightSum="1">
 
+
         <LinearLayout
             android:id="@+id/ll_checkBoxAndEditTextCheckbox"
             android:layout_width="0dp"
@@ -169,18 +171,27 @@
 
     </LinearLayout>
 
-    <!--  End  EDIT_TEXT & Check Button -->
+  <!--  <LinearLayout
+        android:layout_marginBottom="5dp"
+        android:gravity="center"
+        android:layout_above="@id/ll_nextO_preview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ToggleButton
 
-    <!--Error Label-->
-    <!--  <TextView
-          android:id="@+id/tv_dt_errorLable"
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content"
-          android:layout_above="@+id/ll_nextO_preview"
-          android:text="ERROR"
-          android:textColor="@color/red"
-          android:textSize="20sp"
-          android:textStyle="bold" />-->
+            android:id="@+id/toggleButton"
+            android:layout_width="70dp"
+            android:layout_height="35dp"
+
+            android:background="@drawable/toggole_selector"
+            android:checked="false"
+
+            android:text=""
+            android:textOff=""
+            android:textOn="" />
+    </LinearLayout>-->
+
+
 
     <LinearLayout
 
@@ -200,6 +211,18 @@
             android:textColor="@color/green"
             android:textSize="15sp"
             android:textStyle="bold" />
+        <ToggleButton
+
+            android:id="@+id/toggBtn_freezNUnfeez"
+            android:layout_width="70dp"
+            android:layout_height="40dp"
+
+            android:background="@drawable/toggole_selector"
+            android:checked="false"
+
+            android:text=""
+            android:textOff=""
+            android:textOn="" />
 
 
         <Button

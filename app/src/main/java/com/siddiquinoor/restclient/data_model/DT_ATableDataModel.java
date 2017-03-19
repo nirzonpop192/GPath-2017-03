@@ -4,7 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 /**
- * Created by USER on 10/1/2016.
+ * Created by Faisal on 10/1/2016.
  */
 public class DT_ATableDataModel implements Parcelable {
 

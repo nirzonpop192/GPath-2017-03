@@ -24,6 +24,7 @@ com/siddiquinoor/restclient/activity/sub_activity/assign_program/mchn/LM$2.class
 com/siddiquinoor/restclient/activity/sub_activity/assign_program/ddr/AssignForDDRMalwaiVUL.class
 com/google/android/gms/wearable/ChannelApi$ChannelListener.class
 android/support/v4/app/AppOpsManagerCompat.class
+com/siddiquinoor/restclient/activity/sub_activity/dynamic_table/DTResponseRecordingActivity$14.class
 android/support/v4/graphics/drawable/DrawableCompat.class
 com/siddiquinoor/restclient/activity/sub_activity/commu_group_sub/CommunityGroupNDetailsRecodes$3.class
 com/siddiquinoor/restclient/activity/sub_activity/assign_program/agr/AGR.class
@@ -97,6 +98,7 @@ android/support/v4/media/MediaMetadataCompat$LongKey.class
 com/google/android/gms/wearable/CapabilityApi.class
 com/google/android/gms/auth/api/signin/GoogleSignInOptions.class
 com/siddiquinoor/restclient/activity/GroupSearchPage$1.class
+com/siddiquinoor/restclient/activity/sub_activity/dynamic_table/DTResponseRecordingActivity$17.class
 org/osmdroid/views/overlay/ItemizedIconOverlay$2.class
 android/support/v4/widget/MaterialProgressDrawable$Ring.class
 com/siddiquinoor/restclient/activity/sub_activity/summary_sub/SumSrvOrDistAttendance$1.class
@@ -397,6 +399,7 @@ com/siddiquinoor/restclient/activity/sub_activity/dynamic_table/DTResponseRecord
 com/google/android/gms/ads/internal/util/client/zza.class
 org/osmdroid/views/overlay/ItemizedOverlay$1.class
 com/google/android/gms/appdatasearch/GetRecentContextCall$Response.class
+com/siddiquinoor/restclient/activity/sub_activity/dynamic_table/DTResponseRecordingActivity$18.class
 android/support/v4/widget/SlidingPaneLayout.class
 com/google/android/gms/ads/internal/request/zzn.class
 android/support/v7/recyclerview/R.class
@@ -651,7 +654,6 @@ android/support/v7/widget/ActionMenuView$LayoutParams.class
 com/siddiquinoor/restclient/activity/LoginActivity$13.class
 com/siddiquinoor/restclient/views/adapters/MemberModel.class
 com/siddiquinoor/restclient/activity/LoginActivity$16.class
-com/siddiquinoor/restclient/views/adapters/AssignDataModel$1.class
 com/siddiquinoor/restclient/activity/sub_activity/summary_sub/RegisterRecordView$3.class
 com/google/android/gms/internal/zziy.class
 com/google/android/gms/internal/zzakv.class
@@ -715,6 +717,7 @@ com/siddiquinoor/restclient/activity/sub_activity/summary_sub/SummaryServiceOrDi
 com/google/android/gms/internal/zzcs.class
 com/google/android/gms/internal/zzgp.class
 android/support/v4/app/FragmentManagerImpl$2.class
+com/siddiquinoor/restclient/views/notifications/CustomToast.class
 android/support/v4/view/ViewCompat$KitKatViewCompatImpl.class
 com/android/volley/Request.class
 com/siddiquinoor/restclient/views/helper/SpinnerHelper.class
@@ -920,7 +923,6 @@ com/google/android/gms/wearable/ChannelApi.class
 com/google/android/gms/ads/internal/request/zze.class
 com/google/android/gms/auth/AccountChangeEventsRequest.class
 com/google/android/gms/games/Players$LoadPlayersResult.class
-com/siddiquinoor/restclient/views/adapters/AssignDataModel.class
 android/support/v4/view/ViewCompatBase.class
 com/siddiquinoor/restclient/activity/GroupSearchPage$3.class
 android/support/v4/view/ViewCompat$JbMr1ViewCompatImpl.class
@@ -950,6 +952,7 @@ com/google/android/gms/cast/Cast$CastApi.class
 com/google/android/gms/internal/zziu.class
 com/google/android/gms/internal/zzk.class
 android/support/v4/view/VelocityTrackerCompat.class
+com/siddiquinoor/restclient/data_model/FreezeDataModel.class
 com/google/android/gms/common/api/Api$ApiOptions.class
 com/siddiquinoor/restclient/activity/sub_activity/register_sub/RegisterMemberLiberia$4.class
 com/siddiquinoor/restclient/activity/ServiceActivity$4.class
@@ -1055,6 +1058,7 @@ com/google/android/gms/common/internal/ValidateAccountRequest.class
 com/siddiquinoor/restclient/views/adapters/SummaryServiceListAdapter.class
 android/support/v4/content/WakefulBroadcastReceiver.class
 android/support/v4/app/BackStackRecord$TransitionState.class
+com/siddiquinoor/restclient/data_model/adapters/AssignDataModel.class
 com/siddiquinoor/restclient/activity/sub_activity/dynamic_table/DTResponseActivity$8.class
 android/support/v7/widget/LinearLayoutCompat$LayoutParams.class
 com/google/android/gms/ads/internal/zzi.class
@@ -1313,6 +1317,7 @@ android/support/v4/util/ArrayMap$1.class
 android/support/v7/widget/RecyclerView$ItemAnimator$ItemAnimatorFinishedListener.class
 com/google/zxing/client/android/DecodeHintManager.class
 com/google/android/gms/games/Games$GetServerAuthCodeResult.class
+com/siddiquinoor/restclient/activity/sub_activity/dynamic_table/DTResponseRecordingActivity$15.class
 android/support/annotation/IntegerRes.class
 android/support/v4/media/VolumeProviderCompatApi21$Delegate.class
 android/support/v4/view/ViewCompatJellybeanMr1.class
@@ -1320,6 +1325,7 @@ android/support/v7/widget/RecyclerViewAccessibilityDelegate.class
 com/google/android/gms/internal/zzdz.class
 com/siddiquinoor/restclient/activity/sub_activity/register_sub/RegisterMemberLiberia$10.class
 android/support/v4/view/ViewCompat$GBViewCompatImpl.class
+com/siddiquinoor/restclient/data_model/adapters/AssignDataModel$1.class
 com/google/android/gms/ads/internal/purchase/GInAppPurchaseManagerInfoParcel.class
 android/support/v4/view/ViewCompat$JbMr2ViewCompatImpl.class
 com/siddiquinoor/restclient/activity/DistributionActivity$7.class
@@ -1414,6 +1420,7 @@ com/google/android/gms/drive/MetadataBuffer.class
 com/siddiquinoor/restclient/activity/RegisterLiberia$4.class
 com/google/firebase/FirebaseException.class
 com/siddiquinoor/restclient/activity/sub_activity/graduation_sub/GraduationUpdate$1.class
+com/siddiquinoor/restclient/activity/sub_activity/dynamic_table/DTResponseRecordingActivity$16.class
 org/osmdroid/views/overlay/ItemizedIconOverlay$1.class
 android/support/v4/view/ViewCompatJellybeanMr2.class
 com/google/android/gms/ads/internal/purchase/zzi.class
@@ -1621,4 +1628,5 @@ android/support/v4/view/ViewPager$OnPageChangeListener.class
 com/google/android/gms/ads/internal/purchase/zzf.class
 com/google/android/gms/internal/zzlk.class
 com/google/android/gms/games/leaderboard/Leaderboard.class
+com/siddiquinoor/restclient/activity/sub_activity/dynamic_table/DTResponseRecordingActivity$19.class
 com/siddiquinoor/restclient/activity/sub_activity/assign_program/mchn/LM$12.class

@@ -20,7 +20,6 @@ import android.widget.Toast;
 import com.siddiquinoor.restclient.R;
 import com.siddiquinoor.restclient.activity.AllSummaryActivity;
 import com.siddiquinoor.restclient.activity.AssignActivity;
-import com.siddiquinoor.restclient.activity.OldAssignActivity;
 import com.siddiquinoor.restclient.activity.DistributionActivity;
 import com.siddiquinoor.restclient.activity.MainActivity;
 import com.siddiquinoor.restclient.activity.RegisterLiberia;
@@ -33,7 +32,7 @@ import com.siddiquinoor.restclient.manager.SQLiteHandler;
 import com.siddiquinoor.restclient.utils.KEY;
 import com.siddiquinoor.restclient.manager.sqlsyntax.SQLServerSyntaxGenerator;
 import com.siddiquinoor.restclient.utils.UtilClass;
-import com.siddiquinoor.restclient.views.adapters.AssignDataModel;
+import com.siddiquinoor.restclient.data_model.adapters.AssignDataModel;
 import com.siddiquinoor.restclient.views.notifications.ADNotificationManager;
 
 import java.text.ParseException;
