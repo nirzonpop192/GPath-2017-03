@@ -10,6 +10,9 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
@@ -95,6 +98,9 @@ public class DTResponseRecordingActivity extends BaseActivity implements Compoun
     public static final String CHECK_BOX = "Checkbox";
     public static final String RADIO_BUTTON = "Radio Button";
     public static final String DATE_TIME = "Datetime";
+    public static final String GPS_LONG = "GPS LONG";
+    public static final String GPS_LATD = "GPS LATD";
+    public static final String GPS_COORDINATE = "GPS Coordinate";
     public static final String PHOTO = "Image";
     public static final String DATE = "Date";
     public static final String RADIO_BUTTON_N_TEXTBOX = "Radio Button, Textbox";
@@ -169,7 +175,7 @@ public class DTResponseRecordingActivity extends BaseActivity implements Compoun
     /**
      * date picker
      */
-    private TextView _dt_tv_DatePicker;
+    private TextView _dt_tv_DatePickerNLatLong;
     private RadioGroup mRadioGroup;
 //    private RadioButton rdbtn;
     /**
@@ -246,7 +252,7 @@ public class DTResponseRecordingActivity extends BaseActivity implements Compoun
      */
     private List<FreezeDataModel> mBufferingList = new ArrayList<FreezeDataModel>();
     private int mFreezeTerminatedIndex = -1;
-    private boolean isSkipRullAssociated=false;
+    private boolean isSkipRullAssociated = false;
 
     public String getImageString() {
         return imageString;
@@ -296,18 +302,170 @@ public class DTResponseRecordingActivity extends BaseActivity implements Compoun
 
     private ToggleButton tBtnFreezNUnfeez;
 
-    /**
-     * @param sIState savedInstanceState
-     */
+    private boolean isSkipQuestion = false;
+    private DT_ATableDataModel mSkipDTATable = null;
 
-    @Override
-    protected void onCreate(Bundle sIState) {
-        super.onCreate(sIState);
-        setContentView(R.layout.activity_dt__qustion);
-        inti();
-        setListener();
+
+    private Location mLocation;
+    /**
+     * set up location listener
+     */
+    private LocationListener mLocationListener = new LocationListener() {
+        @Override
+        public void onLocationChanged(Location location) {
+            mLocation = location;
+        }
+
+        @Override
+        public void onStatusChanged(String provider, int status, Bundle extras) {
+        }
+
+        @Override
+        public void onProviderEnabled(String provider) {
+        }
+
+        @Override
+        public void onProviderDisabled(String provider) {
+        }
+    };
+
+    /**
+     * Refer the all the necessary view in java object
+     */
+    private void viewReference() {
+        tv_DtQuestion = (TextView) findViewById(R.id.tv_DtQuestion);
+        btnHome = (Button) findViewById(R.id.btnHomeFooter);
+        btnNextQues = (Button) findViewById(R.id.btn_dt_next);
+        btnPreviousQus = (Button) findViewById(R.id.btn_dt_preview);
+        Button btnGone = (Button) findViewById(R.id.btnRegisterFooter);
+        btnGone.setVisibility(View.GONE);
+
+        // next & preview button
+        parent_layout_onlyFor_CB = (LinearLayout) findViewById(R.id.ll_checkBox);
+        _dt_tv_DatePickerNLatLong = (TextView) findViewById(R.id.tv_dtTimePicker);
+        dt_edt = (EditText) findViewById(R.id.edt_dt);
+        dt_spinner = (Spinner) findViewById(R.id.dt_sp);
+        dt_photo = (ImageView) findViewById(R.id.dt_iv_photo);
+        mRadioGroup = (RadioGroup) findViewById(R.id.radioGroup);
+        ll_editText = (LinearLayout) findViewById(R.id.llEditText);
+        mRadioGroupForRadioAndEditText = (RadioGroup) findViewById(R.id.radioGroupForRadioAndEdit);
+
+        //CheckBox and EditText
+        parent_layout_FOR_CB_N_ET = (LinearLayout) findViewById(R.id.ll_CheckBoxAndEditTextParent);
+        subParent_CB_layout_FOR_CB_N_ET = (LinearLayout) findViewById(R.id.ll_checkBoxAndEditTextCheckbox);
+        subParent_ET_layout_FOR_CB_N_ET = (LinearLayout) findViewById(R.id.et_CheckBoxAndEditText);
+        dt_layout_Radio_N_EditText = (LinearLayout) findViewById(R.id.ll_radioGroupAndEditText);
+
+        tBtnFreezNUnfeez = (ToggleButton) findViewById(R.id.toggBtn_freezNUnfeez);
     }
 
+
+    /**
+     * initial state
+     * also views refer
+     * initiate {@link #sqlH} & {@link #dialogManager}
+     * invoke :{@link #viewReference()} method  for instance
+     */
+
+    private void inti() {
+        viewReference();
+        sqlH = new SQLiteHandler(mContext);
+        cusToast = new CustomToast(mContext);
+
+        // initiate with dialog Manager
+        dialogManager = new ADNotificationManager();
+
+        //get intent
+        Intent intent = getIntent();
+        dyIndex = intent.getParcelableExtra(KEY.DYNAMIC_INDEX_DATA_OBJECT_KEY);
+        totalQuestion = intent.getIntExtra(KEY.DYNAMIC_T_QUES_SIZE, 0);
+        initialWithFirstQues();
+    }
+
+
+    /**
+     * this method load previous Question. from data set
+     */
+
+    private void getPreviousQuestion() {
+
+        --mQusIndex;
+        hideViews();                            // hide all previous view
+
+        if (mQusIndex >= 1) {                   // to check does index exceed the minimum  value
+
+            DTQTableDataModel nextQus = loadPreviousQuestion(dyIndex.getDtBasicCode(), mQusIndex);
+            displayQuestion(nextQus);
+
+            if (mQusIndex == 1) {
+                btnPreviousQus.setVisibility(View.INVISIBLE);
+            }
+        } else
+            mQusIndex = 1;                         // set index at initial stage
+
+
+    }
+
+    /**
+     * Load the next Question
+     */
+
+    private void getNextQuestion() {
+
+        /** for 1st question the {@link #btnPreviousQus }previous button will be invisible
+         * if user go for the second question  this block  will check , is previous button
+         * invisible if it is true set the button visible
+         */
+        if (btnPreviousQus.getVisibility() == View.INVISIBLE)
+            btnPreviousQus.setVisibility(View.VISIBLE);
+
+
+        ++mQusIndex;                                                        // increments the question no index
+
+        if (mQusIndex <= totalQuestion)                                     //to check does index exceed the maximum value
+            hideViews();                                                    // hide all views
+
+
+        if (mQusIndex < totalQuestion) {
+
+            DTQTableDataModel nextQus = skipToQuestionCheck(mQusIndex);         //  add skip rules
+
+            if (nextQus != null)
+                displayQuestion(nextQus);
+
+            // set arrow icon instead of stop icon . set previous  state
+            removeStopIconNextButton(btnPreviousQus);
+
+            // no need to delete bellow code
+            //   if (mQusIndex == totalQuestion - 1) {
+            //   addSaveIconButton(btnNextQues);
+            //   }
+
+
+        } else if (mQusIndex == totalQuestion) {
+
+            DTQTableDataModel nextQus = skipToQuestionCheck(mQusIndex); //  add skip rules
+
+            if (nextQus != null) {
+                if (!nextQus.getqText().equals("Thank You!") && !nextQus.getqText().equals("Thank you!"))
+                    displayQuestion(nextQus);
+                else {
+                    getNextQuestion();
+                }
+            }
+
+
+            // don't delete below code version 12's bug generated because of this piece of sheet
+            // one set complete
+            //      compilationFunctionNMessage();
+
+        } else if (mQusIndex > totalQuestion) {             // if all  questions set is complete
+
+            // one set complete
+            compilationFunctionNMessage();
+            continueDialog();
+        }
+    }
 
     private void setListener() {
         btnNextQues.setOnClickListener(new View.OnClickListener() {
@@ -342,17 +500,10 @@ public class DTResponseRecordingActivity extends BaseActivity implements Compoun
                 if (!isSkipRullAssociated) {   // here skip ques is false
 
                     if (isChecked) {
-                        freezeNUnfreezeDialog(true,"Sure to Freeze ?");
-
-
+                        freezeNUnfreezeDialog(true, "Sure to Freeze ?");
                     } else {
-
-                        freezeNUnfreezeDialog(false,"Sure to UnFreeze ?");
-
-
-
+                        freezeNUnfreezeDialog(false, "Sure to UnFreeze ?");
                     }
-
 
 
                 } else {
@@ -365,6 +516,19 @@ public class DTResponseRecordingActivity extends BaseActivity implements Compoun
         });
     }
 
+    /**
+     * @param sIState savedInstanceState
+     */
+
+    @Override
+    protected void onCreate(Bundle sIState) {
+        super.onCreate(sIState);
+        setContentView(R.layout.activity_dt__qustion);
+        inti();
+        setListener();
+    }
+
+
     private void freezeNUnfreezeDialog(final boolean freeze, String msg) {
 
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(mContext);
@@ -373,11 +537,10 @@ public class DTResponseRecordingActivity extends BaseActivity implements Compoun
          *  Setting Dialog Title
          */
 
-        alertDialog.setTitle("Home");
+        alertDialog.setTitle("Freeze");
 
 
-
-       // String massage;
+        // String massage;
         if (freeze) {
 
 
@@ -557,8 +720,169 @@ public class DTResponseRecordingActivity extends BaseActivity implements Compoun
         tv_DtQuestion.setTextColor(getResources().getColor(R.color.blue_dark));
     }
 
-    private boolean isSkipQuestion = false;
-    private DT_ATableDataModel mSkipDTATable = null;
+
+    /**
+     * loadDT_QResMode(String) is equivalent to ans view loader
+     *
+     * @param resMode repose Mode
+     */
+    private void loadDT_QResMode(String resMode) {
+
+        /**
+         *  the {@link #mDTQResMode} is needed in the save process in {@link #saveProcessValidation()}
+         */
+        mDTQResMode = sqlH.getDT_QResMode(resMode);
+        String responseControl = mDTQResMode.getDtResponseValueControl();
+        String dataType = mDTQResMode.getDtDataType();
+        String resLupText = mDTQResMode.getDtQResLupText();
+
+
+        //Resort Data if Data exists
+        DTResponseTableDataModel dtResponse = sqlH.getDTResponseTableData(dyIndex.getDtBasicCode(), dyIndex.getcCode(), dyIndex.getDonorCode(), dyIndex.getAwardCode(), dyIndex.getProgramCode(), getStaffID(), mDTQTable.getDtQCode(), mDTATables.get(0).getDt_ACode(), mDTRSeq);
+
+        countChecked = 0;
+        if (dataType != null) {
+            switch (responseControl) {
+                case TEXT_BOX:
+
+
+                    if (!resLupText.equals(GPS_LATD) && !resLupText.equals(GPS_LONG) && !resLupText.equals(GPS_COORDINATE)) {         // if response mode is not Latitude
+
+                        dt_edt.setVisibility(View.VISIBLE);
+                        switch (dataType) {
+                            case TEXT:
+                                dt_edt.setHint("Text");
+                                dt_edt.setInputType(InputType.TYPE_CLASS_TEXT);
+                                break;
+                            case NUMBER:
+
+//                            dt_edt.setHint("Number");
+//                            dt_edt.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
+                                // all number dec format
+
+                                if (resLupText.equals("Number (not decimal)"))
+                                    dt_edt.setInputType(InputType.TYPE_CLASS_NUMBER);
+                                else
+                                    dt_edt.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
+
+                                break;
+
+                        }                                                           // end of switch
+
+
+                        if (dtResponse != null)                                     // if data exist in db show data
+                            dt_edt.setText(dtResponse.getDtaValue());
+                        else
+                            dt_edt.setText("");
+
+                    }                                                               // end of if
+                    else {
+                        loadGpsLatLong(resLupText, dtResponse);
+
+                    } // end of else
+
+                    break;
+
+
+                case Date_OR_Time:
+
+                    _dt_tv_DatePickerNLatLong.setVisibility(View.VISIBLE);
+
+                    /**
+                     * if data exists show data
+                     */
+                    if (dtResponse != null)
+                        _dt_tv_DatePickerNLatLong.setText(dtResponse.getDtaValue());
+                    else
+                        _dt_tv_DatePickerNLatLong.setText("Select Date");
+
+
+                    switch (dataType) {                                     //specification  of date time or only time
+                        case DATE_TIME:
+                            getTimeStamp(_dt_tv_DatePickerNLatLong);
+                            break;
+                        case DATE:
+
+                            _dt_tv_DatePickerNLatLong.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    setDate();
+                                }
+                            });
+                            break;
+                    }
+
+
+                    break;
+
+                case COMBO_BOX:
+                    dt_spinner.setVisibility(View.VISIBLE);
+
+
+                    hideSoftKayPad(dt_spinner);                             //hide the key pad when spinner Appears
+
+
+                    if (dtResponse != null)                                 //if data exist get the Spinner String  set position •
+                        strSpinner = dtResponse.getDtaValue();
+                    else
+                        strSpinner = null;
+                    loadDynamicSpinnerList(dyIndex.getcCode(), resLupText);
+
+
+                    break;
+                case CHECK_BOX:
+
+                    parent_layout_onlyFor_CB.setVisibility(View.VISIBLE);
+
+
+                    hideSoftKayPad(dt_spinner);                             //hide the key pad when spinner Appears
+
+                    if (mDTATables.size() > 0)
+                        loadDynamicCheckBox(mDTATables);
+                    restoreCheckBoxPreviousValue(mCheckBox_List);
+
+
+                    break;
+                case RADIO_BUTTON:
+                    mRadioGroup.setVisibility(View.VISIBLE);
+
+                    //hide the key pad when spinner Appears
+                    hideSoftKayPad(dt_spinner);
+
+                    if (mDTATables.size() > 0)
+                        loadRadioButtons(mDTATables);
+
+                    // restore the previous value from db
+                    restoreRadioButtonPreviousValue(mRadioGroup, mRadioButton_List);
+
+
+                    break;
+                case RADIO_BUTTON_N_TEXTBOX:
+                    dt_layout_Radio_N_EditText.setVisibility(View.VISIBLE);
+
+                    if (mDTATables.size() > 0)
+                        loadRadioButtonAndEditText(mDTATables, dataType);
+
+                    // restore the previous value from db
+                    restoreRadioButtonPreviousValue(mRadioGroupForRadioAndEditText, mRadioButtonForRadioAndEdit_List);
+                    break;
+                case CHECKBOX_N_TEXTBOX:
+                    parent_layout_FOR_CB_N_ET.setVisibility(View.VISIBLE);
+
+                    if (mDTATables.size() > 0)
+                        loadDynamicCheckBoxAndEditText(mDTATables, dataType);
+
+                    restoreCheckBoxPreviousValue(mCheckBoxForCheckBoxAndEdit_List);
+                    break;
+                case PHOTO:
+                    loadDynamicPhoto();
+                    break;
+
+            }                                               // end of switch
+        }                                                   // end of if
+
+    }                                                       //  end of loadDT_QResMode
+
 
     /**
      * Check All type of Validation For
@@ -569,6 +893,8 @@ public class DTResponseRecordingActivity extends BaseActivity implements Compoun
 
         int i = 0;
         String responseControl = mDTQResMode.getDtResponseValueControl();
+        String resLupText = mDTQResMode.getDtQResLupText();
+
         if (mDTQTable == null)
             return;
 
@@ -576,44 +902,53 @@ public class DTResponseRecordingActivity extends BaseActivity implements Compoun
 
             switch (responseControl) {
                 case TEXT_BOX:
+                    if (!resLupText.equals(GPS_LATD) && !resLupText.equals(GPS_LONG) && !resLupText.equals(GPS_COORDINATE)) {         // if response mode is not Latitude
 
-                    String edtInput = dt_edt.getText().toString();
+                        String edtInput = dt_edt.getText().toString();
 
-                    if (edtInput.equals("Text") || edtInput.equals("Number") || edtInput.length() == 0) {
-                        errorIndicator();
-                        displayError("Insert  Text");
-                    } else {
+                        if (edtInput.equals("Text") || edtInput.equals("Number") || edtInput.length() == 0) {
+                            errorIndicator();
+                            displayError("Insert  Text");
+                        } else {
 
 
-                        //  if DTA type is number then it gonna check the max & min Value
-                        if (mDTATables.get(0).getDataType().equals("Number")) {
+                            //  if DTA type is number then it gonna check the max & min Value
+                            if (mDTATables.get(0).getDataType().equals("Number")) {
 
-                            // comparing the highest input value an  lowest value
-                            if ((Double.parseDouble(edtInput) <= Parse.StringToDoubleNullCheck(mDTATables.get(0).getMaxValue())) && (Double.parseDouble(edtInput) >= Parse.StringToDoubleNullCheck(mDTATables.get(0).getMinValue()))) {
+                                // comparing the highest input value an  lowest value
+                                if ((Double.parseDouble(edtInput) <= Parse.StringToDoubleNullCheck(mDTATables.get(0).getMaxValue())) && (Double.parseDouble(edtInput) >= Parse.StringToDoubleNullCheck(mDTATables.get(0).getMinValue()))) {
+                                    normalIndicator();
+                                    saveData(edtInput, "", mDTATables.get(0), calling4TerminalPoint);
+
+                                    // load next Question
+                                    getNextQuestion();
+                                } else {
+                                    errorIndicator();
+                                    displayError("Out of range input! ");
+                                }
+                            } else {                                                // else the input method would  be the text
                                 normalIndicator();
                                 saveData(edtInput, "", mDTATables.get(0), calling4TerminalPoint);
 
-                                // load next Question
-                                getNextQuestion();
-                            } else {
-                                errorIndicator();
-                                displayError("Out of range input! ");
+                                getNextQuestion();                                               // load next Question
                             }
-                        } else {  // else the input method would  be the text
-                            normalIndicator();
-                            saveData(edtInput, "", mDTATables.get(0), calling4TerminalPoint);
 
-                            // load next Question
-                            getNextQuestion();
+
                         }
 
+                    } else {
+                        normalIndicator();
 
+                        /**                          {@link #mDTATables} wil be single                         */
+                        saveData(_dt_tv_DatePickerNLatLong.getText().toString(), "", mDTATables.get(0), calling4TerminalPoint);
+                        getNextQuestion();
                     }
+
 
                     break;
                 case Date_OR_Time:
 
-                    String dateTime = _dt_tv_DatePicker.getText().toString();
+                    String dateTime = _dt_tv_DatePickerNLatLong.getText().toString();
                     if (dateTime.equals("Click for Date") || dateTime.equals("Select Date")) {
                         errorIndicator();
                         displayError("Set Date First");
@@ -622,13 +957,14 @@ public class DTResponseRecordingActivity extends BaseActivity implements Compoun
                         normalIndicator();
 
                         /**                         * mDTATables.get(0) wil be single                         */
-                        saveData(_dt_tv_DatePicker.getText().toString(), "", mDTATables.get(0), calling4TerminalPoint);
+                        saveData(_dt_tv_DatePickerNLatLong.getText().toString(), "", mDTATables.get(0), calling4TerminalPoint);
                         getNextQuestion();
                     }
                     break;
                 case COMBO_BOX:
-                    /** here it get null point reference if spinner get no values */
-                    if (idSpinner != null) {
+
+
+                    if (idSpinner != null) {            // here it get null point reference if spinner get no values
                         if (idSpinner.equals("00")) {
 
                             errorIndicator();
@@ -636,11 +972,13 @@ public class DTResponseRecordingActivity extends BaseActivity implements Compoun
 
                         } else {
                             normalIndicator();
-                            /**                             * {@link DTResponseRecordingActivity#saveData(String, DT_ATableDataModel)}                             */
-                            saveData(strSpinner, "", mDTATables.get(0), calling4TerminalPoint);
 
-                            /** load   NEXT QUESTION                         */
-                            getNextQuestion();
+                            // set id
+                            saveData(idSpinner, "", mDTATables.get(0), calling4TerminalPoint);
+//                            Toast.makeText(mContext, "idSpinner : "+idSpinner, Toast.LENGTH_SHORT).show();
+
+
+                            getNextQuestion();       // load  next question
                         }
                     }
                     break;
@@ -658,23 +996,25 @@ public class DTResponseRecordingActivity extends BaseActivity implements Compoun
                         String dtaCombinationCode = "";
                         i = 0;
                         for (CheckBox cb : mCheckBox_List) {
+
                             if (cb.isChecked()) {
                                 dtaCombinationCode = dtaCombinationCode + mDTATables.get(i).getDt_AValue() + ",";
                                 saveData("", "", mDTATables.get(i), calling4TerminalPoint);
 
-                            }// end of if condition
-                            i++;
-                        }// end of for each loop
+                            }       // end of if condition
 
-                        //remove the last character from a string
-                        dtaCombinationCode = dtaCombinationCode.substring(0, dtaCombinationCode.length() - 1);
+                            i++;
+                        }           // end of for each loop
+
+
+                        dtaCombinationCode = dtaCombinationCode.substring(0, dtaCombinationCode.length() - 1);  //remove the last character from a string
 
                         // skip rules for test
                         skipRules(responseControl, i, dtaCombinationCode);
                         // for test  u may delete the below code
 //                        Toast.makeText(mContext, "dtaCombinationCode: " + dtaCombinationCode, Toast.LENGTH_SHORT).show();
 
-                        getNextQuestion();
+                        getNextQuestion();       // load  next question
                     }// end of else
 
 
@@ -886,7 +1226,6 @@ public class DTResponseRecordingActivity extends BaseActivity implements Compoun
      */
     private void saveTemporaryDataIntoMBufferList(int mQusIndex, FreezeDataModel freezingData, boolean isCall4termPoint) {
         if (!isCall4termPoint && (mFreezeTerminatedIndex == -1 || mQusIndex == mFreezeTerminatedIndex)) {
-
             mBufferingList.add(freezingData);
         }
     }
@@ -896,13 +1235,15 @@ public class DTResponseRecordingActivity extends BaseActivity implements Compoun
      * @param dtATable DTA Table
      */
     /**
+     * insert update operation . don't change any code with out consulting
+     *
      * @param ansValue    user input / spinner value / radio button code / edit text values
      * @param imageString base 64 image string
      * @param dtATable    dynamic Answer table module
      */
 
     private void saveOnResponseTable(String ansValue, String imageString, DT_ATableDataModel dtATable, boolean isCall4termPoint) {
-//        long row = -1;
+
 
         String DTBasic = dyIndex.getDtBasicCode();
         String AdmCountryCode = dyIndex.getcCode();
@@ -926,24 +1267,22 @@ public class DTResponseRecordingActivity extends BaseActivity implements Compoun
         }
         String OpMode = dyIndex.getOpMode();
         String OpMonthCode = dyIndex.getOpMonthCode();
-        /**
-         * todo : set the  DT Q data type
-         */
+
         String DataType = dtATable.getDataType();
 
 
         DTAValue = dtATable.getDt_AValue().equals("null") || dtATable.getDt_AValue().length() == 0 ? ansValue : dtATable.getDt_AValue();
 
         /**
-         * Experiments          *
+         *  get data freeze data         *
          */
         FreezeDataModel freezingData = new FreezeDataModel(AdmAwardCode, AdmCountryCode, AdmDonorCode, AdmProgCode, DataType, DTACode, DTAValue
                 , DTBasic, DTEnuID, DTQCode, DTQText, DTRSeq, DTTimeString, mQusIndex, OpMode, OpMonthCode, ProgActivityCode);
 
         saveTemporaryDataIntoMBufferList(mQusIndex, freezingData, isCall4termPoint);
+
         /**
-         * main execute
-         * Insert or update operation
+         * main execute   Insert or update operation
          */
         if (sqlH.isDataExitsInDTAResponse_Table(DTBasic, AdmCountryCode, AdmDonorCode, AdmAwardCode, AdmProgCode, DTEnuID, DTQCode, DTACode, mDTRSeq)) {
             sqlH.updateIntoDTResponseTable(DTBasic, AdmCountryCode, AdmDonorCode, AdmAwardCode, AdmProgCode, DTEnuID, DTQCode, DTACode,
@@ -953,15 +1292,14 @@ public class DTResponseRecordingActivity extends BaseActivity implements Compoun
 
         } else {
 
-//            row =
-            sqlH.
-                    addIntoDTResponseTable(DTBasic, AdmCountryCode, AdmDonorCode, AdmAwardCode, AdmProgCode, DTEnuID, DTQCode, DTACode, String.valueOf(DTRSeq), DTAValue, ProgActivityCode, DTTimeString, OpMode, OpMonthCode, DataType, imageString, true);
-            sqlH.addIntoDTSurveyTable(DTBasic, AdmCountryCode, AdmDonorCode, AdmAwardCode, AdmProgCode, DTEnuID, DTQCode, DTACode, String.valueOf(DTRSeq), DTAValue, ProgActivityCode, DTTimeString, OpMode, OpMonthCode, DataType, DTQText, surveyNumber);
+
+            sqlH.addIntoDTResponseTable(DTBasic, AdmCountryCode, AdmDonorCode, AdmAwardCode, AdmProgCode, DTEnuID, DTQCode, DTACode, String.valueOf(DTRSeq), DTAValue, ProgActivityCode, DTTimeString, OpMode, OpMonthCode, DataType, imageString, true);
+            sqlH.addIntoDTSurveyTable(DTBasic, AdmCountryCode, AdmDonorCode, AdmAwardCode, AdmProgCode, DTEnuID, DTQCode, DTACode, String.valueOf(DTRSeq), DTAValue, ProgActivityCode, DTTimeString, OpMode, OpMonthCode, DataType, DTQText, surveyNumber,imageString);
 
             Log.i(TAG, "DTBasic :" + DTBasic + " AdmCountryCode: " + AdmCountryCode + " AdmDonorCode: " + AdmDonorCode + " AdmAwardCode: " + AdmAwardCode + " AdmProgCode:" + AdmProgCode + " DTEnuID: " + DTEnuID + " DTQCode: " + DTQCode + " DTACode: " + DTACode + " DTRSeq: " + String.valueOf(DTRSeq) + " DTAValue:" + DTAValue
                     + " ProgActivityCode :" + ProgActivityCode + " DTTimeString:" + DTTimeString + " OpMode: " + OpMode + "OpMonthCode :" + OpMonthCode + " DataType: " + DataType + " imageString :" + imageString);
         }
-//        Toast.makeText(mContext, " row : " + row, Toast.LENGTH_SHORT).show();
+
 
     }
 
@@ -994,60 +1332,13 @@ public class DTResponseRecordingActivity extends BaseActivity implements Compoun
 
 
     /**
-     * Load the next Question
-     */
-
-    private void getNextQuestion() {
-
-        /** for 1st question the {@link #btnPreviousQus }previous button will be invisible
-         * if user go for the second question  this block  will check , is previous button
-         * invisible if it is true set the button visible
-         */
-        if (btnPreviousQus.getVisibility() == View.INVISIBLE)
-            btnPreviousQus.setVisibility(View.VISIBLE);
-
-
-        ++mQusIndex;    //                   increments the question no index
-
-        //to check does index exceed the maximum value
-        if (mQusIndex != totalQuestion)
-            hideViews();
-
-
-        if (mQusIndex < totalQuestion) {
-
-
-            //  add skip rules
-            DTQTableDataModel nextQus = skipToQuestionCheck(mQusIndex);
-
-            if (nextQus != null)
-                displayQuestion(nextQus);
-
-            // set arrow icon instead of stop icon . set previous  state
-            removeStopIconNextButton(btnPreviousQus);
-
-            // no need to delete bellow code
-            //   if (mQusIndex == totalQuestion - 1) {
-            //   addSaveIconButton(btnNextQues);
-            //   }
-
-
-        } else if (mQusIndex == totalQuestion) {
-
-            // one set complete
-            compilationFunctionNMessage();
-
-        } else if (mQusIndex > totalQuestion) {// if all  questions set is complete
-            continueDialog();
-        }
-    }
-
-    /**
      * set thank you statements to user to understand end set survey
      * use {@link SQLServerSyntaxGenerator#sqlSpDTShortName_Save()} sp
      */
     private void compilationFunctionNMessage() {
-        saveProcessValidation();
+
+        //  don't delete below code
+        //saveProcessValidation();
         hideViews();
         setTextInQuestionTextView("Thank you .");
 
@@ -1061,8 +1352,6 @@ public class DTResponseRecordingActivity extends BaseActivity implements Compoun
         mSyntaxGenerator.setAdmProgCode(dyIndex.getProgramCode());
         mSyntaxGenerator.setOpMonthCode(dyIndex.getOpMonthCode());
         mSyntaxGenerator.setDTEnuID(getStaffID());
-
-
         sqlH.insertIntoUploadTable(mSyntaxGenerator.sqlSpDTShortName_Save());
 
         Toast.makeText(mContext, "Saved Successfully ", Toast.LENGTH_SHORT).show();
@@ -1083,16 +1372,14 @@ public class DTResponseRecordingActivity extends BaseActivity implements Compoun
         String dt_SkipDTQCode = "";
         if (mSkipDTATable != null && isSkipQuestion) {
             dt_SkipDTQCode = mSkipDTATable.getDt_SkipDTQCode();
-            //get the skip question
-            dt_SkipDTQues = loadNextQuestion(dyIndex.getDtBasicCode(), dt_SkipDTQCode);
 
+            dt_SkipDTQues = loadNextQuestion(dyIndex.getDtBasicCode(), dt_SkipDTQCode);     // get the skip question
 
-            if (dt_SkipDTQues != null) { //      safety block
+            if (dt_SkipDTQues != null) {                                                //  safety block
                 dtqTableDataModel = dt_SkipDTQues;
                 isSkipQuestion = false;
 
-                // set question index
-                mQusIndex = Integer.parseInt(dt_SkipDTQues.getqSeq());
+                mQusIndex = Integer.parseInt(dt_SkipDTQues.getqSeq());                  // set question index
             }
 
         } else {
@@ -1219,7 +1506,7 @@ public class DTResponseRecordingActivity extends BaseActivity implements Compoun
                     // it's all about  check box
                     if (!presentQuesCode.equals(previousQuesCode)) {
                         sqlH.addIntoDTResponseTable(DTBasic, AdmCountryCode, AdmDonorCode, AdmAwardCode, AdmProgCode, DTEnuID, DTQCode, DTACode, String.valueOf(DTRSeq), DTAValue, ProgActivityCode, DTTimeString, OpMode, OpMonthCode, DataType, "", true);
-                        sqlH.addIntoDTSurveyTable(DTBasic, AdmCountryCode, AdmDonorCode, AdmAwardCode, AdmProgCode, DTEnuID, DTQCode, DTACode, String.valueOf(DTRSeq), DTAValue, ProgActivityCode, DTTimeString, OpMode, OpMonthCode, DataType, DTQText, surveyNumber);
+                        sqlH.addIntoDTSurveyTable(DTBasic, AdmCountryCode, AdmDonorCode, AdmAwardCode, AdmProgCode, DTEnuID, DTQCode, DTACode, String.valueOf(DTRSeq), DTAValue, ProgActivityCode, DTTimeString, OpMode, OpMonthCode, DataType, DTQText, surveyNumber,imageString);
 
                         // uses suffix in increments
                         mQusIndex++;
@@ -1227,7 +1514,7 @@ public class DTResponseRecordingActivity extends BaseActivity implements Compoun
                 } else if (i == 0) {
                     // saved the first freeze question
                     sqlH.addIntoDTResponseTable(DTBasic, AdmCountryCode, AdmDonorCode, AdmAwardCode, AdmProgCode, DTEnuID, DTQCode, DTACode, String.valueOf(DTRSeq), DTAValue, ProgActivityCode, DTTimeString, OpMode, OpMonthCode, DataType, "", true);
-                    sqlH.addIntoDTSurveyTable(DTBasic, AdmCountryCode, AdmDonorCode, AdmAwardCode, AdmProgCode, DTEnuID, DTQCode, DTACode, String.valueOf(DTRSeq), DTAValue, ProgActivityCode, DTTimeString, OpMode, OpMonthCode, DataType, DTQText, surveyNumber);
+                    sqlH.addIntoDTSurveyTable(DTBasic, AdmCountryCode, AdmDonorCode, AdmAwardCode, AdmProgCode, DTEnuID, DTQCode, DTACode, String.valueOf(DTRSeq), DTAValue, ProgActivityCode, DTTimeString, OpMode, OpMonthCode, DataType, DTQText, surveyNumber,imageString);
 
                 }
 
@@ -1240,28 +1527,6 @@ public class DTResponseRecordingActivity extends BaseActivity implements Compoun
         }
     }
 
-    /**
-     * this method load previous Question. from data set
-     */
-
-    private void getPreviousQuestion() {
-        --mQusIndex;
-        hideViews();
-
-        // to check does index exceed the minimum  value
-
-        if (mQusIndex >= 0) {
-            DTQTableDataModel nextQus = loadPreviousQuestion(dyIndex.getDtBasicCode(), mQusIndex);
-            displayQuestion(nextQus);
-
-            if (mQusIndex == 0)
-                addStopIconButton(btnPreviousQus);
-
-        } else if (mQusIndex < 0) {
-            mQusIndex = 1;
-
-        }
-    }
 
     /**
      * @param qusObject DTQTable object
@@ -1297,27 +1562,6 @@ public class DTResponseRecordingActivity extends BaseActivity implements Compoun
         tv_DtQuestion.setText(quesText);
     }
 
-    /**
-     * initial state
-     * also views refer
-     * initiate {@link #sqlH} & {@link #dialogManager}
-     * invoke :{@link #viewReference()} method  for instance
-     */
-
-    private void inti() {
-        viewReference();
-        sqlH = new SQLiteHandler(mContext);
-        cusToast = new CustomToast(mContext);
-
-        // initiate with dialog Manager
-        dialogManager = new ADNotificationManager();
-
-        //get intent
-        Intent intent = getIntent();
-        dyIndex = intent.getParcelableExtra(KEY.DYNAMIC_INDEX_DATA_OBJECT_KEY);
-        totalQuestion = intent.getIntExtra(KEY.DYNAMIC_T_QUES_SIZE, 0);
-        initialWithFirstQues();
-    }
 
     /**
      * this method load the first question
@@ -1353,7 +1597,7 @@ public class DTResponseRecordingActivity extends BaseActivity implements Compoun
      * Hide the dynamic views
      */
     private void hideViews() {
-        _dt_tv_DatePicker.setVisibility(View.GONE);
+        _dt_tv_DatePickerNLatLong.setVisibility(View.GONE);
         dt_edt.setVisibility(View.GONE);
         dt_spinner.setVisibility(View.GONE);
         parent_layout_onlyFor_CB.setVisibility(View.GONE);
@@ -1363,35 +1607,6 @@ public class DTResponseRecordingActivity extends BaseActivity implements Compoun
         dt_photo.setVisibility(View.GONE);
     }
 
-    /**
-     * Refer the all the necessary view in java object
-     */
-    private void viewReference() {
-        tv_DtQuestion = (TextView) findViewById(R.id.tv_DtQuestion);
-        btnHome = (Button) findViewById(R.id.btnHomeFooter);
-        btnNextQues = (Button) findViewById(R.id.btn_dt_next);
-        btnPreviousQus = (Button) findViewById(R.id.btn_dt_preview);
-        Button btnGone = (Button) findViewById(R.id.btnRegisterFooter);
-        btnGone.setVisibility(View.GONE);
-
-        // next & preview button
-        parent_layout_onlyFor_CB = (LinearLayout) findViewById(R.id.ll_checkBox);
-        _dt_tv_DatePicker = (TextView) findViewById(R.id.tv_dtTimePicker);
-        dt_edt = (EditText) findViewById(R.id.edt_dt);
-        dt_spinner = (Spinner) findViewById(R.id.dt_sp);
-        dt_photo = (ImageView) findViewById(R.id.dt_iv_photo);
-        mRadioGroup = (RadioGroup) findViewById(R.id.radioGroup);
-        ll_editText = (LinearLayout) findViewById(R.id.llEditText);
-        mRadioGroupForRadioAndEditText = (RadioGroup) findViewById(R.id.radioGroupForRadioAndEdit);
-
-        //CheckBox and EditText
-        parent_layout_FOR_CB_N_ET = (LinearLayout) findViewById(R.id.ll_CheckBoxAndEditTextParent);
-        subParent_CB_layout_FOR_CB_N_ET = (LinearLayout) findViewById(R.id.ll_checkBoxAndEditTextCheckbox);
-        subParent_ET_layout_FOR_CB_N_ET = (LinearLayout) findViewById(R.id.et_CheckBoxAndEditText);
-        dt_layout_Radio_N_EditText = (LinearLayout) findViewById(R.id.ll_radioGroupAndEditText);
-
-        tBtnFreezNUnfeez = (ToggleButton) findViewById(R.id.toggBtn_freezNUnfeez);
-    }
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     private void addStopIconButton(Button button) {
@@ -1492,166 +1707,41 @@ public class DTResponseRecordingActivity extends BaseActivity implements Compoun
         return mDTQTable;
     }
 
-    /**
-     * loadDT_QResMode(String) is equivalent to ans view loader
-     *
-     * @param resMode repose Mode
-     */
-    private void loadDT_QResMode(String resMode) {
 
-        /**
-         *  the {@link #mDTQResMode} is needed in the save process in {@link #saveProcessValidation()}
-         */
-        mDTQResMode = sqlH.getDT_QResMode(resMode);
-        String responseControl = mDTQResMode.getDtResponseValueControl();
-        String dataType = mDTQResMode.getDtDataType();
-        String resLupText = mDTQResMode.getDtQResLupText();
+    private void loadGpsLatLong(String resLupText, DTResponseTableDataModel dtResponse) {
 
-        // needed only for test purpose
-        //    Log.d("Nir", "responseControl :" + responseControl + "\n dataType:" + dataType + " \n resLupText :" + resLupText);
-        /**
-         * Resort Data if Data exits
-         */
+        _dt_tv_DatePickerNLatLong.setVisibility(View.VISIBLE);
 
-        DTResponseTableDataModel dtResponse = sqlH.getDTResponseTableData(dyIndex.getDtBasicCode(), dyIndex.getcCode(), dyIndex.getDonorCode(), dyIndex.getAwardCode(), dyIndex.getProgramCode(), getStaffID(), mDTQTable.getDtQCode(), mDTATables.get(0).getDt_ACode(), mDTRSeq);
+        _dt_tv_DatePickerNLatLong.setText("");
+        _dt_tv_DatePickerNLatLong.setClickable(false);
 
-        countChecked = 0;
-        if (dataType != null) {
-            switch (responseControl) {
-                case TEXT_BOX:
+        if (dtResponse != null)                                                 //if data exists show data
+            _dt_tv_DatePickerNLatLong.setText(dtResponse.getDtaValue());
+        else {
+            LocationManager manager = (LocationManager)
+                    getSystemService(Context.LOCATION_SERVICE);
 
-                    dt_edt.setVisibility(View.VISIBLE);
+            mLocation = manager.getLastKnownLocation(LocationManager.GPS_PROVIDER);     //for demo, getLastKnownLocation from GPS only, not from NETWORK
 
 
-                    switch (dataType) {
-                        case TEXT:
-                            dt_edt.setHint("Text");
-                            dt_edt.setInputType(InputType.TYPE_CLASS_TEXT);
-                            break;
-                        case NUMBER:
+            manager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, mLocationListener);  // get the update of location
+            if (mLocation != null) {
 
-//                            dt_edt.setHint("Number");
-//                            dt_edt.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
-                            // all number dec format
-                            // todo : check for the validation again
-                            if (resLupText.equals("Number (not decimal)"))
-                                dt_edt.setInputType(InputType.TYPE_CLASS_NUMBER);
-                            else
-                                dt_edt.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
-//                            break;
-                            break;
+                String latLong = "";
 
-                    }// end of switch
-
-                    /**
-                     * if data exit show data
-                     */
-                    if (dtResponse != null)
-                        dt_edt.setText(dtResponse.getDtaValue());
-                    else
-                        dt_edt.setText("");
-                    break;
+                latLong = String.valueOf(mLocation.getLongitude()) + " , " + String.valueOf(mLocation.getLatitude());
+//                if (resLupText.equals(GPS_LATD))
+//                latLong = String.valueOf(mLocation.getLatitude());
+//                else
 
 
-                case Date_OR_Time:
+                _dt_tv_DatePickerNLatLong.setText(latLong);
+            } else {
+                dialogManager.showInfromDialog(mContext, "Turn On", "Turn on the GPS !");
+            }
 
-                    _dt_tv_DatePicker.setVisibility(View.VISIBLE);
-
-                    /**
-                     * if data exit show data
-                     */
-                    if (dtResponse != null)
-                        _dt_tv_DatePicker.setText(dtResponse.getDtaValue());
-                    else
-                        _dt_tv_DatePicker.setText("Select Date");
-                    //specification  of date time
-                    switch (dataType) {
-                        case DATE_TIME:
-                            getTimeStamp(_dt_tv_DatePicker);
-                            break;
-                        case DATE:
-
-                            _dt_tv_DatePicker.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View view) {
-                                    setDate();
-                                }
-                            });
-                            break;
-                    }
-
-
-                    break;
-                case COMBO_BOX:
-                    dt_spinner.setVisibility(View.VISIBLE);
-
-                    //hide the key pad when spinner Appears
-                    hideSoftKayPad(dt_spinner);
-                    /**
-                     * if data exist get the Spinner String
-                     * set position •
-                     */
-                    if (dtResponse != null)
-                        strSpinner = dtResponse.getDtaValue();
-                    else
-                        strSpinner = null;
-                    loadDynamicSpinnerList(dyIndex.getcCode(), resLupText);
-
-
-                    break;
-                case CHECK_BOX:
-
-                    parent_layout_onlyFor_CB.setVisibility(View.VISIBLE);
-
-                    //hide the key pad when spinner Appears
-                    hideSoftKayPad(dt_spinner);
-
-                    if (mDTATables.size() > 0)
-                        loadDynamicCheckBox(mDTATables);
-                    restoreCheckBoxPreviousValue(mCheckBox_List);
-
-
-                    break;
-                case RADIO_BUTTON:
-                    mRadioGroup.setVisibility(View.VISIBLE);
-
-                    //hide the key pad when spinner Appears
-                    hideSoftKayPad(dt_spinner);
-
-                    if (mDTATables.size() > 0)
-                        loadRadioButtons(mDTATables);
-
-                    // restore the previous value from db
-                    restoreRadioButtonPreviousValue(mRadioGroup, mRadioButton_List);
-
-
-
-                    break;
-                case RADIO_BUTTON_N_TEXTBOX:
-                    dt_layout_Radio_N_EditText.setVisibility(View.VISIBLE);
-
-                    if (mDTATables.size() > 0)
-                        loadRadioButtonAndEditText(mDTATables, dataType);
-
-                    // restore the previous value from db
-                    restoreRadioButtonPreviousValue(mRadioGroupForRadioAndEditText, mRadioButtonForRadioAndEdit_List);
-                    break;
-                case CHECKBOX_N_TEXTBOX:
-                    parent_layout_FOR_CB_N_ET.setVisibility(View.VISIBLE);
-
-                    if (mDTATables.size() > 0)
-                        loadDynamicCheckBoxAndEditText(mDTATables, dataType);
-
-                    restoreCheckBoxPreviousValue(mCheckBoxForCheckBoxAndEdit_List);
-                    break;
-                case PHOTO:
-                    loadDynamicPhoto();
-                    break;
-
-            }// end of switch
-        }// end of if
-
-    }//  end of loadDT_QResMode
+        } // end of data exits else
+    }
 
     /**
      * this method restore the check box stage from fetching data
@@ -1735,7 +1825,7 @@ public class DTResponseRecordingActivity extends BaseActivity implements Compoun
 
     private void showPhotoCaptureDialog(final int requestCode) {
 
-        final CharSequence[] items = getResources().getStringArray(R.array.cameraOption);
+        final CharSequence[] items = getResources().getStringArray(R.array.cameraOption_2);
 
         android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(new ContextThemeWrapper(mContext, android.R.style.Theme_Holo_Light_Dialog));
         builder.setTitle("Photo:");
@@ -1748,10 +1838,10 @@ public class DTResponseRecordingActivity extends BaseActivity implements Compoun
                         camera.captureImageAlert(DTResponseRecordingActivity.this, requestCode);
 
                         break;
-                    case CameraUtils.DELETE_IMAGE:
-                        // checkPhotoAvailability(CountryCode, GrpCode, subGrpCode, LocationCode, ContentCode);
-                        break;
-                    case CameraUtils.CANCEL:
+//                    case CameraUtils.DELETE_IMAGE:
+//                        // checkPhotoAvailability(CountryCode, GrpCode, subGrpCode, LocationCode, ContentCode);
+//                        break;
+                    case CameraUtils.CANCEL-1:
                         imageCaptureOptionDialog.dismiss();
                         break;
                 }
@@ -1876,7 +1966,7 @@ public class DTResponseRecordingActivity extends BaseActivity implements Compoun
     }
 
     private void displayDate(String strDate) {
-        _dt_tv_DatePicker.setText(strDate);
+        _dt_tv_DatePickerNLatLong.setText(strDate);
     }
 
     public void setDate() {
@@ -2073,13 +2163,13 @@ public class DTResponseRecordingActivity extends BaseActivity implements Compoun
 
     private void loadDynamicCheckBoxAndEditText(List<DT_ATableDataModel> List_DtATable, String dataType) {
 
+        // clean the list if any child exists in #subParent_CB_layout_FOR_CB_N_ET layout
         if (subParent_CB_layout_FOR_CB_N_ET.getChildCount() > 0) {
             subParent_ET_layout_FOR_CB_N_ET.removeAllViews();
             subParent_CB_layout_FOR_CB_N_ET.removeAllViews();
             mCheckBoxForCheckBoxAndEdit_List.clear();
             mEditTextForCheckBoxAndEdit_List.clear();
         }
-
 
         for (int i = 0; i < List_DtATable.size(); i++) {
 
@@ -2098,9 +2188,9 @@ public class DTResponseRecordingActivity extends BaseActivity implements Compoun
             et.setHint(label);
             et.setId(i);
 
-            /**
-             * soft keyboard type
-             */
+
+            // set soft keyboard type
+
             if (dataType.equals(NUMBER)) {
                 et.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
 

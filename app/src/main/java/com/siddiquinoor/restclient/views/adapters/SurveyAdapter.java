@@ -1,10 +1,14 @@
 package com.siddiquinoor.restclient.views.adapters;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.v7.widget.RecyclerView;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -41,14 +45,28 @@ public class SurveyAdapter extends RecyclerView.Adapter<SurveyAdapter.SurveyItem
     public void onBindViewHolder(SurveyItemViewHolder holder, final int position) {
         final DTSurveyTableDataModel dtSurveyTableDataModel = dtSurveyTableDataModels.get(position);
         holder.tvQuestion.setText(dtSurveyTableDataModel.getDtqText());
+
+        holder.imgVImage.setVisibility(View.GONE);
+
         if (dtSurveyTableDataModel.getDtaValue().equalsIgnoreCase("Y")) {
             holder.tvAnswer.setText("Yes");
         } else if (dtSurveyTableDataModel.getDtaValue().equalsIgnoreCase("N")) {
             holder.tvAnswer.setText("No");
-        } else if (dtSurveyTableDataModel.getDtALabel()==null) {    //if the answer control is not Radio button or check Box  then set the DtaValue
+        } else if (dtSurveyTableDataModel.getDtALabel() == null) {    //if the answer control is not Radio button or check Box  then set the DtaValue
             holder.tvAnswer.setText(dtSurveyTableDataModel.getDtaValue());
-        }else {
-            holder.tvAnswer.setText(dtSurveyTableDataModel.getDtALabel());
+        } else {
+            if (dtSurveyTableDataModel.getDtPhoto().length() < 5)
+                holder.tvAnswer.setText(dtSurveyTableDataModel.getDtALabel());
+            else {
+
+                holder.tvAnswer.setVisibility(View.GONE);
+                holder.imgVImage.setVisibility(View.VISIBLE);
+
+
+                byte[] data = Base64.decode(dtSurveyTableDataModel.getDtPhoto(), Base64.DEFAULT);//encodeToString(byteArray, Base64.DEFAULT);
+                Bitmap bmp = BitmapFactory.decodeByteArray(data, 0, data.length);
+                holder.imgVImage.setImageBitmap(bmp);
+            }
         }
     }
 
@@ -60,12 +78,14 @@ public class SurveyAdapter extends RecyclerView.Adapter<SurveyAdapter.SurveyItem
     public static class SurveyItemViewHolder extends RecyclerView.ViewHolder {
 
         protected TextView tvQuestion, tvAnswer;
+        protected ImageView imgVImage;
         protected LinearLayout llContainer;
 
         public SurveyItemViewHolder(View itemView) {
             super(itemView);
             tvQuestion = (TextView) itemView.findViewById(R.id.tvQuestion);
             tvAnswer = (TextView) itemView.findViewById(R.id.tvAnswer);
+            imgVImage = (ImageView) itemView.findViewById(R.id.imageView_servyImage);
             llContainer = (LinearLayout) itemView.findViewById(R.id.llContainer);
         }
     }

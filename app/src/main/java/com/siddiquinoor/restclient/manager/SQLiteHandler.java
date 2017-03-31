@@ -17,6 +17,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+
 import android.util.Log;
 import android.widget.ImageView;
 
@@ -90,7 +91,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
     // All Static variables
 
     // Database Version
-    private static final int DATABASE_VERSION = 14;
+    private static final int DATABASE_VERSION = 16;
     // Database Name
     private static final String DATABASE_NAME = "pci";
     // Android meta data table
@@ -159,6 +160,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
     public static final String SERVICE_CENTER_TABLE = "ServiceCenter";
 
     public static final String STAFF_GEO_INFO_ACCESS_TABLE = "StaffGeoInfoAccess";
+    public static final String STAFF_SRV_CENTER_ACCESS_TABLE = "StaffSrvCenterAccess";
 
     public static final String HOUSE_HOLD_CATEGORY_TABLE = "HouseHoldCategory";
     public static final String LIBERIA_REGISTRATION_TABLE = "Liberia_Registration";
@@ -991,6 +993,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
         db.execSQL(Schema.sqlCreateRegNCU2Table());
         db.execSQL(Schema.sqlCreateRegNCA2Table());
         db.execSQL(Schema.sqlCreateStaffGeoInfoAccessTable());
+        db.execSQL(Schema.sqlCreateStaffSrvCenterAccessTable());
         db.execSQL(Schema.sqlCreateHouseHoldCategoryTable());
         db.execSQL(Schema.sqlCreateGraduationTable());
         db.execSQL(Schema.sqlCreateCardTypeTable());
@@ -1075,7 +1078,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
 
         //SQLiteDatabase db = this.getWritableDatabase();
 
-        Log.d(TAG, "Dropping all table..");
+//        Log.d(TAG, "Dropping all table..");
 
         // Drop older table if existed
         try {
@@ -1167,11 +1170,12 @@ public class SQLiteHandler extends SQLiteOpenHelper {
             db.execSQL(DROP_TABLE_IF_EXISTS + SELECTED_COUNTRY_TABLE);
             db.execSQL(DROP_TABLE_IF_EXISTS + ADM_AWARD_TABLE);
             db.execSQL(DROP_TABLE_IF_EXISTS + SELECTED_OPERATION_MODE_TABLE);
+            db.execSQL(DROP_TABLE_IF_EXISTS + STAFF_SRV_CENTER_ACCESS_TABLE);
 
 
-            Log.d(TAG, "All table Dropped.");
+//            Log.d(TAG, "All table Dropped.");
         } catch (Exception e) {
-            Log.d(TAG, "Error: " + e.getMessage());
+//            Log.d(TAG, "Error: " + e.getMessage());
         }
 
 
@@ -1208,7 +1212,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
             db.delete(OP_MONTH_TABLE, null, null);
             //db.delete(COUNTRY_PROGRAM_TABLE, null, null);
             db.delete(SERVICE_CENTER_TABLE, null, null);
-            db.delete(STAFF_GEO_INFO_ACCESS_TABLE, null, null);
+          ///  db.delete(STAFF_GEO_INFO_ACCESS_TABLE, null, null);
             db.delete(HOUSE_HOLD_CATEGORY_TABLE, null, null);
             db.delete(REG_N_LUP_GRADUATION_TABLE, null, null);
             db.delete(LAYER_LABEL_TABLE, null, null);
@@ -1221,9 +1225,9 @@ public class SQLiteHandler extends SQLiteOpenHelper {
             db.delete(SERVICE_EXTENDED_TABLE, null, null);
 
 
-            Log.d(TAG, "All Reference data Deleted.");
+//            Log.d(TAG, "All Reference data Deleted.");
         } catch (Exception e) {
-            Log.d(TAG, "Error: " + e.getMessage());
+//            Log.d(TAG, "Error: " + e.getMessage());
         }
 
         //db.close();
@@ -1260,7 +1264,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
 
         // SQLiteDatabase db = this.getWritableDatabase();
 
-        Log.d(TAG, "Deleting all user data..");
+//        Log.d(TAG, "Deleting all user data..");
 
         try {
             // Delete All Rows
@@ -1303,6 +1307,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
             db.delete(REG_N_CU2_TABLE, null, null);
             db.delete(REG_N_CA2_TABLE, null, null);
             db.delete(STAFF_GEO_INFO_ACCESS_TABLE, null, null);
+            db.delete(STAFF_SRV_CENTER_ACCESS_TABLE, null, null);
             db.delete(HOUSE_HOLD_CATEGORY_TABLE, null, null);
             db.delete(LIBERIA_REGISTRATION_TABLE, null, null);
             db.delete(REG_N_LUP_GRADUATION_TABLE, null, null);
@@ -1347,9 +1352,9 @@ public class SQLiteHandler extends SQLiteOpenHelper {
             db.delete(SELECTED_OPERATION_MODE_TABLE, null, null);
 
 
-            Log.d(TAG, "All User data Deleted.");
+//            Log.d(TAG, "All User data Deleted.");
         } catch (Exception e) {
-            Log.d(TAG, "Error: " + e.getMessage());
+//            Log.d(TAG, "Error: " + e.getMessage());
         }
 
         //db.close();
@@ -1806,7 +1811,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
 
         db.close(); // Closing database connection
 
-        Log.d(TAG, "Registration data edited for: " + pID);
+//        Log.d(TAG, "Registration data edited for: " + pID);
     }
 
 
@@ -1898,7 +1903,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
         // insert
         long id = db.insert(REGISTRATION_TABLE, null, values);
         db.close();
-        Log.d(TAG, "New LIBERIA_REGISTRATION_TABLE  added: " + id);
+//        Log.d(TAG, "New LIBERIA_REGISTRATION_TABLE  added: " + id);
         return id;
     }
 
@@ -2224,7 +2229,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
         // insert
         int affectedRow = db.update(SERVICE_SPECIFIC_TABLE, values, where, null);
         db.close();
-        Log.d(TAG, "No of Row affected  " + affectedRow + " in " + SERVICE_SPECIFIC_TABLE);
+//        Log.d(TAG, "No of Row affected  " + affectedRow + " in " + SERVICE_SPECIFIC_TABLE);
         return affectedRow;
     }
 
@@ -2254,7 +2259,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
         // delete
         int noOfDeletedRow = db.delete(SERVICE_SPECIFIC_TABLE, where, null);
         db.close();
-        Log.d(TAG, "No of Row deleted  " + noOfDeletedRow + " in " + SERVICE_SPECIFIC_TABLE);
+//        Log.d(TAG, "No of Row deleted  " + noOfDeletedRow + " in " + SERVICE_SPECIFIC_TABLE);
 
     }
 
@@ -2291,7 +2296,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
         values.put(ENTRY_DATE, distData.getEntryDate());
         long id = db.insert(DISTRIBUTION_TABLE, null, values);
         db.close();
-        Log.d(TAG, "Distribution table   added: " + id);
+
 
         return id;
     }
@@ -2329,7 +2334,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
         values.put(SYNC_COL, is_online);
         long id = db.insert(DISTRIBUTION_EXTENDED_TABLE, null, values);
         db.close();
-        Log.d(TAG, "Distribution Extended table   added: " + id);
+//        Log.d(TAG, "Distribution Extended table   added: " + id);
 
         return id;
     }
@@ -2386,7 +2391,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
 
         long id = db.insert(DIST_N_PLAN_BASIC_TABLE, null, values);
         db.close();
-        Log.d(TAG, "Distribution Extended table   added: " + id);
+//        Log.d(TAG, "Distribution Extended table   added: " + id);
 
 
     }
@@ -2433,7 +2438,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
 
             }
         } catch (NullPointerException e) {
-            Log.e(TAG, "in getMemberName() get Exception " + e);
+//            Log.e(TAG, "in getMemberName() get Exception " + e);
         } finally {
             if (cursor != null) {
                 cursor.close();
@@ -2461,7 +2466,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
         // Insert
         long id = db.insert(HOUSE_HOLD_CATEGORY_TABLE, null, values);
         db.close();
-        Log.d(TAG, "New House Hold Category  added: " + id);
+//        Log.d(TAG, "New House Hold Category  added: " + id);
 
 
     }
@@ -2636,7 +2641,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
     }
 
 
-    public void addStaffGeoAccessInfoFromOnline(String staffCode, String cCode, String donorCode, String awardCode, String layrListCode, String districtCode, String upzellaCode, String unitCode, String vCode, String btnNew, String btnSave, String btnDel, String btnpepr, String btnAprv, String btnRevw, String btnVrfy, String btnDtrain) {
+    public void addStaffGeoAccessInfo(String staffCode, String cCode, String donorCode, String awardCode, String layrListCode, String districtCode, String upzellaCode, String unitCode, String vCode, String btnNew, String btnSave, String btnDel, String btnpepr, String btnAprv, String btnRevw, String btnVrfy, String btnDtrain) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
@@ -2652,7 +2657,6 @@ public class SQLiteHandler extends SQLiteOpenHelper {
 
         // the permission of user action
         values.put(BTN_NEW_COL, btnNew);
-
         values.put(BTN_SAVE_COL, btnSave);
         values.put(BTN_DEL_COL, btnDel);
         values.put(BTN_PEPR_COL, btnpepr);
@@ -2663,10 +2667,28 @@ public class SQLiteHandler extends SQLiteOpenHelper {
 
 
         // Inserting Row
-        long id = db.insert(STAFF_GEO_INFO_ACCESS_TABLE, null, values);
+        db.insert(STAFF_GEO_INFO_ACCESS_TABLE, null, values);
         db.close(); // Closing database connection
 
 
+    }
+
+
+    public void addStaffSrvCenterAccess(String staffCode, String cCode, String srvCenterCode, String btnNew, String btnSave, String btnDel) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(STAFF_CODE, staffCode);
+        values.put(COUNTRY_CODE_COL, cCode);
+        values.put(SERVICE_CENTER_CODE_COL, srvCenterCode);
+
+        values.put(BTN_NEW_COL, btnNew);
+        values.put(BTN_SAVE_COL, btnSave);
+        values.put(BTN_DEL_COL, btnDel);
+
+        // Inserting Row
+         db.insert(STAFF_SRV_CENTER_ACCESS_TABLE, null, values);
+        db.close(); // Closing database connection
     }
 
     public void addOpMonthFromOnline(String cCode, String donorCode, String awardCode, String opCode, String opMonthCode, String mLable, String sDate, String eDate, String usasDate, String usaeDate, String status) {
@@ -2729,7 +2751,8 @@ public class SQLiteHandler extends SQLiteOpenHelper {
 
 
         // Inserting Row
-        long id = db.insert(GPS_SUB_GROUP_TABLE, null, values);
+//        long id =
+        db.insert(GPS_SUB_GROUP_TABLE, null, values);
         db.close(); // Closing database connection
 
         //  Log.d(TAG, "New Group inserted into GPS_SUB_GROUP_TABLE: " + id);
@@ -2999,7 +3022,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
             // mCursor.moveToFirst();
 //            dobDate = removeTimestamp(cursor.getString(cursor.getColumnIndex(CU2DOB_DATE_COL)));
             dobDate = cursor.getString(cursor.getColumnIndex(CU2DOB_DATE_COL));
-            Log.d(TAG, "Dob date in REg Cuild under " + cursor.getString(0));
+//            Log.d(TAG, "Dob date in REg Cuild under " + cursor.getString(0));
         }
         if (cursor != null)
             cursor.close();
@@ -3061,7 +3084,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
 //            lmpDate = removeTimestamp(cursor.getString(cursor.getColumnIndex(LMP_DATE_COL)));
             lmpDate = cursor.getString(cursor.getColumnIndex(LMP_DATE_COL));
 
-            Log.d(TAG, "Lmp Date " + cursor.getString(0));
+//            Log.d(TAG, "Lmp Date " + cursor.getString(0));
         }
         if (cursor != null)
             cursor.close();
@@ -3090,7 +3113,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
 
 //            lmDate = removeTimestamp(cursor.getString(cursor.getColumnIndex(LM_DATE_COL)));
             lmDate = cursor.getString(cursor.getColumnIndex(LM_DATE_COL));
-            Log.d(TAG, "LM date" + cursor.getString(0));
+//            Log.d(TAG, "LM date" + cursor.getString(0));
         }
         if (cursor != null)
             cursor.close();
@@ -3118,7 +3141,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
         if (mCursor != null && mCursor.moveToFirst()) {
 //            regDate = removeTimestamp(mCursor.getString(mCursor.getColumnIndex(REG_N_DAT_COL)));
             regDate = mCursor.getString(mCursor.getColumnIndex(REG_N_DAT_COL));
-            Log.d(TAG, "Reg Date:" + mCursor.getString(0));
+//            Log.d(TAG, "Reg Date:" + mCursor.getString(0));
         }
         if (mCursor != null) {
             mCursor.close();
@@ -3401,7 +3424,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put(SYNC_COL, 1);
         int updateId = db.update(UPLOAD_SYNTAX_TABLE, values, ID_COL + " = ? ", new String[]{String.valueOf(id)});
-        Log.d(TAG, "inserted into Upload Table id:" + updateId);
+//        Log.d(TAG, "inserted into Upload Table id:" + updateId);
         return updateId;
 
     }
@@ -3508,7 +3531,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
 
             }
         } catch (NullPointerException e) {
-            Log.e(TAG, "in getMemberName() get Exception " + e);
+//            Log.e(TAG, "in getMemberName() get Exception " + e);
         } finally {
             if (cursor != null) {
                 cursor.close();
@@ -3636,7 +3659,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
 
             }
         } catch (NullPointerException e) {
-            Log.e(TAG, "in getProgramGraduationDateOfMember get Exception " + e);
+//            Log.e(TAG, "in getProgramGraduationDateOfMember get Exception " + e);
         } finally {
             if (cursor != null) {
                 cursor.close();
@@ -3863,7 +3886,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
 
             }
         } catch (NullPointerException e) {
-            Log.e(TAG, "In getMaxCardRequesSl() method Exeption " + e);
+//            Log.e(TAG, "In getMaxCardRequesSl() method Exeption " + e);
         } finally {
             if (cursor != null)
                 cursor.close();
@@ -3967,7 +3990,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
         agr_dataModel.setWealthRank("N");
         agr_dataModel.setMemExitGrp("N");
 
-        Log.d(TAG, "In check AssignCriteria In WE _ Table For Malwai");
+//        Log.d(TAG, "In check AssignCriteria In WE _ Table For Malwai");
         if (cursor != null && cursor.moveToFirst()) {
 
 
@@ -4019,7 +4042,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
 
             }
         } catch (NullPointerException e) {
-            Log.e(TAG, "in getCardDeliveryStatus() get Exception " + e);
+//            Log.e(TAG, "in getCardDeliveryStatus() get Exception " + e);
         } finally {
             if (cursor != null) {
                 cursor.close();
@@ -4076,7 +4099,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
 
             }
         } catch (NullPointerException e) {
-            Log.e(TAG, "in getCardRequestDate() get Exception " + e);
+//            Log.e(TAG, "in getCardRequestDate() get Exception " + e);
         } finally {
             if (cursor != null) {
                 cursor.close();
@@ -4136,7 +4159,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
 
             }
         } catch (NullPointerException e) {
-            Log.e(TAG, "in getCardRequestDate() get Exception " + e);
+//            Log.e(TAG, "in getCardRequestDate() get Exception " + e);
         } finally {
             if (cursor != null) {
                 cursor.close();
@@ -4181,7 +4204,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
 
         // updating row
         int id = db.update(MEMBER_CARD_PRINT_TABLE, values, query, null);
-        Log.d(TAG, "update Card Member Card Print's DelevaryDate  of MemberCardPrint Table: " + id);
+//        Log.d(TAG, "update Card Member Card Print's DelevaryDate  of MemberCardPrint Table: " + id);
 
 
         return id;
@@ -4233,7 +4256,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
         long id = db.insert(MEMBER_CARD_PRINT_TABLE, null, values);
         db.close(); // Closing database connection
         // updateRegNLMFStatus(assingPerson, 0);
-        Log.d(TAG, "New Member Card Print data added into MemberCardPrint Table: " + id);
+//        Log.d(TAG, "New Member Card Print data added into MemberCardPrint Table: " + id);
         return id;
     }
 
@@ -4282,7 +4305,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
         long id = db.insert(MEMBER_CARD_PRINT_TABLE, null, values);
         db.close(); // Closing database connection
         // updateRegNLMFStatus(assingPerson, 0);
-        Log.d(TAG, "New Member Card Print data added into MemberCardPrint Table: " + id);
+//        Log.d(TAG, "New Member Card Print data added into MemberCardPrint Table: " + id);
         return id;
     }
 
@@ -4338,7 +4361,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
 
             }
         } catch (NullPointerException e) {
-            Log.e(TAG, "in getCardRequestDate() get Exception " + e);
+//            Log.e(TAG, "in getCardRequestDate() get Exception " + e);
         } finally {
             if (cursor != null) {
                 cursor.close();
@@ -4454,7 +4477,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
                 crite.setCriteria_id(cursor.getString(cursor.getColumnIndex("IdCriteria")));
                 crite.setRecord(Integer.parseInt(cursor.getString(cursor.getColumnIndex("AssignCount"))));
                 criteriaList.add(crite);
-                Log.d(TAG, " Service summary Criteria : " + cursor.getString(0) + ",IdCriteria : " + cursor.getString(1) + ", AssignCount : " + cursor.getString(2));
+//                Log.d(TAG, " Service summary Criteria : " + cursor.getString(0) + ",IdCriteria : " + cursor.getString(1) + ", AssignCount : " + cursor.getString(2));
             } while (cursor.moveToNext());
         }
         cursor.close();
@@ -4977,7 +5000,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
 
 
         int i = db.update(COMMUNITY_GRP_DETAIL_TABLE, values, where, null);
-        Log.d("Update", "update " + i + " no of row of community detaidls ");
+//        Log.d("Update", "update " + i + " no of row of community detaidls ");
     }
 
 
@@ -5050,7 +5073,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
                 crite.setCriteria_id(cursor.getString(cursor.getColumnIndex("IdCriteria")));
                 crite.setRecord(Integer.parseInt(cursor.getString(cursor.getColumnIndex("Count"))));
                 criteriaList.add(crite);
-                Log.d(TAG, " Service summary Criteria : " + cursor.getString(0) + ",IdCriteria : " + cursor.getString(1) + ", ServiceCount : " + cursor.getString(2));
+//                Log.d(TAG, " Service summary Criteria : " + cursor.getString(0) + ",IdCriteria : " + cursor.getString(1) + ", ServiceCount : " + cursor.getString(2));
             } while (cursor.moveToNext());
         }
         cursor.close();
@@ -5079,12 +5102,12 @@ public class SQLiteHandler extends SQLiteOpenHelper {
                 crite.setPlan(Integer.parseInt(cursor.getString(cursor.getColumnIndex("plan"))));
                 crite.setRecord(Integer.parseInt(cursor.getString(cursor.getColumnIndex("receive"))));
                 criteriaList.add(crite);
-                Log.d(TAG, " Distribution summary Criteria : "
+           /*     Log.d(TAG, " Distribution summary Criteria : "
                         + cursor.getString(0) + ",IdCriteria : "
                         + cursor.getString(1)
                         + ", plan : " + cursor.getString(2)
                         + ", receive : " + cursor.getString(3)
-                );
+                );*/
             } while (cursor.moveToNext());
         }
         cursor.close();
@@ -5114,7 +5137,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
                 crite.setCriteria_id(cursor.getString(cursor.getColumnIndex("voucherID")));
                 crite.setRecord(Integer.parseInt(cursor.getString(cursor.getColumnIndex("unitCount"))));
                 criteriaList.add(crite);
-                Log.d(TAG, " Service Item summary item : " + cursor.getString(0) + ",voucherID : " + cursor.getString(1) + ", unitCount : " + cursor.getString(2));
+//                Log.d(TAG, " Service Item summary item : " + cursor.getString(0) + ",voucherID : " + cursor.getString(1) + ", unitCount : " + cursor.getString(2));
             } while (cursor.moveToNext());
         }
         cursor.close();
@@ -5526,10 +5549,10 @@ public class SQLiteHandler extends SQLiteOpenHelper {
             cursor.close();
             db.close();
         }
-        Log.d("responseTest", " ResMode:" + responseMode.getDtQResMode()
+/*        Log.d("responseTest", " ResMode:" + responseMode.getDtQResMode()
                 + " \tResponseValueControl" + responseMode.getDtResponseValueControl()
                 + "  setDtQResLupText:"
-                + responseMode.getDtQResLupText());
+                + responseMode.getDtQResLupText());*/
         return responseMode;
     }
 
@@ -5769,7 +5792,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
         values.put(ORGANIZATION_NAME, orgNName);
         values.put(ORGANIZATION_SHORT_NAME, orgNShortName);
         long id = db.insert(PROGRAM_ORGANIZATION_NAME_TABLE, null, values);
-        Log.d(TAG, "NEW Insert into " + PROGRAM_ORGANIZATION_NAME_TABLE + " Table: " + id);
+//        Log.d(TAG, "NEW Insert into " + PROGRAM_ORGANIZATION_NAME_TABLE + " Table: " + id);
         return id;
     }
 
@@ -5927,13 +5950,13 @@ public class SQLiteHandler extends SQLiteOpenHelper {
         if (cursor.getCount() > 0) {
             cursor.close();
             db.close();
-            Log.d(TAG, "the data exists in Table :" + tableName);
+//            Log.d(TAG, "the data exists in Table :" + tableName);
             return true;
         }
 
         cursor.close();
         db.close();
-        Log.d(TAG, "the data  did not exists in Table :" + tableName);
+//        Log.d(TAG, "the data  did not exists in Table :" + tableName);
 
         return false;
 
@@ -5964,7 +5987,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
         values.put(ENTRY_BY, memData.getEntryBy());
         values.put(ENTRY_DATE, memData.getEntryDate());
         long id = db.insert(REG_N_CT_TABLE, null, values);
-        Log.i(TAG, "Insert into " + REG_N_CT_TABLE + " id : " + String.valueOf(id));
+//        Log.i(TAG, "Insert into " + REG_N_CT_TABLE + " id : " + String.valueOf(id));
         db.close();
     }
 
@@ -6006,7 +6029,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
             }
             cursor.close();
         }
-        Log.d(TAG, " does does Member Assigned In Different Service member id : " + memId);
+//        Log.d(TAG, " does does Member Assigned In Different Service member id : " + memId);
         db.close();
         if (memId.length() == 2) {
             return true;
@@ -6036,14 +6059,14 @@ public class SQLiteHandler extends SQLiteOpenHelper {
 
             cursor.close();
             db.close();
-            Log.d(TAG, " This data exists In Reg N Assinge prog service table");
+//            Log.d(TAG, " This data exists In Reg N Assinge prog service table");
             return true;
             /* record exist */
         } else {
 
             cursor.close();
             db.close();
-            Log.d(TAG, " This data  didn't exists In eg N Assinge prog service table");
+//            Log.d(TAG, " This data  didn't exists In eg N Assinge prog service table");
             return false;
              /* record not exist */
         }
@@ -6063,13 +6086,13 @@ public class SQLiteHandler extends SQLiteOpenHelper {
                         asPeople.getHh_id(), asPeople.getMemId()});//*keyValue,keyvalue1*/});
 
         if (cursor.getCount() > 0) {
-            Log.d(TAG, " This data exists In CA2 table");
+//            Log.d(TAG, " This data exists In CA2 table");
             cursor.close();
             db.close();
             return true;
 /* record exist */
         } else {
-            Log.d(TAG, " This data  didn't exists In CA2 table");
+//            Log.d(TAG, " This data  didn't exists In CA2 table");
 
             return false;
 /* record not exist */
@@ -6096,13 +6119,13 @@ public class SQLiteHandler extends SQLiteOpenHelper {
                         asPeople.getHh_id(), asPeople.getMemId()});
 
         if (cursor.getCount() > 0) {
-            Log.d(TAG, " This data exists In PW table");
+//            Log.d(TAG, " This data exists In PW table");
             cursor.close();
             db.close();
             return true;
             /** record exist */
         } else {
-            Log.d(TAG, " This data  didn't exists In PW table");
+//            Log.d(TAG, " This data  didn't exists In PW table");
             return false;
             /* record does not exist */
         }
@@ -6147,13 +6170,13 @@ public class SQLiteHandler extends SQLiteOpenHelper {
         Cursor cursor = db.rawQuery(sql, null);
 
         if (cursor.getCount() > 0) {
-            Log.d(TAG, " This data exists In " + REG_N_MEM_PROG_GRP_TABLE + " table");
+//            Log.d(TAG, " This data exists In " + REG_N_MEM_PROG_GRP_TABLE + " table");
             cursor.close();
             db.close();
             return true;
             /** record exist */
         } else {
-            Log.d(TAG, " This data  didn't exists In " + REG_N_MEM_PROG_GRP_TABLE + " table");
+//            Log.d(TAG, " This data  didn't exists In " + REG_N_MEM_PROG_GRP_TABLE + " table");
             return false;
             /* record does not exist */
         }
@@ -6232,11 +6255,11 @@ public class SQLiteHandler extends SQLiteOpenHelper {
                         asPeople.getHh_id(), asPeople.getMemId()});//*keyValue,keyvalue1*/});
 
         if (mCursor.getCount() > 0) {
-            Log.d(TAG, " This data exists In LMD table");
+//            Log.d(TAG, " This data exists In LMD table");
             return true;
         /* record exist */
         } else {
-            Log.d(TAG, " This data  didn't exists In LMD table");
+//            Log.d(TAG, " This data  didn't exists In LMD table");
             return false;
         /* record not exist */
         }
@@ -6264,7 +6287,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
         Cursor mCursor = db.rawQuery(selectQuery, null);
         if (mCursor.moveToFirst()) {
             grdCode = mCursor.getString(mCursor.getColumnIndex(GRD_CODE_COL));
-            Log.d(TAG, "Member Saved  GRD Code : " + grdCode);
+//            Log.d(TAG, "Member Saved  GRD Code : " + grdCode);
         }
         mCursor.close();
         db.close();
@@ -6336,7 +6359,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
         long id = db.insert(GPS_GROUP_TABLE, null, values);
         db.close(); // Closing database connection
 
-        Log.d(TAG, "New Group inserted into GPS_GROUP_TABLE: " + id);
+//        Log.d(TAG, "New Group inserted into GPS_GROUP_TABLE: " + id);
 
     }
 
@@ -6357,7 +6380,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
         long id = db.insert(SERVICE_MASTER_TABLE, null, values);
         db.close(); // Closing database connection
 
-        Log.d(TAG, "New AWARD inserted into SERVICE_MASTER_TABLE TABLE: " + id);
+//        Log.d(TAG, "New AWARD inserted into SERVICE_MASTER_TABLE TABLE: " + id);
 
     }
 
@@ -6441,7 +6464,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
         long id = db.insert(ADM_DONOR_TABLE, null, values);
         db.close(); // Closing database connection
 
-        Log.d(TAG, "New DONOR name  inserted into DONOR_TABLE: " + id);
+//        Log.d(TAG, "New DONOR name  inserted into DONOR_TABLE: " + id);
 
     }
 
@@ -6478,11 +6501,11 @@ public class SQLiteHandler extends SQLiteOpenHelper {
             latLong.setLongitude(cursor.getString(cursor.getColumnIndex(LONGITUDE_COL)));
 
 
-            Log.d(TAG, " Location " + cursor.getColumnName(0) + " :" + cursor.getString(0));
+//            Log.d(TAG, " Location " + cursor.getColumnName(0) + " :" + cursor.getString(0));
 
 
         } else {
-            Log.d(TAG, "Location lat long cursor is null");
+//            Log.d(TAG, "Location lat long cursor is null");
             latLong = new GPSLocationLatLong();
             latLong.setLatitude("");
             latLong.setLongitude("");
@@ -6876,11 +6899,11 @@ public class SQLiteHandler extends SQLiteOpenHelper {
                 ffaData.setChildrenRecSuppFeedNRb6(cursor.getString(cursor.getColumnIndex(CHILDREN_REC_SUPP_FEED_N_COL)));
                 ffaData.setWillingnessRb7(cursor.getString(cursor.getColumnIndex(WILLINGNESS_COL)));
 
-                Log.d("FFA-SQL", "agr_dataModel.=" + ffaData.getOrphanChildRb1()
-                        + ffaData.getElderlyHeadedRb2() + ffaData.getChronicallyIllRb3()
-                        + ffaData.getFemaleHeadedRb4() + ffaData.getCropFailureRb5()
-                        + ffaData.getChildrenRecSuppFeedNRb6() + ffaData.getWillingnessRb7()
-                );
+//                Log.d("FFA-SQL", "agr_dataModel.=" + ffaData.getOrphanChildRb1()
+//                        + ffaData.getElderlyHeadedRb2() + ffaData.getChronicallyIllRb3()
+//                        + ffaData.getFemaleHeadedRb4() + ffaData.getCropFailureRb5()
+//                        + ffaData.getChildrenRecSuppFeedNRb6() + ffaData.getWillingnessRb7()
+//                );
 
 
             }
@@ -7434,7 +7457,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
             cursor.close();
             db.close();
         }
-        Log.d("All_4", "status:" + status + "\n length :" + status.length());
+//        Log.d("All_4", "status:" + status + "\n length :" + status.length());
         if (!status.equals("null") && !(status.length() == 0)) {
             status = "R";
         } else {
@@ -7451,7 +7474,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
      */
     public List<DistributionGridDataModel> getDistributionDataList(String cCode, String donorCode, String awardCode, String progCode, String srvOpMonthCode, String fdpCode, String searchMem) {
 
-        Log.d(TAG, "In get data Distribution ");
+//        Log.d(TAG, "In get data Distribution ");
 
         List<DistributionGridDataModel> distributedList = new ArrayList<DistributionGridDataModel>();
         SQLiteDatabase db = this.getReadableDatabase();
@@ -7518,7 +7541,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
                                                String memId
             , String donorCode, String awardCode, String programCode, String serviceCode, String opMonthCode, String fdpCode) {
 
-        Log.d(TAG, "In get data Service ");
+//        Log.d(TAG, "In get data Service ");
 
         String voiReference = "";
         SQLiteDatabase db = this.getReadableDatabase();
@@ -7613,9 +7636,11 @@ public class SQLiteHandler extends SQLiteOpenHelper {
                 items.setVoItmSpec(cursor.getString(cursor.getColumnIndex(VOUCHER_ITEM_SPEC_COL)));
 
 
-                Log.d(TAG, " Dist Extended  list data" + cursor.getString(1) + " , " + cursor.getString(2) + " , " + cursor.getString(3) + " , "
-                        + cursor.getString(4) + " , " + cursor.getString(5) + " , " +
-                        cursor.getString(6) + " , " + cursor.getString(7) + " , " + cursor.getString(8) + " , " + cursor.getString(9));
+//                Log.d(TAG, " Dist Extended  list data" + cursor.getString(1) + " , " + cursor.getString(2) + " , " + cursor.getString(3) + " , "
+//                        + cursor.getString(4) + " , " + cursor.getString(5) + " , " +
+//                        cursor.getString(6) + " , " + cursor.getString(7) + " , " + cursor.getString(8) + " , " + cursor.getString(9));
+//
+
                 srvExtListItem.add(items);
 
             } while (cursor.moveToNext());
@@ -7762,7 +7787,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL(selectDelete);
 
-        Log.d(TAG, " delete from Srv Extended table  row ");
+//        Log.d(TAG, " delete from Srv Extended table  row ");
         db.close();
 
     }
@@ -7789,7 +7814,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL(selectDelete);
 
-        Log.d(TAG, " delete from Srv Extended table  row ");
+//        Log.d(TAG, " delete from Srv Extended table  row ");
         db.close();
 
     }
@@ -7856,7 +7881,8 @@ public class SQLiteHandler extends SQLiteOpenHelper {
                 items.setVoItemCost(cursor.getString(2));
 
 
-                Log.d("FAll", " Voucher  list data" + cursor.getString(0) + " , " + cursor.getString(1));/* + " , " + cursor.getString(3) + " , "
+//                Log.d("FAll", " Voucher  list data" + cursor.getString(0) + " , " + cursor.getString(1));
+                /* + " , " + cursor.getString(3) + " , "
                         + cursor.getString(4) + " , " + cursor.getString(5) + " , " +
                         cursor.getString(6) + " , " + cursor.getString(7) + " , " + cursor.getString(8) + " , " + cursor.getString(9));*/
                 itemList.add(items);
@@ -8078,7 +8104,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put(SRV_MIN_DATE_COL, srvMinDate);
         int id = db.update(REG_N_ASSIGN_PROG_SRV_TABLE, values, sql, null);
-        Log.d("NI2", "id affected:" + id);
+//        Log.d("NI2", "id affected:" + id);
     }
 
 
@@ -8130,7 +8156,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put(SRV_MAX_DATE_COL, srvMaxDate);
         int id = db.update(REG_N_ASSIGN_PROG_SRV_TABLE, values, sql, null);
-        Log.d("NI2", "id affected:" + id);
+//        Log.d("NI2", "id affected:" + id);
     }
 
 
@@ -8251,7 +8277,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
                 break;
         }
 // for test
-        Log.d("ERROR192", selectQuery);
+//        Log.d("ERROR192", selectQuery);
         Cursor cursor = db.rawQuery(selectQuery, null);
 
         if (cursor.moveToFirst()) {
@@ -8539,7 +8565,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
                 + " AND " + GRP_LAY_R1_LIST_CODE_COL + " = '" + layR1Code + "'"
                 + " AND " + GRP_LAY_R2_LIST_CODE_COL + " = '" + layR2Code + "'"
                 + " AND " + GRP_LAY_R3_LIST_CODE_COL + " = '" + layR3Code + "'";
-        Log.d("CHA", sql);
+//        Log.d("CHA", sql);
 
         Cursor cursor = db.rawQuery(sql, null);
         if (cursor != null) {
@@ -9083,7 +9109,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
         long id = db.insert(VALID_DATE_RANGE, null, values);
         db.close(); // Closing database connection
 
-        Log.d(TAG, "New date range inserted: " + id);
+//        Log.d(TAG, "New date range inserted: " + id);
     }
 
 
@@ -9104,7 +9130,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
         long id = db.insert(LAYER_LABEL_TABLE, null, values);
         db.close(); // Closing database connection
 
-        Log.d(TAG, "Layer Label data inserted: " + id);
+//        Log.d(TAG, "Layer Label data inserted: " + id);
     }
 
 
@@ -9125,7 +9151,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
         long id = db.insert(DISTRICT_TABLE, null, values);
         db.close(); // Closing database connection
 
-        Log.d(TAG, "New District inserted into District: " + id);
+//        Log.d(TAG, "New District inserted into District: " + id);
     }
 
 
@@ -9144,7 +9170,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
         long id = db.insert(CARD_PRINT_REASON_TABLE, null, values);
         db.close(); // Closing database connection
 
-        Log.d(TAG, "New Card Reason inserted into Card Print Reason Table: " + id);
+//        Log.d(TAG, "New Card Reason inserted into Card Print Reason Table: " + id);
     }
 
 
@@ -9166,7 +9192,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
         long id = db.insert(UPAZILLA_TABLE, null, values);
         db.close(); // Closing database connection
 
-        Log.d(TAG, "New UPAZILLA_ inserted into Upazilla: " + id);
+//        Log.d(TAG, "New UPAZILLA_ inserted into Upazilla: " + id);
     }
 
 
@@ -9189,7 +9215,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
         long id = db.insert(UNIT_TABLE, null, values);
         db.close(); // Closing database connection
 
-        Log.d(TAG, "New UNIT inserted into Unit Table: " + id);
+//        Log.d(TAG, "New UNIT inserted into Unit Table: " + id);
     }
 
     public void addSelectedVillage(String country, String dcode, String upcode, String ucode, String vcode, String layrCode, String vname, String addressCode) {
@@ -9268,7 +9294,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
         long id = db.insert(VILLAGE_TABLE, null, values);
         db.close(); // Closing database connection
 
-        Log.d(TAG, "New Village inserted into VILLAGE_TABLE: " + id);
+//        Log.d(TAG, "New Village inserted into VILLAGE_TABLE: " + id);
     }
 
     // Storing Relation details into database
@@ -9285,7 +9311,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
         long id = db.insert(RELATION_TABLE, null, values);
         db.close(); // Closing database connection
 
-        Log.d(TAG, "New Relation inserted into Relation Table: " + id);
+//        Log.d(TAG, "New Relation inserted into Relation Table: " + id);
     }
 
 
@@ -9304,7 +9330,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
         long id = db.insert(REPORT_TEMPLATE_TABLE, null, values);
         db.close(); // Closing database connection
 
-        Log.d(TAG, "New Report Card Type inserted into Report Template Table: " + id);
+//        Log.d(TAG, "New Report Card Type inserted into Report Template Table: " + id);
     }
 
 
@@ -9342,7 +9368,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
         long id = db.insert(REG_N_PW_TABLE, null, values);
         db.close(); // Closing database connection
         // updateRegNLMFStatus(assingPerson, 0);
-        Log.d(TAG, "New REG_N_PW_TABLE  data added from online into RegNPw Table: " + id);
+//        Log.d(TAG, "New REG_N_PW_TABLE  data added from online into RegNPw Table: " + id);
         return id;
     }
 
@@ -9381,14 +9407,14 @@ public class SQLiteHandler extends SQLiteOpenHelper {
      * @param memid      Service Code
      * @param progCode   Registration Date
      * @param srvCode    Graduation code
-     * @param regNdate
-     * @param grdCode
-     * @param gdrDate
-     * @param entryBy
-     * @param entryDate
-     * @param srvMinDate
-     * @param srvMaxDate
-     * @param onLine
+     * @param regNdate   regNdate
+     * @param grdCode    grdCode
+     * @param gdrDate    gdrDate
+     * @param entryBy    entryBy
+     * @param entryDate  entryDate
+     * @param srvMinDate srvMinDate
+     * @param srvMaxDate srvMaxDate
+     * @param onLine     onLine
      * @return
      */
 
@@ -9433,7 +9459,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
         db.close(); // Closing database connection
 
 
-        Log.d(TAG, "New " + REG_N_ASSIGN_PROG_SRV_TABLE + ": " + id);
+//        Log.d(TAG, "New " + REG_N_ASSIGN_PROG_SRV_TABLE + ": " + id);
         return id;
     }
 
@@ -9801,7 +9827,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
         values.put(ENTRY_DATE, asPeople.getEntryDate());
 
 
-        Log.d(TAG, "asPeople.getLmpDate() :" + asPeople.getLmpDate());
+//        Log.d(TAG, "asPeople.getLmpDate() :" + asPeople.getLmpDate());
 
         String query = COUNTRY_CODE + " = '" + asPeople.getCountryCode() + "' AND " +
                 LAY_R1_LIST_CODE_COL + " = '" + asPeople.getDistrictCode() + "' AND " +
@@ -9919,17 +9945,6 @@ public class SQLiteHandler extends SQLiteOpenHelper {
 
         SQLiteDatabase db = this.getWritableDatabase();
 
-
-        ContentValues values = new ContentValues();
-
-        values.put(GRD_CODE_COL, grdCode); // GRD_CODE= Graduation Title Code
-        values.put(GRD_DATE_COL, grdDate); // GDR_Date= Graduation Date Code
-        values.put(ENTRY_BY, entryBy);
-        values.put(ENTRY_DATE, entryDate);
-        values.put(SYNC_COL, 0);
-
-        Log.d(TAG, "update Graduation Date :" + grdDate);
-
         String criteria = " " + COUNTRY_CODE + " = '" + cCode + "' AND " +
                 LAY_R1_LIST_CODE_COL + " = '" + distCode + "' AND " +
                 LAY_R2_LIST_CODE_COL + " = '" + upCode + "' AND " +
@@ -9941,6 +9956,18 @@ public class SQLiteHandler extends SQLiteOpenHelper {
                 HH_MEM_ID + " = '" + mmId + "' AND  " +
                 PROGRAM_CODE_COL + " = '" + progCode + "' AND  " +
                 SERVICE_CODE_COL + " = '" + srvCode + "'   ";
+
+
+        ContentValues values = new ContentValues();
+
+        values.put(GRD_CODE_COL, grdCode); // GRD_CODE= Graduation Title Code
+        values.put(GRD_DATE_COL, grdDate); // GDR_Date= Graduation Date Code
+        values.put(ENTRY_BY, entryBy);
+        values.put(ENTRY_DATE, entryDate);
+        values.put(SYNC_COL, 0);
+
+//        Log.d(TAG, "update Graduation Date :" + grdDate);
+
 
         // updating row
         int id = db.update(REG_N_ASSIGN_PROG_SRV_TABLE, values, criteria,
@@ -9987,12 +10014,12 @@ public class SQLiteHandler extends SQLiteOpenHelper {
         values.put(ENTRY_BY, asPeople.getEntryBy());
         values.put(ENTRY_DATE, asPeople.getEntryDate());
 
-        Log.d(TAG, "asPeople.getRegNDate() :" + asPeople.getRegNDate());
+//        Log.d(TAG, "asPeople.getRegNDate() :" + asPeople.getRegNDate());
 
 
         // updating row
         int id = db.update(REG_N_ASSIGN_PROG_SRV_TABLE, values, whereQuery, null);
-        Log.d(TAG, "id:" + id);
+//        Log.d(TAG, "id:" + id);
 
         db.close();
         return id;
@@ -10446,7 +10473,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
 
         db.close(); // Closing database connection
 
-        Log.d(TAG, "Updated Member data: " + mID);
+//        Log.d(TAG, "Updated Member data: " + mID);
 
     }
 
@@ -10600,7 +10627,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
                 p_BSCMemName2_First, p_BSCMemName2_Middle, p_BSCMemName2_Last, p_BSCMem2_TitlePosition, grp_code);
 
 
-        Log.d(TAG, " add member Liberia id: " + idRow);
+//        Log.d(TAG, " add member Liberia id: " + idRow);
 
 
         return idRow;
@@ -10757,7 +10784,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
         db.update(REGISTRATION_TABLE, values, where, null);
         updateRegistrationStatus("" + pID, 0);    // Setting Update status to false
         db.close(); // Closing database connection
-        Log.d(TAG, "Registration data edited for: " + pID);
+//        Log.d(TAG, "Registration data edited for: " + pID);
     }
 
 
@@ -10793,7 +10820,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
 // Inserting Row into local database
         long id = db.insert(REGISTRATION_TABLE, null, values);
         db.close(); // Closing database connection
-        Log.d(TAG, "New Registration data added into Registration Table: " + id);
+//        Log.d(TAG, "New Registration data added into Registration Table: " + id);
         return id;
     }
 
@@ -10882,7 +10909,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
                 fdp.setAdmCountryCode(cursor.getString(cursor.getColumnIndex(COUNTRY_CODE_COL)));
                 fdp.setFDPCode(cursor.getString(cursor.getColumnIndex(FDP_CODE_COL)));
                 fdp.setFDPName(cursor.getString(cursor.getColumnIndex(FDP_NAME_COL)));
-                Log.d(TAG, " setLayRCode :" + fdp.getFDPCode());
+//                Log.d(TAG, " setLayRCode :" + fdp.getFDPCode());
                 selectedFDP.add(fdp);
             } while (cursor.moveToNext());
         }
@@ -10902,7 +10929,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
                 srvCenter.setAdmCountryCode(cursor.getString(0));
                 srvCenter.setServiceCenterCode(cursor.getString(1));
                 srvCenter.setServiceCenterName(cursor.getString(2));
-                Log.d(TAG, " ServiceCenterCode :" + srvCenter.getServiceCenterCode());
+//                Log.d(TAG, " ServiceCenterCode :" + srvCenter.getServiceCenterCode());
                 selectedSrvCenter.add(srvCenter);
             } while (cursor.moveToNext());
 
@@ -10933,7 +10960,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
             }
 
         } catch (Exception e) {
-            Log.d(TAG, "isValidLocalLogin() Method: " + e.getMessage());
+//            Log.d(TAG, "isValidLocalLogin() Method: " + e.getMessage());
 
         } finally {
             // close database connection
@@ -10971,7 +10998,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
             }
             c.close();
         } catch (Exception e) {
-            Log.d(TAG, "isValidLocalLogin() Method: " + e.getMessage());
+//            Log.d(TAG, "isValidLocalLogin() Method: " + e.getMessage());
 
         } finally {
 
@@ -11390,7 +11417,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
 
         int id = db.delete(DISTRIBUTION_TABLE, where, null);
 
-        Log.d(TAG, "DELETE Distribution data  id: " + distData.getID());
+//        Log.d(TAG, "DELETE Distribution data  id: " + distData.getID());
         db.close();
         return id;
 
@@ -11519,10 +11546,10 @@ public class SQLiteHandler extends SQLiteOpenHelper {
                 + " AND " + SUB_GROUP_CODE_COL + " = '" + SubGrpCode + "'"
                 + " AND " + LOCATION_CODE_COL + " = '" + LocationCode + "'"
                 + " AND " + CONTENT_CODE_COL + " = '" + ContentCode + "'";
-        Log.d(TAG, query);
+//        Log.d(TAG, query);
         cursor = db.rawQuery(query, null);
 
-        Log.d(TAG, " " + cursor.getCount());
+//        Log.d(TAG, " " + cursor.getCount());
         if (cursor.getCount() > 0) {
             cursor.close();
             db.close();
@@ -11545,7 +11572,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
 
         int deletedRowNo = db.delete(GPS_LOCATION_CONTENT_TABLE, where, null);
         db.close();
-        Log.d(TAG, "" + deletedRowNo);
+//        Log.d(TAG, "" + deletedRowNo);
     }
 
     public void getImageFromDatabase(String AdmCountryCode, String GrpCode, String SubGrpCode, String LocationCode, String ContentCode, ImageView imageView) {
@@ -11911,7 +11938,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
             mSyntaxGenerator.setUFILE(imageString);
             insertIntoUploadTable(mSyntaxGenerator.insertIntoDTResponseTable());
 
-            Log.i(TAG, mSyntaxGenerator.insertIntoDTResponseTable());
+//            Log.i(TAG, mSyntaxGenerator.insertIntoDTResponseTable());
         }
         return row;
     }
@@ -11944,7 +11971,10 @@ public class SQLiteHandler extends SQLiteOpenHelper {
 
 
         int id = db.update(DT_RESPONSE_TABLE, values, where, null);
-        db.close();
+
+        db.close();     // close the db
+
+
         SQLServerSyntaxGenerator mSyntaxGenerator = new SQLServerSyntaxGenerator();
         mSyntaxGenerator.setDTBasic(dtBasic);
         mSyntaxGenerator.setAdmCountryCode(countryCode);
@@ -11972,7 +12002,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
 
     public void addIntoDTSurveyTable(String dtBasic, String countryCode, String donorCode, String awardCode, String programCode,
                                      String dtEnuId, String dtqCode, String dtaCode, String dtrSeq, String dtaValue,
-                                     String progActivityCode, String dttTimeString, String opMode, String opMonthCode, String dataType, String dtqText, int surveyNumber) {
+                                     String progActivityCode, String dttTimeString, String opMode, String opMonthCode, String dataType, String dtqText, int surveyNumber,String image) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
 
@@ -11993,6 +12023,8 @@ public class SQLiteHandler extends SQLiteOpenHelper {
         values.put(DTQ_TEXT_COL, dtqText);
         values.put(DT_SURVEY_NUM, surveyNumber);
         values.put(DATA_TYPE_COL, dataType);
+        values.put(U_FILE_COL, image);
+
 
         db.insert(DT_SURVEY_TABLE, null, values);
         db.close();
@@ -12028,7 +12060,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
 
         int id = db.update(DT_SURVEY_TABLE, values, where, null);
 
-
+        db.close();
     }
 
     /**
@@ -12072,8 +12104,8 @@ public class SQLiteHandler extends SQLiteOpenHelper {
         int idR = db.delete(DT_RESPONSE_TABLE, where, null);
         int idS = db.delete(DT_SURVEY_TABLE, where, null);
 
-        Log.e("RESPONSE", idR + "");
-        Log.e("SURVEY", idS + "");
+//        Log.e("RESPONSE", idR + "");
+//        Log.e("SURVEY", idS + "");
 
         db.close();
         /**
@@ -12335,6 +12367,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
                     dtSurveyTableDataModel.setDtqText(cursor.getString(cursor.getColumnIndex(DTQ_TEXT_COL)));
                     dtSurveyTableDataModel.setDtSurveyNumber(cursor.getInt(cursor.getColumnIndex(DT_SURVEY_NUM)));
                     dtSurveyTableDataModel.setDtALabel(cursor.getString(cursor.getColumnIndex(DTA_LABEL_COL)));
+                    dtSurveyTableDataModel.setDtPhoto(cursor.getString(cursor.getColumnIndex(U_FILE_COL)));
                     dtSurveyTableDataModels.add(dtSurveyTableDataModel);
                     count++;
                 } while (cursor.moveToNext());
@@ -12511,7 +12544,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
             db.delete(TEMPORARY_COUNTRY_PROGRAM_TABLE, null, null);
 
         } catch (Exception e) {
-            Log.e(TAG, " Teptable " + e);
+//            Log.e(TAG, " Teptable " + e);
         }
 
     }
@@ -12523,10 +12556,10 @@ public class SQLiteHandler extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
 
         String query = " SELECT * FROM " + SELECTED_COUNTRY_TABLE;
-        Log.d(TAG, query);
+//        Log.d(TAG, query);
         cursor = db.rawQuery(query, null);
 
-        Log.d(TAG, " " + cursor.getCount());
+//        Log.d(TAG, " " + cursor.getCount());
         if (cursor.getCount() > 0) {
             cursor.close();
             db.close();

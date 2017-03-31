@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/llContainer"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -22,5 +23,11 @@
         android:textSize="@dimen/dt_index_txt_size_22"
         android:textColor="@color/black"
         android:text="Answer" />
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/add_member"
+        android:id="@+id/imageView_servyImage" />
 
 </LinearLayout>

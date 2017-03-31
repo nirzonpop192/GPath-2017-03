@@ -732,6 +732,7 @@ com/google/android/gms/ads/internal/request/zza.class
 com/siddiquinoor/restclient/activity/AssignActivity$2.class
 android/support/v7/widget/RecyclerView$ItemAnimator$AdapterChanges.class
 com/siddiquinoor/restclient/activity/LoginActivity$38.class
+com/siddiquinoor/restclient/activity/sub_activity/dynamic_table/DTResponseRecordingActivity$20.class
 com/google/android/gms/auth/api/signin/internal/zzf.class
 com/siddiquinoor/restclient/activity/sub_activity/register_sub/RegisterMemberLiberia$1.class
 org/osmdroid/library/R$drawable.class

@@ -193,7 +193,7 @@
     <string name="srv_summary_TitleLable">Service Summary </string>
     <string name="tv_criteria">Criteria</string>
     <!-- LOG IN SCREEN -->
-    <string name="log_in_version_lable">GPath-LIV-12</string>
+    <string name="log_in_version_lable">GPath-LIV-13</string>
     <!-- VERSION -->
 
 
@@ -549,6 +549,11 @@
     <string-array name="cameraOption">
         <item>Capture</item>
         <item>Delete</item>
+        <item>Cancel</item>
+    </string-array>
+
+    <string-array name="cameraOption_2">
+        <item>Capture</item>
         <item>Cancel</item>
     </string-array>
 

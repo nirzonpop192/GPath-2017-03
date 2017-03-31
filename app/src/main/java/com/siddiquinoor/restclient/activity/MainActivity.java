@@ -1206,38 +1206,45 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 publishProgress(++progressIncremental);
 
 
-                if (!jObj.isNull(Parser.STAFF_ACCESS_INFO_JSON_A)) {// this is not servie
-                    JSONArray staff_access_info_accesses = jObj.getJSONArray(Parser.STAFF_ACCESS_INFO_JSON_A);
-                    size = staff_access_info_accesses.length();
-                    for (int i = 0; i < size; i++) {
-                        JSONObject staff_access_info_access = staff_access_info_accesses.getJSONObject(i);
 
-                        String StfCode = staff_access_info_access.getString(Parser.STF_CODE);
-                        String AdmCountryCode = staff_access_info_access.getString(Parser.ADM_COUNTRY_CODE);
-                        String AdmDonorCode = staff_access_info_access.getString(Parser.ADM_DONOR_CODE);
-                        String AdmAwardCode = staff_access_info_access.getString(Parser.ADM_AWARD_CODE);
-                        String LayRListCode = staff_access_info_access.getString(Parser.LAY_R_LIST_CODE);
-                        String btnNew = staff_access_info_access.getString(Parser.BTN_NEW1);
-                        String btnSave = staff_access_info_access.getString(Parser.BTN_SAVE);
-                        String btnDel = staff_access_info_access.getString(Parser.BTN_DEL);
-                        String btnPepr = staff_access_info_access.getString(Parser.BTN_PEPR);
-                        String btnAprv = staff_access_info_access.getString(Parser.BTN_APRV);
-                        String btnRevw = staff_access_info_access.getString(Parser.BTN_REVW);
-                        String btnVrfy = staff_access_info_access.getString(Parser.BTN_VRFY);
-                        String btnDTran = staff_access_info_access.getString(Parser.BTN_D_TRAN);
-
-
-                        //String FDPCode = dbo_staff_geo_info_access.getString("FDPCode");
-                        String disCode = LayRListCode.substring(0, 2);
-                        String upCode = LayRListCode.substring(2, 4);
-                        String unCode = LayRListCode.substring(4, 6);
-                        String vCode = LayRListCode.substring(6);
-                        db.addStaffGeoAccessInfoFromOnline(StfCode, AdmCountryCode, AdmDonorCode, AdmAwardCode, LayRListCode, disCode, upCode, unCode, vCode, btnNew, btnSave, btnDel, btnPepr, btnAprv, btnRevw, btnVrfy, btnDTran);//, SrvCenterCatCode, FDPCode);
-
-
-                        //  Log.d(TAG, "In addStaffGeoAccessInfoFromOnline Table- StfCode :" + StfCode + " AdmCountryCode : " + AdmCountryCode + " AdmDonorCode : " + AdmDonorCode +               " AdmAwardCode : " + AdmAwardCode + " LayRListCode  : " + LayRListCode);// + " FDPCode  : " + FDPCode );
-                    }
+                publishProgress(++progressIncremental);
+                if (!jObj.isNull(Parser.STAFF_ACCESS_INFO_JSON_A)) {
+                    Parser.staff_access_infoParser(jObj.getJSONArray(Parser.STAFF_ACCESS_INFO_JSON_A), db);
                 }
+
+                // u may delte below code but check db first
+//                if (!jObj.isNull(Parser.STAFF_ACCESS_INFO_JSON_A)) {// this is not servie
+//                    JSONArray staff_access_info_accesses = jObj.getJSONArray(Parser.STAFF_ACCESS_INFO_JSON_A);
+//                    size = staff_access_info_accesses.length();
+//                    for (int i = 0; i < size; i++) {
+//                        JSONObject staff_access_info_access = staff_access_info_accesses.getJSONObject(i);
+//
+//                        String StfCode = staff_access_info_access.getString(Parser.STF_CODE);
+//                        String AdmCountryCode = staff_access_info_access.getString(Parser.ADM_COUNTRY_CODE);
+//                        String AdmDonorCode = staff_access_info_access.getString(Parser.ADM_DONOR_CODE);
+//                        String AdmAwardCode = staff_access_info_access.getString(Parser.ADM_AWARD_CODE);
+//                        String LayRListCode = staff_access_info_access.getString(Parser.LAY_R_LIST_CODE);
+//                        String btnNew = staff_access_info_access.getString(Parser.BTN_NEW1);
+//                        String btnSave = staff_access_info_access.getString(Parser.BTN_SAVE);
+//                        String btnDel = staff_access_info_access.getString(Parser.BTN_DEL);
+//                        String btnPepr = staff_access_info_access.getString(Parser.BTN_PEPR);
+//                        String btnAprv = staff_access_info_access.getString(Parser.BTN_APRV);
+//                        String btnRevw = staff_access_info_access.getString(Parser.BTN_REVW);
+//                        String btnVrfy = staff_access_info_access.getString(Parser.BTN_VRFY);
+//                        String btnDTran = staff_access_info_access.getString(Parser.BTN_D_TRAN);
+//
+//
+//                        //String FDPCode = dbo_staff_geo_info_access.getString("FDPCode");
+//                        String disCode = LayRListCode.substring(0, 2);
+//                        String upCode = LayRListCode.substring(2, 4);
+//                        String unCode = LayRListCode.substring(4, 6);
+//                        String vCode = LayRListCode.substring(6);
+//                        db.addStaffGeoAccessInfo(StfCode, AdmCountryCode, AdmDonorCode, AdmAwardCode, LayRListCode, disCode, upCode, unCode, vCode, btnNew, btnSave, btnDel, btnPepr, btnAprv, btnRevw, btnVrfy, btnDTran);//, SrvCenterCatCode, FDPCode);
+//
+//
+//                        //  Log.d(TAG, "In addStaffGeoAccessInfo Table- StfCode :" + StfCode + " AdmCountryCode : " + AdmCountryCode + " AdmDonorCode : " + AdmDonorCode +               " AdmAwardCode : " + AdmAwardCode + " LayRListCode  : " + LayRListCode);// + " FDPCode  : " + FDPCode );
+//                    }
+//                }
 
 
                 if (!jObj.isNull(Parser.LB_REG_HH_CATEGORY_JSON_A)) {
@@ -2078,6 +2085,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                         db.insertIntoLupGpsList(GrpCode, SubGrpCode, AttributeCode, LupValueCode, LupValueText);
 
                     }
+                }
+
+
+                publishProgress(++progressIncremental);
+                if (!jObj.isNull("staff_srv_center_access")) {
+                    Parser.staff_srv_center_accessParser(jObj.getJSONArray("staff_srv_center_access"), db);
                 }
 
 

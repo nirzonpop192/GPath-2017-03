@@ -1067,18 +1067,6 @@ public class Parser extends Parse {
     }
 
 
-    private static String removeNewLineFromImage(String str) {
-
-
-        return str.replace("\\n", "").replace("\\r", "");
-    }
-
-    private static String removeSlashFromImage(String str) {
-
-        return str.replace("\\", "");
-
-    }
-
     public static void gpsLocationParse(JSONArray gps_locations, SQLiteHandler sqlH) {
         String AdmCountryCode;
         String GrpCode;
@@ -1766,7 +1754,7 @@ public class Parser extends Parse {
                 DTSkipDTQCode = jsonObject.getString("DTSkipDTQCode");
 
 
-                sqlH.addIntoDTASkipTable(DTBasic, DTQCode, SkipCode, DTACodeCombN,DTSkipDTQCode);
+                sqlH.addIntoDTASkipTable(DTBasic, DTQCode, SkipCode, DTACodeCombN, DTSkipDTQCode);
 
             } catch (Exception e) {
                 Log.e(TAG, "Exception : " + e);
@@ -2154,11 +2142,6 @@ public class Parser extends Parse {
                 CropList = jsonObject.getString("CropList");
                 CropCatCode = jsonObject.getString("CropCatCode");
 
-
-                    /*    Log.d("InTest", "AdmCountryCode:" + AdmCountryCode
-                                + "AdmDonorCode: " + AdmDonorCode + "AdmAwardCode : " + AdmAwardCode + "AdmProgCode:" + AdmProgCode
-                                + " CropCode: " + CropCode + "CropList:" + CropList + " CropCatCode :" + CropCatCode);
-*/
                 sqlH.addLUP_ProgramGroupCrop(AdmCountryCode, AdmDonorCode, AdmAwardCode, AdmProgCode, CropCode, CropList, CropCatCode);
 
 
@@ -2168,6 +2151,66 @@ public class Parser extends Parse {
             }
         }
 
+    }
+
+    public static void staff_access_infoParser(JSONArray jsonArrayData, SQLiteHandler sqlH) {
+
+        int size = jsonArrayData.length();
+        String StfCode, AdmCountryCode, AdmDonorCode, AdmAwardCode, LayRListCode, btnNew, btnSave, btnDel, btnPepr, btnAprv, btnRevw, btnVrfy, disCode, upCode, unCode, vCode, btnDTran;
+        for (int i = 0; i < size; i++) {
+            try {
+                JSONObject jsonObject = jsonArrayData.getJSONObject(i);
+
+                StfCode = jsonObject.getString(Parser.STF_CODE);
+                AdmCountryCode = jsonObject.getString(Parser.ADM_COUNTRY_CODE);
+                AdmDonorCode = jsonObject.getString(Parser.ADM_DONOR_CODE);
+                AdmAwardCode = jsonObject.getString(Parser.ADM_AWARD_CODE);
+                LayRListCode = jsonObject.getString(Parser.LAY_R_LIST_CODE);
+                btnNew = jsonObject.getString(Parser.BTN_NEW1);
+                btnSave = jsonObject.getString(Parser.BTN_SAVE);
+                btnDel = jsonObject.getString(Parser.BTN_DEL);
+                btnPepr = jsonObject.getString(Parser.BTN_PEPR);
+                btnAprv = jsonObject.getString(Parser.BTN_APRV);
+                btnRevw = jsonObject.getString(Parser.BTN_REVW);
+                btnVrfy = jsonObject.getString(Parser.BTN_VRFY);
+                btnDTran = jsonObject.getString(Parser.BTN_D_TRAN);
+
+                //String FDPCode = dbo_staff_geo_info_access.getString("FDPCode");
+                disCode = LayRListCode.substring(0, 2);
+                upCode = LayRListCode.substring(2, 4);
+                unCode = LayRListCode.substring(4, 6);
+                vCode = LayRListCode.substring(6);
+                sqlH.addStaffGeoAccessInfo(StfCode, AdmCountryCode, AdmDonorCode, AdmAwardCode, LayRListCode, disCode, upCode, unCode, vCode, btnNew, btnSave, btnDel, btnPepr, btnAprv, btnRevw, btnVrfy, btnDTran);//, SrvCenterCatCode, FDPCode);
+            } catch (Exception e) {
+                Log.e(TAG, "Exception : " + e);
+                e.printStackTrace();
+            }
+        }
+    }
+
+
+    public static void staff_srv_center_accessParser(JSONArray jsonArrayData, SQLiteHandler sqlH) {
+
+        int size = jsonArrayData.length();
+        String StfCode, AdmCountryCode, btnNew, btnSave, btnDel,SrvCenterCatCode;
+        for (int i = 0; i < size; i++) {
+            try {
+                JSONObject jsonObject = jsonArrayData.getJSONObject(i);
+
+                StfCode = jsonObject.getString(Parser.STF_CODE);
+                AdmCountryCode = jsonObject.getString(Parser.ADM_COUNTRY_CODE);
+                SrvCenterCatCode = jsonObject.getString("SrvCenterCode");
+                btnNew = jsonObject.getString(Parser.BTN_NEW1);
+                btnSave = jsonObject.getString(Parser.BTN_SAVE);
+                btnDel = jsonObject.getString(Parser.BTN_DEL);
+
+
+                sqlH.addStaffSrvCenterAccess(StfCode, AdmCountryCode,SrvCenterCatCode,btnNew, btnSave, btnDel);//, SrvCenterCatCode, FDPCode);
+            } catch (Exception e) {
+                Log.e(TAG, "Exception : " + e);
+                e.printStackTrace();
+            }
+        }
     }
 
 

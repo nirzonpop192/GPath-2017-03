@@ -3775,68 +3775,68 @@ public class SQLiteQuery {
 
             case GEO_LAYER_3:
 
-                udf = "SELECT " + SQLiteHandler.UNIT_TABLE + "." + SQLiteHandler.LAY_R3_LIST_CODE_COL
-                        + ", " + SQLiteHandler.UNIT_TABLE + "." + SQLiteHandler.UNITE_NAME_COL
-                        + " FROM " + SQLiteHandler.UNIT_TABLE
-                        + " WHERE " + SQLiteHandler.UNIT_TABLE + "." + SQLiteHandler.COUNTRY_CODE_COL + "='" + cCode + "'";
+                udf = "SELECT " + LAY_R1_LIST_CODE_COL + " || '' || " + LAY_R2_LIST_CODE_COL + " || '' || " + LAY_R3_LIST_CODE_COL
+                        + ", " + UNITE_NAME_COL
+                        + " FROM " + UNIT_TABLE
+                        + " WHERE " + COUNTRY_CODE_COL + " = '" + cCode + "'";
 
 
                 break;
             case GEO_LAYER_2:
-                udf = "SELECT " + SQLiteHandler.UPAZILLA_TABLE + "." + SQLiteHandler.LAY_R2_LIST_CODE_COL
-                        + ", " + SQLiteHandler.UPAZILLA_TABLE + "." + SQLiteHandler.UPZILLA_NAME_COL
-                        + " FROM " + SQLiteHandler.UPAZILLA_TABLE
-                        + " WHERE " + SQLiteHandler.UPAZILLA_TABLE + "." + SQLiteHandler.COUNTRY_CODE_COL + "='" + cCode + "'";
+                udf = "SELECT " + LAY_R1_LIST_CODE_COL + " || '' || " + LAY_R2_LIST_CODE_COL
+                        + ", " + UPZILLA_NAME_COL
+                        + " FROM " + UPAZILLA_TABLE
+                        + " WHERE " + COUNTRY_CODE_COL + "= '" + cCode + "'";
 
 
                 break;
 
             case GEO_LAYER_1:
 
-                udf = "SELECT " + SQLiteHandler.DISTRICT_TABLE + "." + SQLiteHandler.LAY_R1_LIST_CODE_COL
-                        + ", " + SQLiteHandler.DISTRICT_TABLE + "." + SQLiteHandler.DISTRICT_NAME_COL
-                        + " FROM " + SQLiteHandler.DISTRICT_TABLE
-                        + " WHERE " + SQLiteHandler.DISTRICT_TABLE + "." + SQLiteHandler.COUNTRY_CODE_COL + "='" + cCode + "'";
+                udf = "SELECT " + LAY_R1_LIST_CODE_COL
+                        + ", " + DISTRICT_NAME_COL
+                        + " FROM " + DISTRICT_TABLE
+                        + " WHERE " + COUNTRY_CODE_COL + " = '" + cCode + "'";
 
 
                 break;
 
             case GEO_LAYER_4:
 
-                udf = "SELECT " + SQLiteHandler.VILLAGE_TABLE + "." + SQLiteHandler.LAY_R4_LIST_CODE_COL
-                        + ", " + SQLiteHandler.VILLAGE_TABLE + "." + SQLiteHandler.VILLAGE_NAME_COL
-                        + " FROM " + SQLiteHandler.VILLAGE_TABLE
-                        + " WHERE " + SQLiteHandler.VILLAGE_TABLE + "." + SQLiteHandler.COUNTRY_CODE_COL + "='" + cCode + "'";
+                udf = "SELECT " + LAY_R1_LIST_CODE_COL + " || '' || " + LAY_R2_LIST_CODE_COL + " || '' || " + LAY_R3_LIST_CODE_COL + " || '' || " + LAY_R4_LIST_CODE_COL
+                        + ", " + VILLAGE_NAME_COL
+                        + " FROM " + VILLAGE_TABLE
+                        + " WHERE " + COUNTRY_CODE_COL + " = '" + cCode + "'";
 
 
                 break;
 
             case GEO_LAYER_ADDRESS:
 
-                udf = "SELECT " + SQLiteHandler.LUP_REGN_ADDRESS_LOOKUP_TABLE + "." + SQLiteHandler.REGN_ADDRESS_LOOKUP_CODE_COL
-                        + ", " + SQLiteHandler.LUP_REGN_ADDRESS_LOOKUP_TABLE + "." + SQLiteHandler.REGN_ADDRESS_LOOKUP_NAME_COL
-                        + " FROM " + SQLiteHandler.LUP_REGN_ADDRESS_LOOKUP_TABLE
-                        + " WHERE " + SQLiteHandler.LUP_REGN_ADDRESS_LOOKUP_TABLE + "." + SQLiteHandler.COUNTRY_CODE_COL + "='" + cCode + "'";
+                udf = "SELECT " +LAY_R1_LIST_CODE_COL + " || '' || " + LAY_R2_LIST_CODE_COL + " || '' || " + LAY_R3_LIST_CODE_COL + " || '' || " + LAY_R4_LIST_CODE_COL+" || '' || "+ REGN_ADDRESS_LOOKUP_CODE_COL
+                        + ", " + REGN_ADDRESS_LOOKUP_NAME_COL
+                        + " FROM " + LUP_REGN_ADDRESS_LOOKUP_TABLE
+                        + " WHERE " + COUNTRY_CODE_COL + "='" + cCode + "'";
 
 
                 break;
 
             case SERVICE_SITE:
 
-                udf = "SELECT " + SQLiteHandler.SERVICE_CENTER_TABLE + "." + SQLiteHandler.SERVICE_CENTER_CODE_COL
-                        + ", " + SQLiteHandler.SERVICE_CENTER_TABLE + "." + SQLiteHandler.SERVICE_CENTER_NAME_COL
-                        + " FROM " + SQLiteHandler.SERVICE_CENTER_TABLE
-                        + " WHERE " + SQLiteHandler.SERVICE_CENTER_TABLE + "." + SQLiteHandler.COUNTRY_CODE_COL + "='" + cCode + "'";
+                udf = "SELECT " + SERVICE_CENTER_TABLE + "." + SERVICE_CENTER_CODE_COL
+                        + ", " + SERVICE_CENTER_TABLE + "." + SERVICE_CENTER_NAME_COL
+                        + " FROM " + SERVICE_CENTER_TABLE
+                        + " WHERE " + SERVICE_CENTER_TABLE + "." + COUNTRY_CODE_COL + "='" + cCode + "'";
 
 
                 break;
 
             case DISTRIBUTION_POINT:
 
-                udf = "SELECT " + SQLiteHandler.FDP_MASTER_TABLE + "." + SQLiteHandler.FDP_CODE_COL
-                        + ", " + SQLiteHandler.FDP_MASTER_TABLE + "." + SQLiteHandler.FDP_NAME_COL
-                        + " FROM " + SQLiteHandler.FDP_MASTER_TABLE
-                        + " WHERE " + SQLiteHandler.FDP_MASTER_TABLE + "." + SQLiteHandler.COUNTRY_CODE_COL + "='" + cCode + "'";
+                udf = "SELECT " + FDP_MASTER_TABLE + "." + FDP_CODE_COL
+                        + ", " + FDP_MASTER_TABLE + "." + FDP_NAME_COL
+                        + " FROM " + FDP_MASTER_TABLE
+                        + " WHERE " + FDP_MASTER_TABLE + "." + COUNTRY_CODE_COL + "='" + cCode + "'";
 
 
                 break;
@@ -3844,11 +3844,11 @@ public class SQLiteQuery {
 
             case LOOKUP_LIST:
 
-                udf = "SELECT " + SQLiteHandler.DT_LUP_TABLE + "." + SQLiteHandler.LIST_CODE_COL
-                        + ", " + SQLiteHandler.DT_LUP_TABLE + "." + SQLiteHandler.LIST_NAME_COL
-                        + " FROM " + SQLiteHandler.DT_LUP_TABLE
-                        + " WHERE " + SQLiteHandler.DT_LUP_TABLE + "." + SQLiteHandler.COUNTRY_CODE_COL + "= '" + cCode + "' "
-                        + " AND " + SQLiteHandler.DT_LUP_TABLE + "." + SQLiteHandler.TABLE_NAME_COL + "= '" + lup_TableName + "'"
+                udf = "SELECT " + DT_LUP_TABLE + "." + LIST_CODE_COL
+                        + ", " + DT_LUP_TABLE + "." + LIST_NAME_COL
+                        + " FROM " + DT_LUP_TABLE
+                        + " WHERE " + DT_LUP_TABLE + "." + COUNTRY_CODE_COL + "= '" + cCode + "' "
+                        + " AND " + DT_LUP_TABLE + "." + TABLE_NAME_COL + "= '" + lup_TableName + "'"
                 ;
 
 
@@ -3856,40 +3856,56 @@ public class SQLiteQuery {
 
 
             case COMMUNITY_GROUP:
-                udf = loadCommunityGroup(" WHERE " + "commGrp." + COUNTRY_CODE_COL + "='" + cCode + "'");
+                udf = loadCommunityGroup(" INNER JOIN "+STAFF_SRV_CENTER_ACCESS_TABLE+" AS srvAcc "
+                                + " ON commGrp."+SERVICE_CENTER_CODE_COL+" =  srvAcc."+SERVICE_CENTER_CODE_COL
+                        +" WHERE " + "commGrp." + COUNTRY_CODE_COL + "='" + cCode + "'");
 
                 break;
 
 
             case COMMUNITY_GROUP_PG:
-                udf = loadCommunityGroup(" WHERE " + "commGrp." + COUNTRY_CODE_COL + "='" + cCode + "'"
+
+
+                udf = loadCommunityGroup(" INNER JOIN "+STAFF_SRV_CENTER_ACCESS_TABLE+" AS srvAcc "
+                        + " ON commGrp."+SERVICE_CENTER_CODE_COL+" =  srvAcc."+SERVICE_CENTER_CODE_COL
+                        +" WHERE " + "commGrp." + COUNTRY_CODE_COL + "='" + cCode + "'"
                         + " AND  " + "commGrp." + GROUP_CAT_CODE_COL + "= '001' " // Producer group= 001
                         + " AND  " + "commGrp." + PROGRAM_CODE_COL + "= '003' " // agr= 001
                 );
                 break;
             case COMMUNITY_GROUP_IG:
-                udf = loadCommunityGroup(" WHERE " + "commGrp." + COUNTRY_CODE_COL + "='" + cCode + "'"
+                udf = loadCommunityGroup(
+                        " INNER JOIN "+STAFF_SRV_CENTER_ACCESS_TABLE+" AS srvAcc "
+                                + " ON commGrp."+SERVICE_CENTER_CODE_COL+" =  srvAcc."+SERVICE_CENTER_CODE_COL
+                        +" WHERE " + "commGrp." + COUNTRY_CODE_COL + "='" + cCode + "'"
                         + " AND  " + "commGrp." + GROUP_CAT_CODE_COL + "= '003' " // Irrigation Group= 003
                         + " AND  " + "commGrp." + PROGRAM_CODE_COL + "= '003' " // agr= 001
                 );
                 break;
 
             case COMMUNITY_GROUP_MG:
-                udf = loadCommunityGroup(" WHERE " + "commGrp." + COUNTRY_CODE_COL + "='" + cCode + "'"
+                udf = loadCommunityGroup(
+                        " INNER JOIN "+STAFF_SRV_CENTER_ACCESS_TABLE+" AS srvAcc "
+                                + " ON commGrp."+SERVICE_CENTER_CODE_COL+" =  srvAcc."+SERVICE_CENTER_CODE_COL
+                       +" WHERE " + "commGrp." + COUNTRY_CODE_COL + "='" + cCode + "'"
                         + " AND  " + "commGrp." + GROUP_CAT_CODE_COL + "= '002' " // Marketing Group= 002
                         + " AND  " + "commGrp." + PROGRAM_CODE_COL + "= '003' " // agr= 001
                 );
                 break;
 
             case COMMUNITY_GROUP_WE:
-                udf = loadCommunityGroup(" WHERE " + "commGrp." + COUNTRY_CODE_COL + "='" + cCode + "'"
+                udf = loadCommunityGroup(" INNER JOIN "+STAFF_SRV_CENTER_ACCESS_TABLE+" AS srvAcc "
+                        + " ON commGrp."+SERVICE_CENTER_CODE_COL+" =  srvAcc."+SERVICE_CENTER_CODE_COL
+                        +" WHERE " + "commGrp." + COUNTRY_CODE_COL + "='" + cCode + "'"
                         + " AND  " + "commGrp." + GROUP_CAT_CODE_COL + "= '004' " // WeVSL= 004
                         + " AND  " + "commGrp." + PROGRAM_CODE_COL + "= '003' " // agr= 001
                 );
                 break;
 
             case COMMUNITY_GROUP_LG:
-                udf = loadCommunityGroup(" WHERE " + "commGrp." + COUNTRY_CODE_COL + "='" + cCode + "'"
+                udf = loadCommunityGroup(" INNER JOIN "+STAFF_SRV_CENTER_ACCESS_TABLE+" AS srvAcc "
+                        + " ON commGrp."+SERVICE_CENTER_CODE_COL+" =  srvAcc."+SERVICE_CENTER_CODE_COL
+                        +" WHERE " + "commGrp." + COUNTRY_CODE_COL + "='" + cCode + "'"
                         + " AND  " + "commGrp." + GROUP_CAT_CODE_COL + "= '005' " // Livestock Group= 005
                         + " AND  " + "commGrp." + PROGRAM_CODE_COL + "= '003' " // agr= 001
                 );
@@ -4257,11 +4273,12 @@ public class SQLiteQuery {
 
         return "SELECT * FROM " + DTQ_TABLE +
                 " WHERE " + DT_BASIC_COL + "= '" + dtBasicCode + "'" +
-                " AND " + QSEQ_SCOL + "= " + index ;/*+
+                " AND " + QSEQ_SCOL + "= " + index;/*+
                 " LIMIT 1 OFFSET " + String.valueOf(index);*/
 
     }
-    public static String dtSurveyTableDataModels_sql(int surveyNum, String dtBasic){
+
+    public static String dtSurveyTableDataModels_sql(int surveyNum, String dtBasic) {
         return "SELECT dtSrv." + DT_BASIC_COL +
                 " , dtSrv." + COUNTRY_CODE_COL +
                 " , dtSrv." + DONOR_CODE_COL +
@@ -4279,13 +4296,14 @@ public class SQLiteQuery {
                 " , dtSrv." + DATA_TYPE_COL +
                 " , dtSrv." + DTQ_TEXT_COL +
                 " , dtSrv." + DT_SURVEY_NUM +
+                " , dtSrv." + U_FILE_COL +
                 " , dtan." + DTA_LABEL_COL +
                 " FROM " + DT_SURVEY_TABLE + " AS dtSrv " +
-                " left join "+DT_A_TABLE +" AS dtan ON "+
-                " dtSrv."+DT_BASIC_COL+" =  dtan."+DT_BASIC_COL+
-                " AND  dtSrv."+DTQ_CODE_COL+" =  dtan."+DTQ_CODE_COL+
-                " AND  dtSrv."+DTA_CODE_COL+" =  dtan."+DTA_CODE_COL+
-                " AND  dtSrv."+DTA_VALUE_COL+" =  dtan."+DTA_VALUE_COL+
+                " left join " + DT_A_TABLE + " AS dtan ON " +
+                " dtSrv." + DT_BASIC_COL + " =  dtan." + DT_BASIC_COL +
+                " AND  dtSrv." + DTQ_CODE_COL + " =  dtan." + DTQ_CODE_COL +
+                " AND  dtSrv." + DTA_CODE_COL + " =  dtan." + DTA_CODE_COL +
+                " AND  dtSrv." + DTA_VALUE_COL + " =  dtan." + DTA_VALUE_COL +
 
                 " WHERE dtSrv." + DT_SURVEY_NUM + " = " + surveyNum +
                 " AND dtSrv." + DT_BASIC_COL + " = '" + dtBasic + "' ";

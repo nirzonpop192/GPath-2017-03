@@ -62,7 +62,7 @@ public class MapActivity extends BaseActivity {
 
     MapView mMapView;
     IMapController mapViewController;
-    Marker myMarker;
+
 
 
     private ArrayList<OverlayItem> anotherOverlayItemArray;
@@ -74,15 +74,14 @@ public class MapActivity extends BaseActivity {
     GpsMyLocationProvider locationProvider;
     private ScaleBarOverlay mScaleBarOverlay;
 
-    private LocationManager mlocManager;
-    private LocationListener gpsListener;
+
     private Context context = MapActivity.this;
     private Button btnSave;
     private Button btnBackToLocSEARCH;
     private TextView tvLat;
     private TextView tvLong, tvGroupName, tvSubGroupName, tv_exitLong, tv_exitLat;
 
-    LocationManager locationManager;
+   private LocationManager mLManager;
     private GPS_LocationDataModel gpsData;
     private SQLiteHandler sqlH;
     private Spinner spLocation;
@@ -106,7 +105,7 @@ public class MapActivity extends BaseActivity {
         /**
          *
          */
-        intilize();
+        initialize();
 
         Intent intent = getIntent();
         idCountry = intent.getExtras().getString(KEY.COUNTRY_ID);
@@ -135,10 +134,10 @@ public class MapActivity extends BaseActivity {
         setAttributes();
         saveCoordinate();
 
-        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        mLManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
         //for demo, getLastKnownLocation from GPS only, not from NETWORK
-        Location lastLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        Location lastLocation = mLManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
         if (lastLocation != null) {
             /**
              * If gps is on than for first time
@@ -291,7 +290,7 @@ public class MapActivity extends BaseActivity {
 
         InfoWindow.closeAllInfoWindowsOn(mMapView);
 
-        Location lastLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        Location lastLocation = mLManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
         if (lastLocation != null) {
             GeoPoint locGeoPoint = new GeoPoint(lastLocation.getLatitude(), lastLocation.getLongitude());
             mapViewController.setCenter(locGeoPoint);
@@ -301,11 +300,7 @@ public class MapActivity extends BaseActivity {
 
                 if (calculateDistanceBetween2Point(lastLocation.getLatitude(), lastLocation.getLongitude(), Double.valueOf(data.getLat()), Double.valueOf(data.getLng())) < 500)
                     setMarker(data.getLocationName(), Double.valueOf(data.getLat()), Double.valueOf(data.getLng()));
-/*          For Test purpose
 
-            Log.d(TAG, " Location name : " + data.getLocationName()
-                    + " lat: " + data.getLat()
-                    + " long :" + data.getLng());*/
 
             }
         }
@@ -535,7 +530,7 @@ public class MapActivity extends BaseActivity {
         alert.show();
     }
 
-    private void intilize() {
+    private void initialize() {
         viewReference();
         initializeMap();
         mContext = MapActivity.this;
@@ -566,7 +561,6 @@ public class MapActivity extends BaseActivity {
     }
 
     private void viewReference() {
-
         btnBackToLocSEARCH = (Button) findViewById(R.id.btnRegisterFooter);
         btnSave = (Button) findViewById(R.id.btnHomeFooter);
         tvLat = (TextView) findViewById(R.id.tv_latval);
@@ -578,8 +572,6 @@ public class MapActivity extends BaseActivity {
         spLocation = (Spinner) findViewById(R.id.spMap_location);
         ibtnSetAttributes = (ImageButton) findViewById(R.id.ibtn_setAttributes);
         ibtnSetNearBy = (ImageButton) findViewById(R.id.ibtn_setNearby);
-
-
     }
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
@@ -587,17 +579,14 @@ public class MapActivity extends BaseActivity {
         btnSave.setText("");
         Drawable saveImage = getResources().getDrawable(R.drawable.save_b);
         btnSave.setCompoundDrawablesRelativeWithIntrinsicBounds(saveImage, null, null, null);
-
         setPaddingButton(MapActivity.this, saveImage, btnSave);
     }
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     private void setUpGpsButton() {
-
         btnBackToLocSEARCH.setText("");
         Drawable imageHome = getResources().getDrawable(R.drawable.goto_back);
         btnBackToLocSEARCH.setCompoundDrawablesRelativeWithIntrinsicBounds(imageHome, null, null, null);
-
         setPaddingButton(MapActivity.this, imageHome, btnBackToLocSEARCH);
     }
 
@@ -655,8 +644,8 @@ public class MapActivity extends BaseActivity {
         Log.d(TAG, "id Country : id " + idCountry);
 
         //   if (ContextCompat..c.checkSelfPermission(MapActivity.this, Manifest.permission.WRITE_CALENDAR))
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, mLocationListener);
-//        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, mLocationListener);
+        mLManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, mLocationListener);
+//        mLManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, mLocationListener);
 
 
     }
@@ -669,17 +658,14 @@ public class MapActivity extends BaseActivity {
 
         @Override
         public void onStatusChanged(String provider, int status, Bundle extras) {
-
         }
 
         @Override
         public void onProviderEnabled(String provider) {
-
         }
 
         @Override
         public void onProviderDisabled(String provider) {
-
         }
     };
 
@@ -702,19 +688,14 @@ public class MapActivity extends BaseActivity {
     private void initializeMap() {
         mMapView = (MapView) findViewById(R.id.mapView);
         mapViewController = mMapView.getController();
-
         mMapView.setClickable(true);
         mMapView.setBuiltInZoomControls(true);
         mMapView.setMultiTouchControls(true);
         mMapView.setUseDataConnection(true);
         mMapView.setTileSource(TileSourceFactory.HIKEBIKEMAP);
-
-
         mapViewController.setCenter(new GeoPoint(-14.9805, 34.9559));
         mapViewController.setZoom(8);
         InfoWindow.closeAllInfoWindowsOn(mMapView);
-
-
     }
 
 

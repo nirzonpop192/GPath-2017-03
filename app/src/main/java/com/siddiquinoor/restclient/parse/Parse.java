@@ -44,4 +44,13 @@ public class Parse {
 
         return lgMaxValue;
     }
+
+    public static String removeNewLineFromImage(String str) {
+        return str.replace("\\n", "").replace("\\r", "");
+    }
+
+    public static String removeSlashFromImage(String str) {
+        return str.replace("\\", "");
+
+    }
 }

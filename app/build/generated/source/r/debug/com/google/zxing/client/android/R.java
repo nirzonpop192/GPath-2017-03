@@ -8,8 +8,8 @@ package com.google.zxing.client.android;
 
 public final class R {
 	public static final class array {
-		public static final int zxing_country_codes = 0x7f0d0021;
-		public static final int zxing_preferences_front_light_values = 0x7f0d0022;
+		public static final int zxing_country_codes = 0x7f0d0022;
+		public static final int zxing_preferences_front_light_values = 0x7f0d0023;
 	}
 	public static final class color {
 		public static final int zxing_contents_text = 0x7f0e0081;
@@ -32,11 +32,11 @@ public final class R {
 		public static final int zxing_decode = 0x7f0f000f;
 		public static final int zxing_decode_failed = 0x7f0f0010;
 		public static final int zxing_decode_succeeded = 0x7f0f0011;
-		public static final int zxing_preview_view = 0x7f0f04a5;
+		public static final int zxing_preview_view = 0x7f0f04a6;
 		public static final int zxing_quit = 0x7f0f0012;
 		public static final int zxing_return_scan_result = 0x7f0f0013;
-		public static final int zxing_status_view = 0x7f0f04a7;
-		public static final int zxing_viewfinder_view = 0x7f0f04a6;
+		public static final int zxing_status_view = 0x7f0f04a8;
+		public static final int zxing_viewfinder_view = 0x7f0f04a7;
 	}
 	public static final class layout {
 		public static final int zxing_capture = 0x7f040085;
