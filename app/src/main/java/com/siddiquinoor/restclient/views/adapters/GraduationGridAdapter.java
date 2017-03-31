@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.siddiquinoor.restclient.R;
 import com.siddiquinoor.restclient.activity.sub_activity.graduation_sub.GraduationUpdate;
+import com.siddiquinoor.restclient.data_model.adapters.GraduationGridDataModel;
 import com.siddiquinoor.restclient.manager.SQLiteHandler;
 import com.siddiquinoor.restclient.utils.KEY;
 
@@ -25,7 +26,7 @@ public class GraduationGridAdapter extends BaseAdapter {//implements View.OnClic
     private Activity activity;
 
     private LayoutInflater inflater;
-    ArrayList<GraduationGridDataModel> graduationData = new ArrayList<GraduationGridDataModel>();
+   private ArrayList<GraduationGridDataModel> graduationData = new ArrayList<GraduationGridDataModel>();
     private SQLiteHandler sqlH = null;
     private final String TAG = AssignDataModelAdapter.class.getName();
     private String awardName;

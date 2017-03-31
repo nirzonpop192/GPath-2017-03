@@ -11,11 +11,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.siddiquinoor.restclient.R;
 import com.siddiquinoor.restclient.data_model.DTSurveyTableDataModel;
-import com.siddiquinoor.restclient.data_model.SurveyModel;
 
 import java.util.ArrayList;
 
@@ -24,13 +22,14 @@ import java.util.ArrayList;
  */
 public class SurveyAdapter extends RecyclerView.Adapter<SurveyAdapter.SurveyItemViewHolder> {
 
+    private static final int MINIMUM_PHOTO_LENGTH = 5;
     private ArrayList<DTSurveyTableDataModel> dtSurveyTableDataModels;
 
-    private Context context;
+    private Context mContext;
 
     public SurveyAdapter(ArrayList<DTSurveyTableDataModel> dtSurveyTableDataModels, Context context) {
         this.dtSurveyTableDataModels = dtSurveyTableDataModels;
-        this.context = context;
+        this.mContext = context;
     }
 
     @Override
@@ -48,6 +47,9 @@ public class SurveyAdapter extends RecyclerView.Adapter<SurveyAdapter.SurveyItem
 
         holder.imgVImage.setVisibility(View.GONE);
 
+        /**
+         * if the  answer type is radio button IT will show total value
+         */
         if (dtSurveyTableDataModel.getDtaValue().equalsIgnoreCase("Y")) {
             holder.tvAnswer.setText("Yes");
         } else if (dtSurveyTableDataModel.getDtaValue().equalsIgnoreCase("N")) {
@@ -55,7 +57,7 @@ public class SurveyAdapter extends RecyclerView.Adapter<SurveyAdapter.SurveyItem
         } else if (dtSurveyTableDataModel.getDtALabel() == null) {    //if the answer control is not Radio button or check Box  then set the DtaValue
             holder.tvAnswer.setText(dtSurveyTableDataModel.getDtaValue());
         } else {
-            if (dtSurveyTableDataModel.getDtPhoto().length() < 5)
+            if (dtSurveyTableDataModel.getDtPhoto().length() < MINIMUM_PHOTO_LENGTH)
                 holder.tvAnswer.setText(dtSurveyTableDataModel.getDtALabel());
             else {
 

@@ -3,10 +3,10 @@ package com.siddiquinoor.restclient.manager.sqlsyntax;
 import android.util.Log;
 
 import com.siddiquinoor.restclient.data_model.RegNAssgProgSrv;
+import com.siddiquinoor.restclient.data_model.adapters.AssignDataModel;
 import com.siddiquinoor.restclient.manager.SQLiteHandler;
 import com.siddiquinoor.restclient.utils.UtilClass;
-import com.siddiquinoor.restclient.views.adapters.DynamicDataIndexDataModel;
-import com.siddiquinoor.restclient.views.adapters.GraduationGridDataModel;
+import com.siddiquinoor.restclient.data_model.adapters.GraduationGridDataModel;
 import com.siddiquinoor.restclient.views.adapters.ServiceDataModel;
 import com.siddiquinoor.restclient.activity.sub_activity.gps_sub.PointAttributes;
 
@@ -3768,7 +3768,7 @@ public class SQLiteQuery {
      * @param lup_TableName look up table Name
      * @return dynamic query
      */
-    public static String loadDynamicSpinnerListLoader_sql(String cCode, String resLupText, String lup_TableName, DynamicDataIndexDataModel dyBasic) {
+    public static String loadDynamicSpinnerListLoader_sql(String cCode, String resLupText, String lup_TableName, AssignDataModel.DynamicDataIndexDataModel dyBasic) {
         String udf = "";
 
         switch (resLupText) {

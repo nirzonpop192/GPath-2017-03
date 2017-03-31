@@ -50,8 +50,8 @@ public class GDistributionActivity {
     import com.siddiquinoor.restclient.manager.sqlsyntax.SQLServerSyntaxGenerator;
     import com.siddiquinoor.restclient.manager.sqlsyntax.SQLiteQuery;
     import com.siddiquinoor.restclient.utils.UtilClass;
-    import com.siddiquinoor.restclient.views.adapters.DistributionGridDataModel;
-    import com.siddiquinoor.restclient.views.adapters.DistributionSaveDataModel;
+    import com.siddiquinoor.restclient.data_model.adapters.DistributionGridDataModel;
+    import com.siddiquinoor.restclient.data_model.adapters.DistributionSaveDataModel;
     import com.siddiquinoor.restclient.views.helper.SpinnerHelper;
     import com.siddiquinoor.restclient.views.notifications.ADNotificationManager;
 

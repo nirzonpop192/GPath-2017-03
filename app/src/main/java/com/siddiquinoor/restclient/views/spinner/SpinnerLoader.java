@@ -9,11 +9,11 @@ import android.widget.Spinner;
 import com.siddiquinoor.restclient.R;
 import com.siddiquinoor.restclient.activity.MemberSearchPage;
 import com.siddiquinoor.restclient.activity.sub_activity.gps_sub.MapActivity;
+import com.siddiquinoor.restclient.data_model.adapters.AssignDataModel;
 import com.siddiquinoor.restclient.manager.SQLiteHandler;
 import com.siddiquinoor.restclient.manager.sqlsyntax.SQLiteQuery;
 import com.siddiquinoor.restclient.utils.UtilClass;
-import com.siddiquinoor.restclient.views.adapters.DynamicDataIndexDataModel;
-import com.siddiquinoor.restclient.views.adapters.DTQTableDataModel;
+import com.siddiquinoor.restclient.data_model.adapters.DTQTableDataModel;
 import com.siddiquinoor.restclient.views.helper.SpinnerHelper;
 
 import java.util.ArrayList;
@@ -292,7 +292,7 @@ public class SpinnerLoader {
      * @param strSpinner spinner T7ext
      * @param mDTQ       Dynamic Table Question
      */
-    public static void loadDynamicSpinnerListLoader(Context context, SQLiteHandler sqlH, Spinner dt_spinner, String cCode, String resLupText, String strSpinner, DTQTableDataModel mDTQ, DynamicDataIndexDataModel dyBasic) {
+    public static void loadDynamicSpinnerListLoader(Context context, SQLiteHandler sqlH, Spinner dt_spinner, String cCode, String resLupText, String strSpinner, DTQTableDataModel mDTQ, AssignDataModel.DynamicDataIndexDataModel dyBasic) {
 
         int position = 0;
         List<SpinnerHelper> list = new ArrayList<SpinnerHelper>();

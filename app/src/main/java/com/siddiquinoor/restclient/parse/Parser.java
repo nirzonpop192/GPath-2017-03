@@ -2125,6 +2125,37 @@ public class Parser extends Parse {
     }
 
 
+    public static void admOpMonthParser(JSONArray jsonArrayData, SQLiteHandler sqlH) {
+        int size = jsonArrayData.length();
+
+
+        String AdmCountryCode, AdmDonorCode, AdmAwardCode, OpCode, OpMonthCode, MonthLabel, StartDate, EndDate, UsaStartDate, UsaEndDate, Status;
+        for (int i = 0; i < size; i++) {
+            try {
+                JSONObject jsonObject = jsonArrayData.getJSONObject(i);
+
+                AdmCountryCode = jsonObject.getString(Parser.ADM_COUNTRY_CODE);
+                AdmDonorCode = jsonObject.getString(Parser.ADM_DONOR_CODE);
+                AdmAwardCode = jsonObject.getString(Parser.ADM_AWARD_CODE);
+                OpCode = jsonObject.getString(Parser.OP_CODE);
+                OpMonthCode = jsonObject.getString(Parser.OP_MONTH_CODE);
+                MonthLabel = jsonObject.getString(Parser.MONTH_LABEL);
+                StartDate = jsonObject.getString(Parser.START_DATE);
+                EndDate = jsonObject.getString(Parser.END_DATE);
+                UsaStartDate = jsonObject.getString(Parser.USA_START_DATE);
+                UsaEndDate = jsonObject.getString(Parser.USA_END_DATE);
+                Status = jsonObject.getString("Status");
+                sqlH.addOpMonthFromOnline(AdmCountryCode, AdmDonorCode, AdmAwardCode, OpCode, OpMonthCode, MonthLabel, StartDate, EndDate, UsaStartDate, UsaEndDate, Status);
+
+            } catch (Exception e) {
+                Log.e(TAG, "Exception : " + e);
+                e.printStackTrace();
+            }
+        }
+
+    }
+
+
     public static void lupProgGroupCropParser(JSONArray jsonArrayData, SQLiteHandler sqlH) {
 
         int size = jsonArrayData.length();
@@ -2192,7 +2223,7 @@ public class Parser extends Parse {
     public static void staff_srv_center_accessParser(JSONArray jsonArrayData, SQLiteHandler sqlH) {
 
         int size = jsonArrayData.length();
-        String StfCode, AdmCountryCode, btnNew, btnSave, btnDel,SrvCenterCatCode;
+        String StfCode, AdmCountryCode, btnNew, btnSave, btnDel, SrvCenterCatCode;
         for (int i = 0; i < size; i++) {
             try {
                 JSONObject jsonObject = jsonArrayData.getJSONObject(i);
@@ -2205,7 +2236,7 @@ public class Parser extends Parse {
                 btnDel = jsonObject.getString(Parser.BTN_DEL);
 
 
-                sqlH.addStaffSrvCenterAccess(StfCode, AdmCountryCode,SrvCenterCatCode,btnNew, btnSave, btnDel);//, SrvCenterCatCode, FDPCode);
+                sqlH.addStaffSrvCenterAccess(StfCode, AdmCountryCode, SrvCenterCatCode, btnNew, btnSave, btnDel);//, SrvCenterCatCode, FDPCode);
             } catch (Exception e) {
                 Log.e(TAG, "Exception : " + e);
                 e.printStackTrace();

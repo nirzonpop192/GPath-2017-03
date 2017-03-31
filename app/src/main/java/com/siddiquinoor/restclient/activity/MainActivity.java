@@ -38,7 +38,7 @@ import com.siddiquinoor.restclient.network.ConnectionDetector;
 import com.siddiquinoor.restclient.parse.Parser;
 import com.siddiquinoor.restclient.utils.KEY;
 import com.siddiquinoor.restclient.utils.UtilClass;
-import com.siddiquinoor.restclient.views.adapters.DistributionSaveDataModel;
+import com.siddiquinoor.restclient.data_model.adapters.DistributionSaveDataModel;
 import com.siddiquinoor.restclient.views.helper.SpinnerHelper;
 import com.siddiquinoor.restclient.views.notifications.AlertDialogManager;
 import com.siddiquinoor.restclient.views.spinner.SpinnerLoader;
@@ -1118,33 +1118,38 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
                 }
 
-                publishProgress(++progressIncremental);
+
                 //adm_op_month
-
-
+                publishProgress(++progressIncremental);
                 if (!jObj.isNull(Parser.ADM_OP_MONTH_JSON_A)) {
-                    JSONArray adm_op_months = jObj.getJSONArray(Parser.ADM_OP_MONTH_JSON_A);
-                    size = adm_op_months.length();
-                    for (int i = 0; i < size; i++) {
-                        JSONObject adm_op_month = adm_op_months.getJSONObject(i);
+                    Parser.admOpMonthParser(jObj.getJSONArray(Parser.ADM_OP_MONTH_JSON_A), db);
 
-                        String AdmCountryCode = adm_op_month.getString(Parser.ADM_COUNTRY_CODE);
-                        String AdmDonorCode = adm_op_month.getString(Parser.ADM_DONOR_CODE);
-                        String AdmAwardCode = adm_op_month.getString(Parser.ADM_AWARD_CODE);
-                        String OpCode = adm_op_month.getString(Parser.OP_CODE);
-                        String OpMonthCode = adm_op_month.getString(Parser.OP_MONTH_CODE);
-                        String MonthLabel = adm_op_month.getString(Parser.MONTH_LABEL);
-                        String StartDate = adm_op_month.getString(Parser.START_DATE);
-                        String EndDate = adm_op_month.getString(Parser.END_DATE);
-
-                        String UsaStartDate = adm_op_month.getString(Parser.USA_START_DATE);
-                        String UsaEndDate = adm_op_month.getString(Parser.USA_END_DATE);
-                        String Status = adm_op_month.getString("Status");
-                        db.addOpMonthFromOnline(AdmCountryCode, AdmDonorCode, AdmAwardCode, OpCode, OpMonthCode, MonthLabel, StartDate, EndDate, UsaStartDate, UsaEndDate, Status);
-
-
-                    }
                 }
+
+                // u may delete the code after check the db
+//                if (!jObj.isNull(Parser.ADM_OP_MONTH_JSON_A)) {
+//                    JSONArray adm_op_months = jObj.getJSONArray(Parser.ADM_OP_MONTH_JSON_A);
+//                    size = adm_op_months.length();
+//                    for (int i = 0; i < size; i++) {
+//                        JSONObject adm_op_month = adm_op_months.getJSONObject(i);
+//
+//                        String AdmCountryCode = adm_op_month.getString(Parser.ADM_COUNTRY_CODE);
+//                        String AdmDonorCode = adm_op_month.getString(Parser.ADM_DONOR_CODE);
+//                        String AdmAwardCode = adm_op_month.getString(Parser.ADM_AWARD_CODE);
+//                        String OpCode = adm_op_month.getString(Parser.OP_CODE);
+//                        String OpMonthCode = adm_op_month.getString(Parser.OP_MONTH_CODE);
+//                        String MonthLabel = adm_op_month.getString(Parser.MONTH_LABEL);
+//                        String StartDate = adm_op_month.getString(Parser.START_DATE);
+//                        String EndDate = adm_op_month.getString(Parser.END_DATE);
+//
+//                        String UsaStartDate = adm_op_month.getString(Parser.USA_START_DATE);
+//                        String UsaEndDate = adm_op_month.getString(Parser.USA_END_DATE);
+//                        String Status = adm_op_month.getString("Status");
+//                        db.addOpMonthFromOnline(AdmCountryCode, AdmDonorCode, AdmAwardCode, OpCode, OpMonthCode, MonthLabel, StartDate, EndDate, UsaStartDate, UsaEndDate, Status);
+//
+//
+//                    }
+//                }
 
                 publishProgress(++progressIncremental);
 
@@ -1212,39 +1217,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                     Parser.staff_access_infoParser(jObj.getJSONArray(Parser.STAFF_ACCESS_INFO_JSON_A), db);
                 }
 
-                // u may delte below code but check db first
-//                if (!jObj.isNull(Parser.STAFF_ACCESS_INFO_JSON_A)) {// this is not servie
-//                    JSONArray staff_access_info_accesses = jObj.getJSONArray(Parser.STAFF_ACCESS_INFO_JSON_A);
-//                    size = staff_access_info_accesses.length();
-//                    for (int i = 0; i < size; i++) {
-//                        JSONObject staff_access_info_access = staff_access_info_accesses.getJSONObject(i);
-//
-//                        String StfCode = staff_access_info_access.getString(Parser.STF_CODE);
-//                        String AdmCountryCode = staff_access_info_access.getString(Parser.ADM_COUNTRY_CODE);
-//                        String AdmDonorCode = staff_access_info_access.getString(Parser.ADM_DONOR_CODE);
-//                        String AdmAwardCode = staff_access_info_access.getString(Parser.ADM_AWARD_CODE);
-//                        String LayRListCode = staff_access_info_access.getString(Parser.LAY_R_LIST_CODE);
-//                        String btnNew = staff_access_info_access.getString(Parser.BTN_NEW1);
-//                        String btnSave = staff_access_info_access.getString(Parser.BTN_SAVE);
-//                        String btnDel = staff_access_info_access.getString(Parser.BTN_DEL);
-//                        String btnPepr = staff_access_info_access.getString(Parser.BTN_PEPR);
-//                        String btnAprv = staff_access_info_access.getString(Parser.BTN_APRV);
-//                        String btnRevw = staff_access_info_access.getString(Parser.BTN_REVW);
-//                        String btnVrfy = staff_access_info_access.getString(Parser.BTN_VRFY);
-//                        String btnDTran = staff_access_info_access.getString(Parser.BTN_D_TRAN);
-//
-//
-//                        //String FDPCode = dbo_staff_geo_info_access.getString("FDPCode");
-//                        String disCode = LayRListCode.substring(0, 2);
-//                        String upCode = LayRListCode.substring(2, 4);
-//                        String unCode = LayRListCode.substring(4, 6);
-//                        String vCode = LayRListCode.substring(6);
-//                        db.addStaffGeoAccessInfo(StfCode, AdmCountryCode, AdmDonorCode, AdmAwardCode, LayRListCode, disCode, upCode, unCode, vCode, btnNew, btnSave, btnDel, btnPepr, btnAprv, btnRevw, btnVrfy, btnDTran);//, SrvCenterCatCode, FDPCode);
-//
-//
-//                        //  Log.d(TAG, "In addStaffGeoAccessInfo Table- StfCode :" + StfCode + " AdmCountryCode : " + AdmCountryCode + " AdmDonorCode : " + AdmDonorCode +               " AdmAwardCode : " + AdmAwardCode + " LayRListCode  : " + LayRListCode);// + " FDPCode  : " + FDPCode );
-//                    }
-//                }
 
 
                 if (!jObj.isNull(Parser.LB_REG_HH_CATEGORY_JSON_A)) {

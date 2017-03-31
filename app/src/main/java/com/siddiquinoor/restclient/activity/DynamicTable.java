@@ -16,11 +16,11 @@ import android.widget.EditText;
 import android.widget.ListView;
 
 import com.siddiquinoor.restclient.R;
+import com.siddiquinoor.restclient.data_model.adapters.AssignDataModel;
 import com.siddiquinoor.restclient.fragments.BaseActivity;
 import com.siddiquinoor.restclient.manager.SQLiteHandler;
 import com.siddiquinoor.restclient.utils.KEY;
 import com.siddiquinoor.restclient.views.adapters.DynamicDataIndexAdapter;
-import com.siddiquinoor.restclient.views.adapters.DynamicDataIndexDataModel;
 import com.siddiquinoor.restclient.views.notifications.ADNotificationManager;
 
 import java.util.ArrayList;
@@ -192,13 +192,13 @@ public class DynamicTable extends BaseActivity {
      */
 
     private void loadDynamicIndex(final String cCode, final String dtName) {
-        List<DynamicDataIndexDataModel> dataList = sqlH.getDynamicTableIndexList(cCode, dtName, session.getStaffId());
-        ArrayList<DynamicDataIndexDataModel> dataArray = new ArrayList<DynamicDataIndexDataModel>();
+        List<AssignDataModel.DynamicDataIndexDataModel> dataList = sqlH.getDynamicTableIndexList(cCode, dtName, session.getStaffId());
+        ArrayList<AssignDataModel.DynamicDataIndexDataModel> dataArray = new ArrayList<AssignDataModel.DynamicDataIndexDataModel>();
 
         if (dataList.size() != 0) {
             dataArray.clear();
 
-            for (DynamicDataIndexDataModel data : dataList) {
+            for (AssignDataModel.DynamicDataIndexDataModel data : dataList) {
 
                 //add contacts data in arrayList
                 dataArray.add(data);

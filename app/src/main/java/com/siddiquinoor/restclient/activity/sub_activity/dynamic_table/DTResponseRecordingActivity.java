@@ -45,14 +45,14 @@ import com.siddiquinoor.restclient.data_model.DTQResModeDataModel;
 import com.siddiquinoor.restclient.data_model.DTResponseTableDataModel;
 import com.siddiquinoor.restclient.data_model.DT_ATableDataModel;
 import com.siddiquinoor.restclient.data_model.FreezeDataModel;
+import com.siddiquinoor.restclient.data_model.adapters.AssignDataModel;
 import com.siddiquinoor.restclient.fragments.BaseActivity;
 import com.siddiquinoor.restclient.manager.SQLiteHandler;
 import com.siddiquinoor.restclient.manager.sqlsyntax.SQLServerSyntaxGenerator;
 import com.siddiquinoor.restclient.parse.Parse;
 import com.siddiquinoor.restclient.utils.CameraUtils;
 import com.siddiquinoor.restclient.utils.KEY;
-import com.siddiquinoor.restclient.views.adapters.DTQTableDataModel;
-import com.siddiquinoor.restclient.views.adapters.DynamicDataIndexDataModel;
+import com.siddiquinoor.restclient.data_model.adapters.DTQTableDataModel;
 import com.siddiquinoor.restclient.views.helper.SpinnerHelper;
 import com.siddiquinoor.restclient.views.notifications.ADNotificationManager;
 import com.siddiquinoor.restclient.views.notifications.CustomToast;
@@ -127,7 +127,7 @@ public class DTResponseRecordingActivity extends BaseActivity implements Compoun
      * mContext Class System Context variable
      */
     private final Context mContext = DTResponseRecordingActivity.this;
-    private DynamicDataIndexDataModel dyIndex;
+    private AssignDataModel.DynamicDataIndexDataModel dyIndex;
     private int totalQuestion;
 
     /**

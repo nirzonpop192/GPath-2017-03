@@ -50,13 +50,12 @@ import com.siddiquinoor.restclient.manager.sqlsyntax.Schema;
 import com.siddiquinoor.restclient.utils.KEY;
 import com.siddiquinoor.restclient.utils.UtilClass;
 import com.siddiquinoor.restclient.data_model.adapters.AssignDataModel;
-import com.siddiquinoor.restclient.views.adapters.CommunityGroupDataModel;
-import com.siddiquinoor.restclient.views.adapters.DistributionGridDataModel;
-import com.siddiquinoor.restclient.views.adapters.DistributionSaveDataModel;
-import com.siddiquinoor.restclient.views.adapters.DynamicDataIndexDataModel;
-import com.siddiquinoor.restclient.views.adapters.DTQTableDataModel;
+import com.siddiquinoor.restclient.data_model.adapters.CommunityGroupDataModel;
+import com.siddiquinoor.restclient.data_model.adapters.DistributionGridDataModel;
+import com.siddiquinoor.restclient.data_model.adapters.DistributionSaveDataModel;
+import com.siddiquinoor.restclient.data_model.adapters.DTQTableDataModel;
 import com.siddiquinoor.restclient.views.adapters.GPSLocationLatLong;
-import com.siddiquinoor.restclient.views.adapters.GraduationGridDataModel;
+import com.siddiquinoor.restclient.data_model.adapters.GraduationGridDataModel;
 import com.siddiquinoor.restclient.views.adapters.ListDataModel;
 import com.siddiquinoor.restclient.views.adapters.MemberModel;
 import com.siddiquinoor.restclient.views.adapters.ServiceDataModel;
@@ -1212,7 +1211,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
             db.delete(OP_MONTH_TABLE, null, null);
             //db.delete(COUNTRY_PROGRAM_TABLE, null, null);
             db.delete(SERVICE_CENTER_TABLE, null, null);
-          ///  db.delete(STAFF_GEO_INFO_ACCESS_TABLE, null, null);
+            ///  db.delete(STAFF_GEO_INFO_ACCESS_TABLE, null, null);
             db.delete(HOUSE_HOLD_CATEGORY_TABLE, null, null);
             db.delete(REG_N_LUP_GRADUATION_TABLE, null, null);
             db.delete(LAYER_LABEL_TABLE, null, null);
@@ -2687,7 +2686,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
         values.put(BTN_DEL_COL, btnDel);
 
         // Inserting Row
-         db.insert(STAFF_SRV_CENTER_ACCESS_TABLE, null, values);
+        db.insert(STAFF_SRV_CENTER_ACCESS_TABLE, null, values);
         db.close(); // Closing database connection
     }
 
@@ -4113,11 +4112,11 @@ public class SQLiteHandler extends SQLiteOpenHelper {
 
 
     /**
-     * @date :2015-11-07
-     * @modified:
-     * @author : Faisal mohamad
-     * @status
-     * @description : get Serial no from MemberCardRequestTable
+     * date :2015-11-07
+     * modified:
+     * author : Faisal mohamad
+     * status
+     * description : get Serial no from MemberCardRequestTable
      */
     public String getCardPrintDate(String cCode, String donorCode, String awardCode, String disCode, String upCode, String unCode, String vCode, String hhID, String memID, String rptGroup,
                                    String reportCode, String requestSl) {
@@ -4311,18 +4310,14 @@ public class SQLiteHandler extends SQLiteOpenHelper {
 
 
     /**
-     * @date :2015-11-07
-     * @modified: 2015-11-07
-     * @author : Faisal mohamad
+     * date :2015-11-07
+     * modified: 2015-11-07
+     *
      * @status
      * @description : get Serial no from MemberCardRequestTable
      */
-    public String getCardRequestDate(String cCode, String donorCode,
-                                     String awardCode, String disCode,
-                                     String upCode, String unCode,
-                                     String vCode, String hhID,
-                                     String memID, String rptGroup,
-                                     String reportCode, String requestSl) {
+    public String getCardRequestDate(String cCode, String donorCode, String awardCode, String disCode, String upCode, String unCode, String vCode, String hhID,
+                                     String memID, String rptGroup, String reportCode, String requestSl) {
         String cardRequestDate = "";
         //String temp="";
 
@@ -5656,9 +5651,9 @@ public class SQLiteHandler extends SQLiteOpenHelper {
      * @return DT index list
      */
 
-    public ArrayList<DynamicDataIndexDataModel> getDynamicTableIndexList(final String cCode, String dtTitleSearch, final String staffId) {
+    public ArrayList<AssignDataModel.DynamicDataIndexDataModel> getDynamicTableIndexList(final String cCode, String dtTitleSearch, final String staffId) {
 
-        ArrayList<DynamicDataIndexDataModel> list = new ArrayList<DynamicDataIndexDataModel>();
+        ArrayList<AssignDataModel.DynamicDataIndexDataModel> list = new ArrayList<AssignDataModel.DynamicDataIndexDataModel>();
         SQLiteDatabase db = this.getReadableDatabase();
         String sql = SQLiteQuery.getDynamicTableIndexList_sql(cCode, dtTitleSearch, staffId);
 
@@ -5667,7 +5662,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
 
         if (cursor.moveToFirst()) {
             do {
-                DynamicDataIndexDataModel data = new DynamicDataIndexDataModel();
+                AssignDataModel.DynamicDataIndexDataModel data = new AssignDataModel.DynamicDataIndexDataModel();
                 data.setDtTittle(cursor.getString(0));
                 data.setDtBasicCode(cursor.getString(1));
                 data.setAwardName(cursor.getString(2));
@@ -12002,7 +11997,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
 
     public void addIntoDTSurveyTable(String dtBasic, String countryCode, String donorCode, String awardCode, String programCode,
                                      String dtEnuId, String dtqCode, String dtaCode, String dtrSeq, String dtaValue,
-                                     String progActivityCode, String dttTimeString, String opMode, String opMonthCode, String dataType, String dtqText, int surveyNumber,String image) {
+                                     String progActivityCode, String dttTimeString, String opMode, String opMonthCode, String dataType, String dtqText, int surveyNumber, String image) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
 

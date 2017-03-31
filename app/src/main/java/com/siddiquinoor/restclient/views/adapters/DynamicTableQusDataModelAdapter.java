@@ -12,6 +12,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.siddiquinoor.restclient.R;
+import com.siddiquinoor.restclient.data_model.adapters.DTQTableDataModel;
 
 import java.util.ArrayList;
 
@@ -45,7 +46,7 @@ public class DynamicTableQusDataModelAdapter extends BaseAdapter {
         return position;
     }
 
-    public DTQTableDataModel getDynamicDataQuestion(int pos) {
+    private DTQTableDataModel getDynamicDataQuestion(int pos) {
         return (DTQTableDataModel) getItem(pos);
     }
 

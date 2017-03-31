@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.siddiquinoor.restclient.R;
 import com.siddiquinoor.restclient.activity.sub_activity.dynamic_table.DT_ReportActivity;
 import com.siddiquinoor.restclient.activity.sub_activity.dynamic_table.DTResponseActivity;
+import com.siddiquinoor.restclient.data_model.adapters.AssignDataModel;
 import com.siddiquinoor.restclient.utils.KEY;
 
 import java.util.ArrayList;
@@ -28,9 +29,9 @@ public class DynamicDataIndexAdapter extends BaseAdapter {
     private LayoutInflater inflater;
     //private SQLiteHandler sqLiteHandler;
     // private SessionManager session;
-    private ArrayList<DynamicDataIndexDataModel> data = new ArrayList<DynamicDataIndexDataModel>();
+    private ArrayList<AssignDataModel.DynamicDataIndexDataModel> data = new ArrayList<AssignDataModel.DynamicDataIndexDataModel>();
 
-    public DynamicDataIndexAdapter(Activity activity, ArrayList<DynamicDataIndexDataModel> data) {
+    public DynamicDataIndexAdapter(Activity activity, ArrayList<AssignDataModel.DynamicDataIndexDataModel> data) {
         this.activity = activity;
         this.data = data;
         // this.sqLiteHandler = sqLiteHandler;
@@ -52,8 +53,8 @@ public class DynamicDataIndexAdapter extends BaseAdapter {
         return position;
     }
 
-    public DynamicDataIndexDataModel getDynamicDataIndex(int pos) {
-        return (DynamicDataIndexDataModel) getItem(pos);
+    public AssignDataModel.DynamicDataIndexDataModel getDynamicDataIndex(int pos) {
+        return (AssignDataModel.DynamicDataIndexDataModel) getItem(pos);
     }
 
     ViewHolder holder;
@@ -62,7 +63,7 @@ public class DynamicDataIndexAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
 
         View row = convertView;
-        final DynamicDataIndexDataModel data = getDynamicDataIndex(position);
+        final AssignDataModel.DynamicDataIndexDataModel data = getDynamicDataIndex(position);
 
         // convert xml layout  to java object
         if (inflater == null)

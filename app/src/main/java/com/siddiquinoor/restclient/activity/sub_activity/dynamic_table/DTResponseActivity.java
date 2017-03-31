@@ -20,11 +20,11 @@ import android.widget.Toast;
 
 import com.siddiquinoor.restclient.R;
 import com.siddiquinoor.restclient.activity.DynamicTable;
+import com.siddiquinoor.restclient.data_model.adapters.AssignDataModel;
 import com.siddiquinoor.restclient.fragments.BaseActivity;
 import com.siddiquinoor.restclient.manager.SQLiteHandler;
 import com.siddiquinoor.restclient.utils.KEY;
-import com.siddiquinoor.restclient.views.adapters.DTQTableDataModel;
-import com.siddiquinoor.restclient.views.adapters.DynamicDataIndexDataModel;
+import com.siddiquinoor.restclient.data_model.adapters.DTQTableDataModel;
 import com.siddiquinoor.restclient.views.adapters.DynamicTableQusDataModelAdapter;
 import com.siddiquinoor.restclient.views.helper.SpinnerHelper;
 import com.siddiquinoor.restclient.views.spinner.SpinnerLoader;
@@ -57,7 +57,7 @@ public class DTResponseActivity extends BaseActivity {
     private String strProgram;
     // private ListView lv_DT_QList;
     private Button btn_goToQustion, btn_BackToQustion;
-    private DynamicDataIndexDataModel dyIndex;
+    private AssignDataModel.DynamicDataIndexDataModel dyIndex;
     DynamicTableQusDataModelAdapter adapter = null;
     private String idMonth;
     private String strMonth;

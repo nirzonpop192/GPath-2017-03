@@ -1,4 +1,4 @@
-package com.siddiquinoor.restclient.views.adapters;
+package com.siddiquinoor.restclient.data_model.adapters;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -88,7 +88,7 @@ public class GraduationGridDataModel implements Parcelable{
     public GraduationGridDataModel() {
     }
 
-    public GraduationGridDataModel(Parcel in) {
+    private GraduationGridDataModel(Parcel in) {
         readFromParcel(in);
     }
 

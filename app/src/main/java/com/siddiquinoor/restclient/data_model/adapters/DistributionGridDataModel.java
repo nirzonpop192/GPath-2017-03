@@ -1,4 +1,4 @@
-package com.siddiquinoor.restclient.views.adapters;
+package com.siddiquinoor.restclient.data_model.adapters;
 
 import android.os.Parcel;
 import android.os.Parcelable;

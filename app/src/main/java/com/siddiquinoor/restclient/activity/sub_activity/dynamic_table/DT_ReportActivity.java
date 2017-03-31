@@ -11,24 +11,20 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.siddiquinoor.restclient.R;
 import com.siddiquinoor.restclient.controller.SessionManager;
 import com.siddiquinoor.restclient.data_model.DTSurveyTableDataModel;
 import com.siddiquinoor.restclient.data_model.SurveyModel;
+import com.siddiquinoor.restclient.data_model.adapters.AssignDataModel;
 import com.siddiquinoor.restclient.manager.SQLiteHandler;
 import com.siddiquinoor.restclient.utils.CalculationPadding;
 import com.siddiquinoor.restclient.utils.KEY;
-import com.siddiquinoor.restclient.views.adapters.DynamicDataIndexDataModel;
 import com.siddiquinoor.restclient.views.adapters.ReportViewPagerAdapter;
-import com.siddiquinoor.restclient.views.helper.SpinnerHelper;
-import com.siddiquinoor.restclient.views.spinner.SpinnerLoader;
 
 import java.util.ArrayList;
 
@@ -41,7 +37,7 @@ public class DT_ReportActivity extends AppCompatActivity {
     private RelativeLayout rlIndicator;
     private ViewPager viewPager;
 
-    private DynamicDataIndexDataModel data;
+    private AssignDataModel.DynamicDataIndexDataModel data;
     private SQLiteHandler sqlH;
     private ReportViewPagerAdapter adapter;
 

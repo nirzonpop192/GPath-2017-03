@@ -29,8 +29,8 @@ import com.siddiquinoor.restclient.fragments.BaseActivity;
 import com.siddiquinoor.restclient.manager.SQLiteHandler;
 import com.siddiquinoor.restclient.manager.sqlsyntax.SQLServerSyntaxGenerator;
 import com.siddiquinoor.restclient.utils.KEY;
-import com.siddiquinoor.restclient.views.adapters.DistributionGridDataModel;
-import com.siddiquinoor.restclient.views.adapters.DistributionSaveDataModel;
+import com.siddiquinoor.restclient.data_model.adapters.DistributionGridDataModel;
+import com.siddiquinoor.restclient.data_model.adapters.DistributionSaveDataModel;
 import com.siddiquinoor.restclient.views.adapters.VouItemServiceExtDataModel;
 import com.siddiquinoor.restclient.views.notifications.ADNotificationManager;
 

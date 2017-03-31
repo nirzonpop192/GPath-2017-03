@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.siddiquinoor.restclient.R;
 import com.siddiquinoor.restclient.activity.sub_activity.commu_group_sub.CommunityGroupNDetailsRecodes;
+import com.siddiquinoor.restclient.data_model.adapters.CommunityGroupDataModel;
 import com.siddiquinoor.restclient.utils.KEY;
 
 

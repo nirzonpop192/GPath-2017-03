@@ -29,7 +29,7 @@ import com.siddiquinoor.restclient.manager.SQLiteHandler;
 import com.siddiquinoor.restclient.manager.sqlsyntax.SQLiteQuery;
 import com.siddiquinoor.restclient.utils.KEY;
 import com.siddiquinoor.restclient.views.adapters.GraduationGridAdapter;
-import com.siddiquinoor.restclient.views.adapters.GraduationGridDataModel;
+import com.siddiquinoor.restclient.data_model.adapters.GraduationGridDataModel;
 import com.siddiquinoor.restclient.views.helper.SpinnerHelper;
 
 import java.util.ArrayList;

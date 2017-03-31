@@ -24,7 +24,7 @@ import com.siddiquinoor.restclient.manager.SQLiteHandler;
 import com.siddiquinoor.restclient.manager.sqlsyntax.SQLiteQuery;
 import com.siddiquinoor.restclient.utils.KEY;
 import com.siddiquinoor.restclient.views.adapters.CommunityGroupAdapter;
-import com.siddiquinoor.restclient.views.adapters.CommunityGroupDataModel;
+import com.siddiquinoor.restclient.data_model.adapters.CommunityGroupDataModel;
 import com.siddiquinoor.restclient.views.helper.SpinnerHelper;
 import com.siddiquinoor.restclient.views.notifications.ADNotificationManager;
 import com.siddiquinoor.restclient.views.spinner.SpinnerLoader;
