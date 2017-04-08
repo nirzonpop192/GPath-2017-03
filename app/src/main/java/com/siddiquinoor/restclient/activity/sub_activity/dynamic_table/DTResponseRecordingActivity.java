@@ -767,15 +767,15 @@ public class DTResponseRecordingActivity extends BaseActivity implements Compoun
 
                                 break;
 
-                        }                                                           // end of switch
+                        }                                                                           // end of switch
 
 
-                        if (dtResponse != null)                                     // if data exist in db show data
+                        if (dtResponse != null)                                                     // if data exist in db show data
                             dt_edt.setText(dtResponse.getDtaValue());
                         else
                             dt_edt.setText("");
 
-                    }                                                               // end of if
+                    }                                                                               // end of if
                     else {
                         loadGpsLatLong(resLupText, dtResponse);
 
@@ -797,7 +797,7 @@ public class DTResponseRecordingActivity extends BaseActivity implements Compoun
                         _dt_tv_DatePickerNLatLong.setText("Select Date");
 
 
-                    switch (dataType) {                                     //specification  of date time or only time
+                    switch (dataType) {                                                             //specification  of date time or only time
                         case DATE_TIME:
                             getTimeStamp(_dt_tv_DatePickerNLatLong);
                             break;

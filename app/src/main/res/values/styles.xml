@@ -503,4 +503,48 @@
         <item name="android:textSize">@dimen/main_button_txtSize</item>
     </style>
 
+    <style name="forward_button">
+        <item name="android:layout_width">@dimen/icon_button_width</item>
+        <item name="android:layout_height">@dimen/icon_button_height</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:background">@drawable/button_style</item>
+        <item name="android:drawableTop">@drawable/goto_forward</item>
+        <item name="android:gravity">center</item>
+        <item name="android:paddingTop">11dp</item>
+        <item name="android:paddingBottom">11dp</item>
+    </style>
+
+    <style name="backward_button">
+        <item name="android:layout_width">@dimen/icon_button_width</item>
+        <item name="android:layout_height">@dimen/icon_button_height</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:background">@drawable/button_style</item>
+        <item name="android:drawableTop">@drawable/goto_back</item>
+        <item name="android:gravity">center</item>
+        <item name="android:paddingTop">11dp</item>
+    </style>
+
+    <style name="Home_icon_button">
+        <item name="android:layout_width">@dimen/icon_button_width</item>
+        <item name="android:layout_height">@dimen/icon_button_height</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:background">@drawable/button_style</item>
+        <item name="android:drawableTop">@drawable/home_b</item>
+        <item name="android:gravity">center</item>
+        <item name="android:paddingTop">11dp</item>
+    </style>
+
+<!--    android:id="@+id/btn_dt_next"
+    android:layout_width="0dp"
+    android:layout_height="40dp"
+    android:layout_gravity="center"
+    android:layout_weight="1"
+    android:background="@drawable/button_style"
+    android:drawableTop="@drawable/goto_forward"
+    android:gravity="center"
+    android:paddingTop="11dp"-->
+
 </resources>

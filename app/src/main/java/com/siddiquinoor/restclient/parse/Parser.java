@@ -4,12 +4,14 @@ import android.util.Base64;
 import android.util.Log;
 
 import com.siddiquinoor.restclient.data_model.AdmCountryDataModel;
+import com.siddiquinoor.restclient.data_model.VillageItem;
 import com.siddiquinoor.restclient.manager.SQLiteHandler;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Faisal on 7/16/2016.
@@ -76,35 +78,35 @@ public class Parser extends Parse {
     public static final String DELIVERY_DATE = "DeliveryDate";
     public static final String DELIVERED_BY = "DeliveredBy";
     public static final String DEL_STATUS = "DelStatus";
-    public static final String P_BSC_MEM_NAME_1_FIRST = "P_BSCMemName1_First";
-    public static final String P_BSC_MEM_NAME_1_MIDDLE = "P_BSCMemName1_Middle";
-    public static final String P_BSC_MEM_NAME_1_LAST = "P_BSCMemName1_Last";
-    public static final String P_BSC_MEM_1_TITLE_POSITION = "P_BSCMem1_TitlePosition";
-    public static final String PROXY_TYPE_ID = "Proxy_Type_ID";
-    public static final String PROXY_ID_NO = "Proxy_ID_NO";
-    public static final String P_BSC_MEM_NAME_2_FIRST = "P_BSCMemName2_First";
-    public static final String P_BSC_MEM_NAME_2_MIDDLE = "P_BSCMemName2_Middle";
-    public static final String P_BSC_MEM_NAME_2_LAST = "P_BSCMemName2_Last";
-    public static final String P_BSC_MEM_2_TITLE_POSITION = "P_BSCMem2_TitlePosition";
-    public static final String V_BSC_MEM_NAME_1_FIRST = "V_BSCMemName1_First";
-    public static final String V_BSC_MEM_NAME_1_MIDDLE = "V_BSCMemName1_Middle";
-    public static final String V_BSC_MEM_NAME_1_LAST = "V_BSCMemName1_Last";
-    public static final String V_BSC_MEM_1_TITLE_POSITION = "V_BSCMem1_TitlePosition";
-    public static final String V_BSC_MEM_NAME_2_FIRST = "V_BSCMemName2_First";
-    public static final String V_BSC_MEM_NAME_2_MIDDLE = "V_BSCMemName2_Middle";
-    public static final String V_BSC_MEM_NAME_2_LAST = "V_BSCMemName2_Last";
-    public static final String V_BSC_MEM_2_TITLE_POSITION = "V_BSCMem2_TitlePosition";
-    public static final String PROXY_DESIGNATION = "Proxy_Designation";
-    public static final String PROXY_NAME_FIRST = "Proxy_Name_First";
-    public static final String PROXY_NAME_MIDDLE = "Proxy_Name_Middle";
-    public static final String PROXY_NAME_LAST = "Proxy_Name_Last";
-    public static final String PROXY_BIRTH_YEAR = "Proxy_BirthYear";
-    public static final String PROXY_PHOTO = "Proxy_Photo";
-    public static final String CHILD_DOB = "ChildDOB";
-    public static final String ELDERLY = "Elderly";
-    public static final String BIRTH_YEAR = "BirthYear";
-    public static final String PHOTO = "Photo";
-    public static final String TYPE_ID = "Type_ID";
+    private static final String P_BSC_MEM_NAME_1_FIRST = "P_BSCMemName1_First";
+    private static final String P_BSC_MEM_NAME_1_MIDDLE = "P_BSCMemName1_Middle";
+    private static final String P_BSC_MEM_NAME_1_LAST = "P_BSCMemName1_Last";
+    private static final String P_BSC_MEM_1_TITLE_POSITION = "P_BSCMem1_TitlePosition";
+    private static final String PROXY_TYPE_ID = "Proxy_Type_ID";
+    private static final String PROXY_ID_NO = "Proxy_ID_NO";
+    private static final String P_BSC_MEM_NAME_2_FIRST = "P_BSCMemName2_First";
+    private static final String P_BSC_MEM_NAME_2_MIDDLE = "P_BSCMemName2_Middle";
+    private static final String P_BSC_MEM_NAME_2_LAST = "P_BSCMemName2_Last";
+    private static final String P_BSC_MEM_2_TITLE_POSITION = "P_BSCMem2_TitlePosition";
+    private static final String V_BSC_MEM_NAME_1_FIRST = "V_BSCMemName1_First";
+    private static final String V_BSC_MEM_NAME_1_MIDDLE = "V_BSCMemName1_Middle";
+    private static final String V_BSC_MEM_NAME_1_LAST = "V_BSCMemName1_Last";
+    private static final String V_BSC_MEM_1_TITLE_POSITION = "V_BSCMem1_TitlePosition";
+    private static final String V_BSC_MEM_NAME_2_FIRST = "V_BSCMemName2_First";
+    private static final String V_BSC_MEM_NAME_2_MIDDLE = "V_BSCMemName2_Middle";
+    private static final String V_BSC_MEM_NAME_2_LAST = "V_BSCMemName2_Last";
+    private static final String V_BSC_MEM_2_TITLE_POSITION = "V_BSCMem2_TitlePosition";
+    private static final String PROXY_DESIGNATION = "Proxy_Designation";
+    private static final String PROXY_NAME_FIRST = "Proxy_Name_First";
+    private static final String PROXY_NAME_MIDDLE = "Proxy_Name_Middle";
+    private static final String PROXY_NAME_LAST = "Proxy_Name_Last";
+    private static final String PROXY_BIRTH_YEAR = "Proxy_BirthYear";
+    private static final String PROXY_PHOTO = "Proxy_Photo";
+    private static final String CHILD_DOB = "ChildDOB";
+    private static final String ELDERLY = "Elderly";
+    private static final String BIRTH_YEAR = "BirthYear";
+    private static final String PHOTO = "Photo";
+    private static final String TYPE_ID = "Type_ID";
     public static final String ADM_COUNTRY_NAME = "AdmCountryName";
     public static final String START_DATE = "StartDate";
     public static final String END_DATE = "EndDate";
@@ -167,11 +169,11 @@ public class Parser extends Parse {
 
     public static final String SRV_CENTER_CODE = "SrvCenterCode";
     public static final String SRV_CENTER_NAME = "SrvCenterName";
-    public static final String BTN_PEPR = "btnPepr";
-    public static final String BTN_APRV = "btnAprv";
-    public static final String BTN_REVW = "btnRevw";
-    public static final String BTN_VRFY = "btnVrfy";
-    public static final String BTN_D_TRAN = "btnDTran";
+    private static final String BTN_PEPR = "btnPepr";
+    private static final String BTN_APRV = "btnAprv";
+    private static final String BTN_REVW = "btnRevw";
+    private static final String BTN_VRFY = "btnVrfy";
+    private static final String BTN_D_TRAN = "btnDTran";
     public static final String STF_CODE = "StfCode";
     public static final String LAY_R_LIST_CODE = "LayRListCode";
     public static final String HH_HEAD_CAT_CODE = "HHHeadCatCode";
@@ -196,97 +198,97 @@ public class Parser extends Parse {
     public static final String USR_FIRST_NAME = "UsrFirstName";
     public static final String USR_LOG_IN_PW = "UsrLogInPW";
     public static final String REG_M_ASSIGN_PROG_SRV_JSON_A = "reg_m_assign_prog_srv";
-    public static final String CA_2_DOB = "CA2DOB";
-    public static final String CA_2_GRD_DATE = "CA2GRDDate";
-    public static final String LMGRD_DATE = "LMGRDDate";
-    public static final String LMDOB = "LMDOB";
-    public static final String CU_2_DOB = "CU2DOB";
-    public static final String CU_2_GRD_DATE = "CU2GRDDate";
-    public static final String LOCATION_CODE = "LocationCode";
-    public static final String LOCATION_NAME = "LocationName";
-    public static final String LONG = "Long";
-    public static final String LATD = "Latd";
-    public static final String AWARD_REF_NUMBER = "AwardRefNumber";
-    public static final String AWARD_START_DATE = "AwardStartDate";
-    public static final String AWARD_END_DATE = "AwardEndDate";
-    public static final String AWARD_SHORT_NAME = "AwardShortName";
-    public static final String AWARD_STATUS = "AwardStatus";
-    public static final String ADM_DONOR_NAME = "AdmDonorName";
+    private static final String CA_2_DOB = "CA2DOB";
+    private static final String CA_2_GRD_DATE = "CA2GRDDate";
+    private static final String LMGRD_DATE = "LMGRDDate";
+    private static final String LMDOB = "LMDOB";
+    private static final String CU_2_DOB = "CU2DOB";
+    private static final String CU_2_GRD_DATE = "CU2GRDDate";
+    private static final String LOCATION_CODE = "LocationCode";
+    private static final String LOCATION_NAME = "LocationName";
+    private static final String LONG = "Long";
+    private static final String LATD = "Latd";
+    private static final String AWARD_REF_NUMBER = "AwardRefNumber";
+    private static final String AWARD_START_DATE = "AwardStartDate";
+    private static final String AWARD_END_DATE = "AwardEndDate";
+    private static final String AWARD_SHORT_NAME = "AwardShortName";
+    private static final String AWARD_STATUS = "AwardStatus";
+    private static final String ADM_DONOR_NAME = "AdmDonorName";
     public static final String OP_CODE = "OpCode";
-    public static final String SRV_SL = "SrvSL";
-    public static final String SRV_DT = "SrvDT";
-    public static final String SRV_STATUS = "SrvStatus";
-    public static final String DIST_DT = "DistDT";
-    public static final String GRD_DATE = "GRDDate";
-    public static final String LMP_DATE = "LMPDate";
-    public static final String PWGRD_DATE = "PWGRDDate";
-    public static final String AFT_CNT_WAGE_ENR = "AFTCntWageEnr";
-    public static final String BRF_CNT_WAGE_ENR = "BRFCntWageEnr";
-    public static final String BRF_ACRE_ORCHARDS = "BRFAcreOrchards";
-    public static final String BRF_VAL_ORCHARDS = "BRFValOrchards";
-    public static final String AFT_ACRE_ORCHARDS = "AFTAcreOrchards";
-    public static final String AFT_VAL_ORCHARDS = "AFTValOrchards";
-    public static final String BRF_VAL_EMPLOYMENT = "BRFValEmployment";
-    public static final String AFT_VAL_EMPLOYMENT = "AFTValEmployment";
-    public static final String BRF_VAL_REMITTANCES = "BRFValRemittances";
-    public static final String EXTRA_CHRONICALLY_ILL_DISABLED_PERSON_BECAUSE_EBOLA = "ExtraChronicallyIllDisabledPersonBecauseEbola";
-    public static final String BRF_CNT_CATTLE = "BRFCntCattle";
-    public static final String BRF_VAL_CATTLE = "BRFValCattle";
-    public static final String DISTRICT_NAME = "DistrictName";
-    public static final String UPAZILLA_NAME = "UpazillaName";
-    public static final String UNIT_NAME = "UnitName";
+    private static final String SRV_SL = "SrvSL";
+    private static final String SRV_DT = "SrvDT";
+    private static final String SRV_STATUS = "SrvStatus";
+    private static final String DIST_DT = "DistDT";
+    private static final String GRD_DATE = "GRDDate";
+    private static final String LMP_DATE = "LMPDate";
+    private static final String PWGRD_DATE = "PWGRDDate";
+    private static final String AFT_CNT_WAGE_ENR = "AFTCntWageEnr";
+    private static final String BRF_CNT_WAGE_ENR = "BRFCntWageEnr";
+    private static final String BRF_ACRE_ORCHARDS = "BRFAcreOrchards";
+    private static final String BRF_VAL_ORCHARDS = "BRFValOrchards";
+    private static final String AFT_ACRE_ORCHARDS = "AFTAcreOrchards";
+    private static final String AFT_VAL_ORCHARDS = "AFTValOrchards";
+    private static final String BRF_VAL_EMPLOYMENT = "BRFValEmployment";
+    private static final String AFT_VAL_EMPLOYMENT = "AFTValEmployment";
+    private static final String BRF_VAL_REMITTANCES = "BRFValRemittances";
+    private static final String EXTRA_CHRONICALLY_ILL_DISABLED_PERSON_BECAUSE_EBOLA = "ExtraChronicallyIllDisabledPersonBecauseEbola";
+    private static final String BRF_CNT_CATTLE = "BRFCntCattle";
+    private static final String BRF_VAL_CATTLE = "BRFValCattle";
+    private static final String DISTRICT_NAME = "DistrictName";
+    private static final String UPAZILLA_NAME = "UpazillaName";
+    private static final String UNIT_NAME = "UnitName";
     public static final String VILLAGE_NAME = "VillageName";
-    public static final String HH_MEM_ID = "HHMemID";
-    public static final String MEM_NAME = "MemName";
-    public static final String MEM_SEX = "MemSex";
-    public static final String HH_RELATION = "HHRelation";
-    public static final String DISABLED = "Disabled";
-    public static final String MEM_AGE = "MemAge";
-    public static final String MARITAL_STATUS = "MaritalStatus";
-    public static final String CONTACT_NO = "ContactNo";
-    public static final String MEM_OTHER_ID = "MemOtherID";
-    public static final String MEM_NAME_FIRST = "MemName_First";
-    public static final String MEM_NAME_MIDDLE = "MemName_Middle";
-    public static final String MEM_NAME_LAST = "MemName_Last";
-    public static final String REGISTRATION_ID = "RegistrationID";
-    public static final String PERSON_NAME = "PersonName";
-    public static final String SEX = "SEX";
-    public static final String HH_SIZE = "HHSize";
-    public static final String LATITUDE = "Latitude";
-    public static final String LONGITUDE = "Longitude";
-    public static final String AG_LAND = "AGLand";
-    public static final String V_STATUS = "VStatus";
-    public static final String M_STATUS = "MStatus";
-    public static final String VSLA_GROUP = "VSLAGroup";
-    public static final String GPS_LONG_SWAP = "GPSLongSwap";
-    public static final String HH_HEAD_CAT = "HHHeadCat";
-    public static final String LT_2_YRS_M = "LT2yrsM";
-    public static final String LT_2_YRS_F = "LT2yrsF";
-    public static final String M_2_TO_5_YRS = "M2to5yrs";
-    public static final String F_2_TO_5_YRS = "F2to5yrs";
-    public static final String M_6_TO_12_YRS = "M6to12yrs";
-    public static final String AFT_CNT_CATTLE = "AFTCntCattle";
-    public static final String F_6_TO_12_YRS = "F6to12yrs";
-    public static final String M_13_TO_17_YRS = "M13to17yrs";
-    public static final String BRF_CNT_OTHER = "BRFCntOther";
-    public static final String BRF_VAL_OTHER = "BRFValOther";
-    public static final String AFT_CNT_OTHER = "AFTCntOther";
-    public static final String AFT_VAL_OTHER = "AFTValOther";
-    public static final String BRF_ACRE_CULTIVABLE = "BRFAcreCultivable";
-    public static final String BRF_VAL_CULTIVABLE = "BRFValCultivable";
-    public static final String F_13_TO_17_YRS = "F13to17yrs";
-    public static final String ORPHN_LT_18_YRS_M = "Orphn_LT18yrsM";
+    private static final String HH_MEM_ID = "HHMemID";
+    private static final String MEM_NAME = "MemName";
+    private static final String MEM_SEX = "MemSex";
+    private static final String HH_RELATION = "HHRelation";
+    private static final String DISABLED = "Disabled";
+    private static final String MEM_AGE = "MemAge";
+    private static final String MARITAL_STATUS = "MaritalStatus";
+    private static final String CONTACT_NO = "ContactNo";
+    private static final String MEM_OTHER_ID = "MemOtherID";
+    private static final String MEM_NAME_FIRST = "MemName_First";
+    private static final String MEM_NAME_MIDDLE = "MemName_Middle";
+    private static final String MEM_NAME_LAST = "MemName_Last";
+    private static final String REGISTRATION_ID = "RegistrationID";
+    private static final String PERSON_NAME = "PersonName";
+    private static final String SEX = "SEX";
+    private static final String HH_SIZE = "HHSize";
+    private static final String LATITUDE = "Latitude";
+    private static final String LONGITUDE = "Longitude";
+    private static final String AG_LAND = "AGLand";
+    private static final String V_STATUS = "VStatus";
+    private static final String M_STATUS = "MStatus";
+    private static final String VSLA_GROUP = "VSLAGroup";
+    private static final String GPS_LONG_SWAP = "GPSLongSwap";
+    private static final String HH_HEAD_CAT = "HHHeadCat";
+    private static final String LT_2_YRS_M = "LT2yrsM";
+    private static final String LT_2_YRS_F = "LT2yrsF";
+    private static final String M_2_TO_5_YRS = "M2to5yrs";
+    private static final String F_2_TO_5_YRS = "F2to5yrs";
+    private static final String M_6_TO_12_YRS = "M6to12yrs";
+    private static final String AFT_CNT_CATTLE = "AFTCntCattle";
+    private static final String F_6_TO_12_YRS = "F6to12yrs";
+    private static final String M_13_TO_17_YRS = "M13to17yrs";
+    private static final String BRF_CNT_OTHER = "BRFCntOther";
+    private static final String BRF_VAL_OTHER = "BRFValOther";
+    private static final String AFT_CNT_OTHER = "AFTCntOther";
+    private static final String AFT_VAL_OTHER = "AFTValOther";
+    private static final String BRF_ACRE_CULTIVABLE = "BRFAcreCultivable";
+    private static final String BRF_VAL_CULTIVABLE = "BRFValCultivable";
+    private static final String F_13_TO_17_YRS = "F13to17yrs";
+    private static final String ORPHN_LT_18_YRS_M = "Orphn_LT18yrsM";
     public static final String MONTH_LABEL = "MonthLabel";
     public static final String USA_START_DATE = "UsaStartDate";
     public static final String USA_END_DATE = "UsaEndDate";
-    public static final String ORPHN_LT_18_YRS_F = "Orphn_LT18yrsF";
-    public static final String ADLT_18_TO_59_M = "Adlt_18to59M";
-    public static final String ADLT_18_TO_59_F = "Adlt_18to59F";
-    public static final String ELD_60_P_M = "Eld_60pM";
-    public static final String ELD_60_P_F = "Eld_60pF";
-    public static final String PLW = "PLW";
-    public static final String CHRONICALLY_ILL = "ChronicallyIll";
-    public static final String LIVING_DECEASED_CONTRACT_EBOLA = "LivingDeceasedContractEbola";
+    private static final String ORPHN_LT_18_YRS_F = "Orphn_LT18yrsF";
+    private static final String ADLT_18_TO_59_M = "Adlt_18to59M";
+    private static final String ADLT_18_TO_59_F = "Adlt_18to59F";
+    private static final String ELD_60_P_M = "Eld_60pM";
+    private static final String ELD_60_P_F = "Eld_60pF";
+    private static final String PLW = "PLW";
+    private static final String CHRONICALLY_ILL = "ChronicallyIll";
+    private static final String LIVING_DECEASED_CONTRACT_EBOLA = "LivingDeceasedContractEbola";
     public static final String REG_N_CT_JSON_A = "reg_n_ct";
     public static final String C_11_CT_PR = "C11_CT_PR";
     public static final String C_21_CT_PR = "C21_CT_PR";
@@ -298,11 +300,11 @@ public class Parser extends Parse {
     public static final String C_36_CT_PR = "C36_CT_PR";
     public static final String C_37_CT_PR = "C37_CT_PR";
     public static final String C_38_CT_PR = "C38_CT_PR";
-    public static final String EXTRA_ELDERLY_PERSON_BECAUSE_EBOLA = "ExtraElderlyPersonBecauseEbola";
-    public static final String EXTRA_CHILD_BECAUSE_EBOLA = "ExtraChildBecauseEbola";
-    public static final String AFT_VAL_CATTLE = "AFTValCattle";
-    public static final String BRF_CNT_SHEEP_GOATS = "BRFCntSheepGoats";
-    public static final String BRF_VAL_SHEEP_GOATS = "BRFValSheepGoats";
+   private static final String EXTRA_ELDERLY_PERSON_BECAUSE_EBOLA = "ExtraElderlyPersonBecauseEbola";
+   private static final String EXTRA_CHILD_BECAUSE_EBOLA = "ExtraChildBecauseEbola";
+   private static final String AFT_VAL_CATTLE = "AFTValCattle";
+   private static final String BRF_CNT_SHEEP_GOATS = "BRFCntSheepGoats";
+   private static final String BRF_VAL_SHEEP_GOATS = "BRFValSheepGoats";
     public static final String MULTIPLE_SRV = "MultipleSrv";
     public static final String DISTRIBUTION_EXT_TABLE_JSON_A = "distribution_ext_table";
     public static final String VO_ITM_SPEC = "VOItmSpec";
@@ -324,6 +326,8 @@ public class Parser extends Parse {
 
 
     private static final String TAG = Parser.class.getSimpleName();
+    public static final String COUNTRY_NO = "CountryNo";
+    public static final String COUNTRIE_NO = "countrie_no";
 
 
     /**
@@ -1324,6 +1328,9 @@ public class Parser extends Parse {
     }
 
 
+
+
+
     public static void DTA_Parser(JSONArray jsonArrayData, SQLiteHandler sqlH) {
 
         int size = jsonArrayData.length();
@@ -1981,14 +1988,38 @@ public class Parser extends Parse {
 
     }
 
+    public static String NumberOfCounteryAssignedUserParser(JSONArray jsonArrayData) {
+
+        int size = jsonArrayData.length();
+        String CountryNo = "0";
+
+        for (int i = 0; i < size; i++) {
+            try {
+                JSONObject vil = jsonArrayData.getJSONObject(i);
+
+                CountryNo = vil.getString(COUNTRY_NO);
+
+
+            } catch (Exception e) {
+                Log.e(TAG, "Exception : " + e);
+                e.printStackTrace();
+            }
+
+        }
+        return CountryNo;
+    }
+
+    /**
+     * This method only used in LoginActivity
+     * @param jsonArrayData json data
+     * @return AdmCountryDataModel array list
+     */
 
     public static ArrayList<AdmCountryDataModel> AdmCountryParser(JSONArray jsonArrayData) {
 
         int size = jsonArrayData.length();
 
-/**
- * to see the log use those tep variable
- */
+
         String AdmCountryCode;
         String AdmCountryName;
         ArrayList<AdmCountryDataModel> arrayList = new ArrayList<>();
@@ -1997,8 +2028,9 @@ public class Parser extends Parse {
             try {
                 JSONObject jsonObject = jsonArrayData.getJSONObject(i);
 
-                AdmCountryCode = jsonObject.getString(Parser.ADM_COUNTRY_CODE);
-                AdmCountryName = jsonObject.getString(Parser.ADM_COUNTRY_NAME);
+                AdmCountryCode = jsonObject.getString(ADM_COUNTRY_CODE);
+                AdmCountryName = jsonObject.getString(ADM_COUNTRY_NAME);
+
                 AdmCountryDataModel dataModel = new AdmCountryDataModel();
                 dataModel.setAdmCountryCode(AdmCountryCode);
                 dataModel.setAdmCountryName(AdmCountryName);
@@ -2013,6 +2045,40 @@ public class Parser extends Parse {
 
         }
         return arrayList;
+    }
+
+    public static List<VillageItem> villageParser(JSONArray jsonArrayData) {
+
+        int size = jsonArrayData.length();
+
+        List<VillageItem> villageLists = new ArrayList<>();
+
+
+        String GeoLayRName, AdmCountryCode, LayRCode, LayR4ListName;
+       // ArrayList<AdmCountryDataModel> arrayList = new ArrayList<>();
+
+        for (int i = 0; i < size; i++) {
+            try {
+                JSONObject jsonObject = jsonArrayData.getJSONObject(i);
+
+                GeoLayRName = jsonObject.getString("GeoLayRName");
+                AdmCountryCode = jsonObject.getString("AdmCountryCode");
+                LayRCode = jsonObject.getString("LayRCode");
+                LayR4ListName = jsonObject.getString("LayR4ListName");
+
+
+                VillageItem villageItem = new VillageItem(AdmCountryCode,GeoLayRName,LayR4ListName,LayRCode);
+
+                villageLists.add(villageItem);
+
+
+            } catch (Exception e) {
+                Log.e(TAG, "Exception : " + e);
+                e.printStackTrace();
+            }
+
+        }
+        return villageLists;
     }
 
     public static void gpsGroupParser(JSONArray jsonArrayData, SQLiteHandler sqlH) {
@@ -2245,4 +2311,278 @@ public class Parser extends Parse {
     }
 
 
+    public static void TA_Master_Parser(JSONArray jsonArrayData, SQLiteHandler sqlH) {
+
+        int size = jsonArrayData.length();
+        String AdmCountryCode, EventCode, EventName, AdmDonorCode, AdmAwardCode, TAGroup, TASubGroup, OrgNCode,StartDate, EndDate, VenueName, VenueAddress, Active, TotalDays, HoursPerDay, MarkOnGrid;
+
+        Log.d(TAG, "The Number of the data inserted in TA_Master :" + size);
+
+
+        for (int i = 0; i < size; i++) {
+            try {
+
+                JSONObject jsonObject = jsonArrayData.getJSONObject(i);
+
+                AdmCountryCode = jsonObject.getString("AdmCountryCode");
+                EventCode = jsonObject.getString("EventCode");
+                EventName = jsonObject.getString("EventName");
+                AdmDonorCode = jsonObject.getString("AdmDonorCode");
+                AdmAwardCode = jsonObject.getString("AdmAwardCode");
+                TAGroup = jsonObject.getString("TAGroup");
+                TASubGroup = jsonObject.getString("TASubGroup");
+                OrgNCode = jsonObject.getString("OrgNCode");
+                StartDate = jsonObject.getString("StartDate");
+                EndDate = jsonObject.getString("EndDate");
+                VenueName = jsonObject.getString("VenueName");
+                VenueAddress = jsonObject.getString("VenueAddress");
+                Active = jsonObject.getString("Active");
+                TotalDays = jsonObject.getString("TotalDays");
+                HoursPerDay = jsonObject.getString("HoursPerDay");
+
+
+                sqlH.addTaMasterTable(AdmCountryCode, EventCode, EventName, AdmDonorCode, AdmAwardCode, TAGroup, TASubGroup, OrgNCode,StartDate, EndDate, VenueName, VenueAddress, Active, TotalDays, HoursPerDay);
+
+
+            } catch (Exception e) {
+                Log.e(TAG, "Exception : " + e);
+                e.printStackTrace();
+            }
+        }
+
+    }
+
+    public static void T_A_category_Parser(JSONArray jsonArrayData, SQLiteHandler sqlH) {
+
+        int size = jsonArrayData.length();
+        String AdmCountryCode, TACatCode, TACatName, SrcBen;
+
+        Log.d(TAG, "The Number of the data inserted in T_A_category :" + size);
+
+
+        for (int i = 0; i < size; i++) {
+            try {
+
+                JSONObject jsonObject = jsonArrayData.getJSONObject(i);
+
+                AdmCountryCode = jsonObject.getString("AdmCountryCode");
+                TACatCode = jsonObject.getString("TACatCode");
+                TACatName = jsonObject.getString("TACatName");
+                SrcBen = jsonObject.getString("SrcBen");
+
+
+                sqlH.addTAcategoryTable(AdmCountryCode, TACatCode, TACatName, SrcBen);
+
+            } catch (Exception e) {
+                Log.e(TAG, "Exception : " + e);
+                e.printStackTrace();
+            }
+        }
+
+    }
+
+    public static void T_A_eventTopic_Parser(JSONArray jsonArrayData, SQLiteHandler sqlH) {
+
+        int size = jsonArrayData.length();
+        String AdmCountryCode, EventCode, TopicMasterCode, TopicChildCode;
+
+        Log.d(TAG, "The Number of the data inserted in T_A_eventTopic :" + size);
+
+
+        for (int i = 0; i < size; i++) {
+            try {
+
+                JSONObject jsonObject = jsonArrayData.getJSONObject(i);
+
+
+                AdmCountryCode = jsonObject.getString("AdmCountryCode");
+                EventCode = jsonObject.getString("EventCode");
+                TopicMasterCode = jsonObject.getString("TopicMasterCode");
+                TopicChildCode = jsonObject.getString("TopicChildCode");
+
+
+                sqlH.addTAEventTopicTable(AdmCountryCode, EventCode, TopicMasterCode, TopicChildCode);
+
+            } catch (Exception e) {
+                Log.e(TAG, "Exception : " + e);
+                e.printStackTrace();
+            }
+        }
+
+    }
+
+    public static void T_A_group_Parser(JSONArray jsonArrayData, SQLiteHandler sqlH) {
+
+        int size = jsonArrayData.length();
+        String AdmCountryCode, TAGroup, TAGroupTitle;
+
+        Log.d(TAG, "The Number of the data inserted in T_A_eventTopic :" + size);
+
+
+        for (int i = 0; i < size; i++) {
+            try {
+
+                JSONObject jsonObject = jsonArrayData.getJSONObject(i);
+
+
+                AdmCountryCode = jsonObject.getString("AdmCountryCode");
+                TAGroup = jsonObject.getString("TAGroup");
+                TAGroupTitle = jsonObject.getString("TAGroupTitle");
+
+
+                sqlH.addTAGroupTable(AdmCountryCode, TAGroup, TAGroupTitle);
+
+            } catch (Exception e) {
+                Log.e(TAG, "Exception : " + e);
+                e.printStackTrace();
+            }
+        }
+
+    }
+
+    public static void T_A_partOrgN_Parser(JSONArray jsonArrayData, SQLiteHandler sqlH) {
+
+        int size = jsonArrayData.length();
+        String AdmCountryCode, PartOrgNCode, PartOrgNName,SrcBen;
+
+        Log.d(TAG, "The Number of the data inserted in TAPartOrgTable :" + size);
+
+
+        for (int i = 0; i < size; i++) {
+            try {
+
+                JSONObject jsonObject = jsonArrayData.getJSONObject(i);
+
+
+                AdmCountryCode = jsonObject.getString("AdmCountryCode");
+                PartOrgNCode = jsonObject.getString("PartOrgNCode");
+                PartOrgNName = jsonObject.getString("PartOrgNName");
+                SrcBen = jsonObject.getString("SrcBen");
+
+
+                sqlH.addTAPartOrgTable(AdmCountryCode, PartOrgNCode, PartOrgNName,SrcBen);
+
+            } catch (Exception e) {
+                Log.e(TAG, "Exception : " + e);
+                e.printStackTrace();
+            }
+        }
+
+    }
+
+    public static void T_A_posParticipants_Parser(JSONArray jsonArrayData, SQLiteHandler sqlH) {
+
+        int size = jsonArrayData.length();
+        String AdmCountryCode, PosCode, PosTitle;
+
+        Log.d(TAG, "The Number of the data inserted in T_A_posParticipants :" + size);
+
+
+        for (int i = 0; i < size; i++) {
+            try {
+
+                JSONObject jsonObject = jsonArrayData.getJSONObject(i);
+
+                AdmCountryCode = jsonObject.getString("AdmCountryCode");
+                PosCode = jsonObject.getString("PosCode");
+                PosTitle = jsonObject.getString("PosTitle");
+
+
+                sqlH.addTAPosParticipantsTable(AdmCountryCode, PosCode, PosTitle);
+
+            } catch (Exception e) {
+                Log.e(TAG, "Exception : " + e);
+                e.printStackTrace();
+            }
+        }
+
+    }
+
+
+    public static void T_A_subGroup_Parser(JSONArray jsonArrayData, SQLiteHandler sqlH) {
+
+        int size = jsonArrayData.length();
+        String AdmCountryCode, TAGroup, TASubGroup,TASubTitle;
+
+        Log.d(TAG, "The Number of the data inserted in T_A_posParticipants :" + size);
+
+
+        for (int i = 0; i < size; i++) {
+            try {
+
+                JSONObject jsonObject = jsonArrayData.getJSONObject(i);
+
+
+                AdmCountryCode = jsonObject.getString("AdmCountryCode");
+                TAGroup = jsonObject.getString("TAGroup");
+                TASubGroup = jsonObject.getString("TASubGroup");
+                TASubTitle = jsonObject.getString("TASubTitle");
+
+
+                sqlH.addTASubGroupTable(AdmCountryCode, TAGroup, TASubGroup,TASubTitle);
+
+            } catch (Exception e) {
+                Log.e(TAG, "Exception : " + e);
+                e.printStackTrace();
+            }
+        }
+
+    }
+
+    public static void T_A_topicChild_Parser(JSONArray jsonArrayData, SQLiteHandler sqlH) {
+
+        int size = jsonArrayData.length();
+        String TopicMasterCode, TopicChildCode, TopicSubTitle;
+
+        Log.d(TAG, "The Number of the data inserted in T_A_posParticipants :" + size);
+
+
+        for (int i = 0; i < size; i++) {
+            try {
+
+                JSONObject jsonObject = jsonArrayData.getJSONObject(i);
+
+
+                TopicMasterCode = jsonObject.getString("TopicMasterCode");
+                TopicChildCode = jsonObject.getString("TopicChildCode");
+                TopicSubTitle = jsonObject.getString("TopicSubTitle");
+
+
+                sqlH.addTATopicChildTable(TopicMasterCode, TopicChildCode, TopicSubTitle);
+
+            } catch (Exception e) {
+                Log.e(TAG, "Exception : " + e);
+                e.printStackTrace();
+            }
+        }
+
+    }
+
+    public static void T_A_topicMaster_Parser(JSONArray jsonArrayData, SQLiteHandler sqlH) {
+
+        int size = jsonArrayData.length();
+        String TopicMasterCode, TopicTitle;
+
+        Log.d(TAG, "The Number of the data inserted in T_A_posParticipants :" + size);
+
+
+        for (int i = 0; i < size; i++) {
+            try {
+
+                JSONObject jsonObject = jsonArrayData.getJSONObject(i);
+
+
+                TopicMasterCode = jsonObject.getString("TopicMasterCode");
+                TopicTitle = jsonObject.getString("TopicTitle");
+
+
+                sqlH.addTATopicMasterTable(TopicMasterCode, TopicTitle);
+
+            } catch (Exception e) {
+                Log.e(TAG, "Exception : " + e);
+                e.printStackTrace();
+            }
+        }
+
+    }
 }// end of the class

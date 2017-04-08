@@ -207,12 +207,12 @@ public class OldAssignActivity extends BaseActivity implements AdapterView.OnIte
 
         btnGoTo.setOnClickListener(this);
         btnSummary = (Button) findViewById(R.id.btnRegisterFooter);
-        setUpSummaryButton();
-        setUpGotoButton();
+//        setUpSummaryButton();
+//        setUpGotoButton();
 
     }
 
-
+/*
     private void setUpSummaryButton() {
         btnSummary.setText("");
         Drawable summeryImage = getResources().getDrawable(R.drawable.summession_b);
@@ -220,15 +220,15 @@ public class OldAssignActivity extends BaseActivity implements AdapterView.OnIte
         btnSummary.setPadding(180, 10, 180, 10);
     }
 
-    /**
+    *//**
      * Icon set by the method
-     */
+     *//*
     private void setUpGotoButton() {
         btnGoTo.setText("");
         Drawable imageGoto = getResources().getDrawable(R.drawable.goto_forward);
         btnGoTo.setCompoundDrawablesRelativeWithIntrinsicBounds(imageGoto, null, null, null);
         btnGoTo.setPadding(180, 10, 180, 10);
-    }
+    }*/
 
 
     /**

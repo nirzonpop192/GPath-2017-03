@@ -25,6 +25,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request.Method;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -71,6 +72,8 @@ public class LoginActivity extends BaseActivity {
     private static final int DIST_MODE = 1;
     private static final int SERV_MODE = 2;
     private static final int OTHER_MODE = 3;
+    public static final String TRAINING_N_ACTIVITY = "trainingNActivity";
+    public static final int TRAINING_MODE = 4;
 
 
     /**
@@ -88,7 +91,7 @@ public class LoginActivity extends BaseActivity {
 
     String[] villageNameStringArray;
     String[] countryNameStringArray;
-    private final String[] operationModeStringArray = {"Registration", "Distribution", "Service", "Other"};
+    private final String[] operationModeStringArray = {"Registration", "Distribution", "Service", "Other", "Training N Activity"};
 
 
     // Login Button
@@ -122,6 +125,11 @@ public class LoginActivity extends BaseActivity {
     SharedPreferences settings;
     SharedPreferences.Editor editor;
     private Button btnClean;
+    String strCountryMode = "";
+
+    String temSelectedProgram;
+
+    String tem;
 
     /**
      * function to verify login details & select 2 FDP
@@ -129,6 +137,7 @@ public class LoginActivity extends BaseActivity {
 
     List<ServiceCenterItem> serviceCenterNameList = new ArrayList<ServiceCenterItem>();
     ArrayList<ServiceCenterItem> selectedServiceCenterList = new ArrayList<ServiceCenterItem>();
+    ArrayList<FDPItem> aLfdp_itemsSelected = new ArrayList<FDPItem>();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -267,20 +276,20 @@ public class LoginActivity extends BaseActivity {
                         gotoHomePage();
 
                     } else {
-/**
- * This block determine is Internet available
- */
+                        /**
+                         * This block determine is Internet available
+                         */
                         isInternetAvailable = cd.isConnectingToInternet();
                         if (isInternetAvailable) {
-/***
- * This if  block determine is there any un-synchronized  data exits in local device
- */
+                            /***
+                             * This if  block determine is there any un-synchronized  data exits in local device
+                             */
                             if (db.selectUploadSyntextRowCount() > 0) {
-/**
- * This block check the user is country admin or not
- * if the the user is country admin or admin
- * than the app will be unlocked . but will remain for previous user
- */
+                                /**
+                                 * This block check the user is country admin or not
+                                 * if the the user is country admin or admin
+                                 * than the app will be unlocked . but will remain for previous user
+                                 */
                                 if (db.isValidAdminLocalLogin(user_name, password)) {
                                     gotoHomePage();
                                 } else {
@@ -365,6 +374,9 @@ public class LoginActivity extends BaseActivity {
                                     checkCountrySelection(user_name, password, "4");
 
 
+                                    break;
+                                case TRAINING_MODE:
+                                    checkVillageSelection(user_name, password, "5");
                                     break;
 
                                 default:
@@ -455,9 +467,9 @@ public class LoginActivity extends BaseActivity {
 
                         int size = 0;
                         // count no countries assigne
-                        if (!jObj.isNull("countrie_no")) {
+                        if (!jObj.isNull(Parser.COUNTRIE_NO)) {
 
-                            JSONArray village = jObj.getJSONArray("countrie_no");
+                            JSONArray village = jObj.getJSONArray(Parser.COUNTRIE_NO);
 
                             size = village.length();
                             for (int i = 0; i < size; i++) {
@@ -565,17 +577,10 @@ public class LoginActivity extends BaseActivity {
             @Override
             public void onResponse(String response) {
 
+                AppController.getInstance().getRequestQueue().getCache().clear();                   // clear
 
-                /***
-                 * Clear the Cache memory
-                 *
-                 */
-                AppController.getInstance().getRequestQueue().getCache().clear();
 
-                /**
-                 * hide the Dialog bar
-                 */
-                hideDialog();
+                hideDialog();               // hide the Dialog bar
 
                 String CountryNo = "0";
                 try {
@@ -591,18 +596,11 @@ public class LoginActivity extends BaseActivity {
  */
                         db.cleanTemTableForService();
                         // count no countries assigne
-                        if (!jObj.isNull("countrie_no")) {
+                        if (!jObj.isNull(Parser.COUNTRIE_NO)) {
 
-                            JSONArray village = jObj.getJSONArray("countrie_no");
-
-                            size = village.length();
-                            for (int i = 0; i < size; i++) {
-                                JSONObject vil = village.getJSONObject(i);
-
-                                CountryNo = vil.getString("CountryNo");
-
-                            }
+                            CountryNo = Parser.NumberOfCounteryAssignedUserParser(jObj.getJSONArray(Parser.COUNTRIE_NO));
                         }
+
 
                         if (!jObj.isNull(Parser.COUNTRIES_JSON_A)) {
                             countryNameList.clear();
@@ -738,7 +736,7 @@ public class LoginActivity extends BaseActivity {
                  */
                 hideDialog();
 
-                String CountryNo = "0";
+                String CountryNo = "";
                 try {
                     JSONObject jObj = new JSONObject(response);
                     boolean error = jObj.getBoolean("error");
@@ -747,20 +745,12 @@ public class LoginActivity extends BaseActivity {
                     if (!error) {
 
                         int size = 0;
-                        // count no countries assigne
-                        if (!jObj.isNull("countrie_no")) {
 
-                            JSONArray village = jObj.getJSONArray("countrie_no");
 
-                            size = village.length();
-                            for (int i = 0; i < size; i++) {
-                                JSONObject vil = village.getJSONObject(i);
+                        if (!jObj.isNull(Parser.COUNTRIE_NO)) {
 
-                                CountryNo = vil.getString("CountryNo");
-
-                            }
+                            CountryNo = Parser.NumberOfCounteryAssignedUserParser(jObj.getJSONArray(Parser.COUNTRIE_NO));
                         }
-
 
                         if (!jObj.isNull(Parser.COUNTRIES_JSON_A)) {
                             countryNameList.clear();
@@ -854,17 +844,13 @@ public class LoginActivity extends BaseActivity {
 
             @Override
             public void onResponse(String response) {
-                /***
-                 * Clear the Cache memory
-                 *
-                 */
+                /***                 * Clear the Cache memory                 */
 
                 AppController.getInstance().getRequestQueue().getCache().clear();
 
-                /**
-                 * hide the Dialog bar
-                 */
-                hideDialog();
+
+                hideDialog();   //                                          hide the Dialog bar
+
                 String CountryNo = "0";
                 try {
                     JSONObject jObj = new JSONObject(response);
@@ -875,9 +861,9 @@ public class LoginActivity extends BaseActivity {
 
                         int size = 0;
 
-                        if (!jObj.isNull("countrie_no")) {
+                        if (!jObj.isNull(Parser.COUNTRIE_NO)) {
 
-                            JSONArray jsonArray = jObj.getJSONArray("countrie_no");
+                            JSONArray jsonArray = jObj.getJSONArray(Parser.COUNTRIE_NO);
 
                             size = jsonArray.length();
                             for (int i = 0; i < size; i++) {
@@ -905,7 +891,7 @@ public class LoginActivity extends BaseActivity {
                             JSONArray jaary = new JSONArray();
 
 
-                            Log.d("CHAPA", "jeson to string :" + jaary.toString());
+//                            Log.d("CHAPA", "jeson to string :" + jaary.toString());
                             /** for Other  MOde*/
                             checkLogin(user_name, password, jaary, "4"); // checking online
 
@@ -973,11 +959,11 @@ public class LoginActivity extends BaseActivity {
 
             @Override
             public void onResponse(String response) {
-                /***                 *  IN THIS STRING RESPONSE WRITE THE JSON DATA                  */
+
                 AppController.getInstance().getRequestQueue().getCache().clear();
 
-                /**                 * hide the Dialog bar                 */
-                hideDialog();
+
+                hideDialog();                           // hide the Dialog bar
 
                 String CountryNo = "0";
                 try {
@@ -989,16 +975,9 @@ public class LoginActivity extends BaseActivity {
 
                         int size = 0;
 
-                        if (!jObj.isNull("countrie_no")) {
+                        if (!jObj.isNull(Parser.COUNTRIE_NO)) {
 
-                            JSONArray village = jObj.getJSONArray("countrie_no");
-
-                            size = village.length();
-                            for (int i = 0; i < size; i++) {
-                                JSONObject vil = village.getJSONObject(i);
-                                CountryNo = vil.getString("CountryNo");
-
-                            }
+                            CountryNo = Parser.NumberOfCounteryAssignedUserParser(jObj.getJSONArray(Parser.COUNTRIE_NO));
                         }
 
 
@@ -1010,32 +989,14 @@ public class LoginActivity extends BaseActivity {
 
                         if (!jObj.isNull(Parser.VILLAGE_JSON_A)) {
 
-                            JSONArray village = jObj.getJSONArray(Parser.VILLAGE_JSON_A);
                             villageNameList.clear();
-                            size = village.length();
-                            for (int i = 0; i < size; i++) {
-                                JSONObject vil = village.getJSONObject(i);
+                            villageNameList = Parser.villageParser(jObj.getJSONArray(Parser.VILLAGE_JSON_A));
 
-                                String GeoLayRName = vil.getString("GeoLayRName");
-                                String AdmCountryCode = vil.getString("AdmCountryCode");
-                                String LayRCode = vil.getString("LayRCode");
-                                String LayR4ListName = vil.getString("LayR4ListName");
-
-
-                                VillageItem villageItem = new VillageItem();
-                                villageItem.setGeoLayRName(GeoLayRName);
-                                villageItem.setAdmCountryCode(AdmCountryCode);
-                                villageItem.setLayRCode(LayRCode);
-                                villageItem.setLayR4ListName(LayR4ListName);
-                                villageNameList.add(villageItem);
-
-
-                            }
                         }
                         hideDialog();
                         // if user hsa 1 country assigned
                         if (CountryNo.equals("1")) {
-                            getVillageAlert(user_name, password, false);
+                            getVillageAlert(user_name, password, false, operationMode);
                         } else {
                             selectedCountryList.clear();
                             getCountryAlert(user_name, password, UtilClass.REGISTRATION_OPERATION_MODE);
@@ -1047,7 +1008,7 @@ public class LoginActivity extends BaseActivity {
 
                         String errorMsg = response.substring(response.indexOf("error_msg") + 11);
                         Toast.makeText(getApplicationContext(), errorMsg, Toast.LENGTH_LONG).show();
-                        // hideDialog();
+
                         refreshTheActivity();
                     }
 
@@ -1203,8 +1164,6 @@ public class LoginActivity extends BaseActivity {
     }
 
 
-    String strCountryMode = "";
-
     private void getCountryAlert(final String user_name, final String password, final int operationMode) {
         aCountryL_itemsSelected = (ArrayList<AdmCountryDataModel>) insertCountryNameListToSArray();
         if (countryNameStringArray.length > 0) {
@@ -1239,7 +1198,8 @@ public class LoginActivity extends BaseActivity {
                         }
                         switch (operationMode) {
                             case UtilClass.REGISTRATION_OPERATION_MODE:
-                                getVillageAlert(user_name, password, true);
+                            case UtilClass.TRANING_n_ACTIVITY_OPERATION_MODE:
+                                getVillageAlert(user_name, password, true,String.valueOf(operationMode));
                                 break;
                             case UtilClass.DISTRIBUTION_OPERATION_MODE:
                                 getFDPAlert(user_name, password, true);
@@ -1293,7 +1253,6 @@ public class LoginActivity extends BaseActivity {
         }
     }
 
-    String temSelectedProgram;
 
     private void getProgramAlert(final String user_name, final String password, String countryCode) {
 
@@ -1377,8 +1336,6 @@ public class LoginActivity extends BaseActivity {
     }
 
 
-    String tem;
-
     private void getOpMonthAlert(final String user_name, final String password, final String countryCode, final String selectedDonorCode, final String selectedAwardCode, final String selectedProgCode) {
 
 
@@ -1432,7 +1389,6 @@ public class LoginActivity extends BaseActivity {
                             if (selectedOpMonthCode.length() > 0) {
                                 hideDialog();
                                 getTypeFlagAlert(user_name, password, countryCode, selectedDonorCode, selectedAwardCode, selectedProgCode, selectedOpMonthCode);
-
                             }
 
 
@@ -1530,7 +1486,7 @@ public class LoginActivity extends BaseActivity {
     private void getServiceCenterAlert(final String user_name, final String password, boolean countrySpecificFlag) {
 
         final ArrayList<ServiceCenterItem> aLServiceCenter_itemsSelected = (ArrayList<ServiceCenterItem>) serviceCenterNameList; //(ArrayList<ServiceCenterItem>) insertServiceCenterNameListToSArray(countrySpecificFlag);
-        // Initial
+
         final String[] serviceCenterNameStringArray = new String[serviceCenterNameList.size()];
 
         for (int i = 0; i < serviceCenterNameList.size(); ++i) {
@@ -1539,6 +1495,7 @@ public class LoginActivity extends BaseActivity {
         }
         itemChecked = new boolean[serviceCenterNameStringArray.length];
         if (serviceCenterNameStringArray.length > 0) {
+
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle("Select Max TWO Service Centers ");
             builder.setMultiChoiceItems(serviceCenterNameStringArray, null,
@@ -1569,21 +1526,19 @@ public class LoginActivity extends BaseActivity {
                             db.deleteFromSelectedServiceCenter();
                             selectedServiceCenterList.clear();
                             for (int i = 0; i < itemChecked.length; i++) {
-                                if (itemChecked[i]) {
 
-
+                                if (itemChecked[i])
                                     selectedServiceCenterList.add(aLServiceCenter_itemsSelected.get(i));
 
-
-                                }
                             }
 
                             if (selectedServiceCenterList.size() > 0) {
                                 JSONArray serviceCenterJSONarry = UtilClass.srvCenterCodeJSONConverter("LoginActivity", selectedServiceCenterList, db);
                                 aLServiceCenter_itemsSelected.clear();
                                 Log.d(TAG, " Service Center  jeson to string :" + serviceCenterJSONarry.toString());
+
                                 /** 3 is operation code Service */
-                                checkLogin(user_name, password, serviceCenterJSONarry, "3"); // checking online
+                                checkLogin(user_name, password, serviceCenterJSONarry, "3");                        // checking online
                                 editor.putInt(UtilClass.OPERATION_MODE, 3);
                                 editor.commit();
                             } else {
@@ -1610,8 +1565,6 @@ public class LoginActivity extends BaseActivity {
 
     }
 
-
-    ArrayList<FDPItem> aLfdp_itemsSelected = new ArrayList<FDPItem>();
 
     private void getFDPAlert(final String user_name, final String password, boolean countrySpecificFlag) {
 
@@ -1683,7 +1636,7 @@ public class LoginActivity extends BaseActivity {
     }
 
 
-    private void getVillageAlert(final String user_name, final String password, boolean countrySpecificFlag) {
+    private void getVillageAlert(final String user_name, final String password, boolean countrySpecificFlag, final String operationMode) {
 
         aL_itemsSelected = (ArrayList<VillageItem>) insertVillageNameListToSArray(countrySpecificFlag);
 
@@ -1729,9 +1682,13 @@ public class LoginActivity extends BaseActivity {
                             aL_itemsSelected.clear();
                             Log.d(TAG, "jeson to string :" + jaary.toString());
                             /** for registration */
-                            checkLogin(user_name, password, jaary, "1"); // checking online
+                            checkLogin(user_name, password, jaary, operationMode); // checking online
 
-                            editor.putInt(UtilClass.OPERATION_MODE, UtilClass.REGISTRATION_OPERATION_MODE);
+                            if (operationMode.equals("1"))
+                                editor.putInt(UtilClass.OPERATION_MODE, UtilClass.REGISTRATION_OPERATION_MODE);
+                            else
+                                editor.putInt(UtilClass.OPERATION_MODE, UtilClass.TRANING_n_ACTIVITY_OPERATION_MODE);
+
                             editor.commit();
 
 
@@ -1783,25 +1740,17 @@ public class LoginActivity extends BaseActivity {
 
             @Override
             public void onResponse(String response) {
-                /***
-                 * @deis: IN THIS STRING RESPONSE WRITE THE JSON DATA
-                 *
-                 */
+
                 AppController.getInstance().getRequestQueue().getCache().clear();
                 writeJSONToTextFile(response, ALL_DATA);
 
-                // DOING STRING OPERATION TO AVOID ALLOCATE CACHE MEMORY
-                String errorResult = response.substring(9, 14);
 
-
-                /**
-                 *  simplifies the the code
-                 *  */
-                //   boolean error = errorResult.equals("false") ? false : true;
+                String errorResult = response.substring(9, 14);                                 // DOING STRING OPERATION TO AVOID ALLOCATE CACHE MEMORY
 
 
                 boolean error = !errorResult.equals("false");
                 if (!error) {
+
                     Log.d("TAG", "Before downLoad RegNHouseHold 6" + "  user_name:" + user_name + " password :" + password + " selectedVilJArry:" + selectedVilJArry + "operationMode:" + operationMode);
                     downLoadRegNHouseHold(user_name, password, selectedVilJArry, operationMode);
 
@@ -1940,7 +1889,7 @@ public class LoginActivity extends BaseActivity {
             @Override
             public void onResponse(String response) {
                 /***
-                 * @deis: IN THIS STRING RESPONSE WRITE THE JSON DATA
+                 *  IN THIS STRING RESPONSE WRITE THE JSON DATA
                  */
                 AppController.getInstance().getRequestQueue().getCache().clear();
                 writeJSONToTextFile(response, REG_MEMBER_DATA);
@@ -2099,7 +2048,7 @@ public class LoginActivity extends BaseActivity {
                 AppController.getInstance().getRequestQueue().getCache().clear();
                 writeJSONToTextFile(response, SERVICE_DATA);
 
-                Log.d("DIM", " After write data in Service Data . stape :5");
+                Log.d("DIM", " After write data in Service Data . step :5");
 
 
                 String errorResult = response.substring(9, 14);
@@ -2117,9 +2066,8 @@ public class LoginActivity extends BaseActivity {
                     // Error in login. Invalid UserName or Password
                     hideDialog();
                     String errorMsg = response.substring(response.indexOf("error_msg") + 11);
-                    Toast.makeText(getApplicationContext(),
-                            errorMsg, Toast.LENGTH_LONG).show();
-                    // hideDialog();
+                    Toast.makeText(getApplicationContext(), errorMsg, Toast.LENGTH_LONG).show();
+
                 }
 
 
@@ -2159,46 +2107,40 @@ public class LoginActivity extends BaseActivity {
     /**
      * function to verify login details download RegN AssProgSrv in mysql db
      */
-    public void downLoadAssignProgSrv(final String user_Name, final String pass_word, final JSONArray selectedVilJArry, final String operationMode) {
+    /**
+     * @param user_Name            staff user Name
+     * @param pass_word            staff user Password
+     * @param selectedLayRCodeJSON selected  village array
+     * @param operationMode        operation Mode
+     */
+    public void downLoadAssignProgSrv(final String user_Name, final String pass_word, final JSONArray selectedLayRCodeJSON, final String operationMode) {
         // Tag used to cancel the request
         String tag_string_req = "req_ass_prog";
-        Log.d("MOR", "Before Response Calling ");
 
-        StringRequest strReq = new StringRequest(Method.POST,
-                AppConfig.API_LINK, new Response.Listener<String>() {
+
+        StringRequest strReq = new StringRequest(Method.POST, AppConfig.API_LINK, new Response.Listener<String>() {
 
             @Override
             public void onResponse(String response) {
-                /***
-                 *  IN THIS STRING RESPONSE WRITE THE JSON DATA
-                 *
-                 */
-                AppController.getInstance().getRequestQueue().getCache().clear();
+
+                AppController.getInstance().getRequestQueue().getCache().clear();                   //IN THIS STRING RESPONSE WRITE THE JSON DATA
                 writeJSONToTextFile(response, "reg_ass_prog_srv_data");
 
                 Log.d("DIM", " After Load Assign Program Service in txt last stap :6");
 
 
-                //hideDialog();
+                String errorResult = response.substring(9, 14);                                     // DOING STRING OPERATION TO AVOID ALLOCATE CACHE MEMORY
 
 
-                /**
-                 *  DOING STRING OPERATION TO AVOID ALLOCATE CACHE MEMORY
-                 */
-
-                String errorResult = response.substring(9, 14);
-
-/**
- * If Json String  get False than it return false
- */
-                boolean error = !errorResult.equals("false");
+                boolean error = !errorResult.equals("false");                                       // If Json String  get False than it return false
 
                 if (!error) {
-                    Log.d("TAG", "Before Downloading Dynamic " + "  user_Name:" + user_Name + " pass_word :" + pass_word + " selectedVilJArry:" + selectedVilJArry + "operationMode:" + operationMode);
-                    downLoadDynamicData(user_Name, pass_word, selectedVilJArry, operationMode);
-      /*              *//**
-                     * IF GET NO ERROR  THAN GOTO THE MAIN ACTIVITY
-                     */
+
+                    // Log.d("TAG", "Before Downloading Dynamic " + "  user_Name:" + user_Name +
+                    // " pass_word :" + pass_word + " selectedLayRCodeJSON:" + selectedLayRCodeJSON +
+                    // "operationMode:" + operationMode);
+                    downLoadDynamicData(user_Name, pass_word, selectedLayRCodeJSON, operationMode);
+
                 } else {
                     // Error in login. Invalid UserName or Password
                     hideDialog();
@@ -2231,7 +2173,7 @@ public class LoginActivity extends BaseActivity {
                 params.put("task", "is_down_load_reg_assn_prog");
                 params.put("user_name", user_Name);
                 params.put("password", pass_word);
-                params.put("lay_r_code_j", selectedVilJArry.toString());
+                params.put("lay_r_code_j", selectedLayRCodeJSON.toString());
                 params.put("operation_mode", operationMode);
 
                 return params;
@@ -2239,8 +2181,8 @@ public class LoginActivity extends BaseActivity {
 
         };
 
-        // Adding request to request queue
-        AppController.getInstance().addToRequestQueue(strReq, tag_string_req);
+
+        AppController.getInstance().addToRequestQueue(strReq, tag_string_req);                      // Adding request to request queue
     }
 
 
@@ -2256,44 +2198,25 @@ public class LoginActivity extends BaseActivity {
                 AppConfig.API_LINK, new Response.Listener<String>() {
 
             @Override
-            public void onResponse(String response) {
-                /***
-                 *  IN THIS STRING RESPONSE WRITE THE JSON DATA
-                 *
-                 */
+            public void onResponse(String response) {                                               //IN THIS STRING RESPONSE WRITE THE JSON DATA
+
                 AppController.getInstance().getRequestQueue().getCache().clear();
                 writeJSONToTextFile(response, DYNAMIC_TABLE);
 
                 Log.d(TAG, " After Loading Dynamic Table in txt last stap :7");
 
 
-                // hideDialog();
-
-
-                /**
-                 *  DOING STRING OPERATION TO AVOID ALLOCATE CACHE MEMORY
-                 */
-
-                String errorResult = response.substring(9, 14);
-
-/**
- * If Json String  get False than it return false
- */
-                boolean error = !errorResult.equals("false");
+                String errorResult = response.substring(9, 14);                                     //DOING STRING OPERATION TO AVOID ALLOCATE CACHE MEMORY
+                boolean error = !errorResult.equals("false");                                       // If Json String  get False than it return false
 
                 if (!error) {
 
-
-                    /**
-                     * IF GET NO ERROR  THAN GOTO THE MAIN ACTIVITY
-                     */
-                    downLoadEnuTable(user_Name, pass_word);
+                    downLoadTrainingActivity(user_Name, pass_word, selectedVilJArry, operationMode);                                        // IF GET NO ERROR  THAN GOTO THE MAIN ACTIVITY
 
                 } else {
                     // Error in login. Invalid UserName or Password
                     String errorMsg = response.substring(response.indexOf("error_msg") + 11);
-                    Toast.makeText(getApplicationContext(),
-                            errorMsg, Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), errorMsg, Toast.LENGTH_LONG).show();
 
                 }
 
@@ -2328,9 +2251,93 @@ public class LoginActivity extends BaseActivity {
 
         };
 
+
+        AppController.getInstance().addToRequestQueue(strReq, tag_string_req);          // Adding request to request queue
+    }
+
+    public void downLoadTrainingActivity(final String user_Name, final String pass_word, final JSONArray selectedVilJArry, final String operationMode) {
+        // Tag used to cancel the request
+        String tag_string_req = "trainingNActivity";
+
+        StringRequest strReq = new StringRequest(Method.POST, AppConfig.API_LINK, new Response.Listener<String>() {
+
+            @Override
+            public void onResponse(String response) {
+
+
+                AppController.getInstance().getRequestQueue().getCache().clear();                   // clear catch
+                writeJSONToTextFile(response, TRAINING_N_ACTIVITY);
+
+                Log.d(TAG, " After Loading Dynamic Table in txt last step :8");
+
+
+                hideDialog();
+
+                String errorResult = response.substring(9, 14);                                     // DOING STRING OPERATION TO AVOID ALLOCATE CACHE MEMORY
+
+                boolean error = !errorResult.equals("false");                                       // If Json String  get False than it return false
+
+                if (!error) {
+
+                    downLoadEnuTable(user_Name, pass_word);
+
+//
+//                    /**
+//                     * IF GET NO ERROR  THAN GOTO THE MAIN ACTIVITY
+//                     */
+//
+//                    setLogin(true);                                                                 // login success
+//
+//                    // Launch main activity
+//
+//                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+//                    setUserID(user_Name);
+//                    setUserPassword(pass_word);
+//                    editor.putBoolean(IS_APP_FIRST_RUN, true);
+//                    editor.commit();
+//
+//                    startActivity(intent);
+                } else {
+                    // Error in login. Invalid UserName or Password
+                    String errorMsg = response.substring(response.indexOf("error_msg") + 11);
+                    Toast.makeText(getApplicationContext(), errorMsg, Toast.LENGTH_LONG).show();
+
+                }
+
+
+            }
+        }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e(TAG, "Login Error: " + error + " Stack Tracr = " + error.getStackTrace() + " Detail = " + error.getMessage());
+                // hide the mdialog
+                hideDialog();
+                showAlert("Failed to retrieve data\r\nPlease try again checking your internet connectivity, Username and Password.");
+
+
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() {
+                // Posting parameters to login url
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("key", "PhEUT5R251");
+                params.put("task", "down_load_training_n_activity");
+                params.put("user_name", user_Name);
+                params.put("password", pass_word);
+                params.put("lay_r_code_j", selectedVilJArry.toString());
+                params.put("operation_mode", operationMode);
+
+                return params;
+            }
+        };
+
+
         // Adding request to request queue
         AppController.getInstance().addToRequestQueue(strReq, tag_string_req);
     }
+
 
     public void downLoadEnuTable(final String user_Name, final String pass_word) {
         // Tag used to cancel the request
@@ -2342,8 +2349,8 @@ public class LoginActivity extends BaseActivity {
             @Override
             public void onResponse(String response) {
 
-                // clear catch
-                AppController.getInstance().getRequestQueue().getCache().clear();
+
+                AppController.getInstance().getRequestQueue().getCache().clear();  // clear catch
                 writeJSONToTextFile(response, ENU_TABLE);
 
                 Log.d(TAG, " After Loading Dynamic Table in txt last stap :7");

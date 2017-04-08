@@ -44,6 +44,7 @@ import com.siddiquinoor.restclient.data_model.ServiceCenterItem;
 import com.siddiquinoor.restclient.data_model.ServiceSpecificDataModel;
 import com.siddiquinoor.restclient.data_model.TemOpMonth;
 import com.siddiquinoor.restclient.data_model.VillageItem;
+import com.siddiquinoor.restclient.data_model.adapters.TrainingNActivityIndexDataModel;
 import com.siddiquinoor.restclient.manager.sqlsyntax.SQLServerSyntaxGenerator;
 import com.siddiquinoor.restclient.manager.sqlsyntax.SQLiteQuery;
 import com.siddiquinoor.restclient.manager.sqlsyntax.Schema;
@@ -200,6 +201,16 @@ public class SQLiteHandler extends SQLiteOpenHelper {
     public static final String REG_N_FFA_TABLE = "RegN_FFA";
     public static final String REG_N_WE_TABLE = "RegN_WE";
     public static final String DTA_SKIP_TABLE = "DTASkipTable";
+    public static final String TA_MASTER_TABLE = "TAMaster";
+    public static final String TA_CATEGORY_TABLE = "TACategory";
+    public static final String TA_EVENT_TOPIC_TABLE = "TAEventTopic";
+    public static final String TA_GROUP_TABLE = "TAGroup";
+    public static final String TA_SUB_GROUP_TABLE = "TASubGroup";
+    public static final String TA_PARTICIPANTS_LIST_TABLE = "TAParticipantsList";
+    public static final String TA_PART_ORG_N_TABLE = "TAPartOrgN";
+    public static final String TA_POS_PARTICIPANTS_TABLE = "TAPosParticipants";
+    public static final String TA_TOPIC_CHILD_TABLE = "TATopicChild";
+    public static final String TA_TOPIC_MASTER_TABLE = "TATopicMaster";
 
     public static final String DIST_N_PLAN_BASIC_TABLE = "DistNPlanBasic";
     public static final String LUP_REGN_ADDRESS_LOOKUP_TABLE = "LUP_RegNAddLookup";
@@ -240,6 +251,8 @@ public class SQLiteHandler extends SQLiteOpenHelper {
     public static final String DTA_SHORT_COL = "DTAShort";
     public static final String DT_SCORE_CODE_COL = "DTScoreCode";
     public static final String DTSKIP_DTQ_CODE_COL = "DTSkipDTQCode";
+
+
     public static final String DTA_COMPARE_CODE_COL = "DTACompareCode";
     public static final String DT_TITLE_COL = "DTTitle";
     public static final String DT_SUB_TITLE_COL = "DTSubTitle";
@@ -258,6 +271,36 @@ public class SQLiteHandler extends SQLiteOpenHelper {
     public static final String DT_BTN_SAVE_COL = "btnSave";
     public static final String DT_ENTRY_BY_COL = "EntryBy";
     public static final String DT_USA_ENTRY_DATE_COL = "UsaEntryDate";
+    //  training Activity
+    public static final String EVENT_CODE_COL = "EventCode";
+    public static final String EVENT_NAME_COL = "EventName";
+    public static final String TA_GROUP_COL = "TAGroup";
+    public static final String TA_SUB_GROUP_COL = "TASubGroup";
+    public static final String TA_SUB_TITLE_COL = "TASubTitle";
+    public static final String VENUE_NAME_COL = "VenueName";
+    public static final String VENUE_ADDRESS_COL = "VenueAddress";
+    public static final String TOTAL_DAYS_COL = "TotalDays";
+    public static final String HOURS_PER_DAY_COL = "HoursPerDay";
+    public static final String TA_CAT_CODE_COL = "TACatCode";
+    public static final String TA_CAT_NAME_COL = "TACatName";
+    public static final String SRC_BEN_COL = "SrcBen";
+    public static final String TOPIC_MASTER_CODE_COL = "TopicMasterCode";
+    public static final String TOPIC_TITLE_COL = "TopicTitle";
+    public static final String TOPIC_CHILD_CODE_COL = "TopicChildCode";
+    public static final String TOPIC_SUB_TITLE_COL = "TopicSubTitle";
+    public static final String TOPIC_GROUP_COL = "TAGroup";
+    public static final String TOPIC_GROUP_TITLE_COL = "TAGroupTitle";
+    public static final String PART_ID_COL = "PartID";
+    public static final String ID_CATEGORY_COL = "IDCategory";
+    public static final String PART_NAME_COL = "PartName";
+    public static final String PART_ORG_N_CODE_COL = "PartOrgNCode";
+    public static final String PART_ORG_N_NAME_COL = "PartOrgNName";
+    public static final String PART_CAT_CODE_COL = "PartCatCode";
+    public static final String POS_CODE_COL = "PosCode";
+    public static final String AM_SESSION_COL = "AMSession";
+    public static final String PM_SESSION_COL = "PMSession";
+    public static final String ATDN_DATE_COL = "AtdnDate";
+    public static final String POS_TITLE_COL = "PosTitle";
 
     public static final String FREQUENCY_COL = "Frequency";
     public static final String PROG_ACTIVITY_CODE_COL = "ProgActivityCode";
@@ -630,12 +673,12 @@ public class SQLiteHandler extends SQLiteOpenHelper {
     // ADDED BY POP COLUMN FOR GPS LOCATION  TABLE
 
 
-    public static final String MONTH_LABEL = "MonthLabel";
-    public static final String START_DATE = "startDate";
-    public static final String END_DATE = "endDate";
+    public static final String MONTH_LABEL_COL = "MonthLabel";
+    public static final String START_DATE_COL = "startDate";
+    public static final String END_DATE_COL = "endDate";
 
-    public static final String USA_START_DATE = "usaStartDate";
-    public static final String USA_END_DATE = "usaEndDate";
+    public static final String USA_START_DATE_COL = "usaStartDate";
+    public static final String USA_END_DATE_COL = "usaEndDate";
     public static final String STATUS = "Status";
 
     /**
@@ -1048,6 +1091,17 @@ public class SQLiteHandler extends SQLiteOpenHelper {
         db.execSQL(Schema.createTaleDTTableListCategory());
         db.execSQL(Schema.createTaleDT_LUP_Table());
         db.execSQL(Schema.createTableDTASkipTable());
+        /**  training & activity */
+        db.execSQL(Schema.createTAMasterTable());
+        db.execSQL(Schema.createTACategoryTable());
+        db.execSQL(Schema.createTAEventTopicTable());
+        db.execSQL(Schema.createTAGroupTable());
+        db.execSQL(Schema.createTAParticipantsTable());
+        db.execSQL(Schema.createTAPartOrgNTable());
+        db.execSQL(Schema.createTAPosParticipantsTable());
+        db.execSQL(Schema.createTASubGroupTable());
+        db.execSQL(Schema.createTATopicChildTable());
+        db.execSQL(Schema.createTATopicMasterTable());
         /** * temporary  table */
         db.execSQL(Schema.sqlCreateTemporary_CountryProgram());
         db.execSQL(Schema.sqlCreateTemporary_OpMonthTable());
@@ -1170,6 +1224,16 @@ public class SQLiteHandler extends SQLiteOpenHelper {
             db.execSQL(DROP_TABLE_IF_EXISTS + ADM_AWARD_TABLE);
             db.execSQL(DROP_TABLE_IF_EXISTS + SELECTED_OPERATION_MODE_TABLE);
             db.execSQL(DROP_TABLE_IF_EXISTS + STAFF_SRV_CENTER_ACCESS_TABLE);
+            db.execSQL(DROP_TABLE_IF_EXISTS + TA_MASTER_TABLE);
+            db.execSQL(DROP_TABLE_IF_EXISTS + TA_CATEGORY_TABLE);
+            db.execSQL(DROP_TABLE_IF_EXISTS + TA_EVENT_TOPIC_TABLE);
+            db.execSQL(DROP_TABLE_IF_EXISTS + TA_GROUP_TABLE);
+            db.execSQL(DROP_TABLE_IF_EXISTS + TA_PARTICIPANTS_LIST_TABLE);
+            db.execSQL(DROP_TABLE_IF_EXISTS + TA_PART_ORG_N_TABLE);
+            db.execSQL(DROP_TABLE_IF_EXISTS + TA_POS_PARTICIPANTS_TABLE);
+            db.execSQL(DROP_TABLE_IF_EXISTS + TA_SUB_GROUP_TABLE);
+            db.execSQL(DROP_TABLE_IF_EXISTS + TA_TOPIC_CHILD_TABLE);
+            db.execSQL(DROP_TABLE_IF_EXISTS + TA_TOPIC_MASTER_TABLE);
 
 
 //            Log.d(TAG, "All table Dropped.");
@@ -1185,7 +1249,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
 
     /**
      * Re crate database Delete all reference tables and create them again     *
-     * {@link #deleteReferenceTable()} invoked by the {@link SyncDatabase#checkLoginAndDowenReftData(String, String, JSONArray, String)}
+     * invoked by the {@link SyncDatabase#checkLoginAndDowenReftData(String, String, JSONArray, String)}
      */
     public void deleteReferenceTable() {
 
@@ -1205,12 +1269,12 @@ public class SQLiteHandler extends SQLiteOpenHelper {
             db.delete(ADM_DONOR_TABLE, null, null);
             db.delete(ADM_PROGRAM_MASTER_TABLE, null, null);
             db.delete(SERVICE_MASTER_TABLE, null, null);
-            db.delete(GPS_GROUP_TABLE, null, null);
-            db.delete(GPS_SUB_GROUP_TABLE, null, null);
+//            db.delete(GPS_GROUP_TABLE, null, null);
+//            db.delete(GPS_SUB_GROUP_TABLE, null, null);
             // db.delete(GPS_LOCATION_TABLE, null, null);
             db.delete(OP_MONTH_TABLE, null, null);
             //db.delete(COUNTRY_PROGRAM_TABLE, null, null);
-            db.delete(SERVICE_CENTER_TABLE, null, null);
+//            db.delete(SERVICE_CENTER_TABLE, null, null);
             ///  db.delete(STAFF_GEO_INFO_ACCESS_TABLE, null, null);
             db.delete(HOUSE_HOLD_CATEGORY_TABLE, null, null);
             db.delete(REG_N_LUP_GRADUATION_TABLE, null, null);
@@ -1349,6 +1413,16 @@ public class SQLiteHandler extends SQLiteOpenHelper {
             db.delete(LUP_GPS_LIST_TABLE, null, null);
             db.delete(ADM_AWARD_TABLE, null, null);
             db.delete(SELECTED_OPERATION_MODE_TABLE, null, null);
+            db.delete(TA_MASTER_TABLE, null, null);
+            db.delete(TA_CATEGORY_TABLE, null, null);
+            db.delete(TA_EVENT_TOPIC_TABLE, null, null);
+            db.delete(TA_GROUP_TABLE, null, null);
+            db.delete(TA_PARTICIPANTS_LIST_TABLE, null, null);
+            db.delete(TA_PART_ORG_N_TABLE, null, null);
+            db.delete(TA_POS_PARTICIPANTS_TABLE, null, null);
+            db.delete(TA_SUB_GROUP_TABLE, null, null);
+            db.delete(TA_TOPIC_CHILD_TABLE, null, null);
+            db.delete(TA_TOPIC_MASTER_TABLE, null, null);
 
 
 //            Log.d(TAG, "All User data Deleted.");
@@ -1361,7 +1435,174 @@ public class SQLiteHandler extends SQLiteOpenHelper {
         onCreate(db);
     }
 
+
+    public void addTATopicMasterTable(String topicMasterCode, String topicTitle) {
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(TOPIC_MASTER_CODE_COL, topicMasterCode);
+        values.put(TOPIC_TITLE_COL, topicTitle);
+
+
+        db.insert(TA_TOPIC_MASTER_TABLE, null, values);
+        db.close();
+    }
+
+
+    public void addTATopicChildTable(String topicMasterCode, String topicChildCode, String topicSubTitle) {
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(TOPIC_MASTER_CODE_COL, topicMasterCode);
+        values.put(TOPIC_CHILD_CODE_COL, topicChildCode);
+        values.put(TOPIC_SUB_TITLE_COL, topicSubTitle);
+
+
+        db.insert(TA_TOPIC_CHILD_TABLE, null, values);
+        db.close();
+    }
+
+    public void addTASubGroupTable(String cCode, String taGrouPCode, String taSubGrouCode, String taSubGrouTitle) {
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(COUNTRY_CODE_COL, cCode);
+        values.put(TA_GROUP_COL, taGrouPCode);
+        values.put(TA_SUB_GROUP_COL, taSubGrouCode);
+        values.put(TA_SUB_TITLE_COL, taSubGrouTitle);
+
+        db.insert(TA_SUB_GROUP_TABLE, null, values);
+        db.close();
+    }
+
+    public void addTAPosParticipantsTable(String cCode, String posCode, String posTitle) {
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(COUNTRY_CODE_COL, cCode);
+        values.put(POS_CODE_COL, posCode);
+        values.put(POS_TITLE_COL, posTitle);
+
+        db.insert(TA_POS_PARTICIPANTS_TABLE, null, values);
+        db.close();
+    }
+
+
+    public void addTAPartOrgTable(String cCode, String partOrgNCode, String partOrgNName, String srcBen) {
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(COUNTRY_CODE_COL, cCode);
+        values.put(PART_ORG_N_CODE_COL, partOrgNCode);
+        values.put(PART_ORG_N_NAME_COL, partOrgNName);
+        values.put(SRC_BEN_COL, srcBen);
+
+        db.insert(TA_PART_ORG_N_TABLE, null, values);
+        db.close();
+    }
+
+
+    public void addTaParticipantsListTable(String cCode, String eventCode, String partId, String idCatCode,
+                                           String partName, String partOrgNCode, String sex,
+                                           String partCatCode, String posCode, String amSession,
+                                           String pmSession, String atdnDate, String taGroup) {
+
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(COUNTRY_CODE_COL, cCode);
+
+        values.put(EVENT_CODE_COL, eventCode);
+        values.put(PART_ID_COL, partId);
+        values.put(ID_CATEGORY_COL, idCatCode);
+        values.put(PART_NAME_COL, partName);
+
+        values.put(PART_ORG_N_CODE_COL, partOrgNCode);
+        values.put(SEX_COL, sex);
+        values.put(PART_CAT_CODE_COL, partCatCode);
+        values.put(POS_CODE_COL, posCode);
+        values.put(AM_SESSION_COL, amSession);
+        values.put(PM_SESSION_COL, pmSession);
+        values.put(ATDN_DATE_COL, atdnDate);
+        values.put(TA_GROUP_COL, taGroup);
+
+
+        db.insert(TA_PARTICIPANTS_LIST_TABLE, null, values);
+        db.close();
+
+    }
+
+    public void addTAGroupTable(String cCode, String topicGroupCode, String topicGroupTitle) {
+
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(COUNTRY_CODE_COL, cCode);
+        values.put(TOPIC_GROUP_COL, topicGroupCode);
+        values.put(TOPIC_GROUP_TITLE_COL, topicGroupTitle);
+
+        db.insert(TA_GROUP_TABLE, null, values);
+        db.close();
+    }
+
+    public void addTAEventTopicTable(String cCode, String eventCode, String topicMasterCode, String topicChildCode) {
+
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(COUNTRY_CODE_COL, cCode);
+        values.put(EVENT_CODE_COL, eventCode);
+        values.put(TOPIC_MASTER_CODE_COL, topicMasterCode);
+        values.put(TOPIC_CHILD_CODE_COL, topicChildCode);
+
+        db.insert(TA_EVENT_TOPIC_TABLE, null, values);
+        db.close();
+    }
+
+    public void addTAcategoryTable(String cCode, String taCatCode, String taCatName, String srcBen) {
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(COUNTRY_CODE_COL, cCode);
+        values.put(TA_CAT_CODE_COL, taCatCode);
+        values.put(TA_CAT_NAME_COL, taCatName);
+        values.put(SRC_BEN_COL, srcBen);
+
+
+        db.insert(TA_CATEGORY_TABLE, null, values);
+        db.close();
+    }
+
+    public void addTaMasterTable(String cCode, String eventCode, String eventName, String donorCode, String awardCode, String taGroup, String taSubGroup, String orgCode, String startDate, String endDate, String vanueName, String vanueAddress, String active, String totalDays, String hourPerDay
+    ) {
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(COUNTRY_CODE_COL, cCode);
+
+        values.put(EVENT_CODE_COL, eventCode);
+        values.put(EVENT_NAME_COL, eventName);
+        values.put(DONOR_CODE_COL, donorCode);
+
+        values.put(AWARD_CODE_COL, awardCode);
+        values.put(TA_GROUP_COL, taGroup);
+        values.put(TA_SUB_GROUP_COL, taSubGroup);
+        values.put(ORG_CODE_COL, orgCode);
+        values.put(START_DATE_COL, startDate);
+        values.put(END_DATE_COL, endDate);
+        values.put(VENUE_NAME_COL, vanueName);
+        values.put(VENUE_ADDRESS_COL, vanueAddress);
+        values.put(ACTIVE_COL, active);
+        values.put(TOTAL_DAYS_COL, totalDays);
+        values.put(HOURS_PER_DAY_COL, hourPerDay);
+
+        db.insert(TA_MASTER_TABLE, null, values);
+        db.close();
+
+    }
+
     /**
+     * @param cCode       Country Code
      * @param grpCode     Group Code
      * @param subGrpCode  Sub Group Code
      * @param locCode     Location  Code
@@ -1373,10 +1614,10 @@ public class SQLiteHandler extends SQLiteOpenHelper {
      */
 
 
-    public void insertIntoGPSLocationContentTable(String AdmCountryCode, String grpCode, String subGrpCode, String locCode, String contentCode, byte[] imageFile, String remarks, String entryBy, String entryDate) {
+    public void insertIntoGPSLocationContentTable(String cCode, String grpCode, String subGrpCode, String locCode, String contentCode, byte[] imageFile, String remarks, String entryBy, String entryDate) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(COUNTRY_CODE_COL, AdmCountryCode);
+        values.put(COUNTRY_CODE_COL, cCode);
         values.put(GROUP_CODE_COL, grpCode);
         values.put(SUB_GROUP_CODE_COL, subGrpCode);
         values.put(LOCATION_CODE_COL, locCode);
@@ -1385,10 +1626,10 @@ public class SQLiteHandler extends SQLiteOpenHelper {
         values.put(REMARKES_COL, remarks);
         values.put(ENTRY_BY, entryBy);
         values.put(ENTRY_DATE, entryDate);
-        //  long id =
+
         db.insert(GPS_LOCATION_CONTENT_TABLE, null, values);
         db.close();
-        //   Log.d(TAG, "NEW Insert into GPSLocationContent Table: " + id);
+
     }
 
     public void insertIntoLupGpsList(String grpCode, String subGrpCode, String attbuteCode, String lup_valueCode, String lup_value_text) {
@@ -1402,7 +1643,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
         values.put(LUP_VALUE_CODE_COL, lup_valueCode);
         values.put(LUP_VALUE_TEXT_COL, lup_value_text);
 
-        // long id =
+
         db.insert(LUP_GPS_LIST_TABLE, null, values);
         db.close();
 
@@ -1426,7 +1667,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
         values.put(USER_LOGIN_NAME, userName);
         values.put(USER_LOGIN_PW, userPass);
         values.put(STAFF_ADMIN_ROLE_COL, staffAdimRole);
-        // long id =
+
         db.insert(STAFF_MASTER_TABLE, null, values);
         db.close();
 
@@ -1461,7 +1702,6 @@ public class SQLiteHandler extends SQLiteOpenHelper {
         values.put(GROUP_CAT_SHORT_NAME_COL, groupCatShortName);
 
 
-        //   long id =
         db.insert(COMMUNITY_GROUP_CATEGORY_TABLE, null, values);
         db.close();
     }
@@ -2607,15 +2847,6 @@ public class SQLiteHandler extends SQLiteOpenHelper {
         return savePermission.equals("1");
     }
 
-    /**
-     * Todo : Save permission
-     *
-     * @param cCode
-     * @param districtCode
-     * @param unitCode
-     * @param upzellaCode
-     * @param vCode
-     */
 
     public boolean getDeletePermissionForHHEntries(String cCode, String districtCode, String upzellaCode, String unitCode, String vCode) {
         SQLiteDatabase db = this.getReadableDatabase();
@@ -2699,17 +2930,16 @@ public class SQLiteHandler extends SQLiteOpenHelper {
         values.put(AWARD_CODE_COL, awardCode);
         values.put(OPERATION_CODE_COL, opCode);
         values.put(OP_MONTH_CODE_COL, opMonthCode);
-        values.put(MONTH_LABEL, mLable);
-        values.put(START_DATE, sDate);
-        values.put(END_DATE, eDate);
-        values.put(USA_START_DATE, usasDate);
-        values.put(USA_END_DATE, usaeDate);
+        values.put(MONTH_LABEL_COL, mLable);
+        values.put(START_DATE_COL, sDate);
+        values.put(END_DATE_COL, eDate);
+        values.put(USA_START_DATE_COL, usasDate);
+        values.put(USA_END_DATE_COL, usaeDate);
         values.put(STATUS, status);
 
 
-        // Inserting Row
-        db.insert(OP_MONTH_TABLE, null, values);
-        db.close(); // Closing database connection
+        db.insert(OP_MONTH_TABLE, null, values);                                                     // Inserting Row
+        db.close();                                                                                 // Closing database connection
 
 
     }
@@ -2731,8 +2961,8 @@ public class SQLiteHandler extends SQLiteOpenHelper {
 
 
         // Inserting Row
-        long id = db.insert(GPS_LOCATION_TABLE, null, values);
-        db.close(); // Closing database connection
+        db.insert(GPS_LOCATION_TABLE, null, values);
+        db.close();                                                                                 // Closing database connection
 
 
     }
@@ -5276,6 +5506,52 @@ public class SQLiteHandler extends SQLiteOpenHelper {
 
     }
 
+    public ArrayList<AssignDataModel> getEligibleTrainingAcitMemList(String cCode, String mmSearchId) {
+
+        ArrayList<AssignDataModel> listAsignPeople = new ArrayList<AssignDataModel>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        String sql = SQLiteQuery.getEligibleTrainingAcitMemList_sql(cCode, mmSearchId);
+        Log.d("CHOR", sql);
+
+        Cursor cursor = db.rawQuery(sql, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                AssignDataModel assignPerson = new AssignDataModel();
+
+                assignPerson.setHh_id(cursor.getString(cursor.getColumnIndex(HHID_COL)));
+                assignPerson.setMemId(cursor.getString(cursor.getColumnIndex(HH_MEM_ID)));
+                assignPerson.setNewId(cursor.getString(cursor.getColumnIndex("newId")));
+                assignPerson.setHh_mm_name(cursor.getString(cursor.getColumnIndex("memName")));
+                assignPerson.setMember_age(cursor.getString(cursor.getColumnIndex(MEM_AGE)));
+                assignPerson.setMember_sex(cursor.getString(cursor.getColumnIndex(SEX_COL)));
+
+                assignPerson.setAssignYN(cursor.getString(cursor.getColumnIndex("Assign")));
+
+                assignPerson.setC_code(cursor.getString(cursor.getColumnIndex(COUNTRY_CODE_COL)));
+                assignPerson.setDistrictCode(cursor.getString(cursor.getColumnIndex(DISTRICT_NAME_COL)));
+                assignPerson.setUpazillaCode(cursor.getString(cursor.getColumnIndex(UPZILLA_NAME_COL)));
+                assignPerson.setUnitCode(cursor.getString(cursor.getColumnIndex(UNITE_NAME_COL)));
+                assignPerson.setVillageCode(cursor.getString(cursor.getColumnIndex(VILLAGE_NAME_COL)));
+                assignPerson.setHh_name(cursor.getString(cursor.getColumnIndex(PNAME_COL)));
+
+
+                //  assignPerson.setAssign_criteria(cursor.getString(cursor.getColumnIndex("AssignCriteria")));
+
+                //   Log.d(TAG, " " + cursor.getString(1) + " , " + cursor.getString(2) + " , " + cursor.getString(14) + " , " + cursor.getString(15));
+                listAsignPeople.add(assignPerson);
+
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        db.close();
+
+        return listAsignPeople;
+
+
+    }
+
 
     private boolean isAlpha(String nameORid) {
         return nameORid.matches("[a-zA-Z]+");
@@ -5427,7 +5703,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
         values.put(DT_ENTRY_BY_COL, entryBy);
         values.put(DT_USA_ENTRY_DATE_COL, usaEntryDate);
 
-        long id = db.insert(DT_ENU_TABLE, null, values);
+        db.insert(DT_ENU_TABLE, null, values);
         db.close();
     }
 
@@ -5564,9 +5840,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
 
         List<DT_ATableDataModel> listDTA = new ArrayList<DT_ATableDataModel>();
         SQLiteDatabase db = this.getReadableDatabase();
-        String sql = "SELECT * FROM " + DT_A_TABLE +
-                " WHERE " + DT_BASIC_COL + "= '" + dtBasic + "'" +
-                " AND " + DTQ_CODE_COL + "= '" + dtQCode + "'";
+        String sql = SQLiteQuery.getDTA_Table_sql(dtBasic, dtQCode);
 
 
         Cursor cursor = db.rawQuery(sql, null);
@@ -5592,18 +5866,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
 
                 listDTA.add(dta);
 
-          /*      Log.d("MOR_SQL",
 
-                        "DTBasic() :" + dta.getDTBasic() +
-                                "\n Dt_QCode()      :" + dta.getDt_QCode() +
-                                "\n Dt_ACode()      :" + dta.getDt_ACode() +
-                                "\n Dt_ALabel()     :" + dta.getDt_ALabel() +
-                                "\n Dt_AValue()     :" + dta.getDt_AValue() +
-                                "\n Dt_Seq()        :" + dta.getDt_Seq() +
-                                "\n Dt_ScoreCode()  :" + dta.getDt_ScoreCode() +
-                                "\n Dt_SkipDTQCode():" + dta.getDt_SkipDTQCode()
-
-                );*/
             } while (cursor.moveToNext());
 
             cursor.close();
@@ -5646,6 +5909,8 @@ public class SQLiteHandler extends SQLiteOpenHelper {
     }
 
     /**
+     * this method get the list of Dynamic Data or Survey Subject  index
+     *
      * @param cCode         Country Code
      * @param dtTitleSearch Search Key
      * @return DT index list
@@ -5691,6 +5956,48 @@ public class SQLiteHandler extends SQLiteOpenHelper {
 
     }
 
+
+    public ArrayList<TrainingNActivityIndexDataModel> getTrainingActivityIndexList(final String cCode, final String eventTitleSearch) {
+
+        ArrayList<TrainingNActivityIndexDataModel> list = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        String sql = SQLiteQuery.getTrainingActivityIndexList(cCode, eventTitleSearch);
+
+        Cursor cursor = db.rawQuery(sql, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                TrainingNActivityIndexDataModel data = new TrainingNActivityIndexDataModel();
+                data.setcCode(cursor.getString(cursor.getColumnIndex(COUNTRY_CODE_COL)));
+                data.setEventCode(cursor.getString(cursor.getColumnIndex(EVENT_CODE_COL)));
+                data.setEventTittle(cursor.getString(cursor.getColumnIndex(EVENT_NAME_COL)));
+                data.setDonorCode(cursor.getString(cursor.getColumnIndex(DONOR_CODE_COL)));
+                data.setAwardCode(cursor.getString(cursor.getColumnIndex(AWARD_CODE_COL)));
+                data.setTaGroupCode(cursor.getString(cursor.getColumnIndex(TA_GROUP_COL)));
+                data.setTaSubGroupCode(cursor.getString(cursor.getColumnIndex(TA_SUB_GROUP_COL)));
+
+                data.setTaOrgCode(cursor.getString(cursor.getColumnIndex(ORG_CODE_COL)));
+                data.setStartDate(cursor.getString(cursor.getColumnIndex(START_DATE_COL)));
+                data.setEndDate(cursor.getString(cursor.getColumnIndex(END_DATE_COL)));
+                data.setVenueName(cursor.getString(cursor.getColumnIndex(VENUE_NAME_COL)));
+                data.setAddressName(cursor.getString(cursor.getColumnIndex(VENUE_ADDRESS_COL)));
+                data.setActiveStatus(cursor.getString(cursor.getColumnIndex(ACTIVE_COL)));
+                data.setTotalDays(cursor.getString(cursor.getColumnIndex(TOTAL_DAYS_COL)));
+                data.setHourPerDay(cursor.getString(cursor.getColumnIndex(HOURS_PER_DAY_COL)));
+
+
+                list.add(data);
+
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        db.close();
+
+        return list;
+
+
+    }
 
     public ArrayList<CommunityGroupDataModel> getCommunityGroupList(final String cCode, final String donorCode, final String awardCode, final String progCode, final String groupName) {
 
@@ -5796,7 +6103,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
      * @param donorCode donorCode
      * @param awardCode awardCode
      * @param progCode  ProgramCode
-     * @return
+     * @return yes or no
      */
 
     public String get_ProgramMultipleSrv(String donorCode, String awardCode, String progCode) {
@@ -5850,7 +6157,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
 
     /**
      * @param data AssignDataModel class's object
-     * @return
+     * @
      */
     public boolean ifExistsInRegNAssProgSrv(AssignDataModel data) {
         SQLiteDatabase db = this.getReadableDatabase();
@@ -5986,32 +6293,6 @@ public class SQLiteHandler extends SQLiteOpenHelper {
         db.close();
     }
 
-    // todo: write query  TO SHOW SELECTED RADIO BUTTON
-    public CTDataModel getCheckSelectItemInCTTable() {
-        SQLiteDatabase db = this.getReadableDatabase();
-      /*  String selectQuery="SELECT "+C11_CT_PR +" , "
-                + C21_CT_PR +" , "
-                + C31_CT_PR +" , "
-                + C32_CT_PR +" , "
-                + C33_CT_PR +" , "
-                + C34_CT_PR +" , "
-                + C35_CT_PR +" , "
-                + C36_CT_PR +" , "
-                + C37_CT_PR +" , "
-                + C38_CT_PR +" , "
-                + " WHERE "
-                +COUNTRY_CODE_COL +" = '"        + countryCode+"' "
-                +LAY_R1_LIST_CODE_COL +" = '"  + districtCode+"' "
-                +LAY_R2_LIST_CODE_COL +" = '"         + upCode+"' "
-                +LAY_R3_LIST_CODE_COL +" = '"          ++"' "
-                +LAY_R4_LIST_CODE_COL +" = '"          ++"' "
-                +HHID_COL +" = '"           ++"' "
-                +HH_MEM_ID +" = '"          ++"' "
-
-*/
-        return null;
-    }
-
 
     public boolean doesMemberAssignedInDifferentService(RegNAssgProgSrv data) {
         SQLiteDatabase db = this.getReadableDatabase();
@@ -6035,10 +6316,10 @@ public class SQLiteHandler extends SQLiteOpenHelper {
     }
 
     /**
-     * @date: 2015-10-01
-     * @author: Faisal Mohammad
-     * @remark: use it generic in future ..
-     * @discription: for graduation
+     * : 2015-10-01
+     * author: Faisal Mohammad
+     * remark: use it generic in future ..
+     * iscription: for graduation
      * todo : use checkDataExistInTable()
      */
 
@@ -6973,10 +7254,10 @@ public class SQLiteHandler extends SQLiteOpenHelper {
         String sql = "";
         // query to get the start date of the registration process.
         if (MinOrMax.equals("Min")) {
-            sql = "SELECT MIN " + "(" + START_DATE + ")" + " FROM " + OP_MONTH_TABLE + " WHERE " + COUNTRY_CODE_COL
+            sql = "SELECT MIN " + "(" + START_DATE_COL + ")" + " FROM " + OP_MONTH_TABLE + " WHERE " + COUNTRY_CODE_COL
                     + " = '" + cCode + "'" + " AND " + STATUS + "= 'A'";
         } else {
-            sql = "SELECT MAX " + "(" + END_DATE + ")" + " FROM " + OP_MONTH_TABLE + " WHERE " + COUNTRY_CODE_COL
+            sql = "SELECT MAX " + "(" + END_DATE_COL + ")" + " FROM " + OP_MONTH_TABLE + " WHERE " + COUNTRY_CODE_COL
                     + " = '" + cCode + "'" + " AND " + STATUS + "= 'A'";
         }
 
@@ -7015,9 +7296,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
 
     // ToDo: get single member data
 
-    /**
-     * @param str_c_code
-     */
+
     public RegN_HH_libDataModel getSingleLiberiaHouseHoldData(String str_c_code, String str_district, String str_upazilla, String str_union, String str_village, String hhID) {
         RegN_HH_libDataModel hhData = new RegN_HH_libDataModel();
 
@@ -7030,12 +7309,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
             if (cursor.moveToFirst()) {
 
                 // todo: change the columun inedx
-                /*hhData.setCountryCode(idCountry);
-                hhData.setDistrictCode(idDist);
-                hhData.setUpazillaCode(idUP);
-                hhData.setUnitCode(idUnion);
-                hhData.setVillageCode(idVill);
-                hhData.setHhId(strRegID);*/
+
 
                 hhData.setRegNDate(cursor.getString(cursor.getColumnIndex(REG_DATE_COL)));
                 hhData.setHHHeadName(cursor.getString(cursor.getColumnIndex(PNAME_COL)));
@@ -7125,9 +7399,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
 
     // ToDo: get single member data
 
-    /**
-     * @param str_c_code
-     */
+
     public RegN_MM_libDataModel getSingleLiberiaMemberData(String str_c_code, String str_district, String str_upazilla, String str_union, String str_village, String hhID, String memID) {
         RegN_MM_libDataModel memberData = new RegN_MM_libDataModel();
 
@@ -7197,41 +7469,16 @@ public class SQLiteHandler extends SQLiteOpenHelper {
 
     // Getting All Contacts
 
-    /**
-     * @param hhID
-     * @param str_c_code
-     * @param str_district
-     * @param str_union
-     * @param str_upazilla
-     * @param str_village
-     * @return List<MemberModel>
-     */
     public List<MemberModel> getMemberData(String str_c_code, String str_district, String str_upazilla, String str_union, String str_village, String hhID) {
 
         List<MemberModel> memberList = new ArrayList<MemberModel>();
         SQLiteDatabase db = this.getReadableDatabase();
 
         String query = "";
-// TODO: 10/17/2016  use theSQLite Column  Constant
 
-        query = "SELECT DISTINCT rm.*, r.PersonName, r." + ID_COL + " AS PID, rel." + RELATION_NAME + " FROM "
-                + REGISTRATION_MEMBER_TABLE + " AS rm " +
-                " LEFT JOIN " + REGISTRATION_TABLE + " AS r " +
-                " ON r.CountryCode=rm.CountryCode " +
-                " AND r.DistrictName=rm.DistrictName " +
-                " AND r.UpazillaName=rm.UpazillaName " +
-                " AND r.UnitName=rm.UnitName " +
-                " AND r.VillageName=rm.VillageName " +
-                " AND r.RegistrationID=rm.RegisterID " +
-                " LEFT JOIN " + RELATION_TABLE + " AS rel " +
-                " ON rm." + RELATION_COL + "=rel." + RELATION_CODE +
-                " WHERE rm." + COUNTRY_CODE + "='" + str_c_code + "' " +
-                " AND rm." + DISTRICT_NAME_COL + "='" + str_district + "' " +
-                " AND rm." + UPZILLA_NAME_COL + "='" + str_upazilla + "' " +
-                " AND rm." + UNITE_NAME_COL + "='" + str_union + "' " +
-                " AND rm." + VILLAGE_NAME_COL + "='" + str_village + "' " +
-                " AND rm." + HHID_COL + "='" + hhID + "' " +
-                " ORDER BY rm." + ID_COL + " DESC";
+
+        query = SQLiteQuery.getMemberData_sql(str_c_code, str_district, str_upazilla, str_union, str_village, hhID);
+
 
         Cursor cursor = db.rawQuery(query, null);
 
@@ -8738,7 +8985,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
             /** FOR SERVICE SUMMMARY OP_MONTH LOAD */
 
             case OP_MONTH_TABLE:
-                selectQuery = "SELECT " + COUNTRY_CODE_COL + " || '' || " + DONOR_CODE_COL + " || '' || " + AWARD_CODE_COL + " || '' || " + OP_MONTH_CODE_COL + " AS OpMonthID, " + MONTH_LABEL + " FROM " + table_name + criteria;
+                selectQuery = "SELECT " + COUNTRY_CODE_COL + " || '' || " + DONOR_CODE_COL + " || '' || " + AWARD_CODE_COL + " || '' || " + OP_MONTH_CODE_COL + " AS OpMonthID, " + MONTH_LABEL_COL + " FROM " + table_name + criteria;
                 selectLabel = "Select Month";
 
                 break;
@@ -10432,7 +10679,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
         String sql = SQLiteQuery.loadDtMonth_sql(cCode, "5", opMonthCode);
         Cursor cursor = db.rawQuery(sql, null);
         if (cursor != null && cursor.moveToFirst()) {
-            monthName = cursor.getString(cursor.getColumnIndex(MONTH_LABEL));
+            monthName = cursor.getString(cursor.getColumnIndex(MONTH_LABEL_COL));
 
         }
         if (cursor != null)
@@ -11006,18 +11253,6 @@ public class SQLiteHandler extends SQLiteOpenHelper {
 
     /**
      * Storing user details in database
-     *
-     * @param user_id
-     * @param country_code
-     * @param login_name
-     * @param login_pw
-     * @param first_name
-     * @param last_name
-     * @param email
-     * @param email_verification
-     * @param user_status
-     * @param entry_by
-     * @param entry_date
      */
     public void addUser(String user_id, String country_code, String login_name, String login_pw, String first_name, String last_name, String email, String email_verification, String user_status, String entry_by, String entry_date) {
 
@@ -11059,7 +11294,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
         values.put(SELECTED_OPERATION_MODE_CODE_COL, opModeCode);
         values.put(SELECTED_OPERATION_MODE_NAME_COL, opModeName);
         values.put(ENTRY_BY, entryBy);
-        values.put(END_DATE, entryDate);
+        values.put(END_DATE_COL, entryDate);
         db.insert(SELECTED_OPERATION_MODE_TABLE, null, values);
         db.close();
 
@@ -11177,7 +11412,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
     public HashMap<String, String> getGRDDateRange(String cCode) {
         HashMap<String, String> dateRange = new HashMap<String, String>();
 
-        String selectQuery = "SELECT  " + START_DATE + " , " + END_DATE + " FROM " + OP_MONTH_TABLE
+        String selectQuery = "SELECT  " + START_DATE_COL + " , " + END_DATE_COL + " FROM " + OP_MONTH_TABLE
                 + " WHERE " + COUNTRY_CODE_COL + " = '" + cCode + "' AND " +
                 OPERATION_CODE_COL + " = '1' AND " + STATUS + " = 'A'";
 
@@ -11229,8 +11464,8 @@ public class SQLiteHandler extends SQLiteOpenHelper {
         Cursor cursor = db.rawQuery(selectQuery, null);
         if (cursor.moveToFirst()) {
             if (cursor.getCount() > 0) {
-                dateRange.put("sdate", cursor.getString(cursor.getColumnIndex(USA_START_DATE)));
-                dateRange.put("edate", cursor.getString(cursor.getColumnIndex(USA_END_DATE)));
+                dateRange.put("sdate", cursor.getString(cursor.getColumnIndex(USA_START_DATE_COL)));
+                dateRange.put("edate", cursor.getString(cursor.getColumnIndex(USA_END_DATE_COL)));
             } else {
                 dateRange.put("sdate", null);
                 dateRange.put("edate", null);
@@ -11259,8 +11494,8 @@ public class SQLiteHandler extends SQLiteOpenHelper {
 
 
         String sql = "SELECT  "
-                + "  " + USA_START_DATE
-                + " , " + USA_END_DATE
+                + "  " + USA_START_DATE_COL
+                + " , " + USA_END_DATE_COL
                 + " FROM " + OP_MONTH_TABLE
                 + " WHERE " + COUNTRY_CODE_COL + " = '" + cCode + "'"
                 + " AND " + STATUS + "= 'A'"
@@ -11297,8 +11532,8 @@ public class SQLiteHandler extends SQLiteOpenHelper {
 
 
         String sql = "SELECT  " + COUNTRY_CODE_COL
-                + " , " + START_DATE +
-                " , " + END_DATE
+                + " , " + START_DATE_COL +
+                " , " + END_DATE_COL
                 + " FROM " + OP_MONTH_TABLE
                 + " WHERE " + COUNTRY_CODE_COL + " = '" + cCode + "'"
                 + " AND " + STATUS + "= 'A'"
@@ -11506,8 +11741,9 @@ public class SQLiteHandler extends SQLiteOpenHelper {
             if (cursor.moveToFirst()) {
                 countryCode = cursor.getString(0);
             }
+            cursor.close();
         }
-        cursor.close();
+
         db.close();
         return countryCode;
     }
@@ -11523,9 +11759,9 @@ public class SQLiteHandler extends SQLiteOpenHelper {
             if (cursor.moveToFirst()) {
                 count = cursor.getString(0);
             }
-
+            cursor.close();
         }
-        cursor.close();
+
         db.close();
         return Integer.valueOf(count);
     }
@@ -11681,9 +11917,9 @@ public class SQLiteHandler extends SQLiteOpenHelper {
         values.put(USER_LOGIN_NAME, userName);
         values.put(LAST_SYNC_TIME_COL, lastSyncTime);
 
-        long id = db.insert(LAST_SYNC_TYRACE_TABLE, null, values);
+        return db.insert(LAST_SYNC_TYRACE_TABLE, null, values);
 
-        return id;
+
     }
 
     public String lastSyncStatus() {
@@ -12485,9 +12721,9 @@ public class SQLiteHandler extends SQLiteOpenHelper {
         values.put(AWARD_CODE_COL, awardCode);
         values.put(OPERATION_CODE_COL, opCode);
         values.put(OP_MONTH_CODE_COL, opMonthCode);
-        values.put(MONTH_LABEL, mLable);
-        values.put(USA_START_DATE, usasDate);
-        values.put(USA_END_DATE, usaeDate);
+        values.put(MONTH_LABEL_COL, mLable);
+        values.put(USA_START_DATE_COL, usasDate);
+        values.put(USA_END_DATE_COL, usaeDate);
         values.put(STATUS, status);
 
         // Inserting Row
@@ -12505,7 +12741,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
         List<TemOpMonth> list = new ArrayList<TemOpMonth>();
 
         String sql = "SELECT " + OP_MONTH_CODE_COL
-                + ", " + MONTH_LABEL
+                + ", " + MONTH_LABEL_COL
                 + " FROM " + TEMPORARY_OP_MONTH_TABLE
                 + " WHERE " + COUNTRY_CODE_COL + " = '" + cCode + "' "
                 + " AND " + OPERATION_CODE_COL + " = '2' "
@@ -12518,7 +12754,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
 
                 TemOpMonth opData = new TemOpMonth();
                 opData.setOpMonthCode(cursor.getString(cursor.getColumnIndex(OP_MONTH_CODE_COL)));
-                opData.setOpMonthLable(cursor.getString(cursor.getColumnIndex(MONTH_LABEL)));
+                opData.setOpMonthLable(cursor.getString(cursor.getColumnIndex(MONTH_LABEL_COL)));
 
 
                 list.add(opData);

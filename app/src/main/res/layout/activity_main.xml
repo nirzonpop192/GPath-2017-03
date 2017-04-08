@@ -153,7 +153,7 @@
                         android:gravity="center_vertical"
                         android:paddingLeft="15dp"
 
-                        android:text="  Registration" />
+                        android:text="@string/registration" />
 
                     <Button
                         android:id="@+id/btnAssinge"
@@ -166,7 +166,7 @@
                         android:drawableStart="@drawable/assign"
                         android:gravity="center_vertical"
                         android:paddingLeft="15dp"
-                        android:text="  Assign" />
+                        android:text="@string/assign" />
 
                     <Button
                         android:id="@+id/btnGraduation"
@@ -179,7 +179,7 @@
                         android:drawableStart="@drawable/exit"
                         android:gravity="center_vertical"
                         android:paddingLeft="15dp"
-                        android:text="  Graduation" />
+                        android:text="@string/graduation" />
 
                     <Button
                         android:id="@+id/btnCardRequest"
@@ -193,7 +193,7 @@
 
                         android:gravity="center_vertical"
                         android:paddingLeft="15dp"
-                        android:text="  Card Request" />
+                        android:text="@string/card_request" />
 
                     <Button
                         android:id="@+id/btnService"
@@ -206,7 +206,7 @@
                         android:drawableStart="@drawable/service"
                         android:gravity="center_vertical"
                         android:paddingLeft="15dp"
-                        android:text="  Service" />
+                        android:text="@string/service" />
 
                     <Button
                         android:id="@+id/btnDistribution"
@@ -219,7 +219,7 @@
                         android:drawableStart="@drawable/distribution"
                         android:gravity="center_vertical"
                         android:paddingLeft="15dp"
-                        android:text="  Distribution" />
+                        android:text="@string/distribution" />
 
                     <Button
                         android:id="@+id/btnGPS"
@@ -231,7 +231,7 @@
                         android:drawableLeft="@drawable/map_btn_icon"
                         android:gravity="center_vertical"
                         android:paddingLeft="15dp"
-                        android:text="  GPS" />
+                        android:text="@string/gps" />
 
 
                     <Button
@@ -245,7 +245,7 @@
                         android:drawableStart="@drawable/summession_b"
                         android:gravity="center_vertical"
                         android:paddingLeft="15dp"
-                        android:text="  Summary" />
+                        android:text="@string/summary" />
 
 
                     <Button
@@ -261,7 +261,20 @@
                         android:paddingLeft="5dp"
                         android:paddingRight="5dp"
                         android:paddingStart="5dp"
-                        android:text="  Dynamic Data" />
+                        android:text="@string/dynamic_data" />
+
+                    <Button
+                        android:id="@+id/btnTrainingActivity"
+                        style="@style/btn_main_page"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginEnd="4dp"
+                        android:layout_marginRight="4dp"
+
+                        android:drawableLeft="@drawable/summession_b"
+                        android:drawableStart="@drawable/summession_b"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="15dp"
+                        android:text="@string/training_n_activity" />
                 </LinearLayout>
 
 

@@ -526,6 +526,8 @@
     <item format="float" name="highlight_alpha_material_colored" type="dimen">0.26</item>
     <item format="float" name="highlight_alpha_material_dark" type="dimen">0.20</item>
     <item format="float" name="highlight_alpha_material_light" type="dimen">0.12</item>
+    <dimen name="icon_button_height">45dp</dimen>
+    <dimen name="icon_button_width">0dp</dimen>
     <dimen name="image_height">150dp</dimen>
     <dimen name="image_width">200dp</dimen>
     <dimen name="item_touch_helper_max_drag_scroll_per_frame">20dp</dimen>
@@ -636,6 +638,7 @@
     <string name="after">After</string>
     <string name="apk_on_device">APK ON DEVICE</string>
     <string name="app_name">GPath</string>
+    <string name="assign">Assign</string>
     <string name="assignTitleLabelP2a">Assign Program (Page 2a)</string>
     <string name="assign_ca2_title">Children Above 2 Years-A2</string>
     <string name="assign_cu2_title">Children Under 2 Years-U2</string>
@@ -646,6 +649,7 @@
     <string name="base">OSM base layer</string>
     <string name="base_nl">Netherlands base overlay</string>
     <string name="before">Before</string>
+    <string name="beneficiary_card">Beneficiary Card</string>
     <string name="bing">Bing</string>
     <string name="btnHomeLabel">HOME</string>
     <string name="btnLabelAddMember">Add Member</string>
@@ -678,6 +682,7 @@
     <string name="btn_synchronizeLable">Sync</string>
     <string name="c">C.Core Criteria: HHs with CU2; Secondary Criteria: HH also has at least one Pregnant or Lactating Woman</string>
     <string name="c_name">Name</string>
+    <string name="card_request">Card Request</string>
     <string name="cast_notification_connected_message">Connected to <ns1:g id="name">%1$s</ns1:g></string>
     <string name="cast_notification_connecting_message">Connecting to <ns1:g id="name">%1$s</ns1:g></string>
     <string name="cast_notification_disconnect">Disconnect</string>
@@ -724,6 +729,7 @@
     <string name="cb_label_PNCVisit_1W">1 week</string>
     <string name="cb_label_PNCVisit_2D">2 days</string>
     <string name="cb_label_PNCVisit_6W">6 Weeks</string>
+    <string name="cell_phone">Cell Phone</string>
     <string name="chicken">Chicken</string>
     <string name="child_name">Child Name</string>
     <string name="common_google_play_services_api_unavailable_text"><ns1:g id="app_name">%1$s</ns1:g> requires one or more Google Play services that are not currently available. Please contact the developer for assistance.</string>
@@ -772,11 +778,14 @@
     <string name="decline">Decline</string>
     <string name="delete">DELETE</string>
     <string name="device_id">Device Id</string>
+    <string name="distribution">Distribution</string>
     <string name="dob_date">DOB Date</string>
     <string name="dt_response_title">Response</string>
     <string name="dttitle">DTTitle</string>
+    <string name="dynamic_data">Dynamic Data</string>
     <string name="dynamic_table">Dynamic Table</string>
     <string name="e">E.Core Criteria: HHs with PLW or CU2; Secondary Criteria: HH has a total of 4 or more children below 12 years of age</string>
+    <string name="email_address">Email address</string>
     <string name="error.message.call">Call failed</string>
     <string name="error.message.map">Map loading failed</string>
     <string name="error.message.network">Network error</string>
@@ -795,6 +804,8 @@
     <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">
         AIzaSyB6R6Saou2TpmqGKcuZwbnUvhJhlv6nSls
     </string>
+    <string name="gps">GPS</string>
+    <string name="graduation">Graduation</string>
     <string name="group">Group</string>
     <string name="group_details">Group Details</string>
     <string name="group_label">Group Name</string>
@@ -811,6 +822,7 @@
     <string name="hint_username">Username</string>
     <string name="hit_15digitId">000105030002315</string>
     <string name="house_hold_id">House Hold Id</string>
+    <string name="id_type">ID type</string>
     <string name="labe_op_mode">Operation Mode</string>
     <string name="label_ANCVisit">ANC Visits Attended</string>
     <string name="label_CMAM_add">Mother currently exclusively breast-feeding </string>
@@ -876,10 +888,11 @@
     <string name="lbl_ta">Ta :</string>
     <string name="lbl_title">Title/Position</string>
     <string name="lbl_village">Village :</string>
+    <string name="licence">Licence</string>
     <string name="livestock">LIVESTOCK</string>
     <string name="lmp_date">LMP Date</string>
     <string name="location_name">Location Name</string>
-    <string name="log_in_version_lable">GPath-LIV-13</string>
+    <string name="log_in_version_lable">GPath-UAT-13</string>
     <string name="longTitle">Longitude</string>
     <string name="map_mode">Map Source</string>
     <string name="mapbox">MapBox</string>
@@ -904,6 +917,7 @@
     <string name="mr_user_route_category_name">Devices</string>
     <string name="my_location">My location</string>
     <string name="name">Fullname</string>
+    <string name="national_id_card">National ID Card</string>
     <string name="offline">Offline mode</string>
     <string name="osmbonuspack.directions.1">Continue[ on %s]</string>
     <string name="osmbonuspack.directions.12">U-Turn[ on %s]</string>
@@ -944,12 +958,15 @@
     <string name="rb_label_DeliveryStaff_2">PA/WA/HSA</string>
     <string name="rb_label_DeliveryStaff_3">Others</string>
     <string name="reg_date">Reg Date</string>
+    <string name="registration">Registration</string>
     <string name="response_number">Response Number</string>
     <string name="roads_nl">Netherlands roads overlay</string>
     <string name="samples">Samples</string>
     <string name="saved_coord">Saved Coordinate :</string>
+    <string name="search_event_name">Search Event Name</string>
     <string name="search_id">Search ID</string>
     <string name="search_table">Search Table</string>
+    <string name="service">Service</string>
     <string name="service_center_label">Service Center</string>
     <string name="service_date_label">Service Date</string>
     <string name="service_label">Service</string>
@@ -965,6 +982,7 @@
     <string name="status_bar_notification_info_overflow">999+</string>
     <string name="store_picture_message">"Allow Ad to store image in Picture gallery?"</string>
     <string name="store_picture_title">Save image</string>
+    <string name="summary">Summary</string>
     <string name="tagmanager_preview_dialog_button">Continue</string>
     <string name="tagmanager_preview_dialog_message">Preview mode updated.</string>
     <string name="tagmanager_preview_dialog_title">Preview</string>
@@ -1000,6 +1018,8 @@
     <string name="title_register_member">Member Registration</string>
     <string name="topo">Topographic</string>
     <string name="total_days">Total days</string>
+    <string name="training_amp_activity">Training &amp; Activity</string>
+    <string name="training_n_activity">Training N Activity</string>
     <string name="tv_AssignTitleLabel">Assign Beneficiary</string>
     <string name="tv_GraduationTitleLabel">Graduation</string>
     <string name="tv_criteria">Criteria</string>
@@ -2012,6 +2032,16 @@ Otherwise, initiate to sync and login again.</string>
         <item name="android:textSize">@dimen/font_large</item>
         <item name="android:textColor">@color/black</item>
     </style>
+    <style name="Home_icon_button">
+        <item name="android:layout_width">@dimen/icon_button_width</item>
+        <item name="android:layout_height">@dimen/icon_button_height</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:background">@drawable/button_style</item>
+        <item name="android:drawableTop">@drawable/home_b</item>
+        <item name="android:gravity">center</item>
+        <item name="android:paddingTop">11dp</item>
+    </style>
     <style name="Platform.AppCompat" parent="android:Theme">
         <item name="android:windowNoTitle">true</item>
 
@@ -2436,6 +2466,16 @@ Otherwise, initiate to sync and login again.</string>
         <item name="android:contentDescription">@string/mr_media_route_button_content_description</item>
         <item name="externalRouteEnabledDrawable">@drawable/mr_ic_media_route_mono_dark</item>
     </style>
+    <style name="backward_button">
+        <item name="android:layout_width">@dimen/icon_button_width</item>
+        <item name="android:layout_height">@dimen/icon_button_height</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:background">@drawable/button_style</item>
+        <item name="android:drawableTop">@drawable/goto_back</item>
+        <item name="android:gravity">center</item>
+        <item name="android:paddingTop">11dp</item>
+    </style>
     <style name="btn_logout" parent="Widget.AppCompat.Button">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
@@ -2508,6 +2548,17 @@ Otherwise, initiate to sync and login again.</string>
         <item name="android:textColorHint">@color/gray</item>
         <item name="android:layout_marginBottom">5dp</item>
         <item name="android:textSize">14dp</item>
+    </style>
+    <style name="forward_button">
+        <item name="android:layout_width">@dimen/icon_button_width</item>
+        <item name="android:layout_height">@dimen/icon_button_height</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:background">@drawable/button_style</item>
+        <item name="android:drawableTop">@drawable/goto_forward</item>
+        <item name="android:gravity">center</item>
+        <item name="android:paddingTop">11dp</item>
+        <item name="android:paddingBottom">11dp</item>
     </style>
     <style name="input_live_stoct_cnt_edt" parent="@android:style/Widget.EditText">
 

@@ -592,7 +592,7 @@ Otherwise, initiate to sync and login again.</string>
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
-    <string name="google_maps_key" translatable="false" templateMergeStrategy="preserve">
+    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">
         AIzaSyB6R6Saou2TpmqGKcuZwbnUvhJhlv6nSls
     </string>
     <string name="labe_op_mode">Operation Mode</string>
@@ -613,4 +613,22 @@ Otherwise, initiate to sync and login again.</string>
     <string name="dynamic_table">Dynamic Table</string>
     <string name="layr3_name">LayR3 Name</string>
     <string name="country">Country</string>
+    <string name="training_n_activity">Training N Activity</string>
+    <string name="dynamic_data">Dynamic Data</string>
+    <string name="summary">Summary</string>
+    <string name="gps">GPS</string>
+    <string name="distribution">Distribution</string>
+    <string name="service">Service</string>
+    <string name="card_request">Card Request</string>
+    <string name="graduation">Graduation</string>
+    <string name="assign">Assign</string>
+    <string name="registration">Registration</string>
+    <string name="training_amp_activity"><![CDATA[Training & Activity]]></string>
+    <string name="search_event_name">Search Event Name</string>
+    <string name="id_type">ID type</string>
+    <string name="beneficiary_card">Beneficiary Card</string>
+    <string name="national_id_card">National ID Card</string>
+    <string name="email_address">Email address</string>
+    <string name="cell_phone">Cell Phone</string>
+    <string name="licence">Licence</string>
 </resources>

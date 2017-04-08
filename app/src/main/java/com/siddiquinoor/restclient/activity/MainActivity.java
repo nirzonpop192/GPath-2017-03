@@ -92,13 +92,14 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     private static final String Y = "YES";
     private static final String N = "NO";
     // button declear here
-    private Button btnService, btnGPS, btnAssign, btnGraduation, btnCardRequest, btnDistribution, btnGroup;
+    private Button btnService, btnGPS, btnAssign, btnGraduation, btnCardRequest, btnDistribution, btnGroup, btnTrainActivity;
 
     private ProgressDialog progressDialog;
 
     private TextView tvGeoData, tvLastSync, tvSyncRequired, tvOperationMode, tvDeviceId;
     private Context mContext;
 
+    private int progressIncremental;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -126,7 +127,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         settings = getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
         boolean isFirstRun = settings.getBoolean(IS_APP_FIRST_RUN, false);
 
-        showOperationModelabel(settings);
+        showOperationModelLabel(settings);
         txtName.setText(getUserName());
         tvLastSync.setText(db.lastSyncStatus());
 
@@ -174,7 +175,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         loadCountry();
         setAllButtonDisabled();
         viewAccessController(settings);
-        //showOperationModelabel(settings);
+        //showOperationModelLabel(settings);
 /**
  * back up db
  */
@@ -250,8 +251,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             case UtilClass.REGISTRATION_OPERATION_MODE:
                 btnNewReg.setEnabled(true);
                 btnAssign.setEnabled(true);
-                //   btnService.setEnabled(true);
-//                btnCardRequest.setEnabled(true);
+
                 btnGraduation.setEnabled(true);
                 btnGroup.setEnabled(true);
 
@@ -271,6 +271,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 btnGPS.setEnabled(true);
                 btnSummaryRep.setEnabled(false);
                 break;
+
+            case UtilClass.TRANING_n_ACTIVITY_OPERATION_MODE:
+                btnTrainActivity.setEnabled(true);
+                btnSummaryRep.setEnabled(false);
+                break;
         }
     }
 
@@ -287,6 +292,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         btnAssign.setOnClickListener(this);
         btnGroup.setOnClickListener(this);
         btnDynamicData.setOnClickListener(this);
+        btnTrainActivity.setOnClickListener(this);
 
     }
 
@@ -305,6 +311,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         btnAssign.setEnabled(false);
         btnGroup.setEnabled(false);
         btnDynamicData.setEnabled(false);
+      btnTrainActivity.setEnabled(false);
 
     }
 
@@ -330,6 +337,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         btnDistribution = (Button) findViewById(R.id.btnDistribution);
         tvLastSync = (TextView) findViewById(R.id.tv_last_sync);
         btnGroup = (Button) findViewById(R.id.btnGroup);
+        btnTrainActivity = (Button) findViewById(R.id.btnTrainingActivity);
         btnDynamicData = (Button) findViewById(R.id.btnDynamicData);
         tvOperationMode = (TextView) findViewById(R.id.tv_operation_mode);
         tvGeoData = (TextView) findViewById(R.id.tv_geo_data_1);
@@ -357,6 +365,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             case R.id.btnGroup:
 
                 Intent iGroupSear = new Intent(getApplicationContext(), GroupSearchPage.class);
+                // // TODO: 4/4/2017  check intent  then remove the object parameter
                 iGroupSear.putExtra(KEY.COUNTRY_ID, idCountry);
                 iGroupSear.putExtra(KEY.STR_COUNTRY, strCountry);
                 startActivity(iGroupSear);
@@ -366,12 +375,14 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 Intent iReg;
                 if (idCountry.equals(LIBERIA_COUNTRY_CODE)) {
                     iReg = new Intent(getApplicationContext(), RegisterLiberia.class);
+                    // // TODO: 4/4/2017  check intent  then remove the object parameter
                     iReg.putExtra("country_code", idCountry);
                     iReg.putExtra("country_name", strCountry);
                     startActivity(iReg);
 
                 } else {
                     iReg = new Intent(getApplicationContext(), Register.class);
+                    // // TODO: 4/4/2017  check intent  then remove the object parameter
                     iReg.putExtra("country_code", idCountry);
                     iReg.putExtra("country_name", strCountry);
                     startActivity(iReg);
@@ -379,6 +390,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 break;
             case R.id.btnSummaryReport:
                 Intent iSumm = new Intent(getApplicationContext(), AllSummaryActivity.class);
+                // // TODO: 4/4/2017  check intent  then remove the object parameter
                 iSumm.putExtra(KEY.COUNTRY_ID, idCountry);
                 iSumm.putExtra(KEY.STR_COUNTRY, strCountry);
                 startActivity(iSumm);
@@ -410,6 +422,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             case R.id.btnCardRequest:
                 finish();
                 Intent iCardR = new Intent(getApplicationContext(), CardRequestActivity.class);
+                // // TODO: 4/4/2017  check intent  then remove the object parameter
                 iCardR.putExtra("ID_COUNTRY", idCountry);
                 iCardR.putExtra("STR_COUNTRY", strCountry);
                 startActivity(iCardR);
@@ -417,6 +430,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             case R.id.btnDistribution:
                 finish();
                 Intent iDist = new Intent(getApplicationContext(), DistributionActivity.class);
+                // // TODO: 4/4/2017  check intent  then remove the object parameter
                 iDist.putExtra(KEY.COUNTRY_ID, idCountry);
                 iDist.putExtra(KEY.STR_COUNTRY, strCountry);
                 iDist.putExtra(KEY.DIR_CLASS_NAME_KEY, "MainActivity");
@@ -426,6 +440,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             case R.id.btnService:
                 finish();
                 Intent iSer = new Intent(getApplicationContext(), ServiceActivity.class);
+                // // TODO: 4/4/2017  check intent  then remove the object parameter
                 iSer.putExtra(KEY.COUNTRY_ID, idCountry);
                 iSer.putExtra(KEY.STR_COUNTRY, strCountry);
                 iSer.putExtra(KEY.DIR_CLASS_NAME_KEY, "MainActivity");
@@ -435,6 +450,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 //   Intent iMap = new Intent(getApplicationContext(), MapActivity.class);
                 finish();
                 Intent iMap = new Intent(getApplicationContext(), GPSLocationSearchPage.class);
+                // // TODO: 4/4/2017  check intent  then remove the object parameter
                 iMap.putExtra(KEY.COUNTRY_ID, idCountry);
                 iMap.putExtra(KEY.STR_COUNTRY, strCountry);
                 iMap.putExtra(KEY.DIR_CLASS_NAME_KEY, "MainActivity");
@@ -448,6 +464,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                  */
 
                 Intent iMemSearchPage_1 = new Intent(getApplicationContext(), MemberSearchPage.class);
+                // // TODO: 4/4/2017  check intent  then remove the object parameter
                 iMemSearchPage_1.putExtra(KEY.COUNTRY_ID, idCountry);
                 iMemSearchPage_1.putExtra(KEY.DIR_CLASS_NAME_KEY, "MainActivity");
 
@@ -476,6 +493,14 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 iDynamicData.putExtra(KEY.COUNTRY_ID, idCountry);
 
                 startActivity(iDynamicData);
+                break;
+            case R.id.btnTrainingActivity:
+                finish();
+                // // TODO: 4/4/2017  create new activity
+                Intent iTrainingActivity = new Intent(getApplicationContext(), TrainingActivity.class);
+//                iTrainingActivity.putExtra(KEY.COUNTRY_ID, idCountry);
+
+                startActivity(iTrainingActivity);
                 break;
         }
 
@@ -702,7 +727,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
-            new Inject_EnuTableIntoSQLite().execute();
+            new Inject_TrainingActivityIntoSQLite().execute();
 
         }
 
@@ -780,6 +805,91 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 publishProgress(++progressIncremental);
                 if (!jObj.isNull("DTA_Skip_Table")) {
                     Parser.DTA_Skip_TableParser(jObj.getJSONArray("DTA_Skip_Table"), db);
+                }
+
+
+            } catch (Exception e) {
+                Log.e(TAG, "Exception : " + e);
+            }
+            return null;
+        }
+
+        @Override
+        protected void onProgressUpdate(Integer... values) {
+            super.onProgressUpdate(values);
+            progressDialog.setProgress(values[0]);
+        }
+    }
+
+    private class Inject_TrainingActivityIntoSQLite extends AsyncTask<Void, Integer, Void> {
+
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            new Inject_EnuTableIntoSQLite().execute();
+
+        }
+
+        @Override
+        protected Void doInBackground(Void... params) {
+
+
+            /**
+             * Read JSON DATA  from the text file
+             * */
+            String retrieveData = readDataFromFile(LoginActivity.TRAINING_N_ACTIVITY);
+
+            try {
+
+                /**                 * The total string Convert into JSON object                 * */
+
+                JSONObject jObj = new JSONObject(retrieveData);
+
+                publishProgress(++progressIncremental);
+
+                if (!jObj.isNull("T_A_master")) {
+                    Parser.TA_Master_Parser(jObj.getJSONArray("T_A_master"), db);
+                }
+
+                publishProgress(++progressIncremental);
+                if (!jObj.isNull("T_A_category")) {
+                    Parser.T_A_category_Parser(jObj.getJSONArray("T_A_category"), db);
+                }
+
+                publishProgress(++progressIncremental);
+                if (!jObj.isNull("T_A_eventTopic")) {
+                    Parser.T_A_eventTopic_Parser(jObj.getJSONArray("T_A_eventTopic"), db);
+                }
+
+                publishProgress(++progressIncremental);
+                if (!jObj.isNull("T_A_group")) {
+                    Parser.T_A_group_Parser(jObj.getJSONArray("T_A_group"), db);
+                }
+
+                publishProgress(++progressIncremental);
+                if (!jObj.isNull("T_A_partOrgN")) {
+                    Parser.T_A_partOrgN_Parser(jObj.getJSONArray("T_A_partOrgN"), db);
+                }
+
+                publishProgress(++progressIncremental);
+                if (!jObj.isNull("T_A_posParticipants")) {
+                    Parser.T_A_posParticipants_Parser(jObj.getJSONArray("T_A_posParticipants"), db);
+                }
+
+                publishProgress(++progressIncremental);
+                if (!jObj.isNull("T_A_subGroup")) {
+                    Parser.T_A_subGroup_Parser(jObj.getJSONArray("T_A_subGroup"), db);
+                }
+
+                publishProgress(++progressIncremental);
+                if (!jObj.isNull("T_A_topicChild")) {
+                    Parser.T_A_topicChild_Parser(jObj.getJSONArray("T_A_topicChild"), db);
+                }
+
+                publishProgress(++progressIncremental);
+                if (!jObj.isNull("T_A_topicMaster")) {
+                    Parser.T_A_topicMaster_Parser(jObj.getJSONArray("T_A_topicMaster"), db);
                 }
 
 
@@ -999,8 +1109,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         }
     }
 
-    private int progressIncremental;
-
 
     private class Inject_All_DataIntoSQLite extends AsyncTask<Void, Integer, Void> {
 
@@ -1138,12 +1246,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 //                        String AdmAwardCode = adm_op_month.getString(Parser.ADM_AWARD_CODE);
 //                        String OpCode = adm_op_month.getString(Parser.OP_CODE);
 //                        String OpMonthCode = adm_op_month.getString(Parser.OP_MONTH_CODE);
-//                        String MonthLabel = adm_op_month.getString(Parser.MONTH_LABEL);
-//                        String StartDate = adm_op_month.getString(Parser.START_DATE);
-//                        String EndDate = adm_op_month.getString(Parser.END_DATE);
+//                        String MonthLabel = adm_op_month.getString(Parser.MONTH_LABEL_COL);
+//                        String StartDate = adm_op_month.getString(Parser.START_DATE_COL);
+//                        String EndDate = adm_op_month.getString(Parser.END_DATE_COL);
 //
-//                        String UsaStartDate = adm_op_month.getString(Parser.USA_START_DATE);
-//                        String UsaEndDate = adm_op_month.getString(Parser.USA_END_DATE);
+//                        String UsaStartDate = adm_op_month.getString(Parser.USA_START_DATE_COL);
+//                        String UsaEndDate = adm_op_month.getString(Parser.USA_END_DATE_COL);
 //                        String Status = adm_op_month.getString("Status");
 //                        db.addOpMonthFromOnline(AdmCountryCode, AdmDonorCode, AdmAwardCode, OpCode, OpMonthCode, MonthLabel, StartDate, EndDate, UsaStartDate, UsaEndDate, Status);
 //
@@ -1211,12 +1319,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 publishProgress(++progressIncremental);
 
 
-
                 publishProgress(++progressIncremental);
                 if (!jObj.isNull(Parser.STAFF_ACCESS_INFO_JSON_A)) {
                     Parser.staff_access_infoParser(jObj.getJSONArray(Parser.STAFF_ACCESS_INFO_JSON_A), db);
                 }
-
 
 
                 if (!jObj.isNull(Parser.LB_REG_HH_CATEGORY_JSON_A)) {
@@ -2105,9 +2211,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     }
 
 
-    private void showOperationModelabel(SharedPreferences settings) {
+    private void showOperationModelLabel(SharedPreferences settings) {
         int operationMode = settings.getInt(UtilClass.OPERATION_MODE, 0);
-        // Log.d("NIR1", "operation mode : " + operationMode);
+
         switch (operationMode) {
             case UtilClass.REGISTRATION_OPERATION_MODE:
 
@@ -2115,6 +2221,19 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 List<String> list;
                 list = db.selectGeoDataVillage();
                 String villageName = "";
+                for (int i = 0; i < list.size(); i++) {
+                    villageName += list.get(i) + "\n";
+                }
+                tvGeoData.setText(villageName);
+
+                break;
+
+            case UtilClass.TRANING_n_ACTIVITY_OPERATION_MODE:
+
+                tvOperationMode.setText("TRAINING N ACTIVITY");
+
+                list = db.selectGeoDataVillage();
+                villageName = "";
                 for (int i = 0; i < list.size(); i++) {
                     villageName += list.get(i) + "\n";
                 }

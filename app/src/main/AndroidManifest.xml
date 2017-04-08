@@ -55,8 +55,8 @@
         <activity
             android:name=".activity.LoginActivity"
             android:label="@string/app_name"
-            android:screenOrientation="portrait"
-            android:launchMode="singleTop">
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -329,8 +329,12 @@
             android:name=".activity.sub_activity.dynamic_table.DTResponseRecordingActivity"
             android:label="@string/title_activity_dt__qustion"
             android:windowSoftInputMode="stateHidden|adjustResize" />
-        <activity android:name=".activity.sub_activity.dynamic_table.DT_ReportActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"></activity>
+        <activity
+            android:name=".activity.sub_activity.dynamic_table.DT_ReportActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity android:name=".activity.TrainingActivity" />
+        <activity android:name=".activity.sub_activity.training.IdTypeSelection" />
+        <activity android:name=".activity.sub_activity.training.TABeneficiaryCardListActivity"></activity>
     </application>
 
 </manifest>

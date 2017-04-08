@@ -24,22 +24,22 @@ public final class R {
 		public static final int zxing_viewfinder_mask = 0x7f0e008a;
 	}
 	public static final class dimen {
-		public static final int zxing_half_padding = 0x7f0a007e;
-		public static final int zxing_standard_padding = 0x7f0a007f;
+		public static final int zxing_half_padding = 0x7f0a0080;
+		public static final int zxing_standard_padding = 0x7f0a0081;
 	}
 	public static final class id {
 		public static final int zxing_back_button = 0x7f0f000e;
 		public static final int zxing_decode = 0x7f0f000f;
 		public static final int zxing_decode_failed = 0x7f0f0010;
 		public static final int zxing_decode_succeeded = 0x7f0f0011;
-		public static final int zxing_preview_view = 0x7f0f04a6;
+		public static final int zxing_preview_view = 0x7f0f04bc;
 		public static final int zxing_quit = 0x7f0f0012;
 		public static final int zxing_return_scan_result = 0x7f0f0013;
-		public static final int zxing_status_view = 0x7f0f04a8;
-		public static final int zxing_viewfinder_view = 0x7f0f04a7;
+		public static final int zxing_status_view = 0x7f0f04be;
+		public static final int zxing_viewfinder_view = 0x7f0f04bd;
 	}
 	public static final class layout {
-		public static final int zxing_capture = 0x7f040085;
+		public static final int zxing_capture = 0x7f040089;
 	}
 	public static final class raw {
 		public static final int zxing_beep = 0x7f070001;
@@ -63,9 +63,9 @@ public final class R {
 		public static final int zxing_msg_unmount_usb = 0x7f08004f;
 	}
 	public static final class style {
-		public static final int zxing_CaptureTheme = 0x7f0b0173;
-		public static final int zxing_ResultButton = 0x7f0b0174;
-		public static final int zxing_ShareButton = 0x7f0b0175;
+		public static final int zxing_CaptureTheme = 0x7f0b0176;
+		public static final int zxing_ResultButton = 0x7f0b0177;
+		public static final int zxing_ShareButton = 0x7f0b0178;
 	}
 	public static final class xml {
 		public static final int zxing_preferences = 0x7f060000;

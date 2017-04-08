@@ -288,10 +288,11 @@ public class SQLiteQuery {
 
     public static String getAssignListViewSelectQuery(String cCode, String dstCode, String upCode, String unCode, String vCode, String donorCode, String awardCode, String prgCode, String srvCode, String memberSearchId) {
         String getMemName;
-        /**
-         * 0004= Liberia's Country Code
-         */
+
+                                                                                                // 0004= Liberia's Country Code
+
         if (cCode.equals("0004")) {
+
             getMemName = SQLiteHandler.REGISTRATION_MEMBER_TABLE + "." + SQLiteHandler.MEM_NAME_FIRST_COL + " || ' ' || " +
                     SQLiteHandler.REGISTRATION_MEMBER_TABLE + "." + SQLiteHandler.MEM_NAME_MIDDLE_COL + " || ' ' || " +
                     SQLiteHandler.REGISTRATION_MEMBER_TABLE + "." + SQLiteHandler.MEM_NAME_LAST_COL;
@@ -301,27 +302,27 @@ public class SQLiteQuery {
 
         }
 
-        return "SELECT " + SQLiteHandler.REGISTRATION_MEMBER_TABLE + "." + HHID_COL
-                + ", " + SQLiteHandler.REGISTRATION_MEMBER_TABLE + "." + HH_MEM_ID
-                + ", " + SQLiteHandler.REGISTRATION_MEMBER_TABLE + "." + SQLiteHandler.DISTRICT_NAME_COL
-                + " || '' || " + SQLiteHandler.REGISTRATION_MEMBER_TABLE + "." + SQLiteHandler.UPZILLA_NAME_COL
-                + " || '' || " + SQLiteHandler.REGISTRATION_MEMBER_TABLE + "." + UNITE_NAME_COL
-                + " || '' || " + SQLiteHandler.REGISTRATION_MEMBER_TABLE + "." + SQLiteHandler.VILLAGE_NAME_COL
-                + " || '' || " + SQLiteHandler.REGISTRATION_MEMBER_TABLE + "." + HHID_COL
-                + " || '' || " + SQLiteHandler.REGISTRATION_MEMBER_TABLE + "." + HH_MEM_ID + " AS newId "
+        return "SELECT " + REGISTRATION_MEMBER_TABLE + "." + HHID_COL
+                + ", " + REGISTRATION_MEMBER_TABLE + "." + HH_MEM_ID
+                + ", " + REGISTRATION_MEMBER_TABLE + "." + DISTRICT_NAME_COL
+                + " || '' || " + REGISTRATION_MEMBER_TABLE + "." + UPZILLA_NAME_COL
+                + " || '' || " + REGISTRATION_MEMBER_TABLE + "." + UNITE_NAME_COL
+                + " || '' || " + REGISTRATION_MEMBER_TABLE + "." + VILLAGE_NAME_COL
+                + " || '' || " + REGISTRATION_MEMBER_TABLE + "." + HHID_COL
+                + " || '' || " + REGISTRATION_MEMBER_TABLE + "." + HH_MEM_ID + " AS newId "
 
                 + ", " + getMemName + " As memName "
-                + ", " + SQLiteHandler.REGISTRATION_MEMBER_TABLE + "." + SQLiteHandler.MEM_AGE
-                + ", " + SQLiteHandler.REGISTRATION_MEMBER_TABLE + "." + SQLiteHandler.SEX_COL
-                + ", " + SQLiteHandler.RELATION_TABLE + "." + SQLiteHandler.RELATION_NAME + " AS HHRelation, " +
-                " CASE WHEN LENGTH ( " + SQLiteHandler.REG_N_ASSIGN_PROG_SRV_TABLE + "." + HH_MEM_ID + ") > 0 " +
+                + ", " + REGISTRATION_MEMBER_TABLE + "." + MEM_AGE
+                + ", " + REGISTRATION_MEMBER_TABLE + "." + SEX_COL
+                + ", " + RELATION_TABLE + "." + RELATION_NAME + " AS HHRelation, " +
+                " CASE WHEN LENGTH ( " + REG_N_ASSIGN_PROG_SRV_TABLE + "." + HH_MEM_ID + ") > 0 " +
                 " THEN 'Y' ELSE 'N' END  AS Assign "
-                + ", " + SQLiteHandler.REGISTRATION_MEMBER_TABLE + "." + COUNTRY_CODE_COL
-                + ", " + SQLiteHandler.REGISTRATION_MEMBER_TABLE + "." + SQLiteHandler.DISTRICT_NAME_COL
-                + ", " + SQLiteHandler.REGISTRATION_MEMBER_TABLE + "." + SQLiteHandler.UPZILLA_NAME_COL
-                + ", " + SQLiteHandler.REGISTRATION_MEMBER_TABLE + "." + UNITE_NAME_COL
-                + ", " + SQLiteHandler.REGISTRATION_MEMBER_TABLE + "." + SQLiteHandler.VILLAGE_NAME_COL
-                + ", " + REGISTRATION_TABLE + "." + SQLiteHandler.PNAME_COL
+                + ", " + REGISTRATION_MEMBER_TABLE + "." + COUNTRY_CODE_COL
+                + ", " + REGISTRATION_MEMBER_TABLE + "." + DISTRICT_NAME_COL
+                + ", " + REGISTRATION_MEMBER_TABLE + "." + UPZILLA_NAME_COL
+                + ", " + REGISTRATION_MEMBER_TABLE + "." + UNITE_NAME_COL
+                + ", " + REGISTRATION_MEMBER_TABLE + "." + VILLAGE_NAME_COL
+                + ", " + REGISTRATION_TABLE + "." + PNAME_COL
                 + ", " +
 
                 SQLiteHandler.SERVICE_MASTER_TABLE + "." + SQLiteHandler.SERVICE_NAME_COL + "  AS AssignCriteria " +
@@ -333,47 +334,47 @@ public class SQLiteQuery {
                 "FROM " + REGISTRATION_TABLE +
                 " JOIN " + SQLiteHandler.REGISTRATION_MEMBER_TABLE +
                 " ON " + REGISTRATION_TABLE + "." + COUNTRY_CODE_COL + " = " + SQLiteHandler.REGISTRATION_MEMBER_TABLE + "." + COUNTRY_CODE_COL +
-                " AND " + REGISTRATION_TABLE + "." + SQLiteHandler.DISTRICT_NAME_COL + " = " + SQLiteHandler.REGISTRATION_MEMBER_TABLE + "." + SQLiteHandler.DISTRICT_NAME_COL +
-                " AND " + REGISTRATION_TABLE + "." + SQLiteHandler.UPZILLA_NAME_COL + " = " + SQLiteHandler.REGISTRATION_MEMBER_TABLE + "." + SQLiteHandler.UPZILLA_NAME_COL +
-                " AND " + REGISTRATION_TABLE + "." + UNITE_NAME_COL + " = " + SQLiteHandler.REGISTRATION_MEMBER_TABLE + "." + UNITE_NAME_COL +
-                " AND " + REGISTRATION_TABLE + "." + SQLiteHandler.VILLAGE_NAME_COL + " = " + SQLiteHandler.REGISTRATION_MEMBER_TABLE + "." + SQLiteHandler.VILLAGE_NAME_COL +
-                " AND " + REGISTRATION_TABLE + "." + SQLiteHandler.PID_COL + " = " + SQLiteHandler.REGISTRATION_MEMBER_TABLE + "." + HHID_COL + " " +
-                " LEFT JOIN " + SQLiteHandler.RELATION_TABLE + " ON " + SQLiteHandler.RELATION_TABLE + "." + SQLiteHandler.RELATION_CODE + " = " + SQLiteHandler.REGISTRATION_MEMBER_TABLE + "." + SQLiteHandler.RELATION_COL +
-                " JOIN " + SQLiteHandler.SERVICE_MASTER_TABLE + " ON " + SQLiteHandler.SERVICE_MASTER_TABLE + "." + PROGRAM_CODE_COL + " = '" + prgCode + "' " +
-                " AND " + SQLiteHandler.SERVICE_MASTER_TABLE + "." + SERVICE_CODE_COL + " = '" + srvCode + "' " +
-                " LEFT JOIN " + SQLiteHandler.REG_N_ASSIGN_PROG_SRV_TABLE + " ON " +
-                SQLiteHandler.REG_N_ASSIGN_PROG_SRV_TABLE + "." + COUNTRY_CODE_COL + " = " + REGISTRATION_TABLE + "." + COUNTRY_CODE_COL +
-                " AND " + SQLiteHandler.REG_N_ASSIGN_PROG_SRV_TABLE + "." + LAY_R1_LIST_CODE_COL + " = " + REGISTRATION_TABLE + "." + SQLiteHandler.DISTRICT_NAME_COL +
-                " AND " + SQLiteHandler.REG_N_ASSIGN_PROG_SRV_TABLE + "." + LAY_R2_LIST_CODE_COL + " = " + REGISTRATION_TABLE + "." + SQLiteHandler.UPZILLA_NAME_COL +
-                " AND " + SQLiteHandler.REG_N_ASSIGN_PROG_SRV_TABLE + "." + LAY_R3_LIST_CODE_COL + " = " + REGISTRATION_TABLE + "." + UNITE_NAME_COL +
-                " AND " + SQLiteHandler.REG_N_ASSIGN_PROG_SRV_TABLE + "." + LAY_R4_LIST_CODE_COL + " = " + REGISTRATION_TABLE + "." + SQLiteHandler.VILLAGE_NAME_COL +
+                " AND " + REGISTRATION_TABLE + "." + DISTRICT_NAME_COL + " = " + SQLiteHandler.REGISTRATION_MEMBER_TABLE + "." + SQLiteHandler.DISTRICT_NAME_COL +
+                " AND " + REGISTRATION_TABLE + "." + UPZILLA_NAME_COL + " = " + SQLiteHandler.REGISTRATION_MEMBER_TABLE + "." + SQLiteHandler.UPZILLA_NAME_COL +
+                " AND " + REGISTRATION_TABLE + "." + UNITE_NAME_COL + " = " + REGISTRATION_MEMBER_TABLE + "." + UNITE_NAME_COL +
+                " AND " + REGISTRATION_TABLE + "." + VILLAGE_NAME_COL + " = " + REGISTRATION_MEMBER_TABLE + "." + SQLiteHandler.VILLAGE_NAME_COL +
+                " AND " + REGISTRATION_TABLE + "." + PID_COL + " = " + REGISTRATION_MEMBER_TABLE + "." + HHID_COL + " " +
+                " LEFT JOIN " + RELATION_TABLE + " ON " + RELATION_TABLE + "." + RELATION_CODE + " = " + SQLiteHandler.REGISTRATION_MEMBER_TABLE + "." + SQLiteHandler.RELATION_COL +
+                " JOIN " + SERVICE_MASTER_TABLE + " ON " + SERVICE_MASTER_TABLE + "." + PROGRAM_CODE_COL + " = '" + prgCode + "' " +
+                " AND " + SERVICE_MASTER_TABLE + "." + SERVICE_CODE_COL + " = '" + srvCode + "' " +
+                " LEFT JOIN " + REG_N_ASSIGN_PROG_SRV_TABLE + " ON " +
+                REG_N_ASSIGN_PROG_SRV_TABLE + "." + COUNTRY_CODE_COL + " = " + REGISTRATION_TABLE + "." + COUNTRY_CODE_COL +
+                " AND " + REG_N_ASSIGN_PROG_SRV_TABLE + "." + LAY_R1_LIST_CODE_COL + " = " + REGISTRATION_TABLE + "." + SQLiteHandler.DISTRICT_NAME_COL +
+                " AND " + REG_N_ASSIGN_PROG_SRV_TABLE + "." + LAY_R2_LIST_CODE_COL + " = " + REGISTRATION_TABLE + "." + SQLiteHandler.UPZILLA_NAME_COL +
+                " AND " + REG_N_ASSIGN_PROG_SRV_TABLE + "." + LAY_R3_LIST_CODE_COL + " = " + REGISTRATION_TABLE + "." + UNITE_NAME_COL +
+                " AND " + REG_N_ASSIGN_PROG_SRV_TABLE + "." + LAY_R4_LIST_CODE_COL + " = " + REGISTRATION_TABLE + "." + SQLiteHandler.VILLAGE_NAME_COL +
 
-                " AND " + SQLiteHandler.REG_N_ASSIGN_PROG_SRV_TABLE + "." + HHID_COL + " = " + SQLiteHandler.REGISTRATION_MEMBER_TABLE + "." + HHID_COL +
-                " AND " + SQLiteHandler.REG_N_ASSIGN_PROG_SRV_TABLE + "." + HH_MEM_ID + " = " + SQLiteHandler.REGISTRATION_MEMBER_TABLE + "." + HH_MEM_ID +
+                " AND " +REG_N_ASSIGN_PROG_SRV_TABLE + "." + HHID_COL + " = " + SQLiteHandler.REGISTRATION_MEMBER_TABLE + "." + HHID_COL +
+                " AND " +REG_N_ASSIGN_PROG_SRV_TABLE + "." + HH_MEM_ID + " = " + SQLiteHandler.REGISTRATION_MEMBER_TABLE + "." + HH_MEM_ID +
 
-                " AND " + SQLiteHandler.REG_N_ASSIGN_PROG_SRV_TABLE + "." + DONOR_CODE_COL + " = '" + donorCode + "' " +
-                " AND " + SQLiteHandler.REG_N_ASSIGN_PROG_SRV_TABLE + "." + AWARD_CODE_COL + " = '" + awardCode + "' " +
-                " AND " + SQLiteHandler.REG_N_ASSIGN_PROG_SRV_TABLE + "." + PROGRAM_CODE_COL + " = '" + prgCode + "' " +
-                " AND " + SQLiteHandler.REG_N_ASSIGN_PROG_SRV_TABLE + "." + SERVICE_CODE_COL + " = '" + srvCode + "' " +
+                " AND " + REG_N_ASSIGN_PROG_SRV_TABLE + "." + DONOR_CODE_COL + " = '" + donorCode + "' " +
+                " AND " + REG_N_ASSIGN_PROG_SRV_TABLE + "." + AWARD_CODE_COL + " = '" + awardCode + "' " +
+                " AND " + REG_N_ASSIGN_PROG_SRV_TABLE + "." + PROGRAM_CODE_COL + " = '" + prgCode + "' " +
+                " AND " + REG_N_ASSIGN_PROG_SRV_TABLE + "." + SERVICE_CODE_COL + " = '" + srvCode + "' " +
 
 
-                " WHERE " + SQLiteHandler.REGISTRATION_MEMBER_TABLE + "." + COUNTRY_CODE_COL + " =  '" + cCode + "'" +
-                " AND " + SQLiteHandler.REGISTRATION_MEMBER_TABLE + "." + SQLiteHandler.DISTRICT_NAME_COL + " =  '" + dstCode + "'" +
-                " AND " + SQLiteHandler.REGISTRATION_MEMBER_TABLE + "." + SQLiteHandler.UPZILLA_NAME_COL + " =  '" + upCode + "' "
-                + " AND " + SQLiteHandler.REGISTRATION_MEMBER_TABLE + "." + UNITE_NAME_COL + " =  '" + unCode + "' "
-                + " AND " + SQLiteHandler.REGISTRATION_MEMBER_TABLE + "." + SQLiteHandler.VILLAGE_NAME_COL + " =  '" + vCode + "' "
+                " WHERE " + REGISTRATION_MEMBER_TABLE + "." + COUNTRY_CODE_COL + " =  '" + cCode + "'" +
+                " AND " + REGISTRATION_MEMBER_TABLE + "." + DISTRICT_NAME_COL + " =  '" + dstCode + "'" +
+                " AND " + REGISTRATION_MEMBER_TABLE + "." + UPZILLA_NAME_COL + " =  '" + upCode + "' "
+                + " AND " + REGISTRATION_MEMBER_TABLE + "." + UNITE_NAME_COL + " =  '" + unCode + "' "
+                + " AND " + REGISTRATION_MEMBER_TABLE + "." + VILLAGE_NAME_COL + " =  '" + vCode + "' "
                 + " AND " +
                 /** very good thinking
                  * User can search by House hold & member Id also*/
-                SQLiteHandler.REGISTRATION_MEMBER_TABLE + "." + COUNTRY_CODE_COL + " || \"\" || "
-                + SQLiteHandler.REGISTRATION_MEMBER_TABLE + "." + SQLiteHandler.DISTRICT_NAME_COL + " || \"\" || "
-                + SQLiteHandler.REGISTRATION_MEMBER_TABLE + "." + SQLiteHandler.UPZILLA_NAME_COL + " || \"\" || "
-                + SQLiteHandler.REGISTRATION_MEMBER_TABLE + "." + UNITE_NAME_COL + " || \"\" || "
-                + SQLiteHandler.REGISTRATION_MEMBER_TABLE + "." + SQLiteHandler.VILLAGE_NAME_COL + " || \"\" || "
-                + SQLiteHandler.REGISTRATION_MEMBER_TABLE + "." + HHID_COL + " || \"\" || "
-                + SQLiteHandler.REGISTRATION_MEMBER_TABLE + "." + HH_MEM_ID + " LIKE '%" + memberSearchId + "%' " +
+                REGISTRATION_MEMBER_TABLE + "." + COUNTRY_CODE_COL + " || \"\" || "
+                + REGISTRATION_MEMBER_TABLE + "." + DISTRICT_NAME_COL + " || \"\" || "
+                + REGISTRATION_MEMBER_TABLE + "." + UPZILLA_NAME_COL + " || \"\" || "
+                + REGISTRATION_MEMBER_TABLE + "." + UNITE_NAME_COL + " || \"\" || "
+                + REGISTRATION_MEMBER_TABLE + "." + VILLAGE_NAME_COL + " || \"\" || "
+                + REGISTRATION_MEMBER_TABLE + "." + HHID_COL + " || \"\" || "
+                + REGISTRATION_MEMBER_TABLE + "." + HH_MEM_ID + " LIKE '%" + memberSearchId + "%' " +
                 // +" GROUP BY " + REGISTRATION_MEMBER_TABLE + "." + HHID_COL;/*+
-                " ORDER BY " + SQLiteHandler.REGISTRATION_MEMBER_TABLE + "." + HHID_COL
+                " ORDER BY " + REGISTRATION_MEMBER_TABLE + "." + HHID_COL
                 + " DESC ";
 
 
@@ -896,7 +897,7 @@ public class SQLiteQuery {
     }
 
     private static String dbo_Get_OpMonthEndDate(String cCode, String donorCode, String awardCode, String opCode, String opMonthCode) {
-        return " Select date(substr(" + USA_END_DATE + ",7,4)||'-'|| substr(" + USA_END_DATE + ",1,2)||'-'|| substr(" + USA_END_DATE + ",4,2))" +
+        return " Select date(substr(" + USA_END_DATE_COL + ",7,4)||'-'|| substr(" + USA_END_DATE_COL + ",1,2)||'-'|| substr(" + USA_END_DATE_COL + ",4,2))" +
                 "from " + OP_MONTH_TABLE + " where "
                 + COUNTRY_CODE_COL + "= '" + cCode + "' " +
                 " AND " + DONOR_CODE_COL + "= '" + donorCode + "'" +
@@ -907,7 +908,7 @@ public class SQLiteQuery {
 
 
     private static String dbo_Get_OpMonthStartDate(String cCode, String donorCode, String awardCode, String opCode, String opMonthCode) {
-        return " Select date(substr(" + USA_START_DATE + ",7,4)||'-'|| substr(" + USA_START_DATE + ",1,2)||'-'|| substr(" + USA_START_DATE + ",4,2))" +
+        return " Select date(substr(" + USA_START_DATE_COL + ",7,4)||'-'|| substr(" + USA_START_DATE_COL + ",1,2)||'-'|| substr(" + USA_START_DATE_COL + ",4,2))" +
                 "from " + OP_MONTH_TABLE + " where "
                 + COUNTRY_CODE_COL + "= '" + cCode + "' " +
                 " AND " + DONOR_CODE_COL + "= '" + donorCode + "'" +
@@ -2131,7 +2132,7 @@ public class SQLiteQuery {
     }
 
     public static String get_RegNAssProgSrvRegistrationDateRangeSelectQuery(String cCode) {
-        return "SELECT " + SQLiteHandler.USA_START_DATE + " , " + SQLiteHandler.USA_END_DATE + " FROM " + SQLiteHandler.OP_MONTH_TABLE +
+        return "SELECT " + SQLiteHandler.USA_START_DATE_COL + " , " + SQLiteHandler.USA_END_DATE_COL + " FROM " + SQLiteHandler.OP_MONTH_TABLE +
                 " WHERE " + COUNTRY_CODE_COL + " = '" + cCode + "' " +
                 " AND " + SQLiteHandler.OPERATION_CODE_COL + " = '" + SQLiteHandler.REGISTRATION_OP_CODE + "' " +
                 " AND " + STATUS + " = '" + SQLiteHandler.ACTIVE + "' ";
@@ -3091,9 +3092,9 @@ public class SQLiteQuery {
     public static String getServiceDateRange_selectQuery(String cCode, String srvOpMonthCode) {
         return "SELECT  " + SQLiteHandler.OPERATION_CODE_COL
                 + " , " + OP_MONTH_CODE_COL
-                + " , " + SQLiteHandler.USA_START_DATE
-                + " , " + SQLiteHandler.USA_END_DATE
-                + " , " + SQLiteHandler.MONTH_LABEL
+                + " , " + SQLiteHandler.USA_START_DATE_COL
+                + " , " + SQLiteHandler.USA_END_DATE_COL
+                + " , " + SQLiteHandler.MONTH_LABEL_COL
                 + " FROM " + SQLiteHandler.OP_MONTH_TABLE
                 + " WHERE " + COUNTRY_CODE_COL + " = '" + cCode + "' "
                 + " AND " + STATUS + "= 'A'"
@@ -3813,7 +3814,7 @@ public class SQLiteQuery {
 
             case GEO_LAYER_ADDRESS:
 
-                udf = "SELECT " +LAY_R1_LIST_CODE_COL + " || '' || " + LAY_R2_LIST_CODE_COL + " || '' || " + LAY_R3_LIST_CODE_COL + " || '' || " + LAY_R4_LIST_CODE_COL+" || '' || "+ REGN_ADDRESS_LOOKUP_CODE_COL
+                udf = "SELECT " + LAY_R1_LIST_CODE_COL + " || '' || " + LAY_R2_LIST_CODE_COL + " || '' || " + LAY_R3_LIST_CODE_COL + " || '' || " + LAY_R4_LIST_CODE_COL + " || '' || " + REGN_ADDRESS_LOOKUP_CODE_COL
                         + ", " + REGN_ADDRESS_LOOKUP_NAME_COL
                         + " FROM " + LUP_REGN_ADDRESS_LOOKUP_TABLE
                         + " WHERE " + COUNTRY_CODE_COL + "='" + cCode + "'";
@@ -3856,9 +3857,9 @@ public class SQLiteQuery {
 
 
             case COMMUNITY_GROUP:
-                udf = loadCommunityGroup(" INNER JOIN "+STAFF_SRV_CENTER_ACCESS_TABLE+" AS srvAcc "
-                                + " ON commGrp."+SERVICE_CENTER_CODE_COL+" =  srvAcc."+SERVICE_CENTER_CODE_COL
-                        +" WHERE " + "commGrp." + COUNTRY_CODE_COL + "='" + cCode + "'");
+                udf = loadCommunityGroup(" INNER JOIN " + STAFF_SRV_CENTER_ACCESS_TABLE + " AS srvAcc "
+                        + " ON commGrp." + SERVICE_CENTER_CODE_COL + " =  srvAcc." + SERVICE_CENTER_CODE_COL
+                        + " WHERE " + "commGrp." + COUNTRY_CODE_COL + "='" + cCode + "'");
 
                 break;
 
@@ -3866,46 +3867,46 @@ public class SQLiteQuery {
             case COMMUNITY_GROUP_PG:
 
 
-                udf = loadCommunityGroup(" INNER JOIN "+STAFF_SRV_CENTER_ACCESS_TABLE+" AS srvAcc "
-                        + " ON commGrp."+SERVICE_CENTER_CODE_COL+" =  srvAcc."+SERVICE_CENTER_CODE_COL
-                        +" WHERE " + "commGrp." + COUNTRY_CODE_COL + "='" + cCode + "'"
+                udf = loadCommunityGroup(" INNER JOIN " + STAFF_SRV_CENTER_ACCESS_TABLE + " AS srvAcc "
+                        + " ON commGrp." + SERVICE_CENTER_CODE_COL + " =  srvAcc." + SERVICE_CENTER_CODE_COL
+                        + " WHERE " + "commGrp." + COUNTRY_CODE_COL + "='" + cCode + "'"
                         + " AND  " + "commGrp." + GROUP_CAT_CODE_COL + "= '001' " // Producer group= 001
                         + " AND  " + "commGrp." + PROGRAM_CODE_COL + "= '003' " // agr= 001
                 );
                 break;
             case COMMUNITY_GROUP_IG:
                 udf = loadCommunityGroup(
-                        " INNER JOIN "+STAFF_SRV_CENTER_ACCESS_TABLE+" AS srvAcc "
-                                + " ON commGrp."+SERVICE_CENTER_CODE_COL+" =  srvAcc."+SERVICE_CENTER_CODE_COL
-                        +" WHERE " + "commGrp." + COUNTRY_CODE_COL + "='" + cCode + "'"
-                        + " AND  " + "commGrp." + GROUP_CAT_CODE_COL + "= '003' " // Irrigation Group= 003
-                        + " AND  " + "commGrp." + PROGRAM_CODE_COL + "= '003' " // agr= 001
+                        " INNER JOIN " + STAFF_SRV_CENTER_ACCESS_TABLE + " AS srvAcc "
+                                + " ON commGrp." + SERVICE_CENTER_CODE_COL + " =  srvAcc." + SERVICE_CENTER_CODE_COL
+                                + " WHERE " + "commGrp." + COUNTRY_CODE_COL + "='" + cCode + "'"
+                                + " AND  " + "commGrp." + GROUP_CAT_CODE_COL + "= '003' " // Irrigation Group= 003
+                                + " AND  " + "commGrp." + PROGRAM_CODE_COL + "= '003' " // agr= 001
                 );
                 break;
 
             case COMMUNITY_GROUP_MG:
                 udf = loadCommunityGroup(
-                        " INNER JOIN "+STAFF_SRV_CENTER_ACCESS_TABLE+" AS srvAcc "
-                                + " ON commGrp."+SERVICE_CENTER_CODE_COL+" =  srvAcc."+SERVICE_CENTER_CODE_COL
-                       +" WHERE " + "commGrp." + COUNTRY_CODE_COL + "='" + cCode + "'"
-                        + " AND  " + "commGrp." + GROUP_CAT_CODE_COL + "= '002' " // Marketing Group= 002
-                        + " AND  " + "commGrp." + PROGRAM_CODE_COL + "= '003' " // agr= 001
+                        " INNER JOIN " + STAFF_SRV_CENTER_ACCESS_TABLE + " AS srvAcc "
+                                + " ON commGrp." + SERVICE_CENTER_CODE_COL + " =  srvAcc." + SERVICE_CENTER_CODE_COL
+                                + " WHERE " + "commGrp." + COUNTRY_CODE_COL + "='" + cCode + "'"
+                                + " AND  " + "commGrp." + GROUP_CAT_CODE_COL + "= '002' " // Marketing Group= 002
+                                + " AND  " + "commGrp." + PROGRAM_CODE_COL + "= '003' " // agr= 001
                 );
                 break;
 
             case COMMUNITY_GROUP_WE:
-                udf = loadCommunityGroup(" INNER JOIN "+STAFF_SRV_CENTER_ACCESS_TABLE+" AS srvAcc "
-                        + " ON commGrp."+SERVICE_CENTER_CODE_COL+" =  srvAcc."+SERVICE_CENTER_CODE_COL
-                        +" WHERE " + "commGrp." + COUNTRY_CODE_COL + "='" + cCode + "'"
+                udf = loadCommunityGroup(" INNER JOIN " + STAFF_SRV_CENTER_ACCESS_TABLE + " AS srvAcc "
+                        + " ON commGrp." + SERVICE_CENTER_CODE_COL + " =  srvAcc." + SERVICE_CENTER_CODE_COL
+                        + " WHERE " + "commGrp." + COUNTRY_CODE_COL + "='" + cCode + "'"
                         + " AND  " + "commGrp." + GROUP_CAT_CODE_COL + "= '004' " // WeVSL= 004
                         + " AND  " + "commGrp." + PROGRAM_CODE_COL + "= '003' " // agr= 001
                 );
                 break;
 
             case COMMUNITY_GROUP_LG:
-                udf = loadCommunityGroup(" INNER JOIN "+STAFF_SRV_CENTER_ACCESS_TABLE+" AS srvAcc "
-                        + " ON commGrp."+SERVICE_CENTER_CODE_COL+" =  srvAcc."+SERVICE_CENTER_CODE_COL
-                        +" WHERE " + "commGrp." + COUNTRY_CODE_COL + "='" + cCode + "'"
+                udf = loadCommunityGroup(" INNER JOIN " + STAFF_SRV_CENTER_ACCESS_TABLE + " AS srvAcc "
+                        + " ON commGrp." + SERVICE_CENTER_CODE_COL + " =  srvAcc." + SERVICE_CENTER_CODE_COL
+                        + " WHERE " + "commGrp." + COUNTRY_CODE_COL + "='" + cCode + "'"
                         + " AND  " + "commGrp." + GROUP_CAT_CODE_COL + "= '005' " // Livestock Group= 005
                         + " AND  " + "commGrp." + PROGRAM_CODE_COL + "= '003' " // agr= 001
                 );
@@ -3985,7 +3986,7 @@ public class SQLiteQuery {
             criteria = " AND " + OP_MONTH_CODE_COL + " = '" + opMonthCode + "' ";
 
         return "SELECT " + OP_MONTH_CODE_COL + " AS OpMonthID, "
-                + MONTH_LABEL + " FROM " + OP_MONTH_TABLE
+                + MONTH_LABEL_COL + " FROM " + OP_MONTH_TABLE
                 + " WHERE " +
                 COUNTRY_CODE_COL + " = '" + cCode + "'"
                 + " AND " + STATUS + " = '" + "A" + "' "
@@ -4309,5 +4310,137 @@ public class SQLiteQuery {
                 " AND dtSrv." + DT_BASIC_COL + " = '" + dtBasic + "' ";
     }
 
+    // TODO: 10/17/2016  use theSQLite Column  Constant
+    public static String getMemberData_sql(String str_c_code, String str_district, String str_upazilla, String str_union, String str_village, String hhID) {
+        return "SELECT DISTINCT rm.*, r.PersonName, r." + ID_COL + " AS PID, rel." + RELATION_NAME + " FROM "
+                + REGISTRATION_MEMBER_TABLE + " AS rm " +
+                " LEFT JOIN " + REGISTRATION_TABLE + " AS r " +
+                " ON r.CountryCode=rm.CountryCode " +
+                " AND r.DistrictName=rm.DistrictName " +
+                " AND r.UpazillaName=rm.UpazillaName " +
+                " AND r.UnitName=rm.UnitName " +
+                " AND r.VillageName=rm.VillageName " +
+                " AND r.RegistrationID=rm.RegisterID " +
+                " LEFT JOIN " + RELATION_TABLE + " AS rel " +
+                " ON rm." + RELATION_COL + "=rel." + RELATION_CODE +
+                " WHERE rm." + COUNTRY_CODE + "='" + str_c_code + "' " +
+                " AND rm." + DISTRICT_NAME_COL + "='" + str_district + "' " +
+                " AND rm." + UPZILLA_NAME_COL + "='" + str_upazilla + "' " +
+                " AND rm." + UNITE_NAME_COL + "='" + str_union + "' " +
+                " AND rm." + VILLAGE_NAME_COL + "='" + str_village + "' " +
+                " AND rm." + HHID_COL + "='" + hhID + "' " +
+                " ORDER BY rm." + ID_COL + " DESC";
+    }
 
+    public static String getDTA_Table_sql(String dtBasic, String dtQCode) {
+        return "SELECT * FROM " + DT_A_TABLE +
+                " WHERE " + DT_BASIC_COL + "= '" + dtBasic + "'" +
+                " AND " + DTQ_CODE_COL + "= '" + dtQCode + "'";
+    }
+
+    public static String getTrainingActivityIndexList(final String cCode, final String eventTitleSearch){
+        return  " SELECT " + COUNTRY_CODE_COL
+                + " , " + EVENT_CODE_COL
+                + " , " + EVENT_NAME_COL
+                + " , " + DONOR_CODE_COL
+                + " , " + AWARD_CODE_COL
+                + " , " + TA_GROUP_COL
+                + " , " + TA_SUB_GROUP_COL
+                + " , " + ORG_CODE_COL
+                + " , " + START_DATE_COL
+                + " , " + END_DATE_COL
+                + " , " + VENUE_NAME_COL
+                + " , " + VENUE_ADDRESS_COL
+                + " , " + ACTIVE_COL
+                + " , " + TOTAL_DAYS_COL
+                + " , " + HOURS_PER_DAY_COL
+                +" FROM "+ TA_MASTER_TABLE
+                + " WHERE "+COUNTRY_CODE_COL+" = '"+cCode+"'"
+                +" AND "+ACTIVE_COL+" = 'Y' "
+                +" AND "+EVENT_NAME_COL+" LIKE '%"+eventTitleSearch+"%' ";
+    }
+
+    public static String getEligibleTrainingAcitMemList_sql(String cCode, String memberSearchId) {
+        String getMemName;
+
+        // 0004= Liberia's Country Code
+
+        if (cCode.equals("0004")) {
+
+            getMemName = REGISTRATION_MEMBER_TABLE + "." + MEM_NAME_FIRST_COL + " || ' ' || " +
+                    REGISTRATION_MEMBER_TABLE + "." + MEM_NAME_MIDDLE_COL + " || ' ' || " +
+                    REGISTRATION_MEMBER_TABLE + "." + MEM_NAME_LAST_COL;
+
+        } else {
+            getMemName = REGISTRATION_MEMBER_TABLE + "." + MEM_NAME_COL;
+
+        }
+
+        return "SELECT " + REGISTRATION_MEMBER_TABLE + "." + HHID_COL
+                + " , " + REGISTRATION_MEMBER_TABLE + "." + HH_MEM_ID
+                + " , " + REGISTRATION_MEMBER_TABLE + "." + DISTRICT_NAME_COL
+                + " || '' || " + REGISTRATION_MEMBER_TABLE + "." + UPZILLA_NAME_COL
+                + " || '' || " + REGISTRATION_MEMBER_TABLE + "." + UNITE_NAME_COL
+                + " || '' || " + REGISTRATION_MEMBER_TABLE + "." + VILLAGE_NAME_COL
+                + " || '' || " + REGISTRATION_MEMBER_TABLE + "." + HHID_COL
+                + " || '' || " + REGISTRATION_MEMBER_TABLE + "." + HH_MEM_ID + " AS newId "
+
+                + " , " + getMemName + " As memName "
+                + " , " + REGISTRATION_MEMBER_TABLE + "." + MEM_AGE
+                + " , " + REGISTRATION_MEMBER_TABLE + "." + SEX_COL+
+
+                " , CASE WHEN LENGTH ( " +   " regAss." + HH_MEM_ID + ") > 0 " +
+                " THEN 'Y' ELSE 'N' END  AS Assign "
+                + " , " + REGISTRATION_MEMBER_TABLE + "." + COUNTRY_CODE_COL
+                + " , " + REGISTRATION_MEMBER_TABLE + "." + DISTRICT_NAME_COL
+                + " , " + REGISTRATION_MEMBER_TABLE + "." + UPZILLA_NAME_COL
+                + " , " + REGISTRATION_MEMBER_TABLE + "." + UNITE_NAME_COL
+                + " , " + REGISTRATION_MEMBER_TABLE + "." + VILLAGE_NAME_COL
+                + " , " + REGISTRATION_TABLE + "." + PNAME_COL
+                + " " +
+
+
+
+
+                " FROM " + REGISTRATION_TABLE +
+                " INNER JOIN " + REGISTRATION_MEMBER_TABLE +
+                " ON " + REGISTRATION_TABLE + "." + COUNTRY_CODE_COL + " = " + REGISTRATION_MEMBER_TABLE + "." + COUNTRY_CODE_COL +
+                " AND " + REGISTRATION_TABLE + "." + DISTRICT_NAME_COL + " = " + REGISTRATION_MEMBER_TABLE + "." + SQLiteHandler.DISTRICT_NAME_COL +
+                " AND " + REGISTRATION_TABLE + "." + UPZILLA_NAME_COL + " = " + REGISTRATION_MEMBER_TABLE + "." + SQLiteHandler.UPZILLA_NAME_COL +
+                " AND " + REGISTRATION_TABLE + "." + UNITE_NAME_COL + " = " + REGISTRATION_MEMBER_TABLE + "." + UNITE_NAME_COL +
+                " AND " + REGISTRATION_TABLE + "." + VILLAGE_NAME_COL + " = " + REGISTRATION_MEMBER_TABLE + "." + SQLiteHandler.VILLAGE_NAME_COL +
+                " AND " + REGISTRATION_TABLE + "." + PID_COL + " = " + REGISTRATION_MEMBER_TABLE + "." + HHID_COL + " " +
+
+
+                " INNER JOIN " + REG_N_ASSIGN_PROG_SRV_TABLE + " AS regAss ON " +
+                 " regAss." + COUNTRY_CODE_COL + " = " + REGISTRATION_TABLE + "." + COUNTRY_CODE_COL +
+                " AND " +  " regAss." + LAY_R1_LIST_CODE_COL + " = " + REGISTRATION_TABLE + "." + SQLiteHandler.DISTRICT_NAME_COL +
+                " AND " +  " regAss." + LAY_R2_LIST_CODE_COL + " = " + REGISTRATION_TABLE + "." + SQLiteHandler.UPZILLA_NAME_COL +
+                " AND " +  " regAss." + LAY_R3_LIST_CODE_COL + " = " + REGISTRATION_TABLE + "." + UNITE_NAME_COL +
+                " AND " +  " regAss." + LAY_R4_LIST_CODE_COL + " = " + REGISTRATION_TABLE + "." + SQLiteHandler.VILLAGE_NAME_COL +
+
+                " AND " + " regAss." + HHID_COL + " = " + REGISTRATION_MEMBER_TABLE + "." + HHID_COL +
+                " AND " + " regAss." + HH_MEM_ID + " = " + REGISTRATION_MEMBER_TABLE + "." + HH_MEM_ID +
+
+
+
+
+                " WHERE " + REGISTRATION_MEMBER_TABLE + "." + COUNTRY_CODE_COL + " =  '" + cCode + "'"
+
+                + " AND " +
+                /** very good thinking
+                 * User can search by House hold & member Id also*/
+                REGISTRATION_MEMBER_TABLE + "." + COUNTRY_CODE_COL + " || \"\" || "
+                + REGISTRATION_MEMBER_TABLE + "." + DISTRICT_NAME_COL + " || \"\" || "
+                + REGISTRATION_MEMBER_TABLE + "." + UPZILLA_NAME_COL + " || \"\" || "
+                + REGISTRATION_MEMBER_TABLE + "." + UNITE_NAME_COL + " || \"\" || "
+                + REGISTRATION_MEMBER_TABLE + "." + VILLAGE_NAME_COL + " || \"\" || "
+                + REGISTRATION_MEMBER_TABLE + "." + HHID_COL + " || \"\" || "
+                + REGISTRATION_MEMBER_TABLE + "." + HH_MEM_ID + " LIKE '%" + memberSearchId + "%' " +
+                // +" GROUP BY " + REGISTRATION_MEMBER_TABLE + "." + HHID_COL;/*+
+                " ORDER BY " + REGISTRATION_MEMBER_TABLE + "." + HHID_COL
+                + " DESC ";
+
+
+    }
 }//end of class

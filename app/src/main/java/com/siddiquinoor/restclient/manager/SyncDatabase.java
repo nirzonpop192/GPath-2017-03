@@ -453,55 +453,55 @@ public class SyncDatabase {
                         }
 
 
-                        if (!jObj.isNull(Parser.GPS_GROUP_JSON_A)) {
-                            JSONArray gps_groups = jObj.getJSONArray(Parser.GPS_GROUP_JSON_A);
-                            size = gps_groups.length();
-
-                            for (int i = 0; i < size; i++) {
-                                JSONObject gps_group = gps_groups.getJSONObject(i);
-                                String GrpCode = gps_group.getString(Parser.GRP_CODE);
-                                String GrpName = gps_group.getString(Parser.GRP_NAME);
-                                String Description = gps_group.getString(Parser.DESCRIPTION);
-
-                                sqlH.addGpsGroup(GrpCode, GrpName, Description);
-
-                            }
-                        }
-
-                        if (!jObj.isNull(Parser.GPS_SUBGROUP_JSON_A)) {
-                            JSONArray gps_subgroups = jObj.getJSONArray(Parser.GPS_SUBGROUP_JSON_A);
-                            size = gps_subgroups.length();
-                            for (int i = 0; i < size; i++) {
-                                JSONObject gps_subgroup = gps_subgroups.getJSONObject(i);
-                                String GrpCode = gps_subgroup.getString(Parser.GRP_CODE);
-                                String SubGrpCode = gps_subgroup.getString(Parser.SUB_GRP_CODE);
-                                String SubGrpName = gps_subgroup.getString(Parser.SUB_GRP_NAME);
-                                String Description = gps_subgroup.getString(Parser.DESCRIPTION);
-                                sqlH.addGpsSubGroup(GrpCode, SubGrpCode, SubGrpName, Description);
-
-
-                            }
-                        }
+//                        if (!jObj.isNull(Parser.GPS_GROUP_JSON_A)) {
+//                            JSONArray gps_groups = jObj.getJSONArray(Parser.GPS_GROUP_JSON_A);
+//                            size = gps_groups.length();
+//
+//                            for (int i = 0; i < size; i++) {
+//                                JSONObject gps_group = gps_groups.getJSONObject(i);
+//                                String GrpCode = gps_group.getString(Parser.GRP_CODE);
+//                                String GrpName = gps_group.getString(Parser.GRP_NAME);
+//                                String Description = gps_group.getString(Parser.DESCRIPTION);
+//
+//                                sqlH.addGpsGroup(GrpCode, GrpName, Description);
+//
+//                            }
+//                        }
+//
+//                        if (!jObj.isNull(Parser.GPS_SUBGROUP_JSON_A)) {
+//                            JSONArray gps_subgroups = jObj.getJSONArray(Parser.GPS_SUBGROUP_JSON_A);
+//                            size = gps_subgroups.length();
+//                            for (int i = 0; i < size; i++) {
+//                                JSONObject gps_subgroup = gps_subgroups.getJSONObject(i);
+//                                String GrpCode = gps_subgroup.getString(Parser.GRP_CODE);
+//                                String SubGrpCode = gps_subgroup.getString(Parser.SUB_GRP_CODE);
+//                                String SubGrpName = gps_subgroup.getString(Parser.SUB_GRP_NAME);
+//                                String Description = gps_subgroup.getString(Parser.DESCRIPTION);
+//                                sqlH.addGpsSubGroup(GrpCode, SubGrpCode, SubGrpName, Description);
+//
+//
+//                            }
+//                        }
                         // * Adding data into GPS Location Table
 
-                        if (!jObj.isNull(Parser.GPS_LOCATION_JSON_A)) {
-                            JSONArray gps_locations = jObj.getJSONArray(Parser.GPS_LOCATION_JSON_A);
-                            size = gps_locations.length();
-                            for (int i = 0; i < size; i++) {
-                                JSONObject gps_location = gps_locations.getJSONObject(i);
-                                String AdmCountryCode = gps_location.getString(Parser.ADM_COUNTRY_CODE);
-                                String GrpCode = gps_location.getString(Parser.GRP_CODE);
-                                String SubGrpCode = gps_location.getString(Parser.SUB_GRP_CODE);
-                                String LocationCode = gps_location.getString("LocationCode");
-                                String LocationName = gps_location.getString("LocationName");
-                                String Long = gps_location.getString("Long");
-                                String Latd = gps_location.getString("Latd");
-
-
-                                sqlH.addGpsLocation(AdmCountryCode, GrpCode, SubGrpCode, LocationCode, LocationName, Long, Latd);
-
-                            }
-                        }
+//                        if (!jObj.isNull(Parser.GPS_LOCATION_JSON_A)) {
+//                            JSONArray gps_locations = jObj.getJSONArray(Parser.GPS_LOCATION_JSON_A);
+//                            size = gps_locations.length();
+//                            for (int i = 0; i < size; i++) {
+//                                JSONObject gps_location = gps_locations.getJSONObject(i);
+//                                String AdmCountryCode = gps_location.getString(Parser.ADM_COUNTRY_CODE);
+//                                String GrpCode = gps_location.getString(Parser.GRP_CODE);
+//                                String SubGrpCode = gps_location.getString(Parser.SUB_GRP_CODE);
+//                                String LocationCode = gps_location.getString("LocationCode");
+//                                String LocationName = gps_location.getString("LocationName");
+//                                String Long = gps_location.getString("Long");
+//                                String Latd = gps_location.getString("Latd");
+//
+//
+//                                sqlH.addGpsLocation(AdmCountryCode, GrpCode, SubGrpCode, LocationCode, LocationName, Long, Latd);
+//
+//                            }
+//                        }
 
 
 
@@ -582,26 +582,26 @@ public class SyncDatabase {
                         // * Adding data into  dob_service_center  Table
 
 
-                        if (!jObj.isNull(Parser.DOB_SERVICE_CENTER_JSON_A)) {// this is not servie
-                            JSONArray dob_service_centers = jObj.getJSONArray(Parser.DOB_SERVICE_CENTER_JSON_A);
-                            size = dob_service_centers.length();
-                            for (int i = 0; i < size; i++) {
-                                JSONObject dob_service_center = dob_service_centers.getJSONObject(i);
-
-                                String AdmCountryCode = dob_service_center.getString(Parser.ADM_COUNTRY_CODE);
-                                String SrvCenterCode = dob_service_center.getString(Parser.SRV_CENTER_CODE);
-                                String SrvCenterName = dob_service_center.getString(Parser.SRV_CENTER_NAME);
-
-                                // String SrvCenterAddress = dob_service_center.getString("SrvCenterAddress");
-                                //   String SrvCenterCatCode = dob_service_center.getString("SrvCenterCatCode");
-
-                                String FDPCode = dob_service_center.getString(Parser.FDP_CODE);
-
-                                // db.addServiceCenter(AdmCountryCode, SrvCenterCode, SrvCenterName, SrvCenterAddress, SrvCenterCatCode, FDPCode);
-                                sqlH.addServiceCenter(AdmCountryCode, SrvCenterCode, SrvCenterName, FDPCode);
-
-                            }
-                        }
+//                        if (!jObj.isNull(Parser.DOB_SERVICE_CENTER_JSON_A)) {// this is not servie
+//                            JSONArray dob_service_centers = jObj.getJSONArray(Parser.DOB_SERVICE_CENTER_JSON_A);
+//                            size = dob_service_centers.length();
+//                            for (int i = 0; i < size; i++) {
+//                                JSONObject dob_service_center = dob_service_centers.getJSONObject(i);
+//
+//                                String AdmCountryCode = dob_service_center.getString(Parser.ADM_COUNTRY_CODE);
+//                                String SrvCenterCode = dob_service_center.getString(Parser.SRV_CENTER_CODE);
+//                                String SrvCenterName = dob_service_center.getString(Parser.SRV_CENTER_NAME);
+//
+//                                // String SrvCenterAddress = dob_service_center.getString("SrvCenterAddress");
+//                                //   String SrvCenterCatCode = dob_service_center.getString("SrvCenterCatCode");
+//
+//                                String FDPCode = dob_service_center.getString(Parser.FDP_CODE);
+//
+//                                // db.addServiceCenter(AdmCountryCode, SrvCenterCode, SrvCenterName, SrvCenterAddress, SrvCenterCatCode, FDPCode);
+//                                sqlH.addServiceCenter(AdmCountryCode, SrvCenterCode, SrvCenterName, FDPCode);
+//
+//                            }
+//                        }
 
 
 

@@ -375,6 +375,9 @@
         <activity
             android:name="com.siddiquinoor.restclient.activity.sub_activity.dynamic_table.DT_ReportActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity android:name="com.siddiquinoor.restclient.activity.TrainingActivity" />
+        <activity android:name="com.siddiquinoor.restclient.activity.sub_activity.training.IdTypeSelection" />
+        <activity android:name="com.siddiquinoor.restclient.activity.sub_activity.training.TABeneficiaryCardListActivity" />
         <activity
             android:name="com.google.zxing.client.android.CaptureActivity"
             android:clearTaskOnLaunch="true"

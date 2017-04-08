@@ -570,13 +570,13 @@ public class Schema {
                 + " , " + PROG_FLAG + " VARCHAR(1)"
                 + " , " + FOOD_FLAG + " VARCHAR(1)"
                 + " , " + NON_FOOD_FLAG + " VARCHAR(1)"
-                + " , " + SQLiteHandler.CASH_FLAG + " VARCHAR(1)"
-                + " , " + SQLiteHandler.VOUCHER_FLAG + " VARCHAR(1)"
-                + " , " + SQLiteHandler.DEFAULT_FOOD_DAYS_COL + " VARCHAR(4)"
-                + " , " + SQLiteHandler.DEFAULT_NO_FOOD_DAYS_COL + " VARCHAR(4)"
-                + " , " + SQLiteHandler.DEFAULT_CASH_DAYS_COL + " VARCHAR(4)"
-                + " , " + SQLiteHandler.DEFAULT_VOUCHAR_DAYS_COL + " VARCHAR(4)"
-                + " , " + SQLiteHandler.SERVICE_SPECIFIC_FLAG_COL + " VARCHAR(4)"
+                + " , " + CASH_FLAG + " VARCHAR(1)"
+                + " , " + VOUCHER_FLAG + " VARCHAR(1)"
+                + " , " + DEFAULT_FOOD_DAYS_COL + " VARCHAR(4)"
+                + " , " + DEFAULT_NO_FOOD_DAYS_COL + " VARCHAR(4)"
+                + " , " + DEFAULT_CASH_DAYS_COL + " VARCHAR(4)"
+                + " , " + DEFAULT_VOUCHAR_DAYS_COL + " VARCHAR(4)"
+                + " , " + SERVICE_SPECIFIC_FLAG_COL + " VARCHAR(4)"
                 + " , " + PRIMARY_KEY + " (" + COUNTRY_CODE_COL + ", " + DONOR_CODE_COL + ", " + AWARD_CODE_COL + ", " + PROGRAM_CODE_COL + ", " + SERVICE_CODE_COL + " )"
                 + " )";
     }
@@ -590,11 +590,11 @@ public class Schema {
                 + " , " + AWARD_CODE_COL + " VARCHAR(20) "
                 + " , " + OPERATION_CODE_COL + " VARCHAR(20) "
                 + " , " + OP_MONTH_CODE_COL + " VARCHAR(50) "
-                + " , " + MONTH_LABEL + " VARCHAR(50) "
-                + " , " + SQLiteHandler.START_DATE + " VARCHAR(20) "
-                + " , " + SQLiteHandler.END_DATE + " VARCHAR(20) "
-                + " , " + SQLiteHandler.USA_START_DATE + " VARCHAR(20) "
-                + " , " + SQLiteHandler.USA_END_DATE + " VARCHAR(20) "
+                + " , " + MONTH_LABEL_COL + " VARCHAR(50) "
+                + " , " + SQLiteHandler.START_DATE_COL + " VARCHAR(20) "
+                + " , " + SQLiteHandler.END_DATE_COL + " VARCHAR(20) "
+                + " , " + SQLiteHandler.USA_START_DATE_COL + " VARCHAR(20) "
+                + " , " + SQLiteHandler.USA_END_DATE_COL + " VARCHAR(20) "
                 + " , " + SQLiteHandler.STATUS + " VARCHAR(20) "
                 + " , " + PRIMARY_KEY + " (" + COUNTRY_CODE_COL + ", " + DONOR_CODE_COL + ", " + AWARD_CODE_COL + ", " + OPERATION_CODE_COL + ", " + OP_MONTH_CODE_COL + " ) "
                 + " ) ";
@@ -1781,9 +1781,9 @@ public class Schema {
                 + " , " + AWARD_CODE_COL + " VARCHAR(2) "
                 + " , " + OPERATION_CODE_COL + " VARCHAR(20) "
                 + " , " + OP_MONTH_CODE_COL + " VARCHAR(2) "
-                + " , " + MONTH_LABEL + " VARCHAR(50) "
-                + " , " + SQLiteHandler.USA_START_DATE + " VARCHAR(20) "
-                + " , " + SQLiteHandler.USA_END_DATE + " VARCHAR(20) "
+                + " , " + MONTH_LABEL_COL + " VARCHAR(50) "
+                + " , " + SQLiteHandler.USA_START_DATE_COL + " VARCHAR(20) "
+                + " , " + SQLiteHandler.USA_END_DATE_COL + " VARCHAR(20) "
                 + " , " + SQLiteHandler.STATUS + " VARCHAR(20) "
                 + " , " + SQLiteHandler.IS_SELECTED_FLAG_COL + " VARCHAR(1) DEFAULT '0' "
                 + " , " + PRIMARY_KEY + " (" + COUNTRY_CODE_COL + ", " + DONOR_CODE_COL + ", " + AWARD_CODE_COL + ", " + OPERATION_CODE_COL + ", " + OP_MONTH_CODE_COL + " ) "
@@ -1863,4 +1863,142 @@ public class Schema {
                 + " ) ";
 
     }
+
+
+    public static String createTAMasterTable() {
+        return CREATE_TABLE_IF_NOT_EXISTS + TA_MASTER_TABLE
+                + " ( "
+                + COUNTRY_CODE_COL + " VARCHAR(4) "
+                + " , " + EVENT_CODE_COL + " VARCHAR(8) "
+                + " , " + EVENT_NAME_COL + " VARCHAR(100) "
+                + " , " + DONOR_CODE_COL + " VARCHAR(2) "
+                + " , " + AWARD_CODE_COL + " VARCHAR(2) "
+                + " , " + TA_GROUP_COL + " VARCHAR(3) "
+                + " , " + TA_SUB_GROUP_COL + " VARCHAR(3) "
+                + " , " + ORG_CODE_COL + " VARCHAR(10) "
+                + " , " + START_DATE_COL + " VARCHAR(10) "
+                + " , " + END_DATE_COL + " VARCHAR(10) "
+                + " , " + VENUE_NAME_COL + " VARCHAR(100) "
+                + " , " + VENUE_ADDRESS_COL + " VARCHAR(200) "
+                + " , " + ACTIVE_COL + " VARCHAR(10) "
+                + " , " + TOTAL_DAYS_COL + " VARCHAR(10) "
+                + " , " + HOURS_PER_DAY_COL + " VARCHAR(10) "
+                + " , " + PRIMARY_KEY + " (" + COUNTRY_CODE_COL + ", " + EVENT_CODE_COL +  " ) "
+                + " ) ";
+    }
+
+
+    public static String createTACategoryTable() {
+        return CREATE_TABLE_IF_NOT_EXISTS + TA_CATEGORY_TABLE
+                + " ( "
+                + COUNTRY_CODE_COL + " VARCHAR(4) "
+                + " , " + TA_CAT_CODE_COL + " VARCHAR(3) "
+                + " , " + TA_CAT_NAME_COL + " VARCHAR(50) "
+                + " , " + SRC_BEN_COL + " VARCHAR(3) "
+                + " , " + PRIMARY_KEY + " (" + COUNTRY_CODE_COL + ", " + TA_CAT_CODE_COL +  " ) "
+                + " ) ";
+    }
+
+    public static String createTAEventTopicTable() {
+        return CREATE_TABLE_IF_NOT_EXISTS + TA_EVENT_TOPIC_TABLE
+                + " ( "
+                + COUNTRY_CODE_COL + " VARCHAR(4) "
+                + " , " + EVENT_CODE_COL + " VARCHAR(3) "
+                + " , " + TOPIC_MASTER_CODE_COL + " VARCHAR(50) "
+                + " , " + TOPIC_CHILD_CODE_COL + " VARCHAR(3) "
+                + " , " + PRIMARY_KEY + " (" + COUNTRY_CODE_COL + ", " + EVENT_CODE_COL + ", " + TOPIC_MASTER_CODE_COL + ", " + TOPIC_CHILD_CODE_COL +  " ) "
+                + " ) ";
+    }
+
+    public static String createTAGroupTable() {
+        return CREATE_TABLE_IF_NOT_EXISTS + TA_GROUP_TABLE
+                + " ( "
+                + COUNTRY_CODE_COL + " VARCHAR(4) "
+                + " , " + TOPIC_GROUP_COL + " VARCHAR(3) "
+                + " , " + TOPIC_GROUP_TITLE_COL + " VARCHAR(200) "
+                + " , " + PRIMARY_KEY + " (" + COUNTRY_CODE_COL + ", " + TOPIC_GROUP_COL +  " ) "
+                + " ) ";
+    }
+
+
+    public static String createTAParticipantsTable() {
+        return CREATE_TABLE_IF_NOT_EXISTS + TA_PARTICIPANTS_LIST_TABLE
+                + " ( "
+                + COUNTRY_CODE_COL + " VARCHAR(4) "
+                + " , " + EVENT_CODE_COL + " VARCHAR(8) "
+                + " , " + PART_ID_COL + " VARCHAR(50) "
+                + " , " + ID_CATEGORY_COL + " VARCHAR(3) "
+                + " , " + PART_NAME_COL + " VARCHAR(100) "
+                + " , " + PART_ORG_N_CODE_COL + " VARCHAR(3) "
+                + " , " + SEX_COL + " VARCHAR(1) "
+                + " , " + PART_CAT_CODE_COL + " VARCHAR(3) "
+                + " , " + POS_CODE_COL + " VARCHAR(3) "
+                + " , " + AM_SESSION_COL + " VARCHAR(1) "
+                + " , " + PM_SESSION_COL + " VARCHAR(1) "
+                + " , " + ATDN_DATE_COL + " VARCHAR(30) "
+                + " , " + TA_GROUP_COL + " VARCHAR(3) "
+                + " , " + PRIMARY_KEY + " (" + COUNTRY_CODE_COL + ", " + EVENT_CODE_COL  + ", " + PART_ID_COL + ", " + ATDN_DATE_COL  +  " ) "
+                + " ) ";
+    }
+
+
+
+    public static String createTAPartOrgNTable() {
+        return CREATE_TABLE_IF_NOT_EXISTS + TA_PART_ORG_N_TABLE
+                + " ( "
+                + COUNTRY_CODE_COL + " VARCHAR(4) "
+                + " , " + PART_ORG_N_CODE_COL + " VARCHAR(3) "
+                + " , " + PART_ORG_N_NAME_COL + " VARCHAR(200) "
+                + " , " + SRC_BEN_COL + " VARCHAR(1) "
+                + " , " + PRIMARY_KEY + " (" + COUNTRY_CODE_COL + ", " + PART_ORG_N_CODE_COL  +  " ) "
+                + " ) ";
+    }
+
+    public static String createTAPosParticipantsTable() {
+        return CREATE_TABLE_IF_NOT_EXISTS + TA_POS_PARTICIPANTS_TABLE
+                + " ( "
+                + COUNTRY_CODE_COL + " VARCHAR(4) "
+                + " , " + POS_CODE_COL + " VARCHAR(3) "
+                + " , " + POS_TITLE_COL + " VARCHAR(100) "
+
+                + " , " + PRIMARY_KEY + " (" + COUNTRY_CODE_COL + ", " + POS_CODE_COL  +  " ) "
+                + " ) ";
+    }
+
+
+    public static String createTASubGroupTable() {
+        return CREATE_TABLE_IF_NOT_EXISTS + TA_SUB_GROUP_TABLE
+                + " ( "
+                + COUNTRY_CODE_COL + " VARCHAR(4) "
+                + " , " + TA_GROUP_COL + " VARCHAR(3) "
+                + " , " + TA_SUB_GROUP_COL + " VARCHAR(3) "
+                + " , " + TA_SUB_TITLE_COL + " VARCHAR(200) "
+                + " , " + PRIMARY_KEY + " (" + COUNTRY_CODE_COL + ", " + TA_GROUP_COL + ", " + TA_SUB_GROUP_COL  +  " ) "
+                + " ) ";
+    }
+
+    public static String createTATopicChildTable() {
+        return CREATE_TABLE_IF_NOT_EXISTS + TA_TOPIC_CHILD_TABLE
+                + " ( "
+                + TOPIC_MASTER_CODE_COL + " VARCHAR(4) "
+                + " , " + TOPIC_CHILD_CODE_COL + " VARCHAR(3) "
+                + " , " + TOPIC_SUB_TITLE_COL + " VARCHAR(200) "
+
+                + " , " + PRIMARY_KEY + " (" + TOPIC_MASTER_CODE_COL + ", " + TOPIC_CHILD_CODE_COL   +  " ) "
+                + " ) ";
+    }
+
+    public static String createTATopicMasterTable() {
+        return CREATE_TABLE_IF_NOT_EXISTS + TA_TOPIC_MASTER_TABLE
+                + " ( "
+                + TOPIC_MASTER_CODE_COL + " VARCHAR(4) "
+                + " , " + TOPIC_TITLE_COL + " VARCHAR(200) "
+
+                + " , " + PRIMARY_KEY + " (" + TOPIC_MASTER_CODE_COL    +  " ) "
+                + " ) ";
+    }
+
+
+
+
 }

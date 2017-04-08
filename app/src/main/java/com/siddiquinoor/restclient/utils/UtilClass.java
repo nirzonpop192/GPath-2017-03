@@ -43,9 +43,14 @@ public class UtilClass {
 
 
     /**
-     * OTHER Mode
+     * OTHER Mode or dynamic  mode
      */
     public static final int OTHER_OPERATION_MODE = 4;
+
+    /**
+     * OTHER Mode or dynamic  mode
+     */
+    public static final int TRANING_n_ACTIVITY_OPERATION_MODE = 5;
 
     /**
      * Class Tag for Debug

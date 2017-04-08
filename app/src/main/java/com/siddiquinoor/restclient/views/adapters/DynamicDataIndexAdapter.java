@@ -27,15 +27,13 @@ import java.util.ArrayList;
 public class DynamicDataIndexAdapter extends BaseAdapter {
     private Activity activity;
     private LayoutInflater inflater;
-    //private SQLiteHandler sqLiteHandler;
-    // private SessionManager session;
+
     private ArrayList<AssignDataModel.DynamicDataIndexDataModel> data = new ArrayList<AssignDataModel.DynamicDataIndexDataModel>();
 
     public DynamicDataIndexAdapter(Activity activity, ArrayList<AssignDataModel.DynamicDataIndexDataModel> data) {
         this.activity = activity;
         this.data = data;
-        // this.sqLiteHandler = sqLiteHandler;
-        //  session = new SessionManager(activity);
+
     }
 
     @Override
@@ -65,8 +63,8 @@ public class DynamicDataIndexAdapter extends BaseAdapter {
         View row = convertView;
         final AssignDataModel.DynamicDataIndexDataModel data = getDynamicDataIndex(position);
 
-        // convert xml layout  to java object
-        if (inflater == null)
+
+        if (inflater == null)                                                                        // convert xml layout  to java object
             inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         if (convertView == null) {
             row = inflater.inflate(R.layout.list_row_dynamic_data_index, null);
@@ -97,28 +95,22 @@ public class DynamicDataIndexAdapter extends BaseAdapter {
         holder.iv_Go.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // no need comment code  all table viewed by access
-//                if(sqLiteHandler.checkDTBasic(data.getDtBasicCode(), session.getStaffId())) {
+
                 Intent intent = new Intent(activity.getApplicationContext(), DTResponseActivity.class);
                 intent.putExtra(KEY.DYNAMIC_INDEX_DATA_OBJECT_KEY, data);
                 activity.startActivity(intent);
-//                }else{
-//                    Toast.makeText(activity.getApplicationContext(), "You do not have access permission", Toast.LENGTH_SHORT).show();
-//                }
+
             }
         });
 
         holder.iv_view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // no need comment code all viewed by access
-//                if(sqLiteHandler.checkDTBasic(data.getDtBasicCode(), session.getStaffId())) {
+
                 Intent intent = new Intent(activity.getApplicationContext(), DT_ReportActivity.class);
                 intent.putExtra(KEY.DYNAMIC_INDEX_DATA_OBJECT_KEY, data);
                 activity.startActivity(intent);
-//                }else{
-//                    Toast.makeText(activity.getApplicationContext(), "You do not have access permission", Toast.LENGTH_SHORT).show();
-//                }
+
             }
         });
 

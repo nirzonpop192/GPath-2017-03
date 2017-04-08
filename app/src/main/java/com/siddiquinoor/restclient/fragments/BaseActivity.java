@@ -382,21 +382,21 @@ public abstract class BaseActivity extends Activity {
 
 
     /**
-     * dynamically file will create Write bytes on it
-     * @param str json String
-     * @param mfile_name file Name
+     * dynamically file will be created. Write bytes on it as string operation
+     * @param stringResponse json String
+     * @param file_name file Name
      */
-    protected void writeJSONToTextFile(String str, String mfile_name) {
+    protected void writeJSONToTextFile(String stringResponse, String file_name) {
 
-        String fileName = "pci_" + mfile_name + ".txt";
+        String fileName = "pci_" + file_name + ".txt";
 
-        Log.d(TAG, "String Response write into : " + mfile_name);
+      //  Log.d(TAG, "String Response write into : " + mfile_name);
         FileOutputStream outputStream;
 
 
         try {
             outputStream = openFileOutput(fileName, Context.MODE_PRIVATE);
-            outputStream.write(str.getBytes());
+            outputStream.write(stringResponse.getBytes());
 
             outputStream.close();
 

@@ -51,7 +51,8 @@ public class DynamicTable extends BaseActivity {
 
         // get intent
         Intent intent = getIntent();
-        idCountry = intent.getStringExtra(KEY.COUNTRY_ID);
+       idCountry = intent.getStringExtra(KEY.COUNTRY_ID);
+
 
         // anonymous object
         new LoadListView(idCountry, "").execute();
@@ -84,7 +85,7 @@ public class DynamicTable extends BaseActivity {
                 adapter = new DynamicDataIndexAdapter((Activity) mContext, dataArray);
                 listView.setAdapter(adapter);*/
 
-        if (edtDTSearch.getText().toString().length() == 0) {
+        if (edtDTSearch.getText().toString().length() == 0) {                                       //Search button should filter all when there is nothing written in the text box.
             new LoadListView(idCountry, "").execute();
 
         } else {
@@ -199,13 +200,10 @@ public class DynamicTable extends BaseActivity {
             dataArray.clear();
 
             for (AssignDataModel.DynamicDataIndexDataModel data : dataList) {
-
-                //add contacts data in arrayList
-                dataArray.add(data);
+                dataArray.add(data);                                                                 //add contacts data in arrayList
             }
 
-            //Assign the Adapter in list
-            adapter = new DynamicDataIndexAdapter((Activity) mContext, dataArray);
+            adapter = new DynamicDataIndexAdapter((Activity) mContext, dataArray);                  //Assign the Adapter in list
         }
 
     }

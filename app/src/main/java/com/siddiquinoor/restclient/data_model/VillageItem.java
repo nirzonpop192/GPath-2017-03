@@ -43,5 +43,12 @@ public class VillageItem {
 
     public VillageItem() {
     }
+
+    public VillageItem(String admCountryCode, String geoLayRName, String layR4ListName, String layRCode) {
+        AdmCountryCode = admCountryCode;
+        GeoLayRName = geoLayRName;
+        LayR4ListName = layR4ListName;
+        LayRCode = layRCode;
+    }
 }
 

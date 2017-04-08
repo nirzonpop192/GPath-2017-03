@@ -59,7 +59,7 @@
 
             android:padding="5dp" />
     </RelativeLayout>
-
+        <!--Simple border-->
     <LinearLayout
         android:id="@+id/table_title"
         android:layout_width="match_parent"
