@@ -100,7 +100,7 @@ public class TrainingActivity extends BaseActivity {
         sqlH = new SQLiteHandler(mContext);
         idCountry = sqlH.getSelectedCountryCode();
         viewReference();
-
+//        edtEventName.setFocusable(false);
     }
 
     private void viewReference() {
@@ -128,6 +128,7 @@ public class TrainingActivity extends BaseActivity {
                 eventNameSearch();
             }
         });
+
 
     }
 

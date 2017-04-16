@@ -2585,4 +2585,35 @@ public class Parser extends Parse {
         }
 
     }
+    public static void LUP_TAParticipantCat_Parser(JSONArray jsonArrayData, SQLiteHandler sqlH) {
+
+        int size = jsonArrayData.length();
+        String AdmCountryCode, TAGroup,PartCatCode,PartCatTitle;
+
+        Log.d(TAG, "The Number of the data inserted in T_A_posParticipants :" + size);
+
+
+        for (int i = 0; i < size; i++) {
+            try {
+
+                JSONObject jsonObject = jsonArrayData.getJSONObject(i);
+
+
+                AdmCountryCode = jsonObject.getString("AdmCountryCode");
+                TAGroup = jsonObject.getString("TAGroup");
+                PartCatCode = jsonObject.getString("PartCatCode");
+                PartCatTitle = jsonObject.getString("PartCatTitle");
+
+
+                sqlH.addLUP_TAParticipantCat(AdmCountryCode, TAGroup,PartCatCode,PartCatTitle);
+
+            } catch (Exception e) {
+                Log.e(TAG, "Exception : " + e);
+                e.printStackTrace();
+            }
+        }
+
+    }
+
+
 }// end of the class

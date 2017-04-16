@@ -1743,7 +1743,8 @@ public class SQLServerSyntaxGenerator {
 
         // return insert;
     }
-    public String updateInToSrvTable(){
+
+    public String updateInToSrvTable() {
         return "update  SrvTable " +
                 "  set WD =" + getWD() +
 
@@ -1762,7 +1763,7 @@ public class SQLServerSyntaxGenerator {
                 " AND OpMonthCode = " + getOpMonthCode() +
                 " AND SrvDT = " + getSrvDT() +
                 " AND SrvSL = " + getSrvSL() +
-                " AND DistFlag = " + getDistFlag() ;
+                " AND DistFlag = " + getDistFlag();
     }
 
 
@@ -5185,30 +5186,31 @@ public class SQLServerSyntaxGenerator {
                 + getEntryBy() + " , "
                 + getEntryDate();
     }
-public String sqlSpRegNAssignProgSrv_Save(){
-    return  " RegNAssignProgSrv_Save "
-            + getAdmCountryCode() + " , "
-            + getLayR1ListCode() + " , "
-            + getLayR2ListCode() + " , "
-            + getLayR3ListCode() + " , "
-            + getLayR4ListCode() + " , "
-            + getAdmDonorCode() + " , "
-            + getAdmAwardCode() + " , "
-            + getHHID() + " , "
-            + getMemID() + " , "
-            + getProgCode() + " , "
-            + getSrvCode() + " , "
-            + getRegNDate() + " , "
-            + getEntryBy() + " , "
-            + getEntryDate() ;
 
-}
+    public String sqlSpRegNAssignProgSrv_Save() {
+        return " RegNAssignProgSrv_Save "
+                + getAdmCountryCode() + " , "
+                + getLayR1ListCode() + " , "
+                + getLayR2ListCode() + " , "
+                + getLayR3ListCode() + " , "
+                + getLayR4ListCode() + " , "
+                + getAdmDonorCode() + " , "
+                + getAdmAwardCode() + " , "
+                + getHHID() + " , "
+                + getMemID() + " , "
+                + getProgCode() + " , "
+                + getSrvCode() + " , "
+                + getRegNDate() + " , "
+                + getEntryBy() + " , "
+                + getEntryDate();
 
+    }
 
 
     /**
      * insert into the DTResponse table there are relevant tables that needs to be updated accordingly
      * the sp insert the data into relevent table
+     *
      * @return store procedure of sql server DTShortName_Save
      */
     public String sqlSpDTShortName_Save() {
@@ -5220,7 +5222,7 @@ public String sqlSpRegNAssignProgSrv_Save(){
                 + getAdmAwardCode() + " , "
                 + getAdmProgCode() + " , "
                 + getDTEnuID() + " , "
-                + getOpMonthCode() ;
+                + getOpMonthCode();
     }
 
     private String getLTp2Hectres() {
@@ -5520,7 +5522,7 @@ public String sqlSpRegNAssignProgSrv_Save(){
     }
 
     public void setDtShortName(String dtShortName) {
-        DtShortName =  checkStringNull(dtShortName);
+        DtShortName = checkStringNull(dtShortName);
     }
 
     public String getAdmProgCode() {
@@ -5732,4 +5734,170 @@ public String sqlSpRegNAssignProgSrv_Save(){
 
     }
 
+    private String EventCode;
+    private String PartID;
+    private String IDCategory;
+    private String PartName;
+    private String PartOrgNCode;
+    private String Sex;
+    private String PartCatCode;
+    private String PosCode;
+    private String AMSession;
+    private String PMSession;
+    private String AtdnDate;
+    private String TAGroup;
+
+    public String getAMSession() {
+        return AMSession;
+    }
+
+    public void setAMSession(String AMSession) {
+        this.AMSession = checkIntNull(AMSession);
+    }
+
+    public String getAtdnDate() {
+        return AtdnDate;
+    }
+
+    public void setAtdnDate(String atdnDate) {
+        AtdnDate = checkStringNull(atdnDate);
+    }
+
+    public String getEventCode() {
+        return EventCode;
+    }
+
+    public void setEventCode(String eventCode) {
+        EventCode = checkStringNull(eventCode);
+    }
+
+    public String getIDCategory() {
+        return IDCategory;
+    }
+
+    public void setIDCategory(String IDCategory) {
+        this.IDCategory = checkStringNull(IDCategory);
+    }
+
+    public String getPartCatCode() {
+        return PartCatCode;
+    }
+
+    public void setPartCatCode(String partCatCode) {
+        PartCatCode = checkStringNull(partCatCode);
+    }
+
+    public String getPartID() {
+        return PartID;
+    }
+
+    public void setPartID(String partID) {
+        PartID = checkStringNull(partID);
+    }
+
+    public String getPartName() {
+        return PartName;
+    }
+
+    public void setPartName(String partName) {
+        PartName = checkStringNull(partName);
+    }
+
+    public String getPartOrgNCode() {
+        return PartOrgNCode;
+    }
+
+    public void setPartOrgNCode(String partOrgNCode) {
+        PartOrgNCode = checkStringNull(partOrgNCode);
+    }
+
+    public String getPMSession() {
+        return PMSession;
+    }
+
+    public void setPMSession(String PMSession) {
+        this.PMSession = checkIntNull(PMSession);
+    }
+
+    public String getPosCode() {
+        return PosCode;
+    }
+
+    public void setPosCode(String posCode) {
+        PosCode = checkStringNull(posCode);
+    }
+
+    public String getSex() {
+        return Sex;
+    }
+
+    public void setSex(String sex) {
+        Sex = checkStringNull(sex);
+    }
+
+    public String getTAGroup() {
+        return TAGroup;
+    }
+
+    public void setTAGroup(String TAGroup) {
+        this.TAGroup = checkStringNull(TAGroup);
+    }
+
+    public String insertIntoTAParticipantsList() {
+        return
+                "INSERT INTO [dbo].[TAParticipantsList] "
+                        + " ([AdmCountryCode] "
+                        + " ,[EventCode]  "
+                        + " ,[PartID] "
+                        + " ,[IDCategory] "
+                        + " ,[PartName]   "
+                        + " ,[PartOrgNCode]   "
+                        + " ,[Sex]    "
+                        + " ,[PartCatCode]    "
+                        + " ,[PosCode]    "
+                        + " ,[AMSession]  "
+                        + " ,[PMSession]  "
+                        + " ,[AtdnDate]   "
+                        + " ,[EntryBy]    "
+                        + " ,[EntryDate]  "
+                        + " ,[TAGroup])   "
+                        + " VALUES    "
+                        + "         ( " + getAdmCountryCode()
+                        + " , " + getEventCode()
+                        + " , " + getPartID()
+                        + " , " + getIDCategory()
+                        + " , " + getPartName()
+                        + " , " + getPartOrgNCode()
+                        + " , " + getSex()
+                        + " , " + getPartCatCode()
+                        + " , " + getPosCode()
+                        + " , " + getAMSession()
+                        + " , " + getPMSession()
+                        + " , " + getAtdnDate()
+                        + " , " + getEntryBy()
+                        + " , " + getEntryDate()
+                        + " , " + getTAGroup()
+                        + " )";
+    }
+
+
+    public String updateTAParticipantsList() {
+        return " UPDATE  TAParticipantsList "
+                + " SET     IDCategory = " + getIDCategory()
+                + " , " + " PartName =  " + getPartName()
+                + " , " + " PartOrgNCode =  " + getPartOrgNCode()
+                + " , " + " Sex = " + getSex()
+                + " , " + " PartCatCode =   " + getPartCatCode()
+                + " , " + " PosCode =   " + getPosCode()
+                + " , " + " AMSession =   " + getAMSession()
+                + " , " + " PMSession =   " + getPMSession()
+                + " , " + " EntryBy =   " + getEntryBy()
+                + " , " + " EntryDate =  " + getEntryDate()
+                + " , " + " TAGroup =  " + getTAGroup()
+                + " , " + " AtdnDate = " + getAtdnDate()
+                + " WHERE AdmCountryCode = " + getAdmCountryCode()
+                + " AND EventCode = " + getEventCode()
+                + " AND PartID = " + getPartID()
+                + " AND AtdnDate = " + getAtdnDate();
+    }
 }

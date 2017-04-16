@@ -267,7 +267,7 @@ public class LoginActivity extends BaseActivity {
                     user_name = inputUsername.getText().toString().trim();
                     password = inputPassword.getText().toString().trim();
                 }
-//                downLoadEnuTable(user_name, password);
+
                 // Check for empty data in the form
                 if (user_name.trim().length() > 0 && password.trim().length() > 0) {
 
@@ -360,22 +360,27 @@ public class LoginActivity extends BaseActivity {
                             pDialog.show();
                             switch (mode_index) {
                                 case REG_MODE:
+                                    mdialog.dismiss();
                                     checkVillageSelection(user_name, password, "1");
                                     break;
                                 case DIST_MODE:
+                                    mdialog.dismiss();
 
                                     checkFDPSelection(user_name, password);
                                     break;
                                 case SERV_MODE:
+                                    mdialog.dismiss();
                                     checkProgramSelection(user_name, password);
                                     break;
 
                                 case OTHER_MODE:
+                                    mdialog.dismiss();
                                     checkCountrySelection(user_name, password, "4");
 
 
                                     break;
                                 case TRAINING_MODE:
+                                    mdialog.dismiss();
                                     checkVillageSelection(user_name, password, "5");
                                     break;
 
@@ -1199,7 +1204,7 @@ public class LoginActivity extends BaseActivity {
                         switch (operationMode) {
                             case UtilClass.REGISTRATION_OPERATION_MODE:
                             case UtilClass.TRANING_n_ACTIVITY_OPERATION_MODE:
-                                getVillageAlert(user_name, password, true,String.valueOf(operationMode));
+                                getVillageAlert(user_name, password, true, String.valueOf(operationMode));
                                 break;
                             case UtilClass.DISTRIBUTION_OPERATION_MODE:
                                 getFDPAlert(user_name, password, true);
@@ -2281,22 +2286,7 @@ public class LoginActivity extends BaseActivity {
 
                     downLoadEnuTable(user_Name, pass_word);
 
-//
-//                    /**
-//                     * IF GET NO ERROR  THAN GOTO THE MAIN ACTIVITY
-//                     */
-//
-//                    setLogin(true);                                                                 // login success
-//
-//                    // Launch main activity
-//
-//                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-//                    setUserID(user_Name);
-//                    setUserPassword(pass_word);
-//                    editor.putBoolean(IS_APP_FIRST_RUN, true);
-//                    editor.commit();
-//
-//                    startActivity(intent);
+
                 } else {
                     // Error in login. Invalid UserName or Password
                     String errorMsg = response.substring(response.indexOf("error_msg") + 11);
@@ -2377,7 +2367,7 @@ public class LoginActivity extends BaseActivity {
                      * IF GET NO ERROR  THAN GOTO THE MAIN ACTIVITY
                      */
 
-                    setLogin(true);        // login success
+                    setLogin(true);                                                                     // login success
                     /**
                      *  Launch main activity
                      */
@@ -2386,7 +2376,7 @@ public class LoginActivity extends BaseActivity {
                     setUserPassword(pass_word);
                     editor.putBoolean(IS_APP_FIRST_RUN, true);
                     editor.commit();
-
+                    finish();
                     startActivity(intent);
                 } else {
                     // Error in login. Invalid UserName or Password

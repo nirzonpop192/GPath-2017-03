@@ -892,6 +892,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                     Parser.T_A_topicMaster_Parser(jObj.getJSONArray("T_A_topicMaster"), db);
                 }
 
+                publishProgress(++progressIncremental);
+                if (!jObj.isNull("LUP_TAParticipantCat")) {
+                    Parser.LUP_TAParticipantCat_Parser(jObj.getJSONArray("LUP_TAParticipantCat"), db);
+                }
+
 
             } catch (Exception e) {
                 Log.e(TAG, "Exception : " + e);

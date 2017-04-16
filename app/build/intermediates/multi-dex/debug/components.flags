@@ -234,6 +234,14 @@
     <init>();
 }
 
+-keep class com.siddiquinoor.restclient.activity.sub_activity.training.AddTaParticipaintActivity {
+    <init>();
+}
+
+-keep class com.siddiquinoor.restclient.activity.sub_activity.training.TaSummaryPage {
+    <init>();
+}
+
 -keep class com.google.zxing.client.android.CaptureActivity {
     <init>();
 }

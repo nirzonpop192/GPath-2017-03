@@ -96,7 +96,7 @@ public class Summary extends BaseActivity {
                 village_code = summaryArr.get(position).getVillCode();
                 village = summaryArr.get(position).getVillName();
 
-                //  Log.d(TAG, "village :" + village + " , village_code : " + village_code);
+
 
                 Intent dIntent = new Intent(Summary.this, RegisterRecordView.class);
 

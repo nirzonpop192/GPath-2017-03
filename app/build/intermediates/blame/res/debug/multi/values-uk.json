@@ -7,8 +7,407 @@
                     "startLine": 2,
                     "startColumn": 4,
                     "startOffset": 105,
+                    "endLine": 5,
+                    "endColumn": 14,
+                    "endOffset": 353
+                },
+                "from": {
+                    "file": "D:\\WorkSpace\\AndroidStudioProject\\Jan-2017\\GPath\\GPath-LOC-02040215\\app\\build\\intermediates\\exploded-aar\\net.danlew\\android.joda\\2.9.9\\res\\values-uk\\values-uk.xml",
+                    "position": {
+                        "startLine": 2,
+                        "startColumn": 4,
+                        "startOffset": 105,
+                        "endLine": 5,
+                        "endColumn": 14,
+                        "endOffset": 353
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 6,
+                    "startColumn": 4,
+                    "startOffset": 358,
+                    "endLine": 9,
+                    "endColumn": 14,
+                    "endOffset": 614
+                },
+                "from": {
+                    "file": "D:\\WorkSpace\\AndroidStudioProject\\Jan-2017\\GPath\\GPath-LOC-02040215\\app\\build\\intermediates\\exploded-aar\\net.danlew\\android.joda\\2.9.9\\res\\values-uk\\values-uk.xml",
+                    "position": {
+                        "startLine": 6,
+                        "startColumn": 4,
+                        "startOffset": 358,
+                        "endLine": 9,
+                        "endColumn": 14,
+                        "endOffset": 614
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 10,
+                    "startColumn": 4,
+                    "startOffset": 619,
+                    "endLine": 13,
+                    "endColumn": 14,
+                    "endOffset": 874
+                },
+                "from": {
+                    "file": "D:\\WorkSpace\\AndroidStudioProject\\Jan-2017\\GPath\\GPath-LOC-02040215\\app\\build\\intermediates\\exploded-aar\\net.danlew\\android.joda\\2.9.9\\res\\values-uk\\values-uk.xml",
+                    "position": {
+                        "startLine": 10,
+                        "startColumn": 4,
+                        "startOffset": 619,
+                        "endLine": 13,
+                        "endColumn": 14,
+                        "endOffset": 874
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 14,
+                    "startColumn": 4,
+                    "startOffset": 879,
+                    "endLine": 17,
+                    "endColumn": 14,
+                    "endOffset": 1135
+                },
+                "from": {
+                    "file": "D:\\WorkSpace\\AndroidStudioProject\\Jan-2017\\GPath\\GPath-LOC-02040215\\app\\build\\intermediates\\exploded-aar\\net.danlew\\android.joda\\2.9.9\\res\\values-uk\\values-uk.xml",
+                    "position": {
+                        "startLine": 14,
+                        "startColumn": 4,
+                        "startOffset": 879,
+                        "endLine": 17,
+                        "endColumn": 14,
+                        "endOffset": 1135
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 18,
+                    "startColumn": 4,
+                    "startOffset": 1140,
+                    "endLine": 21,
+                    "endColumn": 14,
+                    "endOffset": 1387
+                },
+                "from": {
+                    "file": "D:\\WorkSpace\\AndroidStudioProject\\Jan-2017\\GPath\\GPath-LOC-02040215\\app\\build\\intermediates\\exploded-aar\\net.danlew\\android.joda\\2.9.9\\res\\values-uk\\values-uk.xml",
+                    "position": {
+                        "startLine": 18,
+                        "startColumn": 4,
+                        "startOffset": 1140,
+                        "endLine": 21,
+                        "endColumn": 14,
+                        "endOffset": 1387
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 22,
+                    "startColumn": 4,
+                    "startOffset": 1392,
+                    "endLine": 25,
+                    "endColumn": 14,
+                    "endOffset": 1649
+                },
+                "from": {
+                    "file": "D:\\WorkSpace\\AndroidStudioProject\\Jan-2017\\GPath\\GPath-LOC-02040215\\app\\build\\intermediates\\exploded-aar\\net.danlew\\android.joda\\2.9.9\\res\\values-uk\\values-uk.xml",
+                    "position": {
+                        "startLine": 22,
+                        "startColumn": 4,
+                        "startOffset": 1392,
+                        "endLine": 25,
+                        "endColumn": 14,
+                        "endOffset": 1649
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 26,
+                    "startColumn": 4,
+                    "startOffset": 1654,
+                    "endLine": 29,
+                    "endColumn": 14,
+                    "endOffset": 1908
+                },
+                "from": {
+                    "file": "D:\\WorkSpace\\AndroidStudioProject\\Jan-2017\\GPath\\GPath-LOC-02040215\\app\\build\\intermediates\\exploded-aar\\net.danlew\\android.joda\\2.9.9\\res\\values-uk\\values-uk.xml",
+                    "position": {
+                        "startLine": 26,
+                        "startColumn": 4,
+                        "startOffset": 1654,
+                        "endLine": 29,
+                        "endColumn": 14,
+                        "endOffset": 1908
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 30,
+                    "startColumn": 4,
+                    "startOffset": 1913,
+                    "endLine": 33,
+                    "endColumn": 14,
+                    "endOffset": 2170
+                },
+                "from": {
+                    "file": "D:\\WorkSpace\\AndroidStudioProject\\Jan-2017\\GPath\\GPath-LOC-02040215\\app\\build\\intermediates\\exploded-aar\\net.danlew\\android.joda\\2.9.9\\res\\values-uk\\values-uk.xml",
+                    "position": {
+                        "startLine": 30,
+                        "startColumn": 4,
+                        "startOffset": 1913,
+                        "endLine": 33,
+                        "endColumn": 14,
+                        "endOffset": 2170
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 34,
+                    "startColumn": 4,
+                    "startOffset": 2175,
+                    "endLine": 37,
+                    "endColumn": 14,
+                    "endOffset": 2412
+                },
+                "from": {
+                    "file": "D:\\WorkSpace\\AndroidStudioProject\\Jan-2017\\GPath\\GPath-LOC-02040215\\app\\build\\intermediates\\exploded-aar\\net.danlew\\android.joda\\2.9.9\\res\\values-uk\\values-uk.xml",
+                    "position": {
+                        "startLine": 34,
+                        "startColumn": 4,
+                        "startOffset": 2175,
+                        "endLine": 37,
+                        "endColumn": 14,
+                        "endOffset": 2412
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 38,
+                    "startColumn": 4,
+                    "startOffset": 2417,
+                    "endLine": 41,
+                    "endColumn": 14,
+                    "endOffset": 2654
+                },
+                "from": {
+                    "file": "D:\\WorkSpace\\AndroidStudioProject\\Jan-2017\\GPath\\GPath-LOC-02040215\\app\\build\\intermediates\\exploded-aar\\net.danlew\\android.joda\\2.9.9\\res\\values-uk\\values-uk.xml",
+                    "position": {
+                        "startLine": 38,
+                        "startColumn": 4,
+                        "startOffset": 2417,
+                        "endLine": 41,
+                        "endColumn": 14,
+                        "endOffset": 2654
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 42,
+                    "startColumn": 4,
+                    "startOffset": 2659,
+                    "endLine": 45,
+                    "endColumn": 14,
+                    "endOffset": 2894
+                },
+                "from": {
+                    "file": "D:\\WorkSpace\\AndroidStudioProject\\Jan-2017\\GPath\\GPath-LOC-02040215\\app\\build\\intermediates\\exploded-aar\\net.danlew\\android.joda\\2.9.9\\res\\values-uk\\values-uk.xml",
+                    "position": {
+                        "startLine": 42,
+                        "startColumn": 4,
+                        "startOffset": 2659,
+                        "endLine": 45,
+                        "endColumn": 14,
+                        "endOffset": 2894
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 46,
+                    "startColumn": 4,
+                    "startOffset": 2899,
+                    "endLine": 49,
+                    "endColumn": 14,
+                    "endOffset": 3140
+                },
+                "from": {
+                    "file": "D:\\WorkSpace\\AndroidStudioProject\\Jan-2017\\GPath\\GPath-LOC-02040215\\app\\build\\intermediates\\exploded-aar\\net.danlew\\android.joda\\2.9.9\\res\\values-uk\\values-uk.xml",
+                    "position": {
+                        "startLine": 46,
+                        "startColumn": 4,
+                        "startOffset": 2899,
+                        "endLine": 49,
+                        "endColumn": 14,
+                        "endOffset": 3140
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 50,
+                    "startColumn": 4,
+                    "startOffset": 3145,
+                    "endLine": 53,
+                    "endColumn": 14,
+                    "endOffset": 3393
+                },
+                "from": {
+                    "file": "D:\\WorkSpace\\AndroidStudioProject\\Jan-2017\\GPath\\GPath-LOC-02040215\\app\\build\\intermediates\\exploded-aar\\net.danlew\\android.joda\\2.9.9\\res\\values-uk\\values-uk.xml",
+                    "position": {
+                        "startLine": 50,
+                        "startColumn": 4,
+                        "startOffset": 3145,
+                        "endLine": 53,
+                        "endColumn": 14,
+                        "endOffset": 3393
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 54,
+                    "startColumn": 4,
+                    "startOffset": 3398,
+                    "endLine": 57,
+                    "endColumn": 14,
+                    "endOffset": 3647
+                },
+                "from": {
+                    "file": "D:\\WorkSpace\\AndroidStudioProject\\Jan-2017\\GPath\\GPath-LOC-02040215\\app\\build\\intermediates\\exploded-aar\\net.danlew\\android.joda\\2.9.9\\res\\values-uk\\values-uk.xml",
+                    "position": {
+                        "startLine": 54,
+                        "startColumn": 4,
+                        "startOffset": 3398,
+                        "endLine": 57,
+                        "endColumn": 14,
+                        "endOffset": 3647
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 58,
+                    "startColumn": 4,
+                    "startOffset": 3652,
+                    "endLine": 61,
+                    "endColumn": 14,
+                    "endOffset": 3903
+                },
+                "from": {
+                    "file": "D:\\WorkSpace\\AndroidStudioProject\\Jan-2017\\GPath\\GPath-LOC-02040215\\app\\build\\intermediates\\exploded-aar\\net.danlew\\android.joda\\2.9.9\\res\\values-uk\\values-uk.xml",
+                    "position": {
+                        "startLine": 58,
+                        "startColumn": 4,
+                        "startOffset": 3652,
+                        "endLine": 61,
+                        "endColumn": 14,
+                        "endOffset": 3903
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 62,
+                    "startColumn": 4,
+                    "startOffset": 3908,
+                    "endLine": 65,
+                    "endColumn": 14,
+                    "endOffset": 4147
+                },
+                "from": {
+                    "file": "D:\\WorkSpace\\AndroidStudioProject\\Jan-2017\\GPath\\GPath-LOC-02040215\\app\\build\\intermediates\\exploded-aar\\net.danlew\\android.joda\\2.9.9\\res\\values-uk\\values-uk.xml",
+                    "position": {
+                        "startLine": 62,
+                        "startColumn": 4,
+                        "startOffset": 3908,
+                        "endLine": 65,
+                        "endColumn": 14,
+                        "endOffset": 4147
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 66,
+                    "startColumn": 4,
+                    "startOffset": 4152,
+                    "endLine": 69,
+                    "endColumn": 14,
+                    "endOffset": 4400
+                },
+                "from": {
+                    "file": "D:\\WorkSpace\\AndroidStudioProject\\Jan-2017\\GPath\\GPath-LOC-02040215\\app\\build\\intermediates\\exploded-aar\\net.danlew\\android.joda\\2.9.9\\res\\values-uk\\values-uk.xml",
+                    "position": {
+                        "startLine": 66,
+                        "startColumn": 4,
+                        "startOffset": 4152,
+                        "endLine": 69,
+                        "endColumn": 14,
+                        "endOffset": 4400
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 70,
+                    "startColumn": 4,
+                    "startOffset": 4405,
+                    "endLine": 73,
+                    "endColumn": 14,
+                    "endOffset": 4657
+                },
+                "from": {
+                    "file": "D:\\WorkSpace\\AndroidStudioProject\\Jan-2017\\GPath\\GPath-LOC-02040215\\app\\build\\intermediates\\exploded-aar\\net.danlew\\android.joda\\2.9.9\\res\\values-uk\\values-uk.xml",
+                    "position": {
+                        "startLine": 70,
+                        "startColumn": 4,
+                        "startOffset": 4405,
+                        "endLine": 73,
+                        "endColumn": 14,
+                        "endOffset": 4657
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 74,
+                    "startColumn": 4,
+                    "startOffset": 4662,
+                    "endLine": 77,
+                    "endColumn": 14,
+                    "endOffset": 4912
+                },
+                "from": {
+                    "file": "D:\\WorkSpace\\AndroidStudioProject\\Jan-2017\\GPath\\GPath-LOC-02040215\\app\\build\\intermediates\\exploded-aar\\net.danlew\\android.joda\\2.9.9\\res\\values-uk\\values-uk.xml",
+                    "position": {
+                        "startLine": 74,
+                        "startColumn": 4,
+                        "startOffset": 4662,
+                        "endLine": 77,
+                        "endColumn": 14,
+                        "endOffset": 4912
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 78,
+                    "startColumn": 4,
+                    "startOffset": 4917,
                     "endColumn": 109,
-                    "endOffset": 210
+                    "endOffset": 5022
                 },
                 "from": {
                     "file": "D:\\WorkSpace\\AndroidStudioProject\\Jan-2017\\GPath\\GPath-LOC-02040215\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\values-uk\\values-uk.xml",
@@ -23,11 +422,11 @@
             },
             {
                 "to": {
-                    "startLine": 3,
+                    "startLine": 79,
                     "startColumn": 4,
-                    "startOffset": 215,
+                    "startOffset": 5027,
                     "endColumn": 107,
-                    "endOffset": 318
+                    "endOffset": 5130
                 },
                 "from": {
                     "file": "D:\\WorkSpace\\AndroidStudioProject\\Jan-2017\\GPath\\GPath-LOC-02040215\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\values-uk\\values-uk.xml",
@@ -42,11 +441,11 @@
             },
             {
                 "to": {
-                    "startLine": 4,
+                    "startLine": 80,
                     "startColumn": 4,
-                    "startOffset": 323,
+                    "startOffset": 5135,
                     "endColumn": 122,
-                    "endOffset": 441
+                    "endOffset": 5253
                 },
                 "from": {
                     "file": "D:\\WorkSpace\\AndroidStudioProject\\Jan-2017\\GPath\\GPath-LOC-02040215\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\values-uk\\values-uk.xml",
@@ -61,11 +460,11 @@
             },
             {
                 "to": {
-                    "startLine": 5,
+                    "startLine": 81,
                     "startColumn": 4,
-                    "startOffset": 446,
+                    "startOffset": 5258,
                     "endColumn": 101,
-                    "endOffset": 543
+                    "endOffset": 5355
                 },
                 "from": {
                     "file": "D:\\WorkSpace\\AndroidStudioProject\\Jan-2017\\GPath\\GPath-LOC-02040215\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\values-uk\\values-uk.xml",
@@ -80,11 +479,11 @@
             },
             {
                 "to": {
-                    "startLine": 6,
+                    "startLine": 82,
                     "startColumn": 4,
-                    "startOffset": 548,
+                    "startOffset": 5360,
                     "endColumn": 105,
-                    "endOffset": 649
+                    "endOffset": 5461
                 },
                 "from": {
                     "file": "D:\\WorkSpace\\AndroidStudioProject\\Jan-2017\\GPath\\GPath-LOC-02040215\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\values-uk\\values-uk.xml",
@@ -99,11 +498,11 @@
             },
             {
                 "to": {
-                    "startLine": 7,
+                    "startLine": 83,
                     "startColumn": 4,
-                    "startOffset": 654,
+                    "startOffset": 5466,
                     "endColumn": 85,
-                    "endOffset": 735
+                    "endOffset": 5547
                 },
                 "from": {
                     "file": "D:\\WorkSpace\\AndroidStudioProject\\Jan-2017\\GPath\\GPath-LOC-02040215\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\values-uk\\values-uk.xml",
@@ -118,11 +517,11 @@
             },
             {
                 "to": {
-                    "startLine": 8,
+                    "startLine": 84,
                     "startColumn": 4,
-                    "startOffset": 740,
+                    "startOffset": 5552,
                     "endColumn": 107,
-                    "endOffset": 843
+                    "endOffset": 5655
                 },
                 "from": {
                     "file": "D:\\WorkSpace\\AndroidStudioProject\\Jan-2017\\GPath\\GPath-LOC-02040215\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\values-uk\\values-uk.xml",
@@ -137,11 +536,11 @@
             },
             {
                 "to": {
-                    "startLine": 9,
+                    "startLine": 85,
                     "startColumn": 4,
-                    "startOffset": 848,
+                    "startOffset": 5660,
                     "endColumn": 117,
-                    "endOffset": 961
+                    "endOffset": 5773
                 },
                 "from": {
                     "file": "D:\\WorkSpace\\AndroidStudioProject\\Jan-2017\\GPath\\GPath-LOC-02040215\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\values-uk\\values-uk.xml",
@@ -156,11 +555,11 @@
             },
             {
                 "to": {
-                    "startLine": 10,
+                    "startLine": 86,
                     "startColumn": 4,
-                    "startOffset": 966,
+                    "startOffset": 5778,
                     "endColumn": 78,
-                    "endOffset": 1040
+                    "endOffset": 5852
                 },
                 "from": {
                     "file": "D:\\WorkSpace\\AndroidStudioProject\\Jan-2017\\GPath\\GPath-LOC-02040215\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\values-uk\\values-uk.xml",
@@ -175,11 +574,11 @@
             },
             {
                 "to": {
-                    "startLine": 11,
+                    "startLine": 87,
                     "startColumn": 4,
-                    "startOffset": 1045,
+                    "startOffset": 5857,
                     "endColumn": 79,
-                    "endOffset": 1120
+                    "endOffset": 5932
                 },
                 "from": {
                     "file": "D:\\WorkSpace\\AndroidStudioProject\\Jan-2017\\GPath\\GPath-LOC-02040215\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\values-uk\\values-uk.xml",
@@ -194,11 +593,11 @@
             },
             {
                 "to": {
-                    "startLine": 12,
+                    "startLine": 88,
                     "startColumn": 4,
-                    "startOffset": 1125,
+                    "startOffset": 5937,
                     "endColumn": 80,
-                    "endOffset": 1201
+                    "endOffset": 6013
                 },
                 "from": {
                     "file": "D:\\WorkSpace\\AndroidStudioProject\\Jan-2017\\GPath\\GPath-LOC-02040215\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\values-uk\\values-uk.xml",
@@ -213,11 +612,11 @@
             },
             {
                 "to": {
-                    "startLine": 13,
+                    "startLine": 89,
                     "startColumn": 4,
-                    "startOffset": 1206,
+                    "startOffset": 6018,
                     "endColumn": 105,
-                    "endOffset": 1307
+                    "endOffset": 6119
                 },
                 "from": {
                     "file": "D:\\WorkSpace\\AndroidStudioProject\\Jan-2017\\GPath\\GPath-LOC-02040215\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\values-uk\\values-uk.xml",
@@ -232,11 +631,11 @@
             },
             {
                 "to": {
-                    "startLine": 14,
+                    "startLine": 90,
                     "startColumn": 4,
-                    "startOffset": 1312,
+                    "startOffset": 6124,
                     "endColumn": 106,
-                    "endOffset": 1414
+                    "endOffset": 6226
                 },
                 "from": {
                     "file": "D:\\WorkSpace\\AndroidStudioProject\\Jan-2017\\GPath\\GPath-LOC-02040215\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\values-uk\\values-uk.xml",
@@ -251,11 +650,11 @@
             },
             {
                 "to": {
-                    "startLine": 15,
+                    "startLine": 91,
                     "startColumn": 4,
-                    "startOffset": 1419,
+                    "startOffset": 6231,
                     "endColumn": 97,
-                    "endOffset": 1512
+                    "endOffset": 6324
                 },
                 "from": {
                     "file": "D:\\WorkSpace\\AndroidStudioProject\\Jan-2017\\GPath\\GPath-LOC-02040215\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\values-uk\\values-uk.xml",
@@ -270,11 +669,11 @@
             },
             {
                 "to": {
-                    "startLine": 16,
+                    "startLine": 92,
                     "startColumn": 4,
-                    "startOffset": 1517,
+                    "startOffset": 6329,
                     "endColumn": 107,
-                    "endOffset": 1620
+                    "endOffset": 6432
                 },
                 "from": {
                     "file": "D:\\WorkSpace\\AndroidStudioProject\\Jan-2017\\GPath\\GPath-LOC-02040215\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\values-uk\\values-uk.xml",
@@ -289,11 +688,11 @@
             },
             {
                 "to": {
-                    "startLine": 17,
+                    "startLine": 93,
                     "startColumn": 4,
-                    "startOffset": 1625,
+                    "startOffset": 6437,
                     "endColumn": 105,
-                    "endOffset": 1726
+                    "endOffset": 6538
                 },
                 "from": {
                     "file": "D:\\WorkSpace\\AndroidStudioProject\\Jan-2017\\GPath\\GPath-LOC-02040215\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\values-uk\\values-uk.xml",
@@ -308,11 +707,11 @@
             },
             {
                 "to": {
-                    "startLine": 18,
+                    "startLine": 94,
                     "startColumn": 4,
-                    "startOffset": 1731,
+                    "startOffset": 6543,
                     "endColumn": 108,
-                    "endOffset": 1835
+                    "endOffset": 6647
                 },
                 "from": {
                     "file": "D:\\WorkSpace\\AndroidStudioProject\\Jan-2017\\GPath\\GPath-LOC-02040215\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\values-uk\\values-uk.xml",
@@ -327,11 +726,11 @@
             },
             {
                 "to": {
-                    "startLine": 19,
+                    "startLine": 95,
                     "startColumn": 4,
-                    "startOffset": 1840,
+                    "startOffset": 6652,
                     "endColumn": 123,
-                    "endOffset": 1959
+                    "endOffset": 6771
                 },
                 "from": {
                     "file": "D:\\WorkSpace\\AndroidStudioProject\\Jan-2017\\GPath\\GPath-LOC-02040215\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\values-uk\\values-uk.xml",
@@ -346,11 +745,11 @@
             },
             {
                 "to": {
-                    "startLine": 20,
+                    "startLine": 96,
                     "startColumn": 4,
-                    "startOffset": 1964,
+                    "startOffset": 6776,
                     "endColumn": 99,
-                    "endOffset": 2059
+                    "endOffset": 6871
                 },
                 "from": {
                     "file": "D:\\WorkSpace\\AndroidStudioProject\\Jan-2017\\GPath\\GPath-LOC-02040215\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\values-uk\\values-uk.xml",
@@ -365,11 +764,11 @@
             },
             {
                 "to": {
-                    "startLine": 21,
+                    "startLine": 97,
                     "startColumn": 4,
-                    "startOffset": 2064,
+                    "startOffset": 6876,
                     "endColumn": 268,
-                    "endOffset": 2328
+                    "endOffset": 7140
                 },
                 "from": {
                     "file": "D:\\WorkSpace\\AndroidStudioProject\\Jan-2017\\GPath\\GPath-LOC-02040215\\app\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\9.0.1\\res\\values-uk\\values.xml",
@@ -384,11 +783,11 @@
             },
             {
                 "to": {
-                    "startLine": 22,
+                    "startLine": 98,
                     "startColumn": 4,
-                    "startOffset": 2333,
+                    "startOffset": 7145,
                     "endColumn": 129,
-                    "endOffset": 2458
+                    "endOffset": 7270
                 },
                 "from": {
                     "file": "D:\\WorkSpace\\AndroidStudioProject\\Jan-2017\\GPath\\GPath-LOC-02040215\\app\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\9.0.1\\res\\values-uk\\values.xml",
@@ -403,11 +802,11 @@
             },
             {
                 "to": {
-                    "startLine": 23,
+                    "startLine": 99,
                     "startColumn": 4,
-                    "startOffset": 2463,
+                    "startOffset": 7275,
                     "endColumn": 194,
-                    "endOffset": 2653
+                    "endOffset": 7465
                 },
                 "from": {
                     "file": "D:\\WorkSpace\\AndroidStudioProject\\Jan-2017\\GPath\\GPath-LOC-02040215\\app\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\9.0.1\\res\\values-uk\\values.xml",
@@ -422,11 +821,11 @@
             },
             {
                 "to": {
-                    "startLine": 24,
+                    "startLine": 100,
                     "startColumn": 4,
-                    "startOffset": 2658,
+                    "startOffset": 7470,
                     "endColumn": 128,
-                    "endOffset": 2782
+                    "endOffset": 7594
                 },
                 "from": {
                     "file": "D:\\WorkSpace\\AndroidStudioProject\\Jan-2017\\GPath\\GPath-LOC-02040215\\app\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\9.0.1\\res\\values-uk\\values.xml",
@@ -441,11 +840,11 @@
             },
             {
                 "to": {
-                    "startLine": 25,
+                    "startLine": 101,
                     "startColumn": 4,
-                    "startOffset": 2787,
+                    "startOffset": 7599,
                     "endColumn": 131,
-                    "endOffset": 2914
+                    "endOffset": 7726
                 },
                 "from": {
                     "file": "D:\\WorkSpace\\AndroidStudioProject\\Jan-2017\\GPath\\GPath-LOC-02040215\\app\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\9.0.1\\res\\values-uk\\values.xml",
@@ -460,11 +859,11 @@
             },
             {
                 "to": {
-                    "startLine": 26,
+                    "startLine": 102,
                     "startColumn": 4,
-                    "startOffset": 2919,
+                    "startOffset": 7731,
                     "endColumn": 218,
-                    "endOffset": 3133
+                    "endOffset": 7945
                 },
                 "from": {
                     "file": "D:\\WorkSpace\\AndroidStudioProject\\Jan-2017\\GPath\\GPath-LOC-02040215\\app\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\9.0.1\\res\\values-uk\\values.xml",
@@ -479,11 +878,11 @@
             },
             {
                 "to": {
-                    "startLine": 27,
+                    "startLine": 103,
                     "startColumn": 4,
-                    "startOffset": 3138,
+                    "startOffset": 7950,
                     "endColumn": 219,
-                    "endOffset": 3353
+                    "endOffset": 8165
                 },
                 "from": {
                     "file": "D:\\WorkSpace\\AndroidStudioProject\\Jan-2017\\GPath\\GPath-LOC-02040215\\app\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\9.0.1\\res\\values-uk\\values.xml",
@@ -498,11 +897,11 @@
             },
             {
                 "to": {
-                    "startLine": 28,
+                    "startLine": 104,
                     "startColumn": 4,
-                    "startOffset": 3358,
+                    "startOffset": 8170,
                     "endColumn": 130,
-                    "endOffset": 3484
+                    "endOffset": 8296
                 },
                 "from": {
                     "file": "D:\\WorkSpace\\AndroidStudioProject\\Jan-2017\\GPath\\GPath-LOC-02040215\\app\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\9.0.1\\res\\values-uk\\values.xml",
@@ -517,11 +916,11 @@
             },
             {
                 "to": {
-                    "startLine": 29,
+                    "startLine": 105,
                     "startColumn": 4,
-                    "startOffset": 3489,
+                    "startOffset": 8301,
                     "endColumn": 190,
-                    "endOffset": 3675
+                    "endOffset": 8487
                 },
                 "from": {
                     "file": "D:\\WorkSpace\\AndroidStudioProject\\Jan-2017\\GPath\\GPath-LOC-02040215\\app\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\9.0.1\\res\\values-uk\\values.xml",
@@ -536,11 +935,11 @@
             },
             {
                 "to": {
-                    "startLine": 30,
+                    "startLine": 106,
                     "startColumn": 4,
-                    "startOffset": 3680,
+                    "startOffset": 8492,
                     "endColumn": 133,
-                    "endOffset": 3809
+                    "endOffset": 8621
                 },
                 "from": {
                     "file": "D:\\WorkSpace\\AndroidStudioProject\\Jan-2017\\GPath\\GPath-LOC-02040215\\app\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\9.0.1\\res\\values-uk\\values.xml",
@@ -555,11 +954,11 @@
             },
             {
                 "to": {
-                    "startLine": 31,
+                    "startLine": 107,
                     "startColumn": 4,
-                    "startOffset": 3814,
+                    "startOffset": 8626,
                     "endColumn": 175,
-                    "endOffset": 3985
+                    "endOffset": 8797
                 },
                 "from": {
                     "file": "D:\\WorkSpace\\AndroidStudioProject\\Jan-2017\\GPath\\GPath-LOC-02040215\\app\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\9.0.1\\res\\values-uk\\values.xml",
@@ -574,11 +973,11 @@
             },
             {
                 "to": {
-                    "startLine": 32,
+                    "startLine": 108,
                     "startColumn": 4,
-                    "startOffset": 3990,
+                    "startOffset": 8802,
                     "endColumn": 120,
-                    "endOffset": 4106
+                    "endOffset": 8918
                 },
                 "from": {
                     "file": "D:\\WorkSpace\\AndroidStudioProject\\Jan-2017\\GPath\\GPath-LOC-02040215\\app\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\9.0.1\\res\\values-uk\\values.xml",
@@ -593,11 +992,11 @@
             },
             {
                 "to": {
-                    "startLine": 33,
+                    "startLine": 109,
                     "startColumn": 4,
-                    "startOffset": 4111,
+                    "startOffset": 8923,
                     "endColumn": 133,
-                    "endOffset": 4240
+                    "endOffset": 9052
                 },
                 "from": {
                     "file": "D:\\WorkSpace\\AndroidStudioProject\\Jan-2017\\GPath\\GPath-LOC-02040215\\app\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\9.0.1\\res\\values-uk\\values.xml",
@@ -612,11 +1011,11 @@
             },
             {
                 "to": {
-                    "startLine": 34,
+                    "startLine": 110,
                     "startColumn": 4,
-                    "startOffset": 4245,
+                    "startOffset": 9057,
                     "endColumn": 181,
-                    "endOffset": 4422
+                    "endOffset": 9234
                 },
                 "from": {
                     "file": "D:\\WorkSpace\\AndroidStudioProject\\Jan-2017\\GPath\\GPath-LOC-02040215\\app\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\9.0.1\\res\\values-uk\\values.xml",
@@ -631,11 +1030,11 @@
             },
             {
                 "to": {
-                    "startLine": 35,
+                    "startLine": 111,
                     "startColumn": 4,
-                    "startOffset": 4427,
+                    "startOffset": 9239,
                     "endColumn": 148,
-                    "endOffset": 4571
+                    "endOffset": 9383
                 },
                 "from": {
                     "file": "D:\\WorkSpace\\AndroidStudioProject\\Jan-2017\\GPath\\GPath-LOC-02040215\\app\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\9.0.1\\res\\values-uk\\values.xml",
@@ -650,11 +1049,11 @@
             },
             {
                 "to": {
-                    "startLine": 36,
+                    "startLine": 112,
                     "startColumn": 4,
-                    "startOffset": 4576,
+                    "startOffset": 9388,
                     "endColumn": 176,
-                    "endOffset": 4748
+                    "endOffset": 9560
                 },
                 "from": {
                     "file": "D:\\WorkSpace\\AndroidStudioProject\\Jan-2017\\GPath\\GPath-LOC-02040215\\app\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\9.0.1\\res\\values-uk\\values.xml",
@@ -669,11 +1068,11 @@
             },
             {
                 "to": {
-                    "startLine": 37,
+                    "startLine": 113,
                     "startColumn": 4,
-                    "startOffset": 4753,
+                    "startOffset": 9565,
                     "endColumn": 132,
-                    "endOffset": 4881
+                    "endOffset": 9693
                 },
                 "from": {
                     "file": "D:\\WorkSpace\\AndroidStudioProject\\Jan-2017\\GPath\\GPath-LOC-02040215\\app\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\9.0.1\\res\\values-uk\\values.xml",
@@ -688,11 +1087,11 @@
             },
             {
                 "to": {
-                    "startLine": 38,
+                    "startLine": 114,
                     "startColumn": 4,
-                    "startOffset": 4886,
+                    "startOffset": 9698,
                     "endColumn": 167,
-                    "endOffset": 5049
+                    "endOffset": 9861
                 },
                 "from": {
                     "file": "D:\\WorkSpace\\AndroidStudioProject\\Jan-2017\\GPath\\GPath-LOC-02040215\\app\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\9.0.1\\res\\values-uk\\values.xml",
@@ -707,11 +1106,11 @@
             },
             {
                 "to": {
-                    "startLine": 39,
+                    "startLine": 115,
                     "startColumn": 4,
-                    "startOffset": 5054,
+                    "startOffset": 9866,
                     "endColumn": 128,
-                    "endOffset": 5178
+                    "endOffset": 9990
                 },
                 "from": {
                     "file": "D:\\WorkSpace\\AndroidStudioProject\\Jan-2017\\GPath\\GPath-LOC-02040215\\app\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\9.0.1\\res\\values-uk\\values.xml",
@@ -726,11 +1125,11 @@
             },
             {
                 "to": {
-                    "startLine": 40,
+                    "startLine": 116,
                     "startColumn": 4,
-                    "startOffset": 5183,
+                    "startOffset": 9995,
                     "endColumn": 249,
-                    "endOffset": 5428
+                    "endOffset": 10240
                 },
                 "from": {
                     "file": "D:\\WorkSpace\\AndroidStudioProject\\Jan-2017\\GPath\\GPath-LOC-02040215\\app\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-basement\\9.0.1\\res\\values-uk\\values.xml",
@@ -745,11 +1144,11 @@
             },
             {
                 "to": {
-                    "startLine": 41,
+                    "startLine": 117,
                     "startColumn": 4,
-                    "startOffset": 5433,
+                    "startOffset": 10245,
                     "endColumn": 259,
-                    "endOffset": 5688
+                    "endOffset": 10500
                 },
                 "from": {
                     "file": "D:\\WorkSpace\\AndroidStudioProject\\Jan-2017\\GPath\\GPath-LOC-02040215\\app\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\9.0.1\\res\\values-uk\\values.xml",
@@ -764,11 +1163,11 @@
             },
             {
                 "to": {
-                    "startLine": 42,
+                    "startLine": 118,
                     "startColumn": 4,
-                    "startOffset": 5693,
+                    "startOffset": 10505,
                     "endColumn": 122,
-                    "endOffset": 5811
+                    "endOffset": 10623
                 },
                 "from": {
                     "file": "D:\\WorkSpace\\AndroidStudioProject\\Jan-2017\\GPath\\GPath-LOC-02040215\\app\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\9.0.1\\res\\values-uk\\values.xml",
@@ -783,11 +1182,11 @@
             },
             {
                 "to": {
-                    "startLine": 43,
+                    "startLine": 119,
                     "startColumn": 4,
-                    "startOffset": 5816,
+                    "startOffset": 10628,
                     "endColumn": 107,
-                    "endOffset": 5919
+                    "endOffset": 10731
                 },
                 "from": {
                     "file": "D:\\WorkSpace\\AndroidStudioProject\\Jan-2017\\GPath\\GPath-LOC-02040215\\app\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\9.0.1\\res\\values-uk\\values.xml",
@@ -802,11 +1201,11 @@
             },
             {
                 "to": {
-                    "startLine": 44,
+                    "startLine": 120,
                     "startColumn": 4,
-                    "startOffset": 5924,
+                    "startOffset": 10736,
                     "endColumn": 192,
-                    "endOffset": 6112
+                    "endOffset": 10924
                 },
                 "from": {
                     "file": "D:\\WorkSpace\\AndroidStudioProject\\Jan-2017\\GPath\\GPath-LOC-02040215\\app\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\9.0.1\\res\\values-uk\\values.xml",
@@ -821,11 +1220,11 @@
             },
             {
                 "to": {
-                    "startLine": 45,
+                    "startLine": 121,
                     "startColumn": 4,
-                    "startOffset": 6117,
+                    "startOffset": 10929,
                     "endColumn": 126,
-                    "endOffset": 6239
+                    "endOffset": 11051
                 },
                 "from": {
                     "file": "D:\\WorkSpace\\AndroidStudioProject\\Jan-2017\\GPath\\GPath-LOC-02040215\\app\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\9.0.1\\res\\values-uk\\values.xml",
@@ -840,11 +1239,11 @@
             },
             {
                 "to": {
-                    "startLine": 46,
+                    "startLine": 122,
                     "startColumn": 4,
-                    "startOffset": 6244,
+                    "startOffset": 11056,
                     "endColumn": 205,
-                    "endOffset": 6445
+                    "endOffset": 11257
                 },
                 "from": {
                     "file": "D:\\WorkSpace\\AndroidStudioProject\\Jan-2017\\GPath\\GPath-LOC-02040215\\app\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\9.0.1\\res\\values-uk\\values.xml",
@@ -859,11 +1258,11 @@
             },
             {
                 "to": {
-                    "startLine": 47,
+                    "startLine": 123,
                     "startColumn": 4,
-                    "startOffset": 6450,
+                    "startOffset": 11262,
                     "endColumn": 132,
-                    "endOffset": 6578
+                    "endOffset": 11390
                 },
                 "from": {
                     "file": "D:\\WorkSpace\\AndroidStudioProject\\Jan-2017\\GPath\\GPath-LOC-02040215\\app\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\9.0.1\\res\\values-uk\\values.xml",
@@ -878,11 +1277,11 @@
             },
             {
                 "to": {
-                    "startLine": 48,
+                    "startLine": 124,
                     "startColumn": 4,
-                    "startOffset": 6583,
+                    "startOffset": 11395,
                     "endColumn": 171,
-                    "endOffset": 6750
+                    "endOffset": 11562
                 },
                 "from": {
                     "file": "D:\\WorkSpace\\AndroidStudioProject\\Jan-2017\\GPath\\GPath-LOC-02040215\\app\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\9.0.1\\res\\values-uk\\values.xml",
@@ -897,11 +1296,11 @@
             },
             {
                 "to": {
-                    "startLine": 49,
+                    "startLine": 125,
                     "startColumn": 4,
-                    "startOffset": 6755,
+                    "startOffset": 11567,
                     "endColumn": 99,
-                    "endOffset": 6850
+                    "endOffset": 11662
                 },
                 "from": {
                     "file": "D:\\WorkSpace\\AndroidStudioProject\\Jan-2017\\GPath\\GPath-LOC-02040215\\app\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\9.0.1\\res\\values-uk\\values.xml",
@@ -916,11 +1315,11 @@
             },
             {
                 "to": {
-                    "startLine": 50,
+                    "startLine": 126,
                     "startColumn": 4,
-                    "startOffset": 6855,
+                    "startOffset": 11667,
                     "endColumn": 90,
-                    "endOffset": 6941
+                    "endOffset": 11753
                 },
                 "from": {
                     "file": "D:\\WorkSpace\\AndroidStudioProject\\Jan-2017\\GPath\\GPath-LOC-02040215\\app\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\9.0.1\\res\\values-uk\\values.xml",
@@ -935,11 +1334,11 @@
             },
             {
                 "to": {
-                    "startLine": 51,
+                    "startLine": 127,
                     "startColumn": 4,
-                    "startOffset": 6946,
+                    "startOffset": 11758,
                     "endColumn": 116,
-                    "endOffset": 7058
+                    "endOffset": 11870
                 },
                 "from": {
                     "file": "D:\\WorkSpace\\AndroidStudioProject\\Jan-2017\\GPath\\GPath-LOC-02040215\\app\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\9.0.1\\res\\values-uk\\values.xml",
@@ -954,11 +1353,87 @@
             },
             {
                 "to": {
-                    "startLine": 52,
+                    "startLine": 128,
                     "startColumn": 4,
-                    "startOffset": 7063,
+                    "startOffset": 11875,
+                    "endColumn": 65,
+                    "endOffset": 11936
+                },
+                "from": {
+                    "file": "D:\\WorkSpace\\AndroidStudioProject\\Jan-2017\\GPath\\GPath-LOC-02040215\\app\\build\\intermediates\\exploded-aar\\net.danlew\\android.joda\\2.9.9\\res\\values-uk\\values-uk.xml",
+                    "position": {
+                        "startLine": 78,
+                        "startColumn": 4,
+                        "startOffset": 4917,
+                        "endColumn": 65,
+                        "endOffset": 4978
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 129,
+                    "startColumn": 4,
+                    "startOffset": 11941,
+                    "endColumn": 124,
+                    "endOffset": 12061
+                },
+                "from": {
+                    "file": "D:\\WorkSpace\\AndroidStudioProject\\Jan-2017\\GPath\\GPath-LOC-02040215\\app\\build\\intermediates\\exploded-aar\\net.danlew\\android.joda\\2.9.9\\res\\values-uk\\values-uk.xml",
+                    "position": {
+                        "startLine": 79,
+                        "startColumn": 4,
+                        "startOffset": 4983,
+                        "endColumn": 124,
+                        "endOffset": 5103
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 130,
+                    "startColumn": 4,
+                    "startOffset": 12066,
+                    "endColumn": 126,
+                    "endOffset": 12188
+                },
+                "from": {
+                    "file": "D:\\WorkSpace\\AndroidStudioProject\\Jan-2017\\GPath\\GPath-LOC-02040215\\app\\build\\intermediates\\exploded-aar\\net.danlew\\android.joda\\2.9.9\\res\\values-uk\\values-uk.xml",
+                    "position": {
+                        "startLine": 80,
+                        "startColumn": 4,
+                        "startOffset": 5108,
+                        "endColumn": 126,
+                        "endOffset": 5230
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 131,
+                    "startColumn": 4,
+                    "startOffset": 12193,
+                    "endColumn": 150,
+                    "endOffset": 12339
+                },
+                "from": {
+                    "file": "D:\\WorkSpace\\AndroidStudioProject\\Jan-2017\\GPath\\GPath-LOC-02040215\\app\\build\\intermediates\\exploded-aar\\net.danlew\\android.joda\\2.9.9\\res\\values-uk\\values-uk.xml",
+                    "position": {
+                        "startLine": 81,
+                        "startColumn": 4,
+                        "startOffset": 5235,
+                        "endColumn": 150,
+                        "endOffset": 5381
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 132,
+                    "startColumn": 4,
+                    "startOffset": 12344,
                     "endColumn": 111,
-                    "endOffset": 7170
+                    "endOffset": 12451
                 },
                 "from": {
                     "file": "D:\\WorkSpace\\AndroidStudioProject\\Jan-2017\\GPath\\GPath-LOC-02040215\\app\\build\\intermediates\\exploded-aar\\com.android.support\\mediarouter-v7\\23.0.0\\res\\values-uk\\values-uk.xml",
@@ -973,11 +1448,11 @@
             },
             {
                 "to": {
-                    "startLine": 53,
+                    "startLine": 133,
                     "startColumn": 4,
-                    "startOffset": 7175,
+                    "startOffset": 12456,
                     "endColumn": 107,
-                    "endOffset": 7278
+                    "endOffset": 12559
                 },
                 "from": {
                     "file": "D:\\WorkSpace\\AndroidStudioProject\\Jan-2017\\GPath\\GPath-LOC-02040215\\app\\build\\intermediates\\exploded-aar\\com.android.support\\mediarouter-v7\\23.0.0\\res\\values-uk\\values-uk.xml",
@@ -992,11 +1467,11 @@
             },
             {
                 "to": {
-                    "startLine": 54,
+                    "startLine": 134,
                     "startColumn": 4,
-                    "startOffset": 7283,
+                    "startOffset": 12564,
                     "endColumn": 111,
-                    "endOffset": 7390
+                    "endOffset": 12671
                 },
                 "from": {
                     "file": "D:\\WorkSpace\\AndroidStudioProject\\Jan-2017\\GPath\\GPath-LOC-02040215\\app\\build\\intermediates\\exploded-aar\\com.android.support\\mediarouter-v7\\23.0.0\\res\\values-uk\\values-uk.xml",
@@ -1011,11 +1486,11 @@
             },
             {
                 "to": {
-                    "startLine": 55,
+                    "startLine": 135,
                     "startColumn": 4,
-                    "startOffset": 7395,
+                    "startOffset": 12676,
                     "endColumn": 106,
-                    "endOffset": 7497
+                    "endOffset": 12778
                 },
                 "from": {
                     "file": "D:\\WorkSpace\\AndroidStudioProject\\Jan-2017\\GPath\\GPath-LOC-02040215\\app\\build\\intermediates\\exploded-aar\\com.android.support\\mediarouter-v7\\23.0.0\\res\\values-uk\\values-uk.xml",
@@ -1030,11 +1505,11 @@
             },
             {
                 "to": {
-                    "startLine": 56,
+                    "startLine": 136,
                     "startColumn": 4,
-                    "startOffset": 7502,
+                    "startOffset": 12783,
                     "endColumn": 113,
-                    "endOffset": 7611
+                    "endOffset": 12892
                 },
                 "from": {
                     "file": "D:\\WorkSpace\\AndroidStudioProject\\Jan-2017\\GPath\\GPath-LOC-02040215\\app\\build\\intermediates\\exploded-aar\\com.android.support\\mediarouter-v7\\23.0.0\\res\\values-uk\\values-uk.xml",
@@ -1049,11 +1524,11 @@
             },
             {
                 "to": {
-                    "startLine": 57,
+                    "startLine": 137,
                     "startColumn": 4,
-                    "startOffset": 7616,
+                    "startOffset": 12897,
                     "endColumn": 101,
-                    "endOffset": 7713
+                    "endOffset": 12994
                 },
                 "from": {
                     "file": "D:\\WorkSpace\\AndroidStudioProject\\Jan-2017\\GPath\\GPath-LOC-02040215\\app\\build\\intermediates\\exploded-aar\\com.android.support\\mediarouter-v7\\23.0.0\\res\\values-uk\\values-uk.xml",
@@ -1068,11 +1543,11 @@
             },
             {
                 "to": {
-                    "startLine": 58,
+                    "startLine": 138,
                     "startColumn": 4,
-                    "startOffset": 7718,
+                    "startOffset": 12999,
                     "endColumn": 99,
-                    "endOffset": 7813
+                    "endOffset": 13094
                 },
                 "from": {
                     "file": "D:\\WorkSpace\\AndroidStudioProject\\Jan-2017\\GPath\\GPath-LOC-02040215\\app\\build\\intermediates\\exploded-aar\\com.android.support\\mediarouter-v7\\23.0.0\\res\\values-uk\\values-uk.xml",
@@ -1087,11 +1562,11 @@
             },
             {
                 "to": {
-                    "startLine": 59,
+                    "startLine": 139,
                     "startColumn": 4,
-                    "startOffset": 7818,
+                    "startOffset": 13099,
                     "endColumn": 125,
-                    "endOffset": 7939
+                    "endOffset": 13220
                 },
                 "from": {
                     "file": "D:\\WorkSpace\\AndroidStudioProject\\Jan-2017\\GPath\\GPath-LOC-02040215\\app\\build\\intermediates\\exploded-aar\\com.android.support\\mediarouter-v7\\23.0.0\\res\\values-uk\\values-uk.xml",
@@ -1106,11 +1581,11 @@
             },
             {
                 "to": {
-                    "startLine": 60,
+                    "startLine": 140,
                     "startColumn": 4,
-                    "startOffset": 7944,
+                    "startOffset": 13225,
                     "endColumn": 108,
-                    "endOffset": 8048
+                    "endOffset": 13329
                 },
                 "from": {
                     "file": "D:\\WorkSpace\\AndroidStudioProject\\Jan-2017\\GPath\\GPath-LOC-02040215\\app\\build\\intermediates\\exploded-aar\\com.android.support\\mediarouter-v7\\23.0.0\\res\\values-uk\\values-uk.xml",
@@ -1125,11 +1600,11 @@
             },
             {
                 "to": {
-                    "startLine": 61,
+                    "startLine": 141,
                     "startColumn": 4,
-                    "startOffset": 8053,
+                    "startOffset": 13334,
                     "endColumn": 86,
-                    "endOffset": 8135
+                    "endOffset": 13416
                 },
                 "from": {
                     "file": "D:\\WorkSpace\\AndroidStudioProject\\Jan-2017\\GPath\\GPath-LOC-02040215\\app\\build\\intermediates\\exploded-aar\\com.android.support\\mediarouter-v7\\23.0.0\\res\\values-uk\\values-uk.xml",
@@ -1144,11 +1619,11 @@
             },
             {
                 "to": {
-                    "startLine": 62,
+                    "startLine": 142,
                     "startColumn": 4,
-                    "startOffset": 8140,
+                    "startOffset": 13421,
                     "endColumn": 94,
-                    "endOffset": 8230
+                    "endOffset": 13511
                 },
                 "from": {
                     "file": "D:\\WorkSpace\\AndroidStudioProject\\Jan-2017\\GPath\\GPath-LOC-02040215\\app\\build\\intermediates\\exploded-aar\\com.android.support\\mediarouter-v7\\23.0.0\\res\\values-uk\\values-uk.xml",
@@ -1163,11 +1638,11 @@
             },
             {
                 "to": {
-                    "startLine": 63,
+                    "startLine": 143,
                     "startColumn": 4,
-                    "startOffset": 8235,
+                    "startOffset": 13516,
                     "endColumn": 110,
-                    "endOffset": 8341
+                    "endOffset": 13622
                 },
                 "from": {
                     "file": "D:\\WorkSpace\\AndroidStudioProject\\Jan-2017\\GPath\\GPath-LOC-02040215\\app\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-location\\9.0.1\\res\\values-uk\\values.xml",
@@ -1182,11 +1657,11 @@
             },
             {
                 "to": {
-                    "startLine": 64,
+                    "startLine": 144,
                     "startColumn": 4,
-                    "startOffset": 8346,
+                    "startOffset": 13627,
                     "endColumn": 94,
-                    "endOffset": 8436
+                    "endOffset": 13717
                 },
                 "from": {
                     "file": "D:\\WorkSpace\\AndroidStudioProject\\Jan-2017\\GPath\\GPath-LOC-02040215\\app\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-location\\9.0.1\\res\\values-uk\\values.xml",
@@ -1201,11 +1676,11 @@
             },
             {
                 "to": {
-                    "startLine": 65,
+                    "startLine": 145,
                     "startColumn": 4,
-                    "startOffset": 8441,
+                    "startOffset": 13722,
                     "endColumn": 100,
-                    "endOffset": 8537
+                    "endOffset": 13818
                 },
                 "from": {
                     "file": "D:\\WorkSpace\\AndroidStudioProject\\Jan-2017\\GPath\\GPath-LOC-02040215\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\values-uk\\values-uk.xml",
@@ -1220,11 +1695,11 @@
             },
             {
                 "to": {
-                    "startLine": 66,
+                    "startLine": 146,
                     "startColumn": 4,
-                    "startOffset": 8542,
+                    "startOffset": 13823,
                     "endColumn": 61,
-                    "endOffset": 8599
+                    "endOffset": 13880
                 },
                 "from": {
                     "file": "D:\\WorkSpace\\AndroidStudioProject\\Jan-2017\\GPath\\GPath-LOC-02040215\\app\\build\\intermediates\\exploded-aar\\com.journeyapps\\zxing-android-embedded\\2.3.0\\res\\values-uk\\values.xml",
@@ -1239,11 +1714,11 @@
             },
             {
                 "to": {
-                    "startLine": 67,
+                    "startLine": 147,
                     "startColumn": 4,
-                    "startOffset": 8604,
+                    "startOffset": 13885,
                     "endColumn": 55,
-                    "endOffset": 8655
+                    "endOffset": 13936
                 },
                 "from": {
                     "file": "D:\\WorkSpace\\AndroidStudioProject\\Jan-2017\\GPath\\GPath-LOC-02040215\\app\\build\\intermediates\\exploded-aar\\com.journeyapps\\zxing-android-embedded\\2.3.0\\res\\values-uk\\values.xml",
@@ -1258,11 +1733,11 @@
             },
             {
                 "to": {
-                    "startLine": 68,
+                    "startLine": 148,
                     "startColumn": 4,
-                    "startOffset": 8660,
+                    "startOffset": 13941,
                     "endColumn": 46,
-                    "endOffset": 8702
+                    "endOffset": 13983
                 },
                 "from": {
                     "file": "D:\\WorkSpace\\AndroidStudioProject\\Jan-2017\\GPath\\GPath-LOC-02040215\\app\\build\\intermediates\\exploded-aar\\com.journeyapps\\zxing-android-embedded\\2.3.0\\res\\values-uk\\values.xml",
@@ -1277,11 +1752,11 @@
             },
             {
                 "to": {
-                    "startLine": 69,
+                    "startLine": 149,
                     "startColumn": 4,
-                    "startOffset": 8707,
+                    "startOffset": 13988,
                     "endColumn": 71,
-                    "endOffset": 8774
+                    "endOffset": 14055
                 },
                 "from": {
                     "file": "D:\\WorkSpace\\AndroidStudioProject\\Jan-2017\\GPath\\GPath-LOC-02040215\\app\\build\\intermediates\\exploded-aar\\com.journeyapps\\zxing-android-embedded\\2.3.0\\res\\values-uk\\values.xml",
@@ -1296,11 +1771,11 @@
             },
             {
                 "to": {
-                    "startLine": 70,
+                    "startLine": 150,
                     "startColumn": 4,
-                    "startOffset": 8779,
+                    "startOffset": 14060,
                     "endColumn": 62,
-                    "endOffset": 8837
+                    "endOffset": 14118
                 },
                 "from": {
                     "file": "D:\\WorkSpace\\AndroidStudioProject\\Jan-2017\\GPath\\GPath-LOC-02040215\\app\\build\\intermediates\\exploded-aar\\com.journeyapps\\zxing-android-embedded\\2.3.0\\res\\values-uk\\values.xml",
@@ -1315,11 +1790,11 @@
             },
             {
                 "to": {
-                    "startLine": 71,
+                    "startLine": 151,
                     "startColumn": 4,
-                    "startOffset": 8842,
+                    "startOffset": 14123,
                     "endColumn": 74,
-                    "endOffset": 8912
+                    "endOffset": 14193
                 },
                 "from": {
                     "file": "D:\\WorkSpace\\AndroidStudioProject\\Jan-2017\\GPath\\GPath-LOC-02040215\\app\\build\\intermediates\\exploded-aar\\com.journeyapps\\zxing-android-embedded\\2.3.0\\res\\values-uk\\values.xml",
@@ -1334,11 +1809,11 @@
             },
             {
                 "to": {
-                    "startLine": 72,
+                    "startLine": 152,
                     "startColumn": 4,
-                    "startOffset": 8917,
+                    "startOffset": 14198,
                     "endColumn": 63,
-                    "endOffset": 8976
+                    "endOffset": 14257
                 },
                 "from": {
                     "file": "D:\\WorkSpace\\AndroidStudioProject\\Jan-2017\\GPath\\GPath-LOC-02040215\\app\\build\\intermediates\\exploded-aar\\com.journeyapps\\zxing-android-embedded\\2.3.0\\res\\values-uk\\values.xml",
@@ -1353,11 +1828,11 @@
             },
             {
                 "to": {
-                    "startLine": 73,
+                    "startLine": 153,
                     "startColumn": 4,
-                    "startOffset": 8981,
+                    "startOffset": 14262,
                     "endColumn": 61,
-                    "endOffset": 9038
+                    "endOffset": 14319
                 },
                 "from": {
                     "file": "D:\\WorkSpace\\AndroidStudioProject\\Jan-2017\\GPath\\GPath-LOC-02040215\\app\\build\\intermediates\\exploded-aar\\com.journeyapps\\zxing-android-embedded\\2.3.0\\res\\values-uk\\values.xml",
@@ -1372,11 +1847,11 @@
             },
             {
                 "to": {
-                    "startLine": 74,
+                    "startLine": 154,
                     "startColumn": 4,
-                    "startOffset": 9043,
+                    "startOffset": 14324,
                     "endColumn": 53,
-                    "endOffset": 9092
+                    "endOffset": 14373
                 },
                 "from": {
                     "file": "D:\\WorkSpace\\AndroidStudioProject\\Jan-2017\\GPath\\GPath-LOC-02040215\\app\\build\\intermediates\\exploded-aar\\com.journeyapps\\zxing-android-embedded\\2.3.0\\res\\values-uk\\values.xml",
@@ -1391,11 +1866,11 @@
             },
             {
                 "to": {
-                    "startLine": 75,
+                    "startLine": 155,
                     "startColumn": 4,
-                    "startOffset": 9097,
+                    "startOffset": 14378,
                     "endColumn": 141,
-                    "endOffset": 9234
+                    "endOffset": 14515
                 },
                 "from": {
                     "file": "D:\\WorkSpace\\AndroidStudioProject\\Jan-2017\\GPath\\GPath-LOC-02040215\\app\\build\\intermediates\\exploded-aar\\com.journeyapps\\zxing-android-embedded\\2.3.0\\res\\values-uk\\values.xml",
@@ -1410,11 +1885,11 @@
             },
             {
                 "to": {
-                    "startLine": 76,
+                    "startLine": 156,
                     "startColumn": 4,
-                    "startOffset": 9239,
+                    "startOffset": 14520,
                     "endColumn": 59,
-                    "endOffset": 9294
+                    "endOffset": 14575
                 },
                 "from": {
                     "file": "D:\\WorkSpace\\AndroidStudioProject\\Jan-2017\\GPath\\GPath-LOC-02040215\\app\\build\\intermediates\\exploded-aar\\com.journeyapps\\zxing-android-embedded\\2.3.0\\res\\values-uk\\values.xml",
@@ -1429,11 +1904,11 @@
             },
             {
                 "to": {
-                    "startLine": 77,
+                    "startLine": 157,
                     "startColumn": 4,
-                    "startOffset": 9299,
+                    "startOffset": 14580,
                     "endColumn": 59,
-                    "endOffset": 9354
+                    "endOffset": 14635
                 },
                 "from": {
                     "file": "D:\\WorkSpace\\AndroidStudioProject\\Jan-2017\\GPath\\GPath-LOC-02040215\\app\\build\\intermediates\\exploded-aar\\com.journeyapps\\zxing-android-embedded\\2.3.0\\res\\values-uk\\values.xml",
@@ -1448,11 +1923,11 @@
             },
             {
                 "to": {
-                    "startLine": 78,
+                    "startLine": 158,
                     "startColumn": 4,
-                    "startOffset": 9359,
+                    "startOffset": 14640,
                     "endColumn": 121,
-                    "endOffset": 9476
+                    "endOffset": 14757
                 },
                 "from": {
                     "file": "D:\\WorkSpace\\AndroidStudioProject\\Jan-2017\\GPath\\GPath-LOC-02040215\\app\\build\\intermediates\\exploded-aar\\com.journeyapps\\zxing-android-embedded\\2.3.0\\res\\values-uk\\values.xml",
@@ -1467,11 +1942,11 @@
             },
             {
                 "to": {
-                    "startLine": 79,
+                    "startLine": 159,
                     "startColumn": 4,
-                    "startOffset": 9481,
+                    "startOffset": 14762,
                     "endColumn": 54,
-                    "endOffset": 9531
+                    "endOffset": 14812
                 },
                 "from": {
                     "file": "D:\\WorkSpace\\AndroidStudioProject\\Jan-2017\\GPath\\GPath-LOC-02040215\\app\\build\\intermediates\\exploded-aar\\com.journeyapps\\zxing-android-embedded\\2.3.0\\res\\values-uk\\values.xml",
@@ -1486,11 +1961,11 @@
             },
             {
                 "to": {
-                    "startLine": 80,
+                    "startLine": 160,
                     "startColumn": 4,
-                    "startOffset": 9536,
+                    "startOffset": 14817,
                     "endColumn": 54,
-                    "endOffset": 9586
+                    "endOffset": 14867
                 },
                 "from": {
                     "file": "D:\\WorkSpace\\AndroidStudioProject\\Jan-2017\\GPath\\GPath-LOC-02040215\\app\\build\\intermediates\\exploded-aar\\com.journeyapps\\zxing-android-embedded\\2.3.0\\res\\values-uk\\values.xml",
@@ -1505,11 +1980,11 @@
             },
             {
                 "to": {
-                    "startLine": 81,
+                    "startLine": 161,
                     "startColumn": 4,
-                    "startOffset": 9591,
+                    "startOffset": 14872,
                     "endColumn": 78,
-                    "endOffset": 9665
+                    "endOffset": 14946
                 },
                 "from": {
                     "file": "D:\\WorkSpace\\AndroidStudioProject\\Jan-2017\\GPath\\GPath-LOC-02040215\\app\\build\\intermediates\\exploded-aar\\com.journeyapps\\zxing-android-embedded\\2.3.0\\res\\values-uk\\values.xml",

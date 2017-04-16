@@ -45,6 +45,7 @@
             android:layout_marginRight="5dp"
             android:layout_toLeftOf="@+id/btn_DTSearch"
             android:layout_toStartOf="@+id/btn_DTSearch"
+
             android:hint="@string/search_event_name"
             android:padding="5dp" />
 

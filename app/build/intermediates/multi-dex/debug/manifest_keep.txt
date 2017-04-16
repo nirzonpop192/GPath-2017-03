@@ -56,6 +56,8 @@
 -keep class com.siddiquinoor.restclient.activity.TrainingActivity { <init>(); }
 -keep class com.siddiquinoor.restclient.activity.sub_activity.training.IdTypeSelection { <init>(); }
 -keep class com.siddiquinoor.restclient.activity.sub_activity.training.TABeneficiaryCardListActivity { <init>(); }
+-keep class com.siddiquinoor.restclient.activity.sub_activity.training.AddTaParticipaintActivity { <init>(); }
+-keep class com.siddiquinoor.restclient.activity.sub_activity.training.TaSummaryPage { <init>(); }
 -keep class com.google.zxing.client.android.CaptureActivity { <init>(); }
 -keep class com.google.android.gms.ads.AdActivity { <init>(); }
 -keep class com.google.android.gms.ads.purchase.InAppPurchaseActivity { <init>(); }

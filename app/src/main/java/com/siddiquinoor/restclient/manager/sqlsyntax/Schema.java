@@ -210,9 +210,9 @@ public class Schema {
      *
      */
     public static String sqlCreateCardPrintReasonTable() {
-        return CREATE_TABLE_IF_NOT_EXISTS + SQLiteHandler.CARD_PRINT_REASON_TABLE + "("
-                + SQLiteHandler.CARD_PRINT_REASON_CODE_COL + " VARCHAR(10), "
-                + SQLiteHandler.CARD_PRINT_REASON_TITLE_COL + " VARCHAR(50) )";
+        return CREATE_TABLE_IF_NOT_EXISTS + CARD_PRINT_REASON_TABLE + "("
+                + CARD_PRINT_REASON_CODE_COL + " VARCHAR(10), "
+                + CARD_PRINT_REASON_TITLE_COL + " VARCHAR(50) )";
     }
 
     /**
@@ -231,8 +231,8 @@ public class Schema {
      */
 
     public static String sqlCreateVillage() {
-        return CREATE_TABLE_IF_NOT_EXISTS + SQLiteHandler.VILLAGE_TABLE + "("
-                + SQLiteHandler.ID_COL + " INTEGER " + PRIMARY_KEY + " AUTOINCREMENT, "
+        return CREATE_TABLE_IF_NOT_EXISTS + VILLAGE_TABLE + "("
+                + ID_COL + " INTEGER " + PRIMARY_KEY + " AUTOINCREMENT, "
                 + COUNTRY_CODE_COL + " VARCHAR(50), "
                 + LAYER_CODE_COL + " VARCHAR(2),"
                 + LAY_R1_LIST_CODE_COL + " VARCHAR(10), "
@@ -240,7 +240,7 @@ public class Schema {
                 + LAY_R3_LIST_CODE_COL + " VARCHAR(10), "
                 + LAY_R4_LIST_CODE_COL + " VARCHAR(10), "
                 + VILLAGE_NAME_COL + " VARCHAR(50), "
-                + SQLiteHandler.HOUSE_HOLD_TARGET + " VARCHAR(50))"; // new
+                + HOUSE_HOLD_TARGET + " VARCHAR(50))"; // new
     }
 
     // added @2015-09-29
@@ -731,29 +731,29 @@ public class Schema {
         return CREATE_TABLE_IF_NOT_EXISTS + SQLiteHandler.ADM_DONOR_TABLE + "("
                 + SQLiteHandler.ID_COL + " INTEGER " + PRIMARY_KEY + " AUTOINCREMENT, "
                 + DONOR_CODE_COL + " VARCHAR(20), "
-                + SQLiteHandler.DONOR_NAME_COL + " VARCHAR(100) ) ";
+                + DONOR_NAME_COL + " VARCHAR(100) ) ";
     }
 
 
     public static String sqlCreateRegistration() {
         return CREATE_TABLE_IF_NOT_EXISTS + SQLiteHandler.REGISTRATION_TABLE + "("
-                + SQLiteHandler.ID_COL + " INTEGER " + PRIMARY_KEY + " AUTOINCREMENT, "
+                + ID_COL + " INTEGER " + PRIMARY_KEY + " AUTOINCREMENT, "
                 + COUNTRY_CODE_COL + " VARCHAR(10), "
-                + SQLiteHandler.DISTRICT_NAME_COL + " VARCHAR(10), "
-                + SQLiteHandler.UPZILLA_NAME_COL + " VARCHAR(10), "
+                + DISTRICT_NAME_COL + " VARCHAR(10), "
+                + UPZILLA_NAME_COL + " VARCHAR(10), "
                 + UNITE_NAME_COL + " VARCHAR(10), "
                 + VILLAGE_NAME_COL + " VARCHAR(10), "
                 + REGN_ADDRESS_LOOKUP_CODE_COL + " VARCHAR(3), "
-                + SQLiteHandler.PID_COL + " VARCHAR(10), "
-                + SQLiteHandler.REG_DATE_COL + " DATE, "
-                + SQLiteHandler.PNAME_COL + " VARCHAR(50), "
-                + SQLiteHandler.SEX_COL + " VARCHAR(8), "
-                + SQLiteHandler.HH_SIZE + " VARCHAR(10), "
-                + SQLiteHandler.LATITUDE_COL + " VARCHAR(20), "
-                + SQLiteHandler.LONGITUDE_COL + " VARCHAR(20), "
-                + SQLiteHandler.AG_LAND + " VARCHAR(20), "
-                + SQLiteHandler.V_STATUS + " VARCHAR(10), "
-                + SQLiteHandler.M_STATUS + " VARCHAR(10), "
+                + PID_COL + " VARCHAR(10), "
+                + REG_DATE_COL + " DATE, "
+                + PNAME_COL + " VARCHAR(50), "
+                + SEX_COL + " VARCHAR(8), "
+                + HH_SIZE + " VARCHAR(10), "
+                + LATITUDE_COL + " VARCHAR(20), "
+                + LONGITUDE_COL + " VARCHAR(20), "
+                + AG_LAND + " VARCHAR(20), "
+                + V_STATUS + " VARCHAR(10), "
+                + M_STATUS + " VARCHAR(10), "
 
                 + ENTRY_BY + " VARCHAR(20), "
                 + ENTRY_DATE + " DATE, "
@@ -1937,6 +1937,8 @@ public class Schema {
                 + " , " + PM_SESSION_COL + " VARCHAR(1) "
                 + " , " + ATDN_DATE_COL + " VARCHAR(30) "
                 + " , " + TA_GROUP_COL + " VARCHAR(3) "
+                + " , " + ENTRY_BY + " VARCHAR(4) "
+                + " , " + ENTRY_DATE + " VARCHAR(20) "
                 + " , " + PRIMARY_KEY + " (" + COUNTRY_CODE_COL + ", " + EVENT_CODE_COL  + ", " + PART_ID_COL + ", " + ATDN_DATE_COL  +  " ) "
                 + " ) ";
     }
@@ -1998,7 +2000,16 @@ public class Schema {
                 + " ) ";
     }
 
-
+public static  String crateLUP_TAParticipantCat(){
+    return CREATE_TABLE_IF_NOT_EXISTS +LUP_TA_PATICIPANT_CAT_TABLE
+            +" ( "
+            +COUNTRY_CODE_COL  + " VARCHAR(4) "
+            +" , "+TA_GROUP_COL+  " VARCHAR(3) "
+            +" , "+PART_CAT_CODE_COL+  " VARCHAR(3) "
+            +" , "+PART_CAT_TITLE_COL+  " VARCHAR(3) "
+            + " , " + PRIMARY_KEY + " (" + COUNTRY_CODE_COL +" , "+  TA_GROUP_COL  +" , "+  PART_CAT_CODE_COL+  " ) "
+            + " ) ";
+}
 
 
 }

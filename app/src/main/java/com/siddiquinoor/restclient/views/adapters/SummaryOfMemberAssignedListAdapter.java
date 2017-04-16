@@ -67,7 +67,7 @@ public class SummaryOfMemberAssignedListAdapter extends BaseAdapter{
         holder.tv_id.setText(assignData.getCustomId());
         holder.tv_name.setText(assignData.getMemberName());
         holder.tv_regDate.setText(assignData.getRegDate());
-     //   Log.d("NIR_SU", assignData.getGroupName());
+     //   Log.d("NIR_SU", dataList.getGroupName());
         holder.tv_ass_group_name.setText(assignData.getGroupName());
 
         /**

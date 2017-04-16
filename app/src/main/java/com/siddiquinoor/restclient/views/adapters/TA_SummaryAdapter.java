@@ -3,6 +3,8 @@ package com.siddiquinoor.restclient.views.adapters;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
+import android.util.Log;
+import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,43 +12,49 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.siddiquinoor.restclient.R;
-import com.siddiquinoor.restclient.data_model.adapters.AssignDataModel;
+import com.siddiquinoor.restclient.data_model.adapters.TaSummary;
+import com.siddiquinoor.restclient.data_model.adapters.TrainigActivBeneficiaryDataModel;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
- * Created by pop on 4/8/2017.
+ * Created by pop on 4/12/2017.
  */
 
-public class TrainingNActivityBenificiaryAdapter extends BaseAdapter {
+public class TA_SummaryAdapter  extends BaseAdapter{
+    private final String TAG = TrainingNActivityBeneficiaryAdapter.class.getName();
+
 
 
     private Activity activity;
 
-    private LayoutInflater inflater;
-    ArrayList<AssignDataModel> assignData = new ArrayList<AssignDataModel>();
 
-    private final String TAG = com.siddiquinoor.restclient.views.adapters.AssignDataModelAdapter.class.getName();
+
+    private LayoutInflater inflater;
+    private List<TaSummary> dataList = new ArrayList<>();
+
+
 
     ViewHolder holder = null;
 
 
-    public TrainingNActivityBenificiaryAdapter(Activity activity, ArrayList<AssignDataModel> assignData
+    public TA_SummaryAdapter(Activity activity, List<TaSummary> assignData
     ) {
         this.activity = activity;
-        this.assignData = assignData;
+        this.dataList = assignData;
 
     }
 
 
     @Override
     public int getCount() {
-        return assignData.size();
+        return dataList.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return assignData.get(position);
+        return dataList.get(position);
     }
 
     @Override
@@ -55,34 +63,34 @@ public class TrainingNActivityBenificiaryAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(final int position, View convertView, ViewGroup parent) {
-
+    public View getView(int position, View convertView, ViewGroup parent) {
         View row = convertView;
-        final AssignDataModel memData = assignData.get(position);
+        final TaSummary data = dataList.get(position);
 
         if (inflater == null)
             inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         if (convertView == null) {
-            row = inflater.inflate(R.layout.list_row_assign, null);
+            row = inflater.inflate(R.layout.list_row_ta_summary, null);
 
             holder = new ViewHolder();
 
-            holder.memberId = (TextView) row.findViewById(R.id.memS_row_memId);
+            holder.tvTitle = (TextView) row.findViewById(R.id.ta_tv_summary_Title);
+            holder.tv_Count = (TextView) row.findViewById(R.id.ta_tv_summary_Count);
 
-            holder.tv_mmName = (TextView) row.findViewById(R.id.as_row_mm_name);
-            holder.tv_assign = (TextView) row.findViewById(R.id.as_row_tv_assignView);
-            //     holder.imgEdit = (ImageView) row.findViewById(R.id.mem_ibtn_toAssigne);
 
             row.setTag(holder);
         } else {
             holder = (ViewHolder) row.getTag();
         }
 
+        Log.d("MOR","data.getTitle() : "+data.getTitle());
+        holder.tvTitle.setText(data.getTitle());  // 15 digit
 
-        holder.memberId.setText(memData.getNewId());  // 15 digit
+        holder.tv_Count.setText(data.getCount());
 
-        holder.tv_mmName.setText(memData.getHh_mm_name());
-        holder.tv_assign.setText(memData.getAssignYN());
+
+
+        // set the sate of particular positioned check box
 
 
         /**
@@ -98,17 +106,13 @@ public class TrainingNActivityBenificiaryAdapter extends BaseAdapter {
         return row;
     }
 
+    private static class ViewHolder {
 
-    class ViewHolder {
-
-        TextView memberId;
-        TextView tv_mmName;
-        TextView tv_assign;
-        //  ImageView imgEdit;
+        TextView tvTitle;
+        TextView tv_Count;
 
 
     }
-
 
     /**
      * The method change the color of the textView
@@ -116,8 +120,8 @@ public class TrainingNActivityBenificiaryAdapter extends BaseAdapter {
      * @param color Color of text View
      */
     private void changeTextColor(int color) {
-        holder.memberId.setTextColor(color);
-        holder.tv_mmName.setTextColor(color);
-        holder.tv_assign.setTextColor(color);
+        holder.tvTitle.setTextColor(color);
+        holder.tv_Count.setTextColor(color);
+
     }
 }

@@ -201,7 +201,7 @@ public class AssignDataModelAdapter extends BaseAdapter {
       * holder.imgEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AssignDataModel tem=assignData.get(position);
+                AssignDataModel tem=dataList.get(position);
                 //String memAge1=tem.getMember_age();
 
                 Intent iSubAssignClass = null;

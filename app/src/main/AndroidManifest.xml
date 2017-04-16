@@ -332,9 +332,19 @@
         <activity
             android:name=".activity.sub_activity.dynamic_table.DT_ReportActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
-        <activity android:name=".activity.TrainingActivity" />
-        <activity android:name=".activity.sub_activity.training.IdTypeSelection" />
-        <activity android:name=".activity.sub_activity.training.TABeneficiaryCardListActivity"></activity>
+        <activity
+            android:name=".activity.TrainingActivity"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+        <activity
+            android:name=".activity.sub_activity.training.IdTypeSelection"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+        <activity
+            android:name=".activity.sub_activity.training.TABeneficiaryCardListActivity"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+        <activity
+            android:name=".activity.sub_activity.training.AddTaParticipaintActivity"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+        <activity android:name=".activity.sub_activity.training.TaSummaryPage"></activity>
     </application>
 
 </manifest>

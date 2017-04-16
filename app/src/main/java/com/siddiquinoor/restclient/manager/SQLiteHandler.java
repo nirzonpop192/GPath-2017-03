@@ -35,6 +35,7 @@ import com.siddiquinoor.restclient.data_model.GPS_LocationAttributeDataModel;
 import com.siddiquinoor.restclient.data_model.GPS_LocationDataModel;
 import com.siddiquinoor.restclient.data_model.GPS_SubGroupAttributeDataModel;
 import com.siddiquinoor.restclient.data_model.LayRCodes;
+import com.siddiquinoor.restclient.data_model.LupTaParticipentCategories;
 import com.siddiquinoor.restclient.data_model.Lup_gpsListDataModel;
 import com.siddiquinoor.restclient.data_model.ProgramMasterDM;
 import com.siddiquinoor.restclient.data_model.RegNAssgProgSrv;
@@ -42,8 +43,14 @@ import com.siddiquinoor.restclient.data_model.RegN_HH_libDataModel;
 import com.siddiquinoor.restclient.data_model.RegN_MM_libDataModel;
 import com.siddiquinoor.restclient.data_model.ServiceCenterItem;
 import com.siddiquinoor.restclient.data_model.ServiceSpecificDataModel;
+import com.siddiquinoor.restclient.data_model.TAPosParticipants;
+import com.siddiquinoor.restclient.data_model.TA_ParticipantsListDataModel;
+import com.siddiquinoor.restclient.data_model.TaCategoriesDataModel;
+import com.siddiquinoor.restclient.data_model.TaPartOrgN;
 import com.siddiquinoor.restclient.data_model.TemOpMonth;
 import com.siddiquinoor.restclient.data_model.VillageItem;
+import com.siddiquinoor.restclient.data_model.adapters.TaSummary;
+import com.siddiquinoor.restclient.data_model.adapters.TrainigActivBeneficiaryDataModel;
 import com.siddiquinoor.restclient.data_model.adapters.TrainingNActivityIndexDataModel;
 import com.siddiquinoor.restclient.manager.sqlsyntax.SQLServerSyntaxGenerator;
 import com.siddiquinoor.restclient.manager.sqlsyntax.SQLiteQuery;
@@ -91,7 +98,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
     // All Static variables
 
     // Database Version
-    private static final int DATABASE_VERSION = 16;
+    private static final int DATABASE_VERSION = 18;
     // Database Name
     private static final String DATABASE_NAME = "pci";
     // Android meta data table
@@ -163,7 +170,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
     public static final String STAFF_SRV_CENTER_ACCESS_TABLE = "StaffSrvCenterAccess";
 
     public static final String HOUSE_HOLD_CATEGORY_TABLE = "HouseHoldCategory";
-    public static final String LIBERIA_REGISTRATION_TABLE = "Liberia_Registration";
+   // public static final String LIBERIA_REGISTRATION_TABLE = "Liberia_Registration";
 
     public static final String REG_N_LUP_GRADUATION_TABLE = "Graduation";
 
@@ -211,6 +218,8 @@ public class SQLiteHandler extends SQLiteOpenHelper {
     public static final String TA_POS_PARTICIPANTS_TABLE = "TAPosParticipants";
     public static final String TA_TOPIC_CHILD_TABLE = "TATopicChild";
     public static final String TA_TOPIC_MASTER_TABLE = "TATopicMaster";
+    public static final String LUP_TA_PATICIPANT_CAT_TABLE = "LUP_TAParticipantCat";
+
 
     public static final String DIST_N_PLAN_BASIC_TABLE = "DistNPlanBasic";
     public static final String LUP_REGN_ADDRESS_LOOKUP_TABLE = "LUP_RegNAddLookup";
@@ -296,6 +305,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
     public static final String PART_ORG_N_CODE_COL = "PartOrgNCode";
     public static final String PART_ORG_N_NAME_COL = "PartOrgNName";
     public static final String PART_CAT_CODE_COL = "PartCatCode";
+    public static final String PART_CAT_TITLE_COL = "PartCatTitle";
     public static final String POS_CODE_COL = "PosCode";
     public static final String AM_SESSION_COL = "AMSession";
     public static final String PM_SESSION_COL = "PMSession";
@@ -1102,6 +1112,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
         db.execSQL(Schema.createTASubGroupTable());
         db.execSQL(Schema.createTATopicChildTable());
         db.execSQL(Schema.createTATopicMasterTable());
+        db.execSQL(Schema.crateLUP_TAParticipantCat());
         /** * temporary  table */
         db.execSQL(Schema.sqlCreateTemporary_CountryProgram());
         db.execSQL(Schema.sqlCreateTemporary_OpMonthTable());
@@ -1162,7 +1173,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
             db.execSQL(DROP_TABLE_IF_EXISTS + REG_N_CA2_TABLE);
             db.execSQL(DROP_TABLE_IF_EXISTS + STAFF_GEO_INFO_ACCESS_TABLE);
             db.execSQL(DROP_TABLE_IF_EXISTS + HOUSE_HOLD_CATEGORY_TABLE);
-            db.execSQL(DROP_TABLE_IF_EXISTS + LIBERIA_REGISTRATION_TABLE);
+//            db.execSQL(DROP_TABLE_IF_EXISTS + LIBERIA_REGISTRATION_TABLE);
             db.execSQL(DROP_TABLE_IF_EXISTS + REG_N_LUP_GRADUATION_TABLE);
             db.execSQL(DROP_TABLE_IF_EXISTS + REPORT_TEMPLATE_TABLE);
             db.execSQL(DROP_TABLE_IF_EXISTS + CARD_PRINT_REASON_TABLE);
@@ -1234,6 +1245,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
             db.execSQL(DROP_TABLE_IF_EXISTS + TA_SUB_GROUP_TABLE);
             db.execSQL(DROP_TABLE_IF_EXISTS + TA_TOPIC_CHILD_TABLE);
             db.execSQL(DROP_TABLE_IF_EXISTS + TA_TOPIC_MASTER_TABLE);
+            db.execSQL(DROP_TABLE_IF_EXISTS + LUP_TA_PATICIPANT_CAT_TABLE);
 
 
 //            Log.d(TAG, "All table Dropped.");
@@ -1328,9 +1340,23 @@ public class SQLiteHandler extends SQLiteOpenHelper {
         // SQLiteDatabase db = this.getWritableDatabase();
 
 //        Log.d(TAG, "Deleting all user data..");
+        db.delete(UPLOAD_SYNTAX_TABLE, null, null);
 
         try {
             // Delete All Rows
+            db.delete(SELECTED_OPERATION_MODE_TABLE, null, null);
+            db.delete(TA_MASTER_TABLE, null, null);
+            db.delete(TA_CATEGORY_TABLE, null, null);
+            db.delete(TA_EVENT_TOPIC_TABLE, null, null);
+            db.delete(TA_GROUP_TABLE, null, null);
+            db.delete(TA_PARTICIPANTS_LIST_TABLE, null, null);
+            db.delete(TA_PART_ORG_N_TABLE, null, null);
+            db.delete(TA_POS_PARTICIPANTS_TABLE, null, null);
+            db.delete(TA_SUB_GROUP_TABLE, null, null);
+            db.delete(TA_TOPIC_CHILD_TABLE, null, null);
+            db.delete(TA_TOPIC_MASTER_TABLE, null, null);
+            db.delete(LUP_TA_PATICIPANT_CAT_TABLE, null, null);
+
             db.delete(DT_A_TABLE, null, null);
             db.delete(DT_BASIC_TABLE, null, null);
             db.delete(DT_CATEGORY_TABLE, null, null);
@@ -1372,12 +1398,12 @@ public class SQLiteHandler extends SQLiteOpenHelper {
             db.delete(STAFF_GEO_INFO_ACCESS_TABLE, null, null);
             db.delete(STAFF_SRV_CENTER_ACCESS_TABLE, null, null);
             db.delete(HOUSE_HOLD_CATEGORY_TABLE, null, null);
-            db.delete(LIBERIA_REGISTRATION_TABLE, null, null);
+//            db.delete(LIBERIA_REGISTRATION_TABLE, null, null);
             db.delete(REG_N_LUP_GRADUATION_TABLE, null, null);
             db.delete(REPORT_TEMPLATE_TABLE, null, null);
             db.delete(CARD_PRINT_REASON_TABLE, null, null);
             db.delete(MEMBER_CARD_PRINT_TABLE, null, null);
-            db.delete(UPLOAD_SYNTAX_TABLE, null, null);
+
             db.delete(FDP_MASTER_TABLE, null, null);
             db.delete(STAFF_FDP_ACCESS_TABLE, null, null);
             db.delete(REG_N_CT_TABLE, null, null);
@@ -1412,17 +1438,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
             db.delete(STAFF_MASTER_TABLE, null, null);
             db.delete(LUP_GPS_LIST_TABLE, null, null);
             db.delete(ADM_AWARD_TABLE, null, null);
-            db.delete(SELECTED_OPERATION_MODE_TABLE, null, null);
-            db.delete(TA_MASTER_TABLE, null, null);
-            db.delete(TA_CATEGORY_TABLE, null, null);
-            db.delete(TA_EVENT_TOPIC_TABLE, null, null);
-            db.delete(TA_GROUP_TABLE, null, null);
-            db.delete(TA_PARTICIPANTS_LIST_TABLE, null, null);
-            db.delete(TA_PART_ORG_N_TABLE, null, null);
-            db.delete(TA_POS_PARTICIPANTS_TABLE, null, null);
-            db.delete(TA_SUB_GROUP_TABLE, null, null);
-            db.delete(TA_TOPIC_CHILD_TABLE, null, null);
-            db.delete(TA_TOPIC_MASTER_TABLE, null, null);
+
 
 
 //            Log.d(TAG, "All User data Deleted.");
@@ -1433,6 +1449,62 @@ public class SQLiteHandler extends SQLiteOpenHelper {
         //db.close();
 
         onCreate(db);
+    }
+
+
+    public List<LupTaParticipentCategories> getLUP_TAParticipantCategories(String cCode, String taGroup) {
+        List<LupTaParticipentCategories> list = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        String sql = SQLiteQuery.getLUP_TAParticipantCategories_sql(cCode, taGroup);
+        Cursor cursor = db.rawQuery(sql, null);
+        if (cursor.moveToFirst()) {
+            do {
+                LupTaParticipentCategories data = new LupTaParticipentCategories();
+                data.setcCode(cursor.getString(cursor.getColumnIndex(COUNTRY_CODE_COL)));
+                data.setTaGroup(cursor.getString(cursor.getColumnIndex(TA_GROUP_COL)));
+                data.setParticipentCategoriesCode(cursor.getString(cursor.getColumnIndex(PART_CAT_CODE_COL)));
+                data.setParticipentCategoriesName(cursor.getString(cursor.getColumnIndex(PART_CAT_TITLE_COL)));
+
+
+                list.add(data);
+            } while (cursor.moveToNext());
+            cursor.close();
+        }
+        db.close();
+        return list;
+    }
+
+    public LupTaParticipentCategories getLUP_TAParticipantCategory(String cCode, String taGroup, String categioyTittle) {
+        LupTaParticipentCategories data = new LupTaParticipentCategories();
+        SQLiteDatabase db = this.getReadableDatabase();
+        String sql = SQLiteQuery.getLUP_TAParticipantCategory_sql(cCode, taGroup, categioyTittle);
+        Cursor cursor = db.rawQuery(sql, null);
+        if (cursor != null && cursor.moveToFirst()) {
+
+
+            data.setcCode(cursor.getString(cursor.getColumnIndex(COUNTRY_CODE_COL)));
+            data.setTaGroup(cursor.getString(cursor.getColumnIndex(TA_GROUP_COL)));
+            data.setParticipentCategoriesCode(cursor.getString(cursor.getColumnIndex(PART_CAT_CODE_COL)));
+            data.setParticipentCategoriesName(cursor.getString(cursor.getColumnIndex(PART_CAT_TITLE_COL)));
+
+
+            cursor.close();
+        }
+        db.close();
+        return data;
+    }
+
+    public void addLUP_TAParticipantCat(String cCode, String taGroup, String partCatCode, String partCatTitle) {
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(COUNTRY_CODE_COL, cCode);
+        values.put(TA_GROUP_COL, taGroup);
+        values.put(PART_CAT_CODE_COL, partCatCode);
+        values.put(PART_CAT_TITLE_COL, partCatTitle);
+
+        db.insert(LUP_TA_PATICIPANT_CAT_TABLE, null, values);
+        db.close();
     }
 
 
@@ -1475,6 +1547,34 @@ public class SQLiteHandler extends SQLiteOpenHelper {
         db.close();
     }
 
+    public List<TAPosParticipants> getTAPosParticipants(String cCode) {
+        List<TAPosParticipants> list = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        String sql = "SELECT " + COUNTRY_CODE_COL
+                + " , " + POS_CODE_COL
+                + " , " + POS_TITLE_COL
+                + " FROM " + TA_POS_PARTICIPANTS_TABLE
+                + " WHERE " + COUNTRY_CODE_COL + " = '" + cCode + "' ";
+
+
+        Cursor cursor = db.rawQuery(sql, null);
+        if (cursor.moveToFirst()) {
+            do {
+                TAPosParticipants data = new TAPosParticipants();
+                data.setcCode(cursor.getString(cursor.getColumnIndex(COUNTRY_CODE_COL)));
+                data.setPosCode(cursor.getString(cursor.getColumnIndex(POS_CODE_COL)));
+                data.setPosTitle(cursor.getString(cursor.getColumnIndex(POS_TITLE_COL)));
+
+
+                list.add(data);
+            } while (cursor.moveToNext());
+            cursor.close();
+        }
+        db.close();
+        return list;
+    }
+
     public void addTAPosParticipantsTable(String cCode, String posCode, String posTitle) {
 
         SQLiteDatabase db = this.getWritableDatabase();
@@ -1487,6 +1587,57 @@ public class SQLiteHandler extends SQLiteOpenHelper {
         db.close();
     }
 
+    public List<TaPartOrgN> getTaOrganization(String cCode) {
+        List<TaPartOrgN> list = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        String sql = SQLiteQuery.getTaOrganization_sql(cCode);
+        Cursor cursor = db.rawQuery(sql, null);
+        if (cursor.moveToFirst()) {
+            do {
+                TaPartOrgN data = new TaPartOrgN();
+                data.setcCode(cursor.getString(cursor.getColumnIndex(COUNTRY_CODE_COL)));
+                data.setPartOrgNCode(cursor.getString(cursor.getColumnIndex(PART_ORG_N_CODE_COL)));
+                data.setPartOrgNName(cursor.getString(cursor.getColumnIndex(PART_ORG_N_NAME_COL)));
+                data.setSrcBen(cursor.getString(cursor.getColumnIndex(SRC_BEN_COL)));
+
+
+                list.add(data);
+            } while (cursor.moveToNext());
+            cursor.close();
+        }
+        db.close();
+        return list;
+    }
+
+
+    public List<TaCategoriesDataModel> getTaCategories(String cCode) {
+        List<TaCategoriesDataModel> list = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+
+
+        String sql = "SELECT " + COUNTRY_CODE_COL
+                + " , " + TA_CAT_CODE_COL
+                + " , " + TA_CAT_NAME_COL
+                + " , " + SRC_BEN_COL
+                + " FROM " + TA_CATEGORY_TABLE
+                + " WHERE " + COUNTRY_CODE_COL + " = '" + cCode + "' ";
+        Cursor cursor = db.rawQuery(sql, null);
+        if (cursor.moveToFirst()) {
+            do {
+                TaCategoriesDataModel data = new TaCategoriesDataModel();
+                data.setcCode(cursor.getString(cursor.getColumnIndex(COUNTRY_CODE_COL)));
+                data.setTaCatCode(cursor.getString(cursor.getColumnIndex(TA_CAT_CODE_COL)));
+                data.setTaCatName(cursor.getString(cursor.getColumnIndex(TA_CAT_NAME_COL)));
+                data.setSrcBen(cursor.getString(cursor.getColumnIndex(SRC_BEN_COL)));
+
+
+                list.add(data);
+            } while (cursor.moveToNext());
+            cursor.close();
+        }
+        db.close();
+        return list;
+    }
 
     public void addTAPartOrgTable(String cCode, String partOrgNCode, String partOrgNName, String srcBen) {
 
@@ -1501,35 +1652,225 @@ public class SQLiteHandler extends SQLiteOpenHelper {
         db.close();
     }
 
+    public boolean ifExistsInTaParticipantsListTable(String cCode, String eventCode, String partId, String atdnDate) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        boolean flag;
+        String sql = SQLiteQuery.ifExistsInTaParticipantsListTable_sql(cCode, eventCode, partId, atdnDate);
+        Cursor cursor = db.rawQuery(sql, null);
 
-    public void addTaParticipantsListTable(String cCode, String eventCode, String partId, String idCatCode,
-                                           String partName, String partOrgNCode, String sex,
-                                           String partCatCode, String posCode, String amSession,
-                                           String pmSession, String atdnDate, String taGroup) {
+
+        flag = (cursor.getCount() > 0);
+        // for protection .if close cursor while it's value null , the close stametnt
+        if (cursor != null)
+            cursor.close();
+        db.close();
+        return flag;
+
+    }
+
+    public boolean ifExistsInTaParticipantsListTable(String cCode, String eventCode, String partId) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        boolean flag;
+        String sql = "SELECT * FROM " + TA_PARTICIPANTS_LIST_TABLE
+                + " WHERE " + COUNTRY_CODE_COL + " = '" + cCode + "'" +
+                " AND " + EVENT_CODE_COL + " = '" + eventCode + "'" +
+                " AND " + PART_ID_COL + " = '" + partId + "' ";/*+
+                " AND " + PART_NAME_COL + " = '" + partName + "' ";*/
+
+
+        Cursor cursor = db.rawQuery(sql, null);
+
+
+        flag = (cursor.getCount() > 0);
+        // for protection .if close cursor while it's value null , the close stametnt
+        if (cursor != null)
+            cursor.close();
+        db.close();
+        return flag;
+
+    }
+
+    public TA_ParticipantsListDataModel getTaParticipantsListTable(String cCode, String eventCode, String partId, String idCategory) {
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        TA_ParticipantsListDataModel data = new TA_ParticipantsListDataModel();
+        String sql = "SELECT * FROM " + TA_PARTICIPANTS_LIST_TABLE
+                + " WHERE " + COUNTRY_CODE_COL + " = '" + cCode + "'" +
+                " AND " + EVENT_CODE_COL + " = '" + eventCode + "'" +
+                " AND " + PART_ID_COL + " = '" + partId + "' " +
+                " AND " + ID_CATEGORY_COL + " = '" + idCategory + "' " +
+                " GROUP BY " + PART_ORG_N_CODE_COL + " , " + PART_CAT_CODE_COL + " ," + POS_CODE_COL;
+
+        Cursor cursor = db.rawQuery(sql, null);
+        if (cursor != null && cursor.moveToFirst()) {
+            data.setcCode(cursor.getString(cursor.getColumnIndex(COUNTRY_CODE_COL)));
+            data.setEventCode(cursor.getString(cursor.getColumnIndex(EVENT_CODE_COL)));
+
+            data.setPartId(cursor.getString(cursor.getColumnIndex(PART_ID_COL)));
+            data.setIdCatCode(cursor.getString(cursor.getColumnIndex(ID_CATEGORY_COL)));
+            data.setPartName(cursor.getString(cursor.getColumnIndex(PART_NAME_COL)));
+            data.setPartOrgNCode(cursor.getString(cursor.getColumnIndex(PART_ORG_N_CODE_COL)));
+            data.setSex(cursor.getString(cursor.getColumnIndex(SEX_COL)));
+            data.setPartCatCode(cursor.getString(cursor.getColumnIndex(PART_CAT_CODE_COL)));
+            data.setPosCode(cursor.getString(cursor.getColumnIndex(POS_CODE_COL)));
+            data.setAmSession(cursor.getString(cursor.getColumnIndex(AM_SESSION_COL)));
+            data.setPmSession(cursor.getString(cursor.getColumnIndex(PM_SESSION_COL)));
+            data.setTaGroup(cursor.getString(cursor.getColumnIndex(TA_GROUP_COL)));
+            data.setAtdnDate(cursor.getString(cursor.getColumnIndex(ATDN_DATE_COL)));
+
+
+        }
+        if (cursor != null)
+            cursor.close();
+
+        db.close();
+        return data;
+
+    }
+
+
+    public List<TA_ParticipantsListDataModel> getsingleTaParticipantsListTableRecordsAttendance(String cCode, String eventCode, String partId, String idCategory) {
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        List<TA_ParticipantsListDataModel> list = new ArrayList<>();
+
+        String sql = "SELECT * FROM " + TA_PARTICIPANTS_LIST_TABLE
+                + " WHERE " + COUNTRY_CODE_COL + " = '" + cCode + "'" +
+                " AND " + EVENT_CODE_COL + " = '" + eventCode + "'" +
+                " AND " + PART_ID_COL + " = '" + partId + "' " +
+                " AND " + ID_CATEGORY_COL + " = '" + idCategory + "' ";
+
+
+        Cursor cursor = db.rawQuery(sql, null);
+        if (cursor.moveToFirst()) {
+            do {
+                TA_ParticipantsListDataModel data = new TA_ParticipantsListDataModel();
+                data.setcCode(cursor.getString(cursor.getColumnIndex(COUNTRY_CODE_COL)));
+                data.setEventCode(cursor.getString(cursor.getColumnIndex(EVENT_CODE_COL)));
+
+                data.setPartId(cursor.getString(cursor.getColumnIndex(PART_ID_COL)));
+                data.setIdCatCode(cursor.getString(cursor.getColumnIndex(ID_CATEGORY_COL)));
+                data.setPartName(cursor.getString(cursor.getColumnIndex(PART_NAME_COL)));
+                data.setPartOrgNCode(cursor.getString(cursor.getColumnIndex(PART_ORG_N_CODE_COL)));
+                data.setSex(cursor.getString(cursor.getColumnIndex(SEX_COL)));
+                data.setPartCatCode(cursor.getString(cursor.getColumnIndex(PART_CAT_CODE_COL)));
+                data.setPosCode(cursor.getString(cursor.getColumnIndex(POS_CODE_COL)));
+                data.setAmSession(cursor.getString(cursor.getColumnIndex(AM_SESSION_COL)));
+                data.setPmSession(cursor.getString(cursor.getColumnIndex(PM_SESSION_COL)));
+                data.setTaGroup(cursor.getString(cursor.getColumnIndex(TA_GROUP_COL)));
+                data.setAtdnDate(cursor.getString(cursor.getColumnIndex(ATDN_DATE_COL)));
+
+                list.add(data);
+
+            } while (cursor.moveToNext());
+
+            cursor.close();
+        }
+
+
+        db.close();
+        return list;
+
+    }
+
+    public void editTaParticipantsListTable(String cCode, String eventCode, String partId, String idCatCode,
+                                            String partName, String partOrgNCode, String sex,
+                                            String partCatCode, String posCode, String amSession,
+                                            String pmSession, String atdnDate, String taGroup, String entryBy, String entryDate) {
+
+
+        String where = SQLiteQuery.editTaParticipantsListTable_sql(cCode, eventCode, partId, atdnDate);
 
 
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(COUNTRY_CODE_COL, cCode);
 
-        values.put(EVENT_CODE_COL, eventCode);
-        values.put(PART_ID_COL, partId);
+
         values.put(ID_CATEGORY_COL, idCatCode);
         values.put(PART_NAME_COL, partName);
-
         values.put(PART_ORG_N_CODE_COL, partOrgNCode);
         values.put(SEX_COL, sex);
         values.put(PART_CAT_CODE_COL, partCatCode);
         values.put(POS_CODE_COL, posCode);
         values.put(AM_SESSION_COL, amSession);
         values.put(PM_SESSION_COL, pmSession);
-        values.put(ATDN_DATE_COL, atdnDate);
         values.put(TA_GROUP_COL, taGroup);
+        values.put(ATDN_DATE_COL, atdnDate);
+        values.put(ENTRY_BY, entryBy);
+        values.put(ENTRY_DATE, entryDate);
 
+        db.update(TA_PARTICIPANTS_LIST_TABLE, values, where, null);
+
+        db.close();
+
+        SQLServerSyntaxGenerator syntaxGenerator = new SQLServerSyntaxGenerator();
+
+        syntaxGenerator.setAdmCountryCode(cCode);
+        syntaxGenerator.setEventCode(eventCode);
+        syntaxGenerator.setPartID(partId);
+        syntaxGenerator.setIDCategory(idCatCode);
+        syntaxGenerator.setPartName(partName);
+        syntaxGenerator.setPartOrgNCode(partOrgNCode);
+        syntaxGenerator.setSex(sex);
+        syntaxGenerator.setPartCatCode(partCatCode);
+        syntaxGenerator.setPosCode(posCode);
+        syntaxGenerator.setAMSession(amSession);
+        syntaxGenerator.setPMSession(pmSession);
+        syntaxGenerator.setAtdnDate(atdnDate);
+        syntaxGenerator.setTAGroup(taGroup);
+        syntaxGenerator.setEntryBy(entryBy);
+        syntaxGenerator.setEntryDate(entryDate);
+        insertIntoUploadTable(syntaxGenerator.updateTAParticipantsList());
+
+
+    }
+
+    public void addTaParticipantsListTable(String cCode, String eventCode, String partId, String idCatCode,
+                                           String partName, String partOrgNCode, String sex,
+                                           String partCatCode, String posCode, String amSession,
+                                           String pmSession, String atdnDate, String taGroup, String entryBy, String entryDate) {
+
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+
+        values.put(COUNTRY_CODE_COL, cCode);
+        values.put(EVENT_CODE_COL, eventCode);
+        values.put(PART_ID_COL, partId);
+        values.put(ID_CATEGORY_COL, idCatCode);
+        values.put(PART_NAME_COL, partName);
+        values.put(PART_ORG_N_CODE_COL, partOrgNCode);
+        values.put(SEX_COL, sex);
+        values.put(PART_CAT_CODE_COL, partCatCode);
+        values.put(POS_CODE_COL, posCode);
+        values.put(AM_SESSION_COL, amSession);
+        values.put(PM_SESSION_COL, pmSession);
+        values.put(TA_GROUP_COL, taGroup);
+        values.put(ATDN_DATE_COL, atdnDate);
+        values.put(ENTRY_BY, entryBy);
+        values.put(ENTRY_DATE, entryDate);
 
         db.insert(TA_PARTICIPANTS_LIST_TABLE, null, values);
         db.close();
 
+        SQLServerSyntaxGenerator syntaxGenerator = new SQLServerSyntaxGenerator();
+
+        syntaxGenerator.setAdmCountryCode(cCode);
+        syntaxGenerator.setEventCode(eventCode);
+        syntaxGenerator.setPartID(partId);
+        syntaxGenerator.setIDCategory(idCatCode);
+        syntaxGenerator.setPartName(partName);
+        syntaxGenerator.setPartOrgNCode(partOrgNCode);
+        syntaxGenerator.setSex(sex);
+        syntaxGenerator.setPartCatCode(partCatCode);
+        syntaxGenerator.setPosCode(posCode);
+        syntaxGenerator.setAMSession(amSession);
+        syntaxGenerator.setPMSession(pmSession);
+        syntaxGenerator.setAtdnDate(atdnDate);
+        syntaxGenerator.setTAGroup(taGroup);
+        syntaxGenerator.setEntryBy(entryBy);
+        syntaxGenerator.setEntryDate(entryDate);
+        insertIntoUploadTable(syntaxGenerator.insertIntoTAParticipantsList());
     }
 
     public void addTAGroupTable(String cCode, String topicGroupCode, String topicGroupTitle) {
@@ -4019,13 +4360,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
         return id;
     }
 
-    /**
-     * @param assignDataModel
-     * @param landSize
-     * @param willingness
-     * @param winterCultivation
-     * @param regDate           TODO: ELDERLEY-IG
-     */
+
     public int edtAssignAgerIn_IG(AssignDataModel assignDataModel, String landSize, String willingness, String winterCultivation, String regDate) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -5506,40 +5841,27 @@ public class SQLiteHandler extends SQLiteOpenHelper {
 
     }
 
-    public ArrayList<AssignDataModel> getEligibleTrainingAcitMemList(String cCode, String mmSearchId) {
 
-        ArrayList<AssignDataModel> listAsignPeople = new ArrayList<AssignDataModel>();
+    public ArrayList<TaSummary> getTaSummary( String sql) {
+
+        ArrayList<TaSummary> list = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
-        String sql = SQLiteQuery.getEligibleTrainingAcitMemList_sql(cCode, mmSearchId);
-        Log.d("CHOR", sql);
+
+
 
         Cursor cursor = db.rawQuery(sql, null);
 
         if (cursor.moveToFirst()) {
             do {
-                AssignDataModel assignPerson = new AssignDataModel();
-
-                assignPerson.setHh_id(cursor.getString(cursor.getColumnIndex(HHID_COL)));
-                assignPerson.setMemId(cursor.getString(cursor.getColumnIndex(HH_MEM_ID)));
-                assignPerson.setNewId(cursor.getString(cursor.getColumnIndex("newId")));
-                assignPerson.setHh_mm_name(cursor.getString(cursor.getColumnIndex("memName")));
-                assignPerson.setMember_age(cursor.getString(cursor.getColumnIndex(MEM_AGE)));
-                assignPerson.setMember_sex(cursor.getString(cursor.getColumnIndex(SEX_COL)));
-
-                assignPerson.setAssignYN(cursor.getString(cursor.getColumnIndex("Assign")));
-
-                assignPerson.setC_code(cursor.getString(cursor.getColumnIndex(COUNTRY_CODE_COL)));
-                assignPerson.setDistrictCode(cursor.getString(cursor.getColumnIndex(DISTRICT_NAME_COL)));
-                assignPerson.setUpazillaCode(cursor.getString(cursor.getColumnIndex(UPZILLA_NAME_COL)));
-                assignPerson.setUnitCode(cursor.getString(cursor.getColumnIndex(UNITE_NAME_COL)));
-                assignPerson.setVillageCode(cursor.getString(cursor.getColumnIndex(VILLAGE_NAME_COL)));
-                assignPerson.setHh_name(cursor.getString(cursor.getColumnIndex(PNAME_COL)));
+                TaSummary dataModel = new TaSummary();
 
 
-                //  assignPerson.setAssign_criteria(cursor.getString(cursor.getColumnIndex("AssignCriteria")));
+                dataModel.setCode(cursor.getString(cursor.getColumnIndex("code")));
+                dataModel.setTitle(cursor.getString(cursor.getColumnIndex("title")));
+                dataModel.setCount(cursor.getString(cursor.getColumnIndex("count")));
 
-                //   Log.d(TAG, " " + cursor.getString(1) + " , " + cursor.getString(2) + " , " + cursor.getString(14) + " , " + cursor.getString(15));
-                listAsignPeople.add(assignPerson);
+
+                list.add(dataModel);
 
             } while (cursor.moveToNext());
         }
@@ -5547,7 +5869,42 @@ public class SQLiteHandler extends SQLiteOpenHelper {
         cursor.close();
         db.close();
 
-        return listAsignPeople;
+        return list;
+
+
+    }
+
+    public ArrayList<TrainigActivBeneficiaryDataModel> getEligibleTrainingAcitMemList(String cCode, String mmSearchId) {
+
+        ArrayList<TrainigActivBeneficiaryDataModel> list = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        String sql = SQLiteQuery.getEligibleTrainingAcitMemList_sql(cCode, mmSearchId);
+
+
+        Cursor cursor = db.rawQuery(sql, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                TrainigActivBeneficiaryDataModel dataModel = new TrainigActivBeneficiaryDataModel();
+
+
+                dataModel.setNewId(cursor.getString(cursor.getColumnIndex("newId")));
+                dataModel.setHh_mm_name(cursor.getString(cursor.getColumnIndex("memName")));
+                dataModel.setMember_age(cursor.getString(cursor.getColumnIndex(MEM_AGE)));
+                dataModel.setMember_sex(cursor.getString(cursor.getColumnIndex(SEX_COL)));
+
+                dataModel.setHh_name(cursor.getString(cursor.getColumnIndex(PNAME_COL)));
+                dataModel.setLayR4Name(cursor.getString(cursor.getColumnIndex("lay4Name")));
+
+                list.add(dataModel);
+
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        db.close();
+
+        return list;
 
 
     }
@@ -9290,13 +9647,13 @@ public class SQLiteHandler extends SQLiteOpenHelper {
         db.close();
     }
 
-    public void updateLiberaiRegistrationStatus(String update_id, int status) {
-
-        SQLiteDatabase db = this.getWritableDatabase();
-        String selectQuery = "UPDATE " + LIBERIA_REGISTRATION_TABLE + " SET " + SYNC_COL + "=" + status + " WHERE " + ID_COL + "=" + update_id;
-        db.execSQL(selectQuery);
-        db.close();
-    }
+//    public void updateLiberaiRegistrationStatus(String update_id, int status) {
+//
+//        SQLiteDatabase db = this.getWritableDatabase();
+//        String selectQuery = "UPDATE " + LIBERIA_REGISTRATION_TABLE + " SET " + SYNC_COL + "=" + status + " WHERE " + ID_COL + "=" + update_id;
+//        db.execSQL(selectQuery);
+//        db.close();
+//    }
 
 
     /**
@@ -9391,14 +9748,11 @@ public class SQLiteHandler extends SQLiteOpenHelper {
 
         // Inserting Row
         long id = db.insert(DISTRICT_TABLE, null, values);
-        db.close(); // Closing database connection
+        db.close();                                                                                 // Closing database connection
 
-//        Log.d(TAG, "New District inserted into District: " + id);
+
     }
 
-
-    // Storing Card Reason  details into database
-    // @date: 2015-11-05
 
     public void addCardPrintReason(String reason_code, String reason_title) {
 
@@ -9409,10 +9763,10 @@ public class SQLiteHandler extends SQLiteOpenHelper {
         values.put(CARD_PRINT_REASON_TITLE_COL, reason_title);
 
         // Inserting Row
-        long id = db.insert(CARD_PRINT_REASON_TABLE, null, values);
+        db.insert(CARD_PRINT_REASON_TABLE, null, values);
         db.close(); // Closing database connection
 
-//        Log.d(TAG, "New Card Reason inserted into Card Print Reason Table: " + id);
+
     }
 
 

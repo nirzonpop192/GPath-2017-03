@@ -289,7 +289,7 @@ public class SQLiteQuery {
     public static String getAssignListViewSelectQuery(String cCode, String dstCode, String upCode, String unCode, String vCode, String donorCode, String awardCode, String prgCode, String srvCode, String memberSearchId) {
         String getMemName;
 
-                                                                                                // 0004= Liberia's Country Code
+        // 0004= Liberia's Country Code
 
         if (cCode.equals("0004")) {
 
@@ -349,8 +349,8 @@ public class SQLiteQuery {
                 " AND " + REG_N_ASSIGN_PROG_SRV_TABLE + "." + LAY_R3_LIST_CODE_COL + " = " + REGISTRATION_TABLE + "." + UNITE_NAME_COL +
                 " AND " + REG_N_ASSIGN_PROG_SRV_TABLE + "." + LAY_R4_LIST_CODE_COL + " = " + REGISTRATION_TABLE + "." + SQLiteHandler.VILLAGE_NAME_COL +
 
-                " AND " +REG_N_ASSIGN_PROG_SRV_TABLE + "." + HHID_COL + " = " + SQLiteHandler.REGISTRATION_MEMBER_TABLE + "." + HHID_COL +
-                " AND " +REG_N_ASSIGN_PROG_SRV_TABLE + "." + HH_MEM_ID + " = " + SQLiteHandler.REGISTRATION_MEMBER_TABLE + "." + HH_MEM_ID +
+                " AND " + REG_N_ASSIGN_PROG_SRV_TABLE + "." + HHID_COL + " = " + SQLiteHandler.REGISTRATION_MEMBER_TABLE + "." + HHID_COL +
+                " AND " + REG_N_ASSIGN_PROG_SRV_TABLE + "." + HH_MEM_ID + " = " + SQLiteHandler.REGISTRATION_MEMBER_TABLE + "." + HH_MEM_ID +
 
                 " AND " + REG_N_ASSIGN_PROG_SRV_TABLE + "." + DONOR_CODE_COL + " = '" + donorCode + "' " +
                 " AND " + REG_N_ASSIGN_PROG_SRV_TABLE + "." + AWARD_CODE_COL + " = '" + awardCode + "' " +
@@ -4310,17 +4310,20 @@ public class SQLiteQuery {
                 " AND dtSrv." + DT_BASIC_COL + " = '" + dtBasic + "' ";
     }
 
-    // TODO: 10/17/2016  use theSQLite Column  Constant
+    // TODO: test it
     public static String getMemberData_sql(String str_c_code, String str_district, String str_upazilla, String str_union, String str_village, String hhID) {
-        return "SELECT DISTINCT rm.*, r.PersonName, r." + ID_COL + " AS PID, rel." + RELATION_NAME + " FROM "
-                + REGISTRATION_MEMBER_TABLE + " AS rm " +
+        return "SELECT DISTINCT rm.* , r." + PNAME_COL +
+                " , r." + ID_COL + " AS PID " +
+                " , rel." + RELATION_NAME +
+                " FROM " + REGISTRATION_MEMBER_TABLE + " AS rm " +
                 " LEFT JOIN " + REGISTRATION_TABLE + " AS r " +
-                " ON r.CountryCode=rm.CountryCode " +
-                " AND r.DistrictName=rm.DistrictName " +
-                " AND r.UpazillaName=rm.UpazillaName " +
-                " AND r.UnitName=rm.UnitName " +
-                " AND r.VillageName=rm.VillageName " +
-                " AND r.RegistrationID=rm.RegisterID " +
+                " ON r." + COUNTRY_CODE_COL + " = rm." + COUNTRY_CODE_COL + " " +
+                " AND r." + DISTRICT_NAME_COL + " = rm." + DISTRICT_NAME_COL + " " +
+                " AND r." + UPZILLA_NAME_COL + " = rm." + UPZILLA_NAME_COL + " " +
+                " AND r." + UNITE_NAME_COL + " = rm." + UNITE_NAME_COL + " " +
+                " AND r." + VILLAGE_NAME_COL + " = rm." + VILLAGE_NAME_COL + " " +
+                " AND r." + PID_COL + " = rm." + HHID_COL + " " +
+
                 " LEFT JOIN " + RELATION_TABLE + " AS rel " +
                 " ON rm." + RELATION_COL + "=rel." + RELATION_CODE +
                 " WHERE rm." + COUNTRY_CODE + "='" + str_c_code + "' " +
@@ -4338,8 +4341,8 @@ public class SQLiteQuery {
                 " AND " + DTQ_CODE_COL + "= '" + dtQCode + "'";
     }
 
-    public static String getTrainingActivityIndexList(final String cCode, final String eventTitleSearch){
-        return  " SELECT " + COUNTRY_CODE_COL
+    public static String getTrainingActivityIndexList(final String cCode, final String eventTitleSearch) {
+        return " SELECT " + COUNTRY_CODE_COL
                 + " , " + EVENT_CODE_COL
                 + " , " + EVENT_NAME_COL
                 + " , " + DONOR_CODE_COL
@@ -4354,14 +4357,17 @@ public class SQLiteQuery {
                 + " , " + ACTIVE_COL
                 + " , " + TOTAL_DAYS_COL
                 + " , " + HOURS_PER_DAY_COL
-                +" FROM "+ TA_MASTER_TABLE
-                + " WHERE "+COUNTRY_CODE_COL+" = '"+cCode+"'"
-                +" AND "+ACTIVE_COL+" = 'Y' "
-                +" AND "+EVENT_NAME_COL+" LIKE '%"+eventTitleSearch+"%' ";
+                + " FROM " + TA_MASTER_TABLE
+                + " WHERE " + COUNTRY_CODE_COL + " = '" + cCode + "'"
+                + " AND " + ACTIVE_COL + " = 'Y' "
+                + " AND " + EVENT_NAME_COL + " LIKE '%" + eventTitleSearch + "%' ";
     }
 
-    public static String getEligibleTrainingAcitMemList_sql(String cCode, String memberSearchId) {
+    public static String getEligibleTrainingAcitMemList_sql(String cCode, String memIdORname) {
         String getMemName;
+
+        String searchCondition = "";
+
 
         // 0004= Liberia's Country Code
 
@@ -4376,9 +4382,21 @@ public class SQLiteQuery {
 
         }
 
-        return "SELECT " + REGISTRATION_MEMBER_TABLE + "." + HHID_COL
-                + " , " + REGISTRATION_MEMBER_TABLE + "." + HH_MEM_ID
-                + " , " + REGISTRATION_MEMBER_TABLE + "." + DISTRICT_NAME_COL
+        if (memIdORname.matches("[a-zA-Z]+")) {                                                     // which'll return true cause it contains only alphabet.
+
+            searchCondition = " AND " + " memName " + " LIKE '%" + memIdORname + "%' ";
+        } else {
+
+            searchCondition = " AND " + " regAss." + COUNTRY_CODE_COL + " || \"\" || "
+                    + " regAss." + LAY_R1_LIST_CODE_COL + " || \"\" || "
+                    + " regAss." + LAY_R2_LIST_CODE_COL + " || \"\" || "
+                    + " regAss." + LAY_R3_LIST_CODE_COL + " || \"\" || "
+                    + " regAss." + LAY_R4_LIST_CODE_COL + " || \"\" || "
+                    + " regAss." + HHID_COL + " || \"\" || "
+                    + " regAss." + HH_MEM_ID + " LIKE '%" + memIdORname + "%' ";
+        }
+        return "SELECT "
+                + "  " + REGISTRATION_MEMBER_TABLE + "." + DISTRICT_NAME_COL
                 + " || '' || " + REGISTRATION_MEMBER_TABLE + "." + UPZILLA_NAME_COL
                 + " || '' || " + REGISTRATION_MEMBER_TABLE + "." + UNITE_NAME_COL
                 + " || '' || " + REGISTRATION_MEMBER_TABLE + "." + VILLAGE_NAME_COL
@@ -4387,60 +4405,205 @@ public class SQLiteQuery {
 
                 + " , " + getMemName + " As memName "
                 + " , " + REGISTRATION_MEMBER_TABLE + "." + MEM_AGE
-                + " , " + REGISTRATION_MEMBER_TABLE + "." + SEX_COL+
-
-                " , CASE WHEN LENGTH ( " +   " regAss." + HH_MEM_ID + ") > 0 " +
-                " THEN 'Y' ELSE 'N' END  AS Assign "
-                + " , " + REGISTRATION_MEMBER_TABLE + "." + COUNTRY_CODE_COL
-                + " , " + REGISTRATION_MEMBER_TABLE + "." + DISTRICT_NAME_COL
-                + " , " + REGISTRATION_MEMBER_TABLE + "." + UPZILLA_NAME_COL
-                + " , " + REGISTRATION_MEMBER_TABLE + "." + UNITE_NAME_COL
-                + " , " + REGISTRATION_MEMBER_TABLE + "." + VILLAGE_NAME_COL
-                + " , " + REGISTRATION_TABLE + "." + PNAME_COL
-                + " " +
+                + " , " + REGISTRATION_MEMBER_TABLE + "." + SEX_COL
 
 
+                + " , " + " regHH." + PNAME_COL
+                + " , " + " vill." + VILLAGE_NAME_COL + " AS lay4Name " +
 
 
-                " FROM " + REGISTRATION_TABLE +
+                " FROM " + REGISTRATION_TABLE + " AS regHH " +
                 " INNER JOIN " + REGISTRATION_MEMBER_TABLE +
-                " ON " + REGISTRATION_TABLE + "." + COUNTRY_CODE_COL + " = " + REGISTRATION_MEMBER_TABLE + "." + COUNTRY_CODE_COL +
-                " AND " + REGISTRATION_TABLE + "." + DISTRICT_NAME_COL + " = " + REGISTRATION_MEMBER_TABLE + "." + SQLiteHandler.DISTRICT_NAME_COL +
-                " AND " + REGISTRATION_TABLE + "." + UPZILLA_NAME_COL + " = " + REGISTRATION_MEMBER_TABLE + "." + SQLiteHandler.UPZILLA_NAME_COL +
-                " AND " + REGISTRATION_TABLE + "." + UNITE_NAME_COL + " = " + REGISTRATION_MEMBER_TABLE + "." + UNITE_NAME_COL +
-                " AND " + REGISTRATION_TABLE + "." + VILLAGE_NAME_COL + " = " + REGISTRATION_MEMBER_TABLE + "." + SQLiteHandler.VILLAGE_NAME_COL +
-                " AND " + REGISTRATION_TABLE + "." + PID_COL + " = " + REGISTRATION_MEMBER_TABLE + "." + HHID_COL + " " +
+                " ON  " + " regHH." + COUNTRY_CODE_COL + " = " + REGISTRATION_MEMBER_TABLE + "." + COUNTRY_CODE_COL +
+                " AND " + " regHH." + DISTRICT_NAME_COL + " = " + REGISTRATION_MEMBER_TABLE + "." + SQLiteHandler.DISTRICT_NAME_COL +
+                " AND " + " regHH." + UPZILLA_NAME_COL + " = " + REGISTRATION_MEMBER_TABLE + "." + SQLiteHandler.UPZILLA_NAME_COL +
+                " AND " + " regHH." + UNITE_NAME_COL + " = " + REGISTRATION_MEMBER_TABLE + "." + UNITE_NAME_COL +
+                " AND " + " regHH." + VILLAGE_NAME_COL + " = " + REGISTRATION_MEMBER_TABLE + "." + SQLiteHandler.VILLAGE_NAME_COL +
+                " AND " + " regHH." + PID_COL + " = " + REGISTRATION_MEMBER_TABLE + "." + HHID_COL + " " +
 
 
                 " INNER JOIN " + REG_N_ASSIGN_PROG_SRV_TABLE + " AS regAss ON " +
-                 " regAss." + COUNTRY_CODE_COL + " = " + REGISTRATION_TABLE + "." + COUNTRY_CODE_COL +
-                " AND " +  " regAss." + LAY_R1_LIST_CODE_COL + " = " + REGISTRATION_TABLE + "." + SQLiteHandler.DISTRICT_NAME_COL +
-                " AND " +  " regAss." + LAY_R2_LIST_CODE_COL + " = " + REGISTRATION_TABLE + "." + SQLiteHandler.UPZILLA_NAME_COL +
-                " AND " +  " regAss." + LAY_R3_LIST_CODE_COL + " = " + REGISTRATION_TABLE + "." + UNITE_NAME_COL +
-                " AND " +  " regAss." + LAY_R4_LIST_CODE_COL + " = " + REGISTRATION_TABLE + "." + SQLiteHandler.VILLAGE_NAME_COL +
+                " regAss." + COUNTRY_CODE_COL + " = " + " regHH." + COUNTRY_CODE_COL +
+                " AND " + " regAss." + LAY_R1_LIST_CODE_COL + " = " + " regHH." + SQLiteHandler.DISTRICT_NAME_COL +
+                " AND " + " regAss." + LAY_R2_LIST_CODE_COL + " = " + " regHH." + SQLiteHandler.UPZILLA_NAME_COL +
+                " AND " + " regAss." + LAY_R3_LIST_CODE_COL + " = " + " regHH." + UNITE_NAME_COL +
+                " AND " + " regAss." + LAY_R4_LIST_CODE_COL + " = " + " regHH." + SQLiteHandler.VILLAGE_NAME_COL +
 
                 " AND " + " regAss." + HHID_COL + " = " + REGISTRATION_MEMBER_TABLE + "." + HHID_COL +
                 " AND " + " regAss." + HH_MEM_ID + " = " + REGISTRATION_MEMBER_TABLE + "." + HH_MEM_ID +
+                " INNER JOIN " + VILLAGE_TABLE + " AS vill " +
+                " ON regHH." + COUNTRY_CODE_COL + " = " + " vill." + COUNTRY_CODE_COL +
+                " AND regHH." + DISTRICT_NAME_COL + " = " + " vill." + LAY_R1_LIST_CODE_COL +
+                " AND regHH." + UPZILLA_NAME_COL + " = " + " vill." + LAY_R2_LIST_CODE_COL +
+                " AND regHH." + UNITE_NAME_COL + " = " + " vill." + LAY_R3_LIST_CODE_COL +
+                " AND regHH." + VILLAGE_NAME_COL + " = " + " vill." + LAY_R4_LIST_CODE_COL +
 
 
+                " WHERE " + " regAss." + COUNTRY_CODE_COL + " =  '" + cCode + "'"
 
 
-                " WHERE " + REGISTRATION_MEMBER_TABLE + "." + COUNTRY_CODE_COL + " =  '" + cCode + "'"
-
-                + " AND " +
                 /** very good thinking
                  * User can search by House hold & member Id also*/
-                REGISTRATION_MEMBER_TABLE + "." + COUNTRY_CODE_COL + " || \"\" || "
-                + REGISTRATION_MEMBER_TABLE + "." + DISTRICT_NAME_COL + " || \"\" || "
-                + REGISTRATION_MEMBER_TABLE + "." + UPZILLA_NAME_COL + " || \"\" || "
-                + REGISTRATION_MEMBER_TABLE + "." + UNITE_NAME_COL + " || \"\" || "
-                + REGISTRATION_MEMBER_TABLE + "." + VILLAGE_NAME_COL + " || \"\" || "
-                + REGISTRATION_MEMBER_TABLE + "." + HHID_COL + " || \"\" || "
-                + REGISTRATION_MEMBER_TABLE + "." + HH_MEM_ID + " LIKE '%" + memberSearchId + "%' " +
-                // +" GROUP BY " + REGISTRATION_MEMBER_TABLE + "." + HHID_COL;/*+
-                " ORDER BY " + REGISTRATION_MEMBER_TABLE + "." + HHID_COL
-                + " DESC ";
+                + searchCondition +
+                " GROUP BY  newId , memName " +
+
+                " ORDER BY " + REGISTRATION_MEMBER_TABLE + "." + HHID_COL + " DESC ";
 
 
     }
+
+    public static String loadLayR4CodeForRegisterRecordView_sql(String cCode) {
+        return "SELECT " + " v." + SQLiteHandler.COUNTRY_CODE_COL + " || '' ||  v." + SQLiteHandler.LAY_R1_LIST_CODE_COL + " || '' || v." + SQLiteHandler.LAY_R2_LIST_CODE_COL + " || '' || v." +
+                SQLiteHandler.LAY_R3_LIST_CODE_COL + " || '' || v." + SQLiteHandler.LAY_R4_LIST_CODE_COL + " AS v_code," +
+                " v." + SQLiteHandler.VILLAGE_NAME_COL + " AS Vill_Name " +
+                     /*   " COUNT("+PID_COL+") AS records"*/" FROM " + SQLiteHandler.VILLAGE_TABLE + " AS v" +
+                " LEFT JOIN " + SQLiteHandler.REGISTRATION_TABLE + " AS r" +
+                " ON r." + SQLiteHandler.COUNTRY_CODE_COL + "= v." + SQLiteHandler.COUNTRY_CODE_COL + " AND " +
+                "r." + SQLiteHandler.DISTRICT_NAME_COL + "= v." + SQLiteHandler.LAY_R1_LIST_CODE_COL + " AND " +
+                "r." + SQLiteHandler.UPZILLA_NAME_COL + "= v." + SQLiteHandler.LAY_R2_LIST_CODE_COL + " AND " +
+                "r." + SQLiteHandler.UNITE_NAME_COL + "= v." + SQLiteHandler.LAY_R3_LIST_CODE_COL + " AND " +
+                "r." + SQLiteHandler.VILLAGE_NAME_COL + "= v." + SQLiteHandler.LAY_R4_LIST_CODE_COL +
+                " Inner join " + SQLiteHandler.SELECTED_VILLAGE_TABLE + " AS s"
+                + " on " + " s." + SQLiteHandler.COUNTRY_CODE_COL + "= v." + SQLiteHandler.COUNTRY_CODE_COL + " AND " +
+                "s." + SQLiteHandler.LAY_R1_LIST_CODE_COL + "= v." + SQLiteHandler.LAY_R1_LIST_CODE_COL + " AND " +
+                "s." + SQLiteHandler.LAY_R2_LIST_CODE_COL + "= v." + SQLiteHandler.LAY_R2_LIST_CODE_COL + " AND " +
+                "s." + SQLiteHandler.LAY_R3_LIST_CODE_COL + "= v." + SQLiteHandler.LAY_R3_LIST_CODE_COL + " AND " +
+                "s." + SQLiteHandler.LAY_R4_LIST_CODE_COL + "= v." + SQLiteHandler.LAY_R4_LIST_CODE_COL +
+
+                " WHERE v." + SQLiteHandler.COUNTRY_CODE_COL + "='" + cCode + "'" + /** send the no of village for selected country added by Faisal Mohammad*/
+                "  GROUP BY v." + SQLiteHandler.COUNTRY_CODE_COL +
+                ",v." + SQLiteHandler.LAY_R1_LIST_CODE_COL +
+                ",v." + SQLiteHandler.LAY_R2_LIST_CODE_COL +
+                ",v." + SQLiteHandler.LAY_R3_LIST_CODE_COL +
+                ",v." + SQLiteHandler.LAY_R4_LIST_CODE_COL;
+
+    }
+
+    public static String getTaOrganization_sql(String cCode) {
+        return "SELECT " + COUNTRY_CODE_COL
+                + " , " + PART_ORG_N_CODE_COL
+                + " , " + PART_ORG_N_NAME_COL
+                + " , " + SRC_BEN_COL
+                + " FROM " + TA_PART_ORG_N_TABLE
+                + " WHERE " + COUNTRY_CODE_COL + " = '" + cCode + "' ";
+    }
+
+    public static String getLUP_TAParticipantCategories_sql(String cCode, String taGroup) {
+        return "SELECT " + COUNTRY_CODE_COL
+                + " , " + TA_GROUP_COL
+                + " , " + PART_CAT_CODE_COL
+                + " , " + PART_CAT_TITLE_COL
+                + " FROM " + LUP_TA_PATICIPANT_CAT_TABLE
+                + " WHERE " + COUNTRY_CODE_COL + " = '" + cCode + "' "
+                + " AND " + TA_GROUP_COL + " = '" + taGroup + "' ";
+    }
+
+    public static String getLUP_TAParticipantCategory_sql(String cCode, String taGroup, String categioyTittle) {
+        return "SELECT " + COUNTRY_CODE_COL
+                + " , " + TA_GROUP_COL
+                + " , " + PART_CAT_CODE_COL
+                + " , " + PART_CAT_TITLE_COL
+                + " FROM " + LUP_TA_PATICIPANT_CAT_TABLE
+                + " WHERE " + COUNTRY_CODE_COL + " = '" + cCode + "' "
+                + " AND " + TA_GROUP_COL + " = '" + taGroup + "' "
+                + " AND " + PART_CAT_TITLE_COL + " = '" + categioyTittle + "' ";
+    }
+
+    public static String ifExistsInTaParticipantsListTable_sql(String cCode, String eventCode, String partId, String atdnDate) {
+        return "SELECT * FROM " + TA_PARTICIPANTS_LIST_TABLE
+                + " WHERE " + COUNTRY_CODE_COL + " = '" + cCode + "'" +
+                " AND " + EVENT_CODE_COL + " = '" + eventCode + "'" +
+                " AND " + PART_ID_COL + " = '" + partId + "' " +
+                " AND " + ATDN_DATE_COL + " = '" + atdnDate + "' ";
+    }
+
+    public static String editTaParticipantsListTable_sql(String cCode, String eventCode, String partId, String atdnDate) {
+        return COUNTRY_CODE_COL + " = '" + cCode + "'" +
+                " AND " + EVENT_CODE_COL + " = '" + eventCode + "'" +
+                " AND " + PART_ID_COL + " = '" + partId + "' " +
+                " AND " + ATDN_DATE_COL + " = '" + atdnDate + "' ";
+    }
+
+    public static String loadTaSummaryOrganization_sql(final String cCode, final String eventCode) {
+        return " select " + TA_PART_ORG_N_TABLE + "." + PART_ORG_N_CODE_COL + " AS code "
+                + " , " + TA_PART_ORG_N_TABLE + "." + PART_ORG_N_NAME_COL + " AS title " +
+                "    , " + "   (Select count(*)  from " + TA_PARTICIPANTS_LIST_TABLE + " where " + TA_PARTICIPANTS_LIST_TABLE + "." + COUNTRY_CODE_COL + "='" + cCode + "' " +
+                "    and  " + TA_PARTICIPANTS_LIST_TABLE + "." + EVENT_CODE_COL + " = '" + eventCode + "'  " +
+                "   and " + TA_PARTICIPANTS_LIST_TABLE + "." + PART_ORG_N_CODE_COL + " = " + TA_PART_ORG_N_TABLE + "." + PART_ORG_N_CODE_COL + " )  AS count " +
+                "    from " + TA_PARTICIPANTS_LIST_TABLE + " " +
+                "    inner join " + TA_PART_ORG_N_TABLE + "  ON " +
+                "    " + TA_PART_ORG_N_TABLE + "." + COUNTRY_CODE_COL + " = " + TA_PARTICIPANTS_LIST_TABLE + "." + COUNTRY_CODE_COL + " " +
+                "    and " + TA_PART_ORG_N_TABLE + "." + PART_ORG_N_CODE_COL + " = " + TA_PARTICIPANTS_LIST_TABLE + "." + PART_ORG_N_CODE_COL +
+                "    where " + TA_PARTICIPANTS_LIST_TABLE + "." + COUNTRY_CODE_COL + " = '" + cCode + "' " +
+                "    and  " + TA_PARTICIPANTS_LIST_TABLE + "." + EVENT_CODE_COL + " = '" + eventCode + "' " +
+                "    group by  " + TA_PART_ORG_N_TABLE + "." + PART_ORG_N_CODE_COL
+                + " , " + TA_PART_ORG_N_TABLE + "." + PART_ORG_N_NAME_COL;
+    }
+
+    public static String loadTaSummaryCategory_sql(final String cCode, final String eventCode) {
+        return " select " + TA_CATEGORY_TABLE + "." + TA_CAT_CODE_COL + " AS code "
+                + " , " + TA_CATEGORY_TABLE + "." + TA_CAT_NAME_COL + " AS title " +
+                "    , " + "   (Select count(*)  from " + TA_PARTICIPANTS_LIST_TABLE + " where " + TA_PARTICIPANTS_LIST_TABLE + "." + COUNTRY_CODE_COL + "='" + cCode + "' " +
+                "    and  " + TA_PARTICIPANTS_LIST_TABLE + "." + EVENT_CODE_COL + " = '" + eventCode + "'  " +
+                "   and " + TA_PARTICIPANTS_LIST_TABLE + "." + PART_CAT_CODE_COL + " = " + TA_CATEGORY_TABLE + "." + TA_CAT_CODE_COL + " )  AS count " +
+                "    from " + TA_PARTICIPANTS_LIST_TABLE + " " +
+                "    inner join " + TA_CATEGORY_TABLE + "  ON " +
+                "    " + TA_CATEGORY_TABLE + "." + COUNTRY_CODE_COL + " = " + TA_PARTICIPANTS_LIST_TABLE + "." + COUNTRY_CODE_COL + " " +
+                "    and " + TA_CATEGORY_TABLE + "." + TA_CAT_CODE_COL + " = " + TA_PARTICIPANTS_LIST_TABLE + "." + PART_CAT_CODE_COL +
+                "    where " + TA_PARTICIPANTS_LIST_TABLE + "." + COUNTRY_CODE_COL + " = '" + cCode + "' " +
+                "    and  " + TA_PARTICIPANTS_LIST_TABLE + "." + EVENT_CODE_COL + " = '" + eventCode + "' " +
+                "    group by  code , title";
+    }
+
+    public static String loadTaSummaryPosition_sql(final String cCode, final String eventCode) {
+        return " select " + TA_POS_PARTICIPANTS_TABLE + "." + POS_CODE_COL + " AS code "
+                + " , " + TA_POS_PARTICIPANTS_TABLE + "." + POS_TITLE_COL + " AS title " +
+                "    , " + "   (Select count(*)  from " + TA_PARTICIPANTS_LIST_TABLE + " where " + TA_PARTICIPANTS_LIST_TABLE + "." + COUNTRY_CODE_COL + "='" + cCode + "' " +
+                "    and  " + TA_PARTICIPANTS_LIST_TABLE + "." + EVENT_CODE_COL + " = '" + eventCode + "'  " +
+                "   and " + TA_PARTICIPANTS_LIST_TABLE + "." + POS_CODE_COL + " = " + TA_POS_PARTICIPANTS_TABLE + "." + POS_CODE_COL + " )  AS count " +
+                "    from " + TA_PARTICIPANTS_LIST_TABLE + " " +
+                "    inner join " + TA_POS_PARTICIPANTS_TABLE + "  ON " +
+                "    " + TA_POS_PARTICIPANTS_TABLE + "." + COUNTRY_CODE_COL + " = " + TA_PARTICIPANTS_LIST_TABLE + "." + COUNTRY_CODE_COL + " " +
+                "    and " + TA_POS_PARTICIPANTS_TABLE + "." + POS_CODE_COL + " = " + TA_PARTICIPANTS_LIST_TABLE + "." + POS_CODE_COL +
+                "    where " + TA_PARTICIPANTS_LIST_TABLE + "." + COUNTRY_CODE_COL + " = '" + cCode + "' " +
+                "    and  " + TA_PARTICIPANTS_LIST_TABLE + "." + EVENT_CODE_COL + " = '" + eventCode + "' " +
+                "    group by  code , title";
+    }
+
+
+    public static String loadTaSummarySex_sql(final String cCode, final String eventCode) {
+
+
+        return " select " + SEX_COL + " AS code "
+                + " ,  CASE WHEN " + SEX_COL + " = 'F' THEN 'Female' ELSE 'Male' END  AS title " +
+                "    , " + "  count(*) AS count "+
+                "    from " + TA_PARTICIPANTS_LIST_TABLE + " " +
+                "    where " + TA_PARTICIPANTS_LIST_TABLE + "." + COUNTRY_CODE_COL + " = '" + cCode + "' " +
+                "    and  " + TA_PARTICIPANTS_LIST_TABLE + "." + EVENT_CODE_COL + " = '" + eventCode + "' " +
+                " and " + SEX_COL + " =  case when "+SEX_COL+" = 'M' then 'M' else 'F' end " +
+                "    group by  code ";
+    }
+
+
+
+
+    public static String loadTaSummarySession_sql(final String cCode, final String eventCode) {
+//        SELECT AMSession
+//        ,case when AMSession='1' then 'AM' else 'PM' end as title
+//                , COUNT  (AMSession) FROM TAParticipantsList where
+//        TAParticipantsList.CountryCode = '0002'     and  TAParticipantsList.EventCode = '00000002'
+//                -- and title= case when 'AM' then AMSession='1' else PMSession='0' end
+//        group by title
+
+        return " select " + AM_SESSION_COL + " AS code "
+                + " ,  CASE WHEN " + AM_SESSION_COL + " = '1' THEN 'AM' ELSE 'PM' END  AS title " +
+                "    , " + "  count(*) AS count "+
+                "    from " + TA_PARTICIPANTS_LIST_TABLE + " " +
+                "    where " + TA_PARTICIPANTS_LIST_TABLE + "." + COUNTRY_CODE_COL + " = '" + cCode + "' " +
+                "    and  " + TA_PARTICIPANTS_LIST_TABLE + "." + EVENT_CODE_COL + " = '" + eventCode + "' " +
+           //     " and " + SEX_COL + " =  case when "+SEX_COL+" = 'M' then 'M' else 'F' end " +
+                "    group by  title ";
+    }
+
+
 }//end of class

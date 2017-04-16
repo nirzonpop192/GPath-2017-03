@@ -600,9 +600,86 @@
     <integer name="google_play_services_version">9080000</integer>
     <integer name="status_bar_notification_info_maxnum">999</integer>
     <integer name="top_bottom_icon_pad_int_5">5</integer>
+    <plurals name="joda_time_android_abbrev_in_num_days">
+        <item quantity="one">tomorrow</item>
+        <item quantity="other">in <ns1:g id="count">%d</ns1:g> days</item>
+    </plurals>
+    <plurals name="joda_time_android_abbrev_in_num_hours">
+        <item quantity="one">in 1 hour</item>
+        <item quantity="other">in <ns1:g id="count">%d</ns1:g> hours</item>
+    </plurals>
+    <plurals name="joda_time_android_abbrev_in_num_minutes">
+        <item quantity="one">in 1 min</item>
+        <item quantity="other">in <ns1:g id="count">%d</ns1:g> mins</item>
+    </plurals>
+    <plurals name="joda_time_android_abbrev_in_num_seconds">
+        <item quantity="one">in 1 sec</item>
+        <item quantity="other">in <ns1:g id="count">%d</ns1:g> secs</item>
+    </plurals>
+    <plurals name="joda_time_android_abbrev_num_days_ago">
+        <item quantity="one">yesterday</item>
+        <item quantity="other"><ns1:g id="count">%d</ns1:g> days ago</item>
+    </plurals>
+    <plurals name="joda_time_android_abbrev_num_hours_ago">
+        <item quantity="one">1 hour ago</item>
+        <item quantity="other"><ns1:g id="count">%d</ns1:g> hours ago</item>
+    </plurals>
+    <plurals name="joda_time_android_abbrev_num_minutes_ago">
+        <item quantity="one">1 min ago</item>
+        <item quantity="other"><ns1:g id="count">%d</ns1:g> mins ago</item>
+    </plurals>
+    <plurals name="joda_time_android_abbrev_num_seconds_ago">
+        <item quantity="one">1 sec ago</item>
+        <item quantity="other"><ns1:g id="count">%d</ns1:g> secs ago</item>
+    </plurals>
+    <plurals name="joda_time_android_duration_hours">
+        <item quantity="one">1 hour</item>
+        <item quantity="other"><ns1:g id="count">%d</ns1:g> hours</item>
+    </plurals>
+    <plurals name="joda_time_android_duration_minutes">
+        <item quantity="one">1 minute</item>
+        <item quantity="other"><ns1:g id="count">%d</ns1:g> minutes</item>
+    </plurals>
+    <plurals name="joda_time_android_duration_seconds">
+        <item quantity="one">1 second</item>
+        <item quantity="other"><ns1:g id="count">%d</ns1:g> seconds</item>
+    </plurals>
+    <plurals name="joda_time_android_in_num_days">
+        <item quantity="one">tomorrow</item>
+        <item quantity="other">in <ns1:g id="count">%d</ns1:g> days</item>
+    </plurals>
+    <plurals name="joda_time_android_in_num_hours">
+        <item quantity="one">in 1 hour</item>
+        <item quantity="other">in <ns1:g id="count">%d</ns1:g> hours</item>
+    </plurals>
+    <plurals name="joda_time_android_in_num_minutes">
+        <item quantity="one">in 1 minute</item>
+        <item quantity="other">in <ns1:g id="count">%d</ns1:g> minutes</item>
+    </plurals>
+    <plurals name="joda_time_android_in_num_seconds">
+        <item quantity="one">in 1 second</item>
+        <item quantity="other">in <ns1:g id="count">%d</ns1:g> seconds</item>
+    </plurals>
+    <plurals name="joda_time_android_num_days_ago">
+        <item quantity="one">yesterday</item>
+        <item quantity="other"><ns1:g id="count">%d</ns1:g> days ago</item>
+    </plurals>
+    <plurals name="joda_time_android_num_hours_ago">
+        <item quantity="one">1 hour ago</item>
+        <item quantity="other"><ns1:g id="count">%d</ns1:g> hours ago</item>
+    </plurals>
+    <plurals name="joda_time_android_num_minutes_ago">
+        <item quantity="one">1 minute ago</item>
+        <item quantity="other"><ns1:g id="count">%d</ns1:g> minutes ago</item>
+    </plurals>
+    <plurals name="joda_time_android_num_seconds_ago">
+        <item quantity="one">1 second ago</item>
+        <item quantity="other"><ns1:g id="count">%d</ns1:g> seconds ago</item>
+    </plurals>
     <string name="ChFhEhDh">Child-Headed or Female Headed or Elderly Headed or Disabled Headed Household</string>
     <string name="Page_title_GPS">Point Attributes</string>
     <string name="Page_title_SearchLocation">Location Search</string>
+    <string name="_010203040000601">010203040000601</string>
     <string name="_1_child_headed_households_orphan_headed_households_or_where_the_parent_or_grandparent_is_incapable_of_undertaking_the_usual_head_of_household_roles">1. Child-headed households (orphan-headed households or where the parent or grandparent is incapable of undertaking the usual head of household roles)</string>
     <string name="_2_elderly_headed_households_more_than_60_years_old_with_no_other_able_bodied_adult_household_members">2. Elderly-headed households (more than 60 years old) with no other able-bodied adult household members.</string>
     <string name="_3_the_most_food_insecure_households_with_chronically_ill_hiv_or_aids_affected_members">3. The most food insecure households with chronically ill/HIV or AIDS affected members</string>
@@ -823,6 +900,10 @@
     <string name="hit_15digitId">000105030002315</string>
     <string name="house_hold_id">House Hold Id</string>
     <string name="id_type">ID type</string>
+    <string name="joda_time_android_date_time">%1$s, %2$s</string>
+    <string name="joda_time_android_preposition_for_date">on <ns1:g example="May 29" id="date">%s</ns1:g></string>
+    <string name="joda_time_android_preposition_for_time">at <ns1:g example="2:33 am" id="time">%s</ns1:g></string>
+    <string name="joda_time_android_relative_time">"<ns1:g example="4 hours ago" id="date">%1$s</ns1:g>, <ns1:g example="11:00 am" id="time">%2$s</ns1:g>"</string>
     <string name="labe_op_mode">Operation Mode</string>
     <string name="label_ANCVisit">ANC Visits Attended</string>
     <string name="label_CMAM_add">Mother currently exclusively breast-feeding </string>
@@ -892,7 +973,7 @@
     <string name="livestock">LIVESTOCK</string>
     <string name="lmp_date">LMP Date</string>
     <string name="location_name">Location Name</string>
-    <string name="log_in_version_lable">GPath-UAT-13</string>
+    <string name="log_in_version_lable">GPath-LIV-14</string>
     <string name="longTitle">Longitude</string>
     <string name="map_mode">Map Source</string>
     <string name="mapbox">MapBox</string>
@@ -917,8 +998,10 @@
     <string name="mr_user_route_category_name">Devices</string>
     <string name="my_location">My location</string>
     <string name="name">Fullname</string>
+    <string name="name_village">Name Village</string>
     <string name="national_id_card">National ID Card</string>
     <string name="offline">Offline mode</string>
+    <string name="organization">Organization</string>
     <string name="osmbonuspack.directions.1">Continue[ on %s]</string>
     <string name="osmbonuspack.directions.12">U-Turn[ on %s]</string>
     <string name="osmbonuspack.directions.17">Take the ramp on the left[ on %s]</string>
@@ -949,9 +1032,11 @@
     <string name="other_ag_activities">Other AG activities</string>
     <string name="other_specify">Other(specify)</string>
     <string name="pageTitle_ServiceSpecificLabel">Service Details</string>
+    <string name="participant_name">Participant Name</string>
     <string name="pigeons">Pigeons</string>
     <string name="place_autocomplete_clear_button">Clear search</string>
     <string name="place_autocomplete_search_hint">Search</string>
+    <string name="position">Position</string>
     <string name="program_label">Program</string>
     <string name="public_transport">Public transport</string>
     <string name="rb_label_DeliveryStaff_1">Doctor/CO/Nurse/MA/ Midwife)</string>
@@ -965,6 +1050,7 @@
     <string name="saved_coord">Saved Coordinate :</string>
     <string name="search_event_name">Search Event Name</string>
     <string name="search_id">Search ID</string>
+    <string name="search_id_or_name">Search ID or Name</string>
     <string name="search_table">Search Table</string>
     <string name="service">Service</string>
     <string name="service_center_label">Service Center</string>

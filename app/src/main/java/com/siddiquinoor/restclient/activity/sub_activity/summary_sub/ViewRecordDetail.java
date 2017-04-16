@@ -380,7 +380,7 @@ public class ViewRecordDetail extends BaseActivity implements View.OnClickListen
         tv_bf_noOfEarner = (TextView) findViewById(R.id.tv_bf_noOfEarner);
         tv_af_noOfEarner = (TextView) findViewById(R.id.tv_af_noOfEarner);
 
-        addIconHomeButton();
+//        addIconHomeButton();
         addIconRegistrationButton();
         setAddMember();
     }
@@ -392,20 +392,20 @@ public class ViewRecordDetail extends BaseActivity implements View.OnClickListen
         btnAddMember.setPadding(80, 5, 80, 5);
     }
 
-    private void addIconHomeButton() {
+  /*  private void addIconHomeButton() {
 
         btnHome.setText("");
         Drawable imageHome = getResources().getDrawable(R.drawable.home_b);
         btnHome.setCompoundDrawablesRelativeWithIntrinsicBounds(imageHome, null, null, null);
         btnHome.setPadding(180, 5, 180, 5);
-    }
+    }*/
 
     private void addIconRegistrationButton() {
 
         btnReg.setText("");
         Drawable imageHome = getResources().getDrawable(R.drawable.registration);
-        btnReg.setCompoundDrawablesRelativeWithIntrinsicBounds(imageHome, null, null, null);
-        btnReg.setPadding(180, 5, 180, 5);
+        btnReg.setCompoundDrawablesRelativeWithIntrinsicBounds(null, imageHome, null, null);
+        btnReg.setPadding(0, 15, 0, 15);
     }
 
 

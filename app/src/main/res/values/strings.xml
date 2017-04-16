@@ -193,7 +193,7 @@
     <string name="srv_summary_TitleLable">Service Summary </string>
     <string name="tv_criteria">Criteria</string>
     <!-- LOG IN SCREEN -->
-    <string name="log_in_version_lable">GPath-UAT-13</string>
+    <string name="log_in_version_lable">GPath-LIV-14</string>
     <!-- VERSION -->
 
 
@@ -631,4 +631,10 @@ Otherwise, initiate to sync and login again.</string>
     <string name="email_address">Email address</string>
     <string name="cell_phone">Cell Phone</string>
     <string name="licence">Licence</string>
+    <string name="name_village">Name Village</string>
+    <string name="_010203040000601">010203040000601</string>
+    <string name="position">Position</string>
+    <string name="organization">Organization</string>
+    <string name="participant_name">Participant Name</string>
+    <string name="search_id_or_name">Search ID or Name</string>
 </resources>

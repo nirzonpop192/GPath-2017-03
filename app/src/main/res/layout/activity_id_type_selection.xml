@@ -82,7 +82,7 @@
         android:textStyle="bold" />
 
     <RadioGroup
-        android:id="@+id/rdGrp"
+        android:id="@+id/rdGrp_categories"
         android:layout_width="match_parent"
 
         android:layout_height="wrap_content"
@@ -90,7 +90,7 @@
         android:layout_marginLeft="25dp"
         android:padding="10dp">
 
-        <RadioButton
+       <!-- <RadioButton
             android:id="@+id/rbtnBeneficiary_card"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -123,7 +123,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/licence"
-            android:textSize="20sp" />
+            android:textSize="20sp" />-->
     </RadioGroup>
 
     <LinearLayout
@@ -139,7 +139,7 @@
             style="@style/backward_button" />
 
         <Button
-            android:id="@+id/toggBtn_freezNUnfeez"
+            android:id="@+id/btn_GoToTAPage"
             style="@style/forward_button"
             android:drawableTop="@drawable/training_activity_32" />
 

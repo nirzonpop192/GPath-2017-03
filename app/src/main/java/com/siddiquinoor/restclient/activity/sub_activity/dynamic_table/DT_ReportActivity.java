@@ -25,6 +25,7 @@ import com.siddiquinoor.restclient.manager.SQLiteHandler;
 import com.siddiquinoor.restclient.utils.CalculationPadding;
 import com.siddiquinoor.restclient.utils.KEY;
 import com.siddiquinoor.restclient.views.adapters.ReportViewPagerAdapter;
+import com.siddiquinoor.restclient.views.notifications.ADNotificationManager;
 
 import java.util.ArrayList;
 
@@ -36,6 +37,7 @@ public class DT_ReportActivity extends AppCompatActivity {
     private ImageView ivLeft, ivRight, ivDeleteSurvey;
     private RelativeLayout rlIndicator;
     private ViewPager viewPager;
+    private ADNotificationManager mDialog;
 
     private AssignDataModel.DynamicDataIndexDataModel data;
     private SQLiteHandler sqlH;
@@ -58,7 +60,7 @@ public class DT_ReportActivity extends AppCompatActivity {
         data = getIntent().getParcelableExtra(KEY.DYNAMIC_INDEX_DATA_OBJECT_KEY);
         sqlH = new SQLiteHandler(mContext);
         session = new SessionManager(mContext);
-
+        mDialog= new ADNotificationManager();
         initUI();
 
         setListeners();
@@ -73,8 +75,6 @@ public class DT_ReportActivity extends AppCompatActivity {
         });
 
 
-        // loadDtMonth(data.getcCode(), data.getOpMode());
-//        setSurveyPager();
 
     }
 
@@ -261,7 +261,12 @@ public class DT_ReportActivity extends AppCompatActivity {
         builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                deleteSurvey();
+                if (sqlH.selectUploadSyntextRowCount() > 0)
+                    deleteSurvey();
+                else{
+                    dialog.dismiss();
+                    mDialog.showInfromDialog(mContext,"Denied","records deletion denied");
+                }
             }
         });
 

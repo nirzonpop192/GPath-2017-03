@@ -62,12 +62,48 @@
             android:text="Address "
             android:textSize="@dimen/dt_index_txt_size_22" />
     </LinearLayout>
+    <!-- search id field -->
+
+    <RelativeLayout
+        android:id="@+id/rl_searchPanel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ta_llRow"
+        android:orientation="horizontal"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:paddingTop="10dp"
+        android:weightSum="1">
+
+        <EditText
+            android:id="@+id/edt_TASearch"
+            style="@style/edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_marginRight="5dp"
+            android:layout_toLeftOf="@+id/btn_DTSearch"
+            android:layout_toStartOf="@+id/btn_DTSearch"
+
+            android:hint="@string/search_id_or_name"
+            android:padding="5dp" />
+
+        <!-- search member id Button -->
+        <Button
+            android:id="@+id/btn_TASearch"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/search_20_20"
+
+            android:padding="5dp" />
+    </RelativeLayout>
     <!--Simple border-->
     <LinearLayout
         android:id="@+id/table_title"
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:layout_below="@+id/ta_llRow"
+        android:layout_below="@+id/rl_searchPanel"
         android:background="@color/title_bg_col"
         android:orientation="horizontal"></LinearLayout>
 
@@ -84,7 +120,7 @@
             style="@style/backward_button" />
 
         <Button
-            android:id="@+id/toggBtn_freezNUnfeez"
+            android:id="@+id/btn_GoToTAPage"
             style="@style/forward_button"
             android:drawableTop="@drawable/training_activity_32" />
 
@@ -101,7 +137,7 @@
         android:id="@+id/lv_eligibleBeni"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/footer"
+        android:layout_above="@+id/ll_nextO_preview"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_below="@id/table_title"
