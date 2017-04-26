@@ -2,9 +2,11 @@ package com.siddiquinoor.restclient.activity.sub_activity.summary_sub;
 
 
 import android.annotation.TargetApi;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -37,7 +39,7 @@ import java.util.List;
  * @date: 2015-10-15
  */
 
-public class SummaryAssignCriteria extends BaseActivity implements AdapterView.OnItemClickListener {
+public class SummaryAssignCriteria extends BaseActivity  {
     private static final String TAG = SummaryAssignCriteria.class.getSimpleName();
     private Button btnHome;
 
@@ -51,12 +53,10 @@ public class SummaryAssignCriteria extends BaseActivity implements AdapterView.O
     private Spinner spVillage;
     private String idVillage;
     private String strVillage;
-    private String idCountry;
-    private String idDistrict;
-    private String idUpazila;
-    private String idUnit;
+    private String idCountry, idLayR1Code, idLayR2Code, idLayR3Code;
+
     private ArrayList<SummaryCriteriaModel> criteriaArray = new ArrayList<>();
-    private SummaryCriteriaListAdapter adapter;
+    private SummaryCriteriaListAdapter mAdapter;
     private ListView lv_CriteriaSummary;
 
     /**
@@ -66,6 +66,7 @@ public class SummaryAssignCriteria extends BaseActivity implements AdapterView.O
     String idDonor;
     private boolean isComingFromAssign;
     private ADNotificationManager dialog;
+    private ProgressDialog pDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -138,7 +139,7 @@ public class SummaryAssignCriteria extends BaseActivity implements AdapterView.O
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
         setUpGoToAssgnButton();
-        setUpHomeButton();
+//        setUpHomeButton();
     }
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
@@ -147,14 +148,6 @@ public class SummaryAssignCriteria extends BaseActivity implements AdapterView.O
         Drawable backImage = getResources().getDrawable(R.drawable.goto_back);
         btnSummary.setCompoundDrawablesRelativeWithIntrinsicBounds(backImage, null, null, null);
         setPaddingButton(mContext, backImage, btnSummary);
-    }
-
-    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
-    private void setUpHomeButton() {
-        btnHome.setText("");
-        Drawable imageHome = getResources().getDrawable(R.drawable.home_b);
-        btnHome.setCompoundDrawablesRelativeWithIntrinsicBounds(imageHome, null, null, null);
-        setPaddingButton(mContext, imageHome, btnHome);
     }
 
 
@@ -169,11 +162,11 @@ public class SummaryAssignCriteria extends BaseActivity implements AdapterView.O
         // Spinner Drop down elements for District
         List<SpinnerHelper> listProgram = sqlH.getListAndID(SQLiteHandler.ASSIGN_SUMMARY_PROGRAM_DETAILS, criteria, null, false);
 
-        // Creating adapter for spinner
+        // Creating mAdapter for spinner
         ArrayAdapter<SpinnerHelper> dataAdapter = new ArrayAdapter<SpinnerHelper>(this, R.layout.spinner_layout, listProgram);
         // Drop down layout style
         dataAdapter.setDropDownViewResource(R.layout.spinner_layout);
-        // attaching data adapter to spinner
+        // attaching data mAdapter to spinner
         spProgram.setAdapter(dataAdapter);
 
 
@@ -231,13 +224,16 @@ public class SummaryAssignCriteria extends BaseActivity implements AdapterView.O
                 Log.d(TAG, "village id :" + idVillage);
                 if (Integer.parseInt(idVillage) > 0) {
 
-                    idDistrict = idVillage.substring(4, 6);
-                    idUpazila = idVillage.substring(6, 8);
-                    idUnit = idVillage.substring(8, 10);
+                    idLayR1Code = idVillage.substring(4, 6);
+                    idLayR2Code = idVillage.substring(6, 8);
+                    idLayR3Code = idVillage.substring(8, 10);
                     idVillage = idVillage.substring(10);
-                    //  Log.d(TAG, " idDistrict =" + idDistrict + "\n idUpazila =" + idUpazila + "\n idUnit = =" + idUnit + "\n idVillage " + idVillage);
-                    loadAssignSummaryCriteriaList(idCountry, idDistrict, idUpazila, idUnit, idVillage, idDonor, idAward, idProgram);
 
+                    //  for test purpose
+//                    loadAssignSummaryCriteriaList(idCountry, idLayR1Code, idLayR2Code, idLayR3Code, idVillage, idDonor, idAward, idProgram);
+
+                    LoadListView loadListView= new LoadListView(idCountry, idLayR1Code, idLayR2Code, idLayR3Code, idVillage, idDonor, idAward, idProgram);
+                    loadListView.execute();
 
                 }
 
@@ -251,14 +247,118 @@ public class SummaryAssignCriteria extends BaseActivity implements AdapterView.O
         });
     }
 
+
+    private class LoadListView extends AsyncTask<Void, Integer, String> {
+
+       private String temCCode;
+       private String temLayR1Code;
+       private String temLayR2Code;
+       private String temLayR3Code;
+       private String temLayR4Code;
+       private String temDonorCode;
+       private String temAwardCode;
+       private String temProgCode;
+
+
+        private LoadListView(final String temCCode, final String temLayR1Code, final String temLayR2Code, final String temLayR3Code, final String temLayR4Code, final String temDonorCode, final String temAwardCode, final String temProgCode) {
+
+            this.temCCode = temCCode;
+            this.temLayR1Code = temLayR1Code;
+            this.temLayR2Code = temLayR2Code;
+            this.temLayR3Code = temLayR3Code;
+            this.temLayR4Code = temLayR4Code;
+            this.temDonorCode = temDonorCode;
+            this.temAwardCode = temAwardCode;
+            this.temProgCode = temProgCode;
+
+        }
+
+        @Override
+        protected String doInBackground(Void... params) {
+            loadAssignSummaryCriteriaList(temCCode, temLayR1Code, temLayR2Code, temLayR3Code, temLayR4Code, temDonorCode, temAwardCode,temProgCode);
+            return "successes";
+        }
+
+        /**
+         * Initiate the dialog
+         */
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            startProgressBar("Data is Loading");
+
+        }
+
+
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+            hideProgressBar();
+
+
+            if (mAdapter != null) {
+                mAdapter.notifyDataSetChanged();
+                lv_CriteriaSummary.setAdapter(mAdapter);
+                lv_CriteriaSummary.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                        SummaryCriteriaModel criteriaS = (SummaryCriteriaModel) mAdapter.getItem(position);
+                        Intent iAssignSummary = new Intent(mContext, SummaryAssignBaseCriteria.class);
+
+
+                        iAssignSummary.putExtra(KEY.COUNTRY_ID, idCountry);
+                        iAssignSummary.putExtra(KEY.DONOR_CODE, idDonor);
+                        iAssignSummary.putExtra(KEY.AWARD_CODE, idAward);
+                        /** criteria is summary id */
+                        iAssignSummary.putExtra("Assign_SumCRITERIA_ID", criteriaS.getCriteria_id());
+                        iAssignSummary.putExtra("Assign_SumCRITERIA_STR", criteriaS.getCriteria_name());
+
+                        iAssignSummary.putExtra(KEY.PROGRAM_CODE, idProgram);
+                        iAssignSummary.putExtra(KEY.PROGRAM_NAME, strProgram);
+                        iAssignSummary.putExtra(KEY.VILLAGE_CODE, idVillage);
+                        iAssignSummary.putExtra(KEY.VILLAGE_NAME, strVillage);
+                        iAssignSummary.putExtra(KEY.DISTRICT_CODE, idLayR1Code);
+                        iAssignSummary.putExtra(KEY.UPAZILLA_CODE, idLayR2Code);
+                        iAssignSummary.putExtra(KEY.UNIT_CODE, idLayR3Code);
+
+                        finish();
+                        startActivity(iAssignSummary);
+                    }
+                });
+                lv_CriteriaSummary.setFocusableInTouchMode(true);
+
+            } else {
+                Log.d(TAG, "Adapter Is Empty ");
+                dialog.showInfromDialog(mContext, "No Data Found", "There is no data in this program");
+            }
+
+        }
+    }
+
+    private void hideProgressBar() {
+        if (pDialog.isShowing())
+            pDialog.dismiss();
+    }
+
     /**
-     * @since : 2015-10-16
-     * Faial Mohammad
+     * @param msg text massage
+     */
+    private void startProgressBar(String msg) {
+        pDialog = new ProgressDialog(this);
+        pDialog.setMessage(msg);
+        pDialog.setCancelable(true);
+        pDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        pDialog.show();
+    }
+
+    /**
+     * : 2015-10-16
+     * <p>
      * LOAD :: Criteria in list view
      */
     public void loadAssignSummaryCriteriaList(String cCode, String disCode, String upCode, String unCode, String vCode,
                                               String donorCode, String awardCode, String progCode) {
-        Log.d(TAG, "In load service List ");
+//        Log.d(TAG, "In load service List ");
 
 
         // use veriable to like operation
@@ -270,54 +370,26 @@ public class SummaryAssignCriteria extends BaseActivity implements AdapterView.O
                 criteriaArray.add(cdata);
             }
 
-            adapter = new SummaryCriteriaListAdapter(this, criteriaArray, cCode, donorCode, awardCode);
-            adapter.notifyDataSetChanged();
-            lv_CriteriaSummary.setAdapter(adapter);
-            lv_CriteriaSummary.setOnItemClickListener(this);
-            lv_CriteriaSummary.setFocusableInTouchMode(true);
+            mAdapter = new SummaryCriteriaListAdapter(this, criteriaArray, cCode, donorCode, awardCode);
+            mAdapter.notifyDataSetChanged();
+//            lv_CriteriaSummary.setAdapter(mAdapter);
+//            lv_CriteriaSummary.setOnItemClickListener(this);
+//            lv_CriteriaSummary.setFocusableInTouchMode(true);
 
         } else {
 
 
             // this statements clear the list view
             criteriaArray.clear();
-            adapter = new SummaryCriteriaListAdapter(this, criteriaArray, cCode, donorCode, awardCode);
-            lv_CriteriaSummary.setAdapter(adapter);
-            adapter.notifyDataSetChanged();
-
-            dialog.showInfromDialog(mContext, "No Data Found", "There is no data in this program");
+//            mAdapter = new SummaryCriteriaListAdapter(this, criteriaArray, cCode, donorCode, awardCode);
+//            lv_CriteriaSummary.setAdapter(mAdapter);
+//            mAdapter.notifyDataSetChanged();
+//
+//            dialog.showInfromDialog(mContext, "No Data Found", "There is no data in this program");
         }
     }
 
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-//        Log.d(TAG, "You clicked Item: " + id + " at position:" + position);
-        SummaryCriteriaModel criteriaS = (SummaryCriteriaModel) adapter.getItem(position);
-//        Log.d(TAG, "program :" + criteriaS.getCriteria_id().substring(0, 3) + " service : " + criteriaS.getCriteria_id().substring(3, 5));
-        Intent iAssignSummary = new Intent(mContext, SummaryAssignBaseCriteria.class);
-        finish();
-
-        iAssignSummary.putExtra(KEY.COUNTRY_ID, idCountry);
-        iAssignSummary.putExtra(KEY.DONOR_CODE, idDonor);
-        iAssignSummary.putExtra(KEY.AWARD_CODE, idAward);
-        /** criteria is summary id */
-        iAssignSummary.putExtra("Assign_SumCRITERIA_ID", criteriaS.getCriteria_id());
-        iAssignSummary.putExtra("Assign_SumCRITERIA_STR", criteriaS.getCriteria_name());
-
-        iAssignSummary.putExtra(KEY.PROGRAM_CODE, idProgram);
-        iAssignSummary.putExtra(KEY.PROGRAM_NAME, strProgram);
-        iAssignSummary.putExtra(KEY.VILLAGE_CODE, idVillage);
-        iAssignSummary.putExtra(KEY.VILLAGE_NAME, strVillage);
-        iAssignSummary.putExtra(KEY.DISTRICT_CODE, idDistrict);
-        iAssignSummary.putExtra(KEY.UPAZILLA_CODE, idUpazila);
-        iAssignSummary.putExtra(KEY.UNIT_CODE, idUnit);
-        //iAssignSummary.putExtra("Assign_SumVILLAGE_ID", idVillage);
-
-        startActivity(iAssignSummary);
-
-
-    }
 
     @Override
     public void onBackPressed() {

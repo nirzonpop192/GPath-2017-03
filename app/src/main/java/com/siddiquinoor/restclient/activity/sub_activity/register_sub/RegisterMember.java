@@ -66,7 +66,7 @@ public class RegisterMember extends BaseActivity {
     private String str_union;
     private String str_village;
 
-    private String str_districtCode;
+    private String str_LayR1Code;
     private String str_upazillaCode;
     private String str_unionCode;
     private String str_villageCode;
@@ -183,13 +183,13 @@ public class RegisterMember extends BaseActivity {
                 iReg.putExtra(KEY.UPAZILLA, str_upazilla);
                 iReg.putExtra(KEY.UNIT, str_union);
                 iReg.putExtra(KEY.VILLAGE_NAME, str_village);
-                iReg.putExtra(KEY.DISTRICT_CODE, str_districtCode);
+                iReg.putExtra(KEY.DISTRICT_CODE, str_LayR1Code);
                 iReg.putExtra(KEY.UPAZILLA_CODE, str_upazillaCode);
                 iReg.putExtra(KEY.UNIT_CODE, str_unionCode);
                 iReg.putExtra(KEY.VILLAGE_CODE, str_villageCode);
-                Log.d("REFAT--->", str_district + "\n" + str_upazilla + "\n" + str_union + "\n" + str_village
-                        + "\n" + str_districtCode + "\n" + str_upazillaCode + "\n" + str_unionCode
-                        + "\n" + str_villageCode);
+//                Log.d("REFAT--->", str_district + "\n" + str_upazilla + "\n" + str_union + "\n" + str_village
+//                        + "\n" + str_LayR1Code + "\n" + str_upazillaCode + "\n" + str_unionCode
+//                        + "\n" + str_villageCode);
 
 
                 startActivity(iReg);
@@ -245,7 +245,7 @@ public class RegisterMember extends BaseActivity {
         str_upazilla = cIntent.getStringExtra("str_upazilla");
         str_union = cIntent.getStringExtra("str_union");
         str_village = cIntent.getStringExtra("str_village");
-        str_districtCode = cIntent.getStringExtra("str_districtCode");
+        str_LayR1Code = cIntent.getStringExtra("str_LayR1Code");
         str_upazillaCode = cIntent.getStringExtra("str_upazillaCode");
         str_unionCode = cIntent.getStringExtra("str_unionCode");
         str_villageCode = cIntent.getStringExtra("str_villageCode");
@@ -262,9 +262,9 @@ public class RegisterMember extends BaseActivity {
 
         if (!is_edit) {
             if (str_hhID.length() > 5) {
-                setMemID(str_c_code, str_districtCode, str_upazillaCode, str_unionCode, str_villageCode, str_hhID.substring(8));
+                setMemID(str_c_code, str_LayR1Code, str_upazillaCode, str_unionCode, str_villageCode, str_hhID.substring(8));
             } else {
-                setMemID(str_c_code, str_districtCode, str_upazillaCode, str_unionCode, str_villageCode, str_hhID);
+                setMemID(str_c_code, str_LayR1Code, str_upazillaCode, str_unionCode, str_villageCode, str_hhID);
             }
 
 
@@ -333,7 +333,7 @@ public class RegisterMember extends BaseActivity {
             temHH = str_hhID;
         }
 
-        ListDataModel data = sqlH.getSingleRegisteredData(str_c_code, str_districtCode, str_upazillaCode, str_unionCode, str_villageCode, temHH);
+        ListDataModel data = sqlH.getSingleRegisteredData(str_c_code, str_LayR1Code, str_upazillaCode, str_unionCode, str_villageCode, temHH);
 
         Intent dIntent = new Intent(RegisterMember.this, ViewRecordDetail.class);
 
@@ -408,7 +408,7 @@ public class RegisterMember extends BaseActivity {
         idRelation = "";
         str_relation = "";
 
-        setMemID(str_c_code, str_districtCode, str_upazillaCode, str_unionCode, str_villageCode, tvHHID.getText().toString().substring(8));
+        setMemID(str_c_code, str_LayR1Code, str_upazillaCode, str_unionCode, str_villageCode, tvHHID.getText().toString().substring(8));
 
 
         loadGender();
@@ -438,8 +438,8 @@ public class RegisterMember extends BaseActivity {
         str_age = txtAge.getText().toString();
 
 
-        String lmp_date = "";// lmpDate.getText().toString();
-        String child_dob = "";// childDOB.getText().toString();
+        String lmp_date = "";                                                                       // lmpDate.getText().toString();
+        String child_dob = "";                                                                      // childDOB.getText().toString();
 
       //  boolean invalid = false;
 
@@ -470,9 +470,12 @@ public class RegisterMember extends BaseActivity {
                 // Update Member data
                 sqlH.editMalawiMemberData(mID, str_MemName, str_gender, idRelation, lmp_date, child_dob, str_elderly, str_disabled, str_age, pID);
                 Toast.makeText(mContext, "The member has been uploaded  ", Toast.LENGTH_SHORT).show();
-                // goToNextPage(str_c_code, str_districtCode, str_upazillaCode, str_unionCode, str_villageCode, str_hhID, redirect);
+                                                                                                    // goToNextPage(str_c_code, str_LayR1Code, str_upazillaCode, str_unionCode, str_villageCode, str_hhID, redirect);
                 setIsMemberSaved(true);
             } else {
+
+
+
                 /**
                  * Insert procedure
                  * */
@@ -482,23 +485,10 @@ public class RegisterMember extends BaseActivity {
                 else
                     temId = tvHHID.getText().toString();
 
-                sqlH.addMemberDataForMalawi(str_c_code, str_districtCode, str_upazillaCode, str_unionCode, str_villageCode, temId, str_hhMemID, str_MemName, str_gender, idRelation, str_entry_by, str_entry_date, lmp_date, child_dob, str_elderly, str_disabled, str_age, pID);
-                SQLServerSyntaxGenerator malawiMember = new SQLServerSyntaxGenerator();
-                malawiMember.setAdmCountryCode(str_c_code);
-                malawiMember.setLayR1ListCode(str_districtCode);
-                malawiMember.setLayR2ListCode(str_upazillaCode);
-                malawiMember.setLayR3ListCode(str_unionCode);
-                malawiMember.setLayR4ListCode(str_villageCode);
-                malawiMember.setHHID(temId);
-                malawiMember.setMemID(str_hhMemID);
-                malawiMember.setMmMemName(str_MemName);
-                malawiMember.setMmMemSex(str_gender);
-                malawiMember.setMmHHRelation(idRelation);
-                malawiMember.setEntryBy(str_entry_by);
-                malawiMember.setEntryDate(str_entry_date);
-                malawiMember.setMmMemAge(str_age);
+                ListDataModel data = sqlH.getSingleRegisteredData(str_c_code, str_LayR1Code, str_upazillaCode, str_unionCode, str_villageCode, temId);
 
-                sqlH.insertIntoUploadTable(malawiMember.insertIntoRegNMemberForMalawi());
+                sqlH.addMemberDataForMalawi(str_c_code, str_LayR1Code, str_upazillaCode, str_unionCode, str_villageCode, temId, str_hhMemID, str_MemName, str_gender, idRelation, str_entry_by, str_entry_date, lmp_date, child_dob, str_elderly, str_disabled, str_age,data.getRegDate(),pID);
+
                 Toast.makeText(getApplicationContext(), "save successfully", Toast.LENGTH_LONG).show();
                 setIsMemberSaved(true);
 
@@ -532,7 +522,7 @@ public class RegisterMember extends BaseActivity {
         str_village = results.getAsString("str_village");
 
         str_c_code = results.getAsString("str_c_code");
-        str_districtCode = results.getAsString("str_districtCode");
+        str_LayR1Code = results.getAsString("str_LayR1Code");
         str_upazillaCode = results.getAsString("str_upazillaCode");
         str_unionCode = results.getAsString("str_unionCode");
         str_villageCode = results.getAsString("str_villageCode");
@@ -558,7 +548,7 @@ public class RegisterMember extends BaseActivity {
         dIntent.putExtra("unit", str_union);
         dIntent.putExtra("village", str_village);
 
-        dIntent.putExtra("districtCode", str_districtCode);
+        dIntent.putExtra("districtCode", str_LayR1Code);
         dIntent.putExtra("upazillaCode", str_upazillaCode);
         dIntent.putExtra("unitCode", str_unionCode);
         dIntent.putExtra("villageCode", str_villageCode);

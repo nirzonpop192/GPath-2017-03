@@ -18,8 +18,10 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
+import android.os.Environment;
 import android.util.Log;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.siddiquinoor.restclient.activity.sub_activity.dynamic_table.DTResponseRecordingActivity;
 import com.siddiquinoor.restclient.activity.GPSLocationSearchPage;
@@ -55,6 +57,7 @@ import com.siddiquinoor.restclient.data_model.adapters.TrainingNActivityIndexDat
 import com.siddiquinoor.restclient.manager.sqlsyntax.SQLServerSyntaxGenerator;
 import com.siddiquinoor.restclient.manager.sqlsyntax.SQLiteQuery;
 import com.siddiquinoor.restclient.manager.sqlsyntax.Schema;
+import com.siddiquinoor.restclient.utils.FileUtils;
 import com.siddiquinoor.restclient.utils.KEY;
 import com.siddiquinoor.restclient.utils.UtilClass;
 import com.siddiquinoor.restclient.data_model.adapters.AssignDataModel;
@@ -62,7 +65,7 @@ import com.siddiquinoor.restclient.data_model.adapters.CommunityGroupDataModel;
 import com.siddiquinoor.restclient.data_model.adapters.DistributionGridDataModel;
 import com.siddiquinoor.restclient.data_model.adapters.DistributionSaveDataModel;
 import com.siddiquinoor.restclient.data_model.adapters.DTQTableDataModel;
-import com.siddiquinoor.restclient.views.adapters.GPSLocationLatLong;
+import com.siddiquinoor.restclient.data_model.adapters.GPSLocationLatLong;
 import com.siddiquinoor.restclient.data_model.adapters.GraduationGridDataModel;
 import com.siddiquinoor.restclient.views.adapters.ListDataModel;
 import com.siddiquinoor.restclient.views.adapters.MemberModel;
@@ -81,6 +84,11 @@ import com.siddiquinoor.restclient.views.helper.SpinnerHelper;
 
 import org.json.JSONArray;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.channels.FileChannel;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -98,9 +106,10 @@ public class SQLiteHandler extends SQLiteOpenHelper {
     // All Static variables
 
     // Database Version
-    private static final int DATABASE_VERSION = 18;
+    private static final int DATABASE_VERSION = 20;
     // Database Name
-    private static final String DATABASE_NAME = "pci";
+    public static final String DATABASE_NAME = "pci";
+    public static final String EXTERNAL_DATABASE_NAME = "pci_ex";
     // Android meta data table
     public static final String SQLITE_SEQUENCE = "SQLITE_SEQUENCE";
     public static final String TABLE_NAME = "NAME";
@@ -123,7 +132,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
     private static final int ID_LENGTH = 5;
 
     // Login table name
-    // todo: rename table Name
+
     public static final String LOGIN_TABLE = "UsrLogIn";
     public static final String STAFF_MASTER_TABLE = "StaffMaster";
     public static final String STAFF_ID_COL = "StfCode";
@@ -170,7 +179,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
     public static final String STAFF_SRV_CENTER_ACCESS_TABLE = "StaffSrvCenterAccess";
 
     public static final String HOUSE_HOLD_CATEGORY_TABLE = "HouseHoldCategory";
-   // public static final String LIBERIA_REGISTRATION_TABLE = "Liberia_Registration";
+    // public static final String LIBERIA_REGISTRATION_TABLE = "Liberia_Registration";
 
     public static final String REG_N_LUP_GRADUATION_TABLE = "Graduation";
 
@@ -1002,6 +1011,205 @@ public class SQLiteHandler extends SQLiteOpenHelper {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
+    /**
+     * this method is for only Exported data base
+     *
+     * @param context the invoking activity or MainActivity
+     * @param version by default ertar value 1 thakbe
+     */
+    public SQLiteHandler(Context context, int version) {
+        super(context, EXTERNAL_DATABASE_NAME, null, version);
+        SQLiteDatabase extranal = this.getWritableDatabase();
+        onCreate(extranal, version);
+
+    }
+
+    /**
+     * ei method orginal data base theke data niye exported data base Upload syntex gulo insert korabe
+     *
+     * @param context the invoking activity or MainActivity
+     */
+    public void insertIntoExportDataBase(Context context) {
+        List<dataUploadDB> list = new ArrayList<>();
+        String path = "/data/data/" + context.getPackageName() + "/databases/";
+        SQLiteDatabase extralDatabase, orginalDatabase;
+        extralDatabase = SQLiteDatabase.openDatabase(path + EXTERNAL_DATABASE_NAME, null, SQLiteDatabase.OPEN_READWRITE);
+        orginalDatabase = SQLiteDatabase.openDatabase(path + DATABASE_NAME, null, SQLiteDatabase.OPEN_READWRITE);
+
+
+        extralDatabase.delete(UPLOAD_SYNTAX_TABLE, null, null);
+
+        String sql = "SELECT  * FROM " + UPLOAD_SYNTAX_TABLE +// " WHERE " + SYNC_COL + "=0 "
+                " ORDER BY " + ID_COL + " ASC ";
+        Cursor cursor = orginalDatabase.rawQuery(sql, null);
+        if (cursor.moveToFirst()) {
+            do {
+                dataUploadDB data = new dataUploadDB();
+                data._id = cursor.getString(cursor.getColumnIndex(ID_COL));
+                data._syntax = cursor.getString(cursor.getColumnIndex(SQL_QUERY_SYNTAX));
+                list.add(data);
+
+            } while (cursor.moveToNext());
+            cursor.close();
+        }
+
+        orginalDatabase.close();
+
+
+        if (list.size() > 0) {
+            for (int i = 0; i < list.size(); i++) {
+                ContentValues values = new ContentValues();
+                values.put(SQL_QUERY_SYNTAX, list.get(i)._syntax);
+                values.put(SYNC_COL, "0");
+
+
+                extralDatabase.insert(UPLOAD_SYNTAX_TABLE, null, values);
+
+            }
+        }
+
+
+        extralDatabase.close();
+
+    }
+
+    /**
+     * Copies the database file at the specified location over the current
+     * internal application database.
+     */
+    public boolean importDatabase(String dbPath, Context context) throws IOException {
+
+        // Close the SQLiteOpenHelper so it will commit the created empty
+        // database to internal storage.
+        close();
+        File newDb = new File(dbPath);
+        File oldDb = new File("/data/data/" + context.getPackageName() + "/databases/"
+                + DATABASE_NAME);
+
+        if (newDb.exists()) {
+            FileUtils.copyFile(new FileInputStream(newDb), new FileOutputStream(oldDb));             // Access the copied database so SQLiteHelper will cache it and mark
+
+
+            getWritableDatabase().close();                                                          // it as created.
+            return true;
+        }
+        return false;
+    }
+
+    private void dropTableFromExportedDatabase(SQLiteDatabase db) {
+
+        db.execSQL(DROP_TABLE_IF_EXISTS + LOGIN_TABLE);
+        db.execSQL(DROP_TABLE_IF_EXISTS + COUNTRY_TABLE);
+        db.execSQL(DROP_TABLE_IF_EXISTS + VALID_DATE_RANGE);
+        db.execSQL(DROP_TABLE_IF_EXISTS + DISTRICT_TABLE);
+        db.execSQL(DROP_TABLE_IF_EXISTS + UPAZILLA_TABLE);
+        db.execSQL(DROP_TABLE_IF_EXISTS + UNIT_TABLE);
+        db.execSQL(DROP_TABLE_IF_EXISTS + VILLAGE_TABLE);
+        db.execSQL(DROP_TABLE_IF_EXISTS + REGISTRATION_TABLE);
+        db.execSQL(DROP_TABLE_IF_EXISTS + REGISTRATION_MEMBER_TABLE);
+        db.execSQL(DROP_TABLE_IF_EXISTS + RELATION_TABLE);
+        db.execSQL(DROP_TABLE_IF_EXISTS + SERVICE_TABLE);
+        db.execSQL(DROP_TABLE_IF_EXISTS + ADM_COUNTRY_AWARD_TABLE);
+        db.execSQL(DROP_TABLE_IF_EXISTS + ADM_DONOR_TABLE);
+        db.execSQL(DROP_TABLE_IF_EXISTS + ADM_PROGRAM_MASTER_TABLE);
+        db.execSQL(DROP_TABLE_IF_EXISTS + SERVICE_MASTER_TABLE);
+        db.execSQL(DROP_TABLE_IF_EXISTS + REG_N_ASSIGN_PROG_SRV_TABLE);
+        db.execSQL(DROP_TABLE_IF_EXISTS + GPS_GROUP_TABLE);
+        db.execSQL(DROP_TABLE_IF_EXISTS + GPS_SUB_GROUP_TABLE);
+        db.execSQL(DROP_TABLE_IF_EXISTS + GPS_LOCATION_TABLE);
+        db.execSQL(DROP_TABLE_IF_EXISTS + OP_MONTH_TABLE);
+        db.execSQL(DROP_TABLE_IF_EXISTS + COUNTRY_PROGRAM_TABLE);
+        db.execSQL(DROP_TABLE_IF_EXISTS + REG_N_LM_TABLE);
+        db.execSQL(DROP_TABLE_IF_EXISTS + REG_N_PW_TABLE);
+        db.execSQL(DROP_TABLE_IF_EXISTS + REG_N_CU2_TABLE);
+        db.execSQL(DROP_TABLE_IF_EXISTS + REG_N_CA2_TABLE);
+        db.execSQL(DROP_TABLE_IF_EXISTS + STAFF_GEO_INFO_ACCESS_TABLE);
+        db.execSQL(DROP_TABLE_IF_EXISTS + HOUSE_HOLD_CATEGORY_TABLE);
+        db.execSQL(DROP_TABLE_IF_EXISTS + REG_N_LUP_GRADUATION_TABLE);
+        db.execSQL(DROP_TABLE_IF_EXISTS + REPORT_TEMPLATE_TABLE);
+        db.execSQL(DROP_TABLE_IF_EXISTS + CARD_PRINT_REASON_TABLE);
+        db.execSQL(DROP_TABLE_IF_EXISTS + MEMBER_CARD_PRINT_TABLE);
+        // db.execSQL(DROP_TABLE_IF_EXISTS + UPLOAD_SYNTAX_TABLE);
+        db.execSQL(DROP_TABLE_IF_EXISTS + FDP_MASTER_TABLE);
+        db.execSQL(DROP_TABLE_IF_EXISTS + STAFF_FDP_ACCESS_TABLE);
+        db.execSQL(DROP_TABLE_IF_EXISTS + REG_N_CT_TABLE);
+        db.execSQL(DROP_TABLE_IF_EXISTS + DISTRIBUTION_TABLE);
+        db.execSQL(DROP_TABLE_IF_EXISTS + REG_N_AGR_TABLE);
+        db.execSQL(DROP_TABLE_IF_EXISTS + REG_N_VUL_TABLE);
+        db.execSQL(DROP_TABLE_IF_EXISTS + SERVICE_CENTER_TABLE);
+        db.execSQL(DROP_TABLE_IF_EXISTS + LAYER_LABEL_TABLE);
+        db.execSQL(DROP_TABLE_IF_EXISTS + VOUCHER_ITEM_TABLE);
+        db.execSQL(DROP_TABLE_IF_EXISTS + VOUCHER_ITEM__MEAS_TABLE);
+        db.execSQL(DROP_TABLE_IF_EXISTS + VOUCHER_COUNTRY_PROGRAM_ITEM_TABLE);
+        db.execSQL(DROP_TABLE_IF_EXISTS + SERVICE_EXTENDED_TABLE);
+        db.execSQL(DROP_TABLE_IF_EXISTS + DISTRIBUTION_EXTENDED_TABLE);
+        db.execSQL(DROP_TABLE_IF_EXISTS + SELECTED_VILLAGE_TABLE);
+        db.execSQL(DROP_TABLE_IF_EXISTS + GPS_SUB_GROUP_ATTRIBUTES_TABLE);
+        db.execSQL(DROP_TABLE_IF_EXISTS + LUP_GPS_TABLE);
+        db.execSQL(DROP_TABLE_IF_EXISTS + GPS_LOCATION_ATTRIBUTES_TABLE);
+        db.execSQL(DROP_TABLE_IF_EXISTS + SERVICE_SPECIFIC_TABLE);
+        db.execSQL(DROP_TABLE_IF_EXISTS + COMMUNITY_GROUP_TABLE);
+        db.execSQL(DROP_TABLE_IF_EXISTS + LUP_COMMUNITY_ANIMAL_TABLE);
+        db.execSQL(DROP_TABLE_IF_EXISTS + LUP_PROG_GROUP_CROP_TABLE);
+        db.execSQL(DROP_TABLE_IF_EXISTS + LUP_COMMUNITY_LOAN_SOURCE_TABLE);
+        db.execSQL(DROP_TABLE_IF_EXISTS + LUP_COMMUNITY_LEAD_POSITION_TABLE);
+        db.execSQL(DROP_TABLE_IF_EXISTS + REG_N_MEM_PROG_GRP_TABLE);
+        db.execSQL(DROP_TABLE_IF_EXISTS + COMMUNITY_GROUP_CATEGORY_TABLE);
+        db.execSQL(DROP_TABLE_IF_EXISTS + GPS_LOCATION_CONTENT_TABLE);
+        db.execSQL(DROP_TABLE_IF_EXISTS + REG_N_FFA_TABLE);
+        db.execSQL(DROP_TABLE_IF_EXISTS + REG_N_WE_TABLE);
+        db.execSQL(DROP_TABLE_IF_EXISTS + DIST_N_PLAN_BASIC_TABLE);
+        db.execSQL(DROP_TABLE_IF_EXISTS + COMMUNITY_GRP_DETAIL_TABLE);
+        db.execSQL(DROP_TABLE_IF_EXISTS + PROGRAM_ORGANIZATION_NAME_TABLE);
+        db.execSQL(DROP_TABLE_IF_EXISTS + PROGRAM_ORGANIZATION_ROLE_TABLE);
+        db.execSQL(DROP_TABLE_IF_EXISTS + STAFF_MASTER_TABLE);
+        db.execSQL(DROP_TABLE_IF_EXISTS + STAFF_MASTER_TABLE);
+        db.execSQL(DROP_TABLE_IF_EXISTS + LUP_GPS_LIST_TABLE);
+        db.execSQL(DROP_TABLE_IF_EXISTS + DT_A_TABLE);
+        db.execSQL(DROP_TABLE_IF_EXISTS + DT_BASIC_TABLE);
+        db.execSQL(DROP_TABLE_IF_EXISTS + DT_CATEGORY_TABLE);
+        db.execSQL(DROP_TABLE_IF_EXISTS + DT_COUNTRY_PROGRAM_TABLE);
+        db.execSQL(DROP_TABLE_IF_EXISTS + DTGEO_LIST_LEVEL_COL);
+        db.execSQL(DROP_TABLE_IF_EXISTS + DTGEO_LIST_LEVEL_TABLE);
+        db.execSQL(DROP_TABLE_IF_EXISTS + DTQRES_MODE_TABLE);
+        db.execSQL(DROP_TABLE_IF_EXISTS + DTQ_TABLE);
+        db.execSQL(DROP_TABLE_IF_EXISTS + DT_RESPONSE_TABLE);
+        db.execSQL(DROP_TABLE_IF_EXISTS + DT_SURVEY_TABLE);
+        db.execSQL(DROP_TABLE_IF_EXISTS + DT_TABLE_DEFINITION_TABLE);
+        db.execSQL(DROP_TABLE_IF_EXISTS + DTTABLE_LIST_CATEGORY_TABLE);
+        db.execSQL(DROP_TABLE_IF_EXISTS + DT_ENU_TABLE);
+        db.execSQL(DROP_TABLE_IF_EXISTS + DT_LUP_TABLE);
+        db.execSQL(DROP_TABLE_IF_EXISTS + DTA_SKIP_TABLE);
+        db.execSQL(DROP_TABLE_IF_EXISTS + TEMPORARY_COUNTRY_PROGRAM_TABLE);
+        db.execSQL(DROP_TABLE_IF_EXISTS + TEMPORARY_OP_MONTH_TABLE);
+        db.execSQL(DROP_TABLE_IF_EXISTS + SELECTED_COUNTRY_TABLE);
+        db.execSQL(DROP_TABLE_IF_EXISTS + ADM_AWARD_TABLE);
+        db.execSQL(DROP_TABLE_IF_EXISTS + SELECTED_OPERATION_MODE_TABLE);
+        db.execSQL(DROP_TABLE_IF_EXISTS + STAFF_SRV_CENTER_ACCESS_TABLE);
+        db.execSQL(DROP_TABLE_IF_EXISTS + TA_MASTER_TABLE);
+        db.execSQL(DROP_TABLE_IF_EXISTS + TA_CATEGORY_TABLE);
+        db.execSQL(DROP_TABLE_IF_EXISTS + TA_EVENT_TOPIC_TABLE);
+        db.execSQL(DROP_TABLE_IF_EXISTS + TA_GROUP_TABLE);
+        db.execSQL(DROP_TABLE_IF_EXISTS + TA_PARTICIPANTS_LIST_TABLE);
+        db.execSQL(DROP_TABLE_IF_EXISTS + TA_PART_ORG_N_TABLE);
+        db.execSQL(DROP_TABLE_IF_EXISTS + TA_POS_PARTICIPANTS_TABLE);
+        db.execSQL(DROP_TABLE_IF_EXISTS + TA_SUB_GROUP_TABLE);
+        db.execSQL(DROP_TABLE_IF_EXISTS + TA_TOPIC_CHILD_TABLE);
+        db.execSQL(DROP_TABLE_IF_EXISTS + TA_TOPIC_MASTER_TABLE);
+        db.execSQL(DROP_TABLE_IF_EXISTS + LUP_TA_PATICIPANT_CAT_TABLE);
+        db.execSQL(DROP_TABLE_IF_EXISTS + SELECTED_FDP_TABLE);
+        db.execSQL(DROP_TABLE_IF_EXISTS + SELECTED_SERVICE_CENTER_TABLE);
+        db.execSQL(DROP_TABLE_IF_EXISTS + LAST_SYNC_TYRACE_TABLE);
+        db.execSQL(DROP_TABLE_IF_EXISTS + LUP_SRV_OPTION_LIST_TABLE);
+        db.execSQL(DROP_TABLE_IF_EXISTS + LUP_REGN_ADDRESS_LOOKUP_TABLE);
+
+    }
+
+    public void onCreate(SQLiteDatabase db, int version) {
+        dropTableFromExportedDatabase(db);
+        db.execSQL(Schema.sqlCreateUploadTable());
+    }
+
     // Creating Tables
 
     /**
@@ -1261,7 +1469,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
 
     /**
      * Re crate database Delete all reference tables and create them again     *
-     * invoked by the {@link SyncDatabase#checkLoginAndDowenReftData(String, String, JSONArray, String)}
+     * invoked by the {@link SyncDatabase#checkLoginAndDowenReferenceData(String, String, JSONArray, String)}
      */
     public void deleteReferenceTable() {
 
@@ -1270,17 +1478,17 @@ public class SQLiteHandler extends SQLiteOpenHelper {
 
         try {
 
-            db.delete(COUNTRY_TABLE, null, null);
-            db.delete(VALID_DATE_RANGE, null, null);
+            //   db.delete(COUNTRY_TABLE, null, null);
+            //   db.delete(VALID_DATE_RANGE, null, null);
 
-            db.delete(RELATION_TABLE, null, null);
+            //   db.delete(RELATION_TABLE, null, null);
             /**
              * todo do not delete AWARd Table program table Service Table
              */
 
-            db.delete(ADM_DONOR_TABLE, null, null);
-            db.delete(ADM_PROGRAM_MASTER_TABLE, null, null);
-            db.delete(SERVICE_MASTER_TABLE, null, null);
+            //   db.delete(ADM_DONOR_TABLE, null, null);
+            //  db.delete(ADM_PROGRAM_MASTER_TABLE, null, null);
+            //     db.delete(SERVICE_MASTER_TABLE, null, null);
 //            db.delete(GPS_GROUP_TABLE, null, null);
 //            db.delete(GPS_SUB_GROUP_TABLE, null, null);
             // db.delete(GPS_LOCATION_TABLE, null, null);
@@ -1288,14 +1496,14 @@ public class SQLiteHandler extends SQLiteOpenHelper {
             //db.delete(COUNTRY_PROGRAM_TABLE, null, null);
 //            db.delete(SERVICE_CENTER_TABLE, null, null);
             ///  db.delete(STAFF_GEO_INFO_ACCESS_TABLE, null, null);
-            db.delete(HOUSE_HOLD_CATEGORY_TABLE, null, null);
-            db.delete(REG_N_LUP_GRADUATION_TABLE, null, null);
-            db.delete(LAYER_LABEL_TABLE, null, null);
-            db.delete(REPORT_TEMPLATE_TABLE, null, null);
-            db.delete(CARD_PRINT_REASON_TABLE, null, null);
-            db.delete(FDP_MASTER_TABLE, null, null);
-            db.delete(STAFF_FDP_ACCESS_TABLE, null, null);
-            db.delete(LUP_SRV_OPTION_LIST_TABLE, null, null);
+            //      db.delete(HOUSE_HOLD_CATEGORY_TABLE, null, null);
+            //      db.delete(REG_N_LUP_GRADUATION_TABLE, null, null);
+            //       db.delete(LAYER_LABEL_TABLE, null, null);
+            //         db.delete(REPORT_TEMPLATE_TABLE, null, null);
+            //       db.delete(CARD_PRINT_REASON_TABLE, null, null);
+            //       db.delete(FDP_MASTER_TABLE, null, null);
+            ///       db.delete(STAFF_FDP_ACCESS_TABLE, null, null);
+            //        db.delete(LUP_SRV_OPTION_LIST_TABLE, null, null);
             db.delete(SERVICE_TABLE, null, null);
             db.delete(SERVICE_EXTENDED_TABLE, null, null);
 
@@ -1438,7 +1646,6 @@ public class SQLiteHandler extends SQLiteOpenHelper {
             db.delete(STAFF_MASTER_TABLE, null, null);
             db.delete(LUP_GPS_LIST_TABLE, null, null);
             db.delete(ADM_AWARD_TABLE, null, null);
-
 
 
 //            Log.d(TAG, "All User data Deleted.");
@@ -1658,14 +1865,13 @@ public class SQLiteHandler extends SQLiteOpenHelper {
         String sql = SQLiteQuery.ifExistsInTaParticipantsListTable_sql(cCode, eventCode, partId, atdnDate);
         Cursor cursor = db.rawQuery(sql, null);
 
-
         flag = (cursor.getCount() > 0);
-        // for protection .if close cursor while it's value null , the close stametnt
-        if (cursor != null)
+
+        if(cursor !=null)
             cursor.close();
+
         db.close();
         return flag;
-
     }
 
     public boolean ifExistsInTaParticipantsListTable(String cCode, String eventCode, String partId) {
@@ -1683,8 +1889,8 @@ public class SQLiteHandler extends SQLiteOpenHelper {
 
         flag = (cursor.getCount() > 0);
         // for protection .if close cursor while it's value null , the close stametnt
-        if (cursor != null)
-            cursor.close();
+//        if (cursor != null)
+//            cursor.close();
         db.close();
         return flag;
 
@@ -5842,11 +6048,10 @@ public class SQLiteHandler extends SQLiteOpenHelper {
     }
 
 
-    public ArrayList<TaSummary> getTaSummary( String sql) {
+    public ArrayList<TaSummary> getTaSummary(String sql) {
 
         ArrayList<TaSummary> list = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
-
 
 
         Cursor cursor = db.rawQuery(sql, null);
@@ -11173,11 +11378,29 @@ public class SQLiteHandler extends SQLiteOpenHelper {
      * Storing Member Data into database for Malawi
      */
 
-    public void addMemberDataForMalawi(String str_c_code, String str_district, String str_upazilla, String str_union, String str_village, String str_hhID, String str_hhMemID, String str_MemName, String str_gender, String str_relation, String str_entry_by, String str_entry_date, String lmp_date, String child_dob, String str_elderly, String str_disabled, String str_age, int pID) {
+    public void addMemberDataForMalawi(String str_c_code, String str_district, String str_upazilla, String str_union, String str_village, String str_hhID, String str_hhMemID, String str_MemName, String str_gender, String str_relation, String str_entry_by, String str_entry_date, String lmp_date, String child_dob, String str_elderly, String str_disabled, String str_age, String regNDate, int pID) {
         addMemberData(str_c_code, str_district, str_upazilla, str_union, str_village, str_hhID, str_hhMemID, str_MemName, str_gender, str_relation, str_entry_by, str_entry_date, lmp_date, child_dob, str_elderly, str_disabled, str_age
-                , null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null,
+                , regNDate, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null,
                 null, null, null, null, null, null, null, null, null, null, null, null, null, null);
 
+
+        SQLServerSyntaxGenerator malawiMember = new SQLServerSyntaxGenerator();
+        malawiMember.setAdmCountryCode(str_c_code);
+        malawiMember.setLayR1ListCode(str_district);
+        malawiMember.setLayR2ListCode(str_upazilla);
+        malawiMember.setLayR3ListCode(str_union);
+        malawiMember.setLayR4ListCode(str_village);
+        malawiMember.setHHID(str_hhID);
+        malawiMember.setMemID(str_hhMemID);
+        malawiMember.setMmMemName(str_MemName);
+        malawiMember.setMmMemSex(str_relation);
+        malawiMember.setMmHHRelation(str_relation);
+        malawiMember.setEntryBy(str_entry_by);
+        malawiMember.setEntryDate(str_entry_date);
+        malawiMember.setMmMemAge(str_age);
+        malawiMember.setRegNDate(regNDate);
+
+        insertIntoUploadTable(malawiMember.insertIntoRegNMemberForMalawi());
 
         if (pID != 0)
             updateRegistrationStatus("" + pID, 0);    // Setting Update status to false to avail the Synchronization
@@ -11648,7 +11871,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
         values.put(SELECTED_OPERATION_MODE_CODE_COL, opModeCode);
         values.put(SELECTED_OPERATION_MODE_NAME_COL, opModeName);
         values.put(ENTRY_BY, entryBy);
-        values.put(END_DATE_COL, entryDate);
+        values.put(ENTRY_DATE, entryDate);
         db.insert(SELECTED_OPERATION_MODE_TABLE, null, values);
         db.close();
 
@@ -11657,18 +11880,18 @@ public class SQLiteHandler extends SQLiteOpenHelper {
     /**
      * @return get device operation mode code registration  =1 / distributation=2 /service = 3/ other =4
      */
-    public int getDeviceOperationMode() {
-        int deviceOperationMode = 0;
+    public String getDeviceOperationMode() {
+        String deviceOperationModeName = "";
         SQLiteDatabase db = this.getReadableDatabase();
-        String sql = "SELECT " + SELECTED_OPERATION_MODE_CODE_COL + " FROM " + SELECTED_OPERATION_MODE_TABLE;
+        String sql = "SELECT " + SELECTED_OPERATION_MODE_NAME_COL + " FROM " + SELECTED_OPERATION_MODE_TABLE;
         Cursor cursor = db.rawQuery(sql, null);
         if (cursor != null && cursor.moveToFirst()) {
-            deviceOperationMode = cursor.getInt(cursor.getColumnIndex(SELECTED_OPERATION_MODE_CODE_COL));
+            deviceOperationModeName = cursor.getString(cursor.getColumnIndex(SELECTED_OPERATION_MODE_NAME_COL));
             cursor.close();
         }
 
         db.close();
-        return deviceOperationMode;
+        return deviceOperationModeName;
     }
 
     /**
@@ -12555,7 +12778,8 @@ public class SQLiteHandler extends SQLiteOpenHelper {
         values.put(U_FILE_COL, imageString);
 
 
-        int id = db.update(DT_RESPONSE_TABLE, values, where, null);
+//        int id =
+        db.update(DT_RESPONSE_TABLE, values, where, null);
 
         db.close();     // close the db
 
@@ -12580,7 +12804,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
         mSyntaxGenerator.setUFILE(imageString);
         insertIntoUploadTable(mSyntaxGenerator.updateIntoDTResponseTable());
 
-        Log.d(TAG, " no of row :" + id);
+//        Log.d(TAG, " no of row :" + id);
 
     }
 

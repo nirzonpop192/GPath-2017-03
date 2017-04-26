@@ -115,28 +115,28 @@ public class CommunityGroupNDetailsRecodes extends BaseActivity {
         if (!addNewFlag) {
             edtGroupName.setVisibility(View.GONE);
             grpData = intent.getParcelableExtra(KEY.COMMUNITY_GRP_DATA_OBJECT_KEY);
-            Log.d("SAL", "getCommuCategoriesName: " + grpData.getCommuCategoriesName()
-                    + "getCommunityGroupName: " + grpData.getCommunityGroupName()
-                    + "getCommunityGroupCode: " + grpData.getCommunityGroupCode()
-                    + "getAwardCode: " + grpData.getAwardCode()
-                    + "getAwardName: " + grpData.getAwardName()
-                    + "getAwardName: " + grpData.getProgramName()
-                    + "getProgramCode: " + grpData.getProgramCode()
-                    + "\n getLayr1Code: " + grpData.getLayr1Code()
-                    + "\n getLayr2Code: " + grpData.getLayr2Code()
-                    + "\n getLayr3Code: " + grpData.getLayr3Code()
-                    + "\n getLayr3Name: " + grpData.getLayr3Name()
-                    + "\ngetCommuCategoriesCode: " + grpData.getCommuCategoriesCode()
-                    + "\ngetOrgonizationCode: " + grpData.getOrgonizationCode()
-                    + "\ngetOrgonizationName: " + grpData.getOrgonizationName()
-                    + "\ngetStaffCode: " + grpData.getStaffCode()
-                    + "\ngetStaffName: " + grpData.getStaffName()
-                    + "\ngetRepName: " + grpData.getRepName()
-                    + "\ngetRepPhoneNo: " + grpData.getRepPhoneNo()
-                    + "\ngetFormation: " + grpData.getFormation()
-                    + "\ngetStatus: " + grpData.getStatus()
-                    + "\ngetActive: " + grpData.getActive()
-            );
+//            Log.d("SAL", "getCommuCategoriesName: " + grpData.getCommuCategoriesName()
+//                    + "getCommunityGroupName: " + grpData.getCommunityGroupName()
+//                    + "getCommunityGroupCode: " + grpData.getCommunityGroupCode()
+//                    + "getAwardCode: " + grpData.getAwardCode()
+//                    + "getAwardName: " + grpData.getAwardName()
+//                    + "getAwardName: " + grpData.getProgramName()
+//                    + "getProgramCode: " + grpData.getProgramCode()
+//                    + "\n getLayr1Code: " + grpData.getLayr1Code()
+//                    + "\n getLayr2Code: " + grpData.getLayr2Code()
+//                    + "\n getLayr3Code: " + grpData.getLayr3Code()
+//                    + "\n getLayr3Name: " + grpData.getLayr3Name()
+//                    + "\ngetCommuCategoriesCode: " + grpData.getCommuCategoriesCode()
+//                    + "\ngetOrgonizationCode: " + grpData.getOrgonizationCode()
+//                    + "\ngetOrgonizationName: " + grpData.getOrgonizationName()
+//                    + "\ngetStaffCode: " + grpData.getStaffCode()
+//                    + "\ngetStaffName: " + grpData.getStaffName()
+//                    + "\ngetRepName: " + grpData.getRepName()
+//                    + "\ngetRepPhoneNo: " + grpData.getRepPhoneNo()
+//                    + "\ngetFormation: " + grpData.getFormation()
+//                    + "\ngetStatus: " + grpData.getStatus()
+//                    + "\ngetActive: " + grpData.getActive()
+//            );
 
             idAward = grpData.getAwardCode();
             strAward = grpData.getAwardName();
@@ -284,28 +284,29 @@ public class CommunityGroupNDetailsRecodes extends BaseActivity {
 
     private void loadCountry() {
 
-        SharedPreferences settings = getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
+//        SharedPreferences settings = getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
 
         int position = 0;
         String criteria = "";
 
-        int operationMode = settings.getInt(UtilClass.OPERATION_MODE, 0);
+//        String operationModeName = settings.getInt(UtilClass.OPERATION_MODE, 0);
+        String operationModeName =  sqlH.getDeviceOperationMode();
 
-        switch (operationMode) {
-            case UtilClass.REGISTRATION_OPERATION_MODE:
+        switch (operationModeName) {
+            case UtilClass.REGISTRATION_OPERATION_MODE_NAME:
                 criteria = " INNER JOIN " + SQLiteHandler.SELECTED_VILLAGE_TABLE + " ON "
                         + SQLiteHandler.COUNTRY_TABLE + "." + SQLiteHandler.COUNTRY_CODE_COL + " = "
                         + SQLiteHandler.SELECTED_VILLAGE_TABLE + "." + SQLiteHandler.COUNTRY_CODE_COL;
 
 
                 break;
-            case UtilClass.DISTRIBUTION_OPERATION_MODE:
+            case UtilClass.DISTRIBUTION_OPERATION_MODE_NAME:
                 criteria = " INNER JOIN " + SQLiteHandler.SELECTED_FDP_TABLE + " ON "
                         + SQLiteHandler.COUNTRY_TABLE + "." + SQLiteHandler.COUNTRY_CODE_COL + " = "
                         + SQLiteHandler.SELECTED_FDP_TABLE + "." + SQLiteHandler.COUNTRY_CODE_COL;
 
                 break;
-            case UtilClass.SERVICE_OPERATION_MODE:
+            case UtilClass.SERVICE_OPERATION_MODE_NAME:
                 criteria = " INNER JOIN " + SQLiteHandler.SELECTED_SERVICE_CENTER_TABLE + " ON "
                         + SQLiteHandler.COUNTRY_TABLE + "." + SQLiteHandler.COUNTRY_CODE_COL + " = "
                         + SQLiteHandler.SELECTED_SERVICE_CENTER_TABLE + "." + SQLiteHandler.COUNTRY_CODE_COL;

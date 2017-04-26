@@ -763,7 +763,7 @@
     <string name="cast_notification_connected_message">Connected to <ns1:g id="name">%1$s</ns1:g></string>
     <string name="cast_notification_connecting_message">Connecting to <ns1:g id="name">%1$s</ns1:g></string>
     <string name="cast_notification_disconnect">Disconnect</string>
-    <string name="category">Category</string>
+    <string name="category">ID Type</string>
     <string name="category_label">Category</string>
     <string name="cattle">CATTLE</string>
     <string name="cb_label_CIllness_Cerebral_Palsy">Cerebral Palsy</string>
@@ -973,7 +973,7 @@
     <string name="livestock">LIVESTOCK</string>
     <string name="lmp_date">LMP Date</string>
     <string name="location_name">Location Name</string>
-    <string name="log_in_version_lable">GPath-LIV-14</string>
+    <string name="log_in_version_lable">GPath-UAT-15</string>
     <string name="longTitle">Longitude</string>
     <string name="map_mode">Map Source</string>
     <string name="mapbox">MapBox</string>

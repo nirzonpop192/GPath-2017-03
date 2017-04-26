@@ -15,6 +15,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.wifi.WifiManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
@@ -49,7 +50,9 @@ import org.json.JSONObject;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.nio.channels.FileChannel;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -109,17 +112,17 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
         main_activity = this;
         mContext = this;
-        spCountry = (Spinner) findViewById(R.id.spDCountry);// add the spinner
-        sqlH = new SQLiteHandler(this); //  it should be other wise it will show null point Exception
+        spCountry = (Spinner) findViewById(R.id.spDCountry);                                        // add the spinner
+        sqlH = new SQLiteHandler(this);                                                             //  it should be other wise it will show null point Exception
 
 
-        // SqLite database handler
-        db = new SQLiteHandler(getApplicationContext());
 
-        // connection manager
-        cd = new ConnectionDetector(getApplicationContext());
-        // find View by ID for all Views
-        viewReference();
+        db = new SQLiteHandler(getApplicationContext());                                             // SqLite database handler
+
+
+        cd = new ConnectionDetector(getApplicationContext());                                       // connection manager
+
+        viewReference();                                                                            // find View by ID for all Views
 
 
         SharedPreferences settings;
@@ -134,9 +137,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         /**
          * todo : file e save kori
          */
-        String imeiNo = getIMEINumber();
+//        String imeiNo = getIMEINumber();
+        String macAddress = UtilClass.getMacAddress(mContext);
 
-        tvDeviceId.setText(imeiNo);
+        tvDeviceId.setText(macAddress);
 
 
 
@@ -183,26 +187,110 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         restorDb.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                newBackupDBfromApp();
+
+                String dbBy = getStaffID();
+                String dbByName = getUserName();
+                String backupDate = null;
+                try {
+                    backupDate = getDateTime();
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                String destinationDbPath = "G_path_" + dbBy + "-" + dbByName + "_" + backupDate + ".db";
+
+                String sourceDbPath = "/data/data/" + getPackageName() + "/databases/pci";
+
+                dataBaseCopy(sourceDbPath, destinationDbPath,  "Import Successful! " +destinationDbPath);
+
+            }
+        });
+
+        Button extrDb = (Button) findViewById(R.id.btnEXTDB);
+
+        // extrDb.setVisibility(View.GONE);
+        extrDb.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                SQLiteHandler sqLiteHandler = new SQLiteHandler(MainActivity.this, 1);
+
+                sqLiteHandler.insertIntoExportDataBase(MainActivity.this);
+
+
+
+                String currentDBPath = "/data/data/" + getPackageName() + "/databases/" + SQLiteHandler.EXTERNAL_DATABASE_NAME;
+                String backupdbName = null;
+                try {
+                    backupdbName = "EXPORT_" + UtilClass.getMacAddress(mContext) + "_" + getStaffID() + "_" + getDateTime() + ".db";
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                dataBaseCopy(currentDBPath, backupdbName, "Export Successful! ");
+
+            }
+        });
+
+        /**
+         * import db
+         */
+        Button importDb = (Button) findViewById(R.id.btnImport);
+        importDb.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(mContext, "hello ", Toast.LENGTH_SHORT).show();
+                importDataBase();
             }
         });
     }
 
-    /**
-     * this method get the IMEI no
-     *
-     * @return IMEI no odf device
-     */
 
-    private String getIMEINumber() {
-        TelephonyManager teMg = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
-        return teMg.getDeviceId();
+
+
+    private void dataBaseCopy(final String sourcePath, final String destinationPath, String msg) {
+        try {
+
+            File sd = Environment.getExternalStorageDirectory();                                    // get the internal root directories
+
+            if (sd.canWrite()) {
+                File currentDB = new File(sourcePath);
+                File backupDB = new File(sd, destinationPath);
+
+                if (currentDB.exists()) {
+                    FileChannel src = new FileInputStream(currentDB).getChannel();
+                    FileChannel dst = new FileOutputStream(backupDB).getChannel();
+                    dst.transferFrom(src, 0, src.size());
+                    src.close();
+                    dst.close();
+
+                    // // TODO: 4/19/2017  use custom toast
+                    Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
+                }
+            }
+        } catch (Exception e) {
+            Toast.makeText(getApplicationContext(), "Backup Failed!", Toast.LENGTH_SHORT)
+                    .show();
+
+        }
     }
+
+
+    private void importDataBase() {
+        boolean flag=false;
+        Toast.makeText(mContext,Environment.getExternalStorageDirectory().getPath()+"/"+SQLiteHandler.DATABASE_NAME,Toast.LENGTH_SHORT).show();
+        try {
+            flag=  sqlH.importDatabase( Environment.getExternalStorageDirectory().getPath()+"/"+SQLiteHandler.DATABASE_NAME,MainActivity.this);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        String ddf=flag? "true ":"false ";
+        Toast.makeText(mContext,"FLAG : "+  ddf,Toast.LENGTH_SHORT).show();
+    }
+
 
     /**
      * this method bring the database front Internal memory
      */
-    public void newBackupDBfromApp() {
+    public void newBackupDBFromApp() {
         try {
             File sd = Environment.getExternalStorageDirectory();
             //   File data = Environment.getDataDirectory();
@@ -245,10 +333,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
      */
 
     private void viewAccessController(SharedPreferences settings) {
-        int operationMode = settings.getInt(UtilClass.OPERATION_MODE, 0);
+        // get operation mode from shared and preference
+//        int operationMode = settings.getInt(UtilClass.OPERATION_MODE, 0);
 
-        switch (operationMode) {
-            case UtilClass.REGISTRATION_OPERATION_MODE:
+        String operationModeName = sqlH.getDeviceOperationMode();
+        switch (operationModeName) {
+            case UtilClass.REGISTRATION_OPERATION_MODE_NAME:
                 btnNewReg.setEnabled(true);
                 btnAssign.setEnabled(true);
 
@@ -257,22 +347,22 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
 
                 break;
-            case UtilClass.DISTRIBUTION_OPERATION_MODE:
+            case UtilClass.DISTRIBUTION_OPERATION_MODE_NAME:
                 btnDistribution.setEnabled(true);
 
                 break;
-            case UtilClass.SERVICE_OPERATION_MODE:
+            case UtilClass.SERVICE_OPERATION_MODE_NAME:
                 btnService.setEnabled(true);
 
                 break;
 
-            case UtilClass.OTHER_OPERATION_MODE:
+            case UtilClass.OTHER_OPERATION_MODE_NAME:
                 btnDynamicData.setEnabled(true);
                 btnGPS.setEnabled(true);
                 btnSummaryRep.setEnabled(false);
                 break;
 
-            case UtilClass.TRANING_n_ACTIVITY_OPERATION_MODE:
+            case UtilClass.TRANING_N_ACTIVITY_OPERATION_MODE_NAME:
                 btnTrainActivity.setEnabled(true);
                 btnSummaryRep.setEnabled(false);
                 break;
@@ -311,7 +401,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         btnAssign.setEnabled(false);
         btnGroup.setEnabled(false);
         btnDynamicData.setEnabled(false);
-      btnTrainActivity.setEnabled(false);
+        btnTrainActivity.setEnabled(false);
 
     }
 
@@ -1264,35 +1354,39 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 //                    }
 //                }
 
+//                publishProgress(++progressIncremental);
                 publishProgress(++progressIncremental);
-
-
                 if (!jObj.isNull(Parser.ADM_COUNTRY_PROGRAM_JSON_A)) {
-                    JSONArray adm_country_programs = jObj.getJSONArray(Parser.ADM_COUNTRY_PROGRAM_JSON_A);
-                    size = adm_country_programs.length();
-                    for (int i = 0; i < size; i++) {
-                        JSONObject adm_country_program = adm_country_programs.getJSONObject(i);
-                        String AdmCountryCode = adm_country_program.getString(Parser.ADM_COUNTRY_CODE);
-                        String AdmDonorCode = adm_country_program.getString(Parser.ADM_DONOR_CODE);
-                        String AdmAwardCode = adm_country_program.getString(Parser.ADM_AWARD_CODE);
-                        String AdmProgCode = adm_country_program.getString(Parser.ADM_PROG_CODE);
-                        String AdmSrvCode = adm_country_program.getString(Parser.ADM_SRV_CODE);
-                        String ProgFlag = adm_country_program.getString("ProgFlag");
-                        String FoodFlag = adm_country_program.getString(Parser.FOOD_FLAG);
-                        String NFoodFlag = adm_country_program.getString(Parser.N_FOOD_FLAG);
-                        String CashFlag = adm_country_program.getString(Parser.CASH_FLAG);
-                        String VOFlag = adm_country_program.getString(Parser.VO_FLAG);
-                        String DefaultFoodDays = adm_country_program.getString(Parser.DEFAULT_FOOD_DAYS);
-                        String DefaultNFoodDays = adm_country_program.getString(Parser.DEFAULT_N_FOOD_DAYS);
-                        String DefaultCashDays = adm_country_program.getString(Parser.DEFAULT_CASH_DAYS);
-                        String DefaultVODays = adm_country_program.getString(Parser.DEFAULT_VO_DAYS);
-                        String SrvSpecific = adm_country_program.getString(Parser.SRV_SPECIFIC);
+                    Parser.admCountryProgramParser(jObj.getJSONArray(Parser.ADM_COUNTRY_PROGRAM_JSON_A), db);
 
-                        db.insertAdmCountryProgram(AdmCountryCode, AdmDonorCode, AdmAwardCode, AdmProgCode, AdmSrvCode, ProgFlag, FoodFlag, NFoodFlag, CashFlag, VOFlag, DefaultFoodDays, DefaultNFoodDays, DefaultCashDays, DefaultVODays, SrvSpecific);
-
-
-                    }
                 }
+
+//                if (!jObj.isNull(Parser.ADM_COUNTRY_PROGRAM_JSON_A)) {
+//                    JSONArray adm_country_programs = jObj.getJSONArray(Parser.ADM_COUNTRY_PROGRAM_JSON_A);
+//                    size = adm_country_programs.length();
+//                    for (int i = 0; i < size; i++) {
+//                        JSONObject adm_country_program = adm_country_programs.getJSONObject(i);
+//                        String AdmCountryCode = adm_country_program.getString(Parser.ADM_COUNTRY_CODE);
+//                        String AdmDonorCode = adm_country_program.getString(Parser.ADM_DONOR_CODE);
+//                        String AdmAwardCode = adm_country_program.getString(Parser.ADM_AWARD_CODE);
+//                        String AdmProgCode = adm_country_program.getString(Parser.ADM_PROG_CODE);
+//                        String AdmSrvCode = adm_country_program.getString(Parser.ADM_SRV_CODE);
+//                        String ProgFlag = adm_country_program.getString("ProgFlag");
+//                        String FoodFlag = adm_country_program.getString(Parser.FOOD_FLAG);
+//                        String NFoodFlag = adm_country_program.getString(Parser.N_FOOD_FLAG);
+//                        String CashFlag = adm_country_program.getString(Parser.CASH_FLAG);
+//                        String VOFlag = adm_country_program.getString(Parser.VO_FLAG);
+//                        String DefaultFoodDays = adm_country_program.getString(Parser.DEFAULT_FOOD_DAYS);
+//                        String DefaultNFoodDays = adm_country_program.getString(Parser.DEFAULT_N_FOOD_DAYS);
+//                        String DefaultCashDays = adm_country_program.getString(Parser.DEFAULT_CASH_DAYS);
+//                        String DefaultVODays = adm_country_program.getString(Parser.DEFAULT_VO_DAYS);
+//                        String SrvSpecific = adm_country_program.getString(Parser.SRV_SPECIFIC);
+//
+//                        db.insertAdmCountryProgram(AdmCountryCode, AdmDonorCode, AdmAwardCode, AdmProgCode, AdmSrvCode, ProgFlag, FoodFlag, NFoodFlag, CashFlag, VOFlag, DefaultFoodDays, DefaultNFoodDays, DefaultCashDays, DefaultVODays, SrvSpecific);
+//
+//
+//                    }
+//                }
 
                 publishProgress(++progressIncremental);
 
@@ -2217,10 +2311,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
 
     private void showOperationModelLabel(SharedPreferences settings) {
-        int operationMode = settings.getInt(UtilClass.OPERATION_MODE, 0);
-
-        switch (operationMode) {
-            case UtilClass.REGISTRATION_OPERATION_MODE:
+//        int operationMode = settings.getInt(UtilClass.OPERATION_MODE, 0);
+        String operationModeName = sqlH.getDeviceOperationMode();
+        switch (operationModeName) {
+            case UtilClass.REGISTRATION_OPERATION_MODE_NAME:
 
                 tvOperationMode.setText("REGISTRATION");
                 List<String> list;
@@ -2233,7 +2327,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
                 break;
 
-            case UtilClass.TRANING_n_ACTIVITY_OPERATION_MODE:
+            case UtilClass.TRANING_N_ACTIVITY_OPERATION_MODE_NAME:
 
                 tvOperationMode.setText("TRAINING N ACTIVITY");
 
@@ -2245,7 +2339,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 tvGeoData.setText(villageName);
 
                 break;
-            case UtilClass.DISTRIBUTION_OPERATION_MODE:
+            case UtilClass.DISTRIBUTION_OPERATION_MODE_NAME:
 
                 tvOperationMode.setText("DISTRIBUTION");
                 list = db.selectGeoDataFDP();
@@ -2255,7 +2349,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 }
                 tvGeoData.setText(fdPName);
                 break;
-            case UtilClass.SERVICE_OPERATION_MODE:
+            case UtilClass.SERVICE_OPERATION_MODE_NAME:
 
                 tvOperationMode.setText("SERVICE");
                 list = db.selectGeoDataCenter();
@@ -2268,7 +2362,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 break;
 
 
-            case UtilClass.OTHER_OPERATION_MODE:
+            case UtilClass.OTHER_OPERATION_MODE_NAME:
                 tvOperationMode.setText("ORTHER");
                 tvGeoData.setText("NOT APPLICABLE");
 

@@ -122,46 +122,46 @@ public class Schema {
                 + " , " + SQLiteHandler.RELATION_COL + " VARCHAR(50) "
                 + " , " + ENTRY_BY + " VARCHAR(10) "
                 + " , " + ENTRY_DATE + " VARCHAR(20) "
-                + " , " + SQLiteHandler.LMP_DATE + " DATE "
-                + " , " + SQLiteHandler.CHILD_DOB + " DATE "
-                + " , " + SQLiteHandler.ELDERLY + " VARCHAR(1) "
-                + " , " + SQLiteHandler.DISABLE + " VARCHAR(1) "
-                + " , " + SQLiteHandler.MEM_AGE + " VARCHAR(5) "
-                + " , " + SQLiteHandler.REG_DATE_COL + " VARCHAR(20) "
-                + " , " + SQLiteHandler.BIRTH_YEAR_COL + " VARCHAR(20) "
-                + " , " + SQLiteHandler.MARITAL_STATUS_COL + " VARCHAR(20) "
-                + " , " + SQLiteHandler.CONTACT_NO_COL + " VARCHAR(50) "
-                + " , " + SQLiteHandler.MEMBER_OTHER_ID_COL + " VARCHAR(100) "
-                + " , " + SQLiteHandler.MEM_NAME_FIRST_COL + " VARCHAR(50) "
-                + " , " + SQLiteHandler.MEM_NAME_MIDDLE_COL + " VARCHAR(50) "
-                + " , " + SQLiteHandler.MEM_NAME_LAST_COL + " VARCHAR(50) "
-                + " , " + SQLiteHandler.PHOTO_COL + " BLOB "
-                + " , " + SQLiteHandler.TYPE_ID_COL + " VARCHAR(50) "
-                + " , " + SQLiteHandler.ID_NO_COL + " VARCHAR(50) "
-                + " , " + SQLiteHandler.V_BSC_MEM_1_NAME_FIRST_COL + " VARCHAR(50) "
-                + " , " + SQLiteHandler.V_BSC_MEM_1_NAME_MIDDLE_COL + " VARCHAR(50) "
-                + " , " + SQLiteHandler.V_BSC_MEM_1_NAME_LAST_COL + " VARCHAR(50) "
-                + " , " + SQLiteHandler.V_BSC_MEM_1_TITLE_COL + " VARCHAR(50) "
-                + " , " + SQLiteHandler.V_BSC_MEM_2_NAME_FIRST_COL + " VARCHAR(50) "
-                + " , " + SQLiteHandler.V_BSC_MEM_2_NAME_MIDDLE_COL + " VARCHAR(50) "
-                + " , " + SQLiteHandler.V_BSC_MEM_2_NAME_LAST_COL + " VARCHAR(50) "
-                + " , " + SQLiteHandler.V_BSC_MEM_2_TITLE_COL + " VARCHAR(50) "
-                + " , " + SQLiteHandler.PROXY_DESIGNATION_COL + " VARCHAR(50) "
-                + " , " + SQLiteHandler.PROXY_NAME_FIRST_COL + " VARCHAR(50) "
-                + " , " + SQLiteHandler.PROXY_NAME_MIDDLE_COL + " VARCHAR(50) "
-                + " , " + SQLiteHandler.PROXY_NAME_LAST_COL + " VARCHAR(50) "
-                + " , " + SQLiteHandler.PROXY_BIRTH_YEAR_COL + " VARCHAR(20) "
-                + " , " + SQLiteHandler.PROXY_PHOTO_COL + " BLOB "
-                + " , " + SQLiteHandler.PROXY_TYPE_ID_COL + " VARCHAR(50) "
-                + " , " + SQLiteHandler.PROXY_ID_NO_COL + " VARCHAR(50) "
-                + " , " + SQLiteHandler.PROXY_BSC_MEM_1_NAME_FIRST_COL + " VARCHAR(50) "
-                + " , " + SQLiteHandler.PROXY_BSC_MEM_1_NAME_MIDDLE_COL + " VARCHAR(50) "
-                + " , " + SQLiteHandler.PROXY_BSC_MEM_1_NAME_LAST_COL + " VARCHAR(50) "
-                + " , " + SQLiteHandler.PROXY_BSC_MEM_1_TITLE_COL + " VARCHAR(50) "
-                + " , " + SQLiteHandler.PROXY_BSC_MEM_2_NAME_FIRST_COL + " VARCHAR(50) "
-                + " , " + SQLiteHandler.PROXY_BSC_MEM_2_NAME_MIDDLE_COL + " VARCHAR(50) "
-                + " , " + SQLiteHandler.PROXY_BSC_MEM_2_NAME_LAST_COL + " VARCHAR(50) "
-                + " , " + SQLiteHandler.PROXY_BSC_MEM_2_TITLE_COL + " VARCHAR(50) "
+                + " , " + LMP_DATE + " DATE "
+                + " , " + CHILD_DOB + " DATE "
+                + " , " + ELDERLY + " VARCHAR(1) "
+                + " , " + DISABLE + " VARCHAR(1) "
+                + " , " + MEM_AGE + " VARCHAR(5) "
+                + " , " + REG_DATE_COL + " VARCHAR(20) "
+                + " , " + BIRTH_YEAR_COL + " VARCHAR(20) "
+                + " , " + MARITAL_STATUS_COL + " VARCHAR(20) "
+                + " , " + CONTACT_NO_COL + " VARCHAR(50) "
+                + " , " + MEMBER_OTHER_ID_COL + " VARCHAR(100) "
+                + " , " + MEM_NAME_FIRST_COL + " VARCHAR(50) "
+                + " , " + MEM_NAME_MIDDLE_COL + " VARCHAR(50) "
+                + " , " + MEM_NAME_LAST_COL + " VARCHAR(50) "
+                + " , " + PHOTO_COL + " BLOB "
+                + " , " + TYPE_ID_COL + " VARCHAR(50) "
+                + " , " + ID_NO_COL + " VARCHAR(50) "
+                + " , " + V_BSC_MEM_1_NAME_FIRST_COL + " VARCHAR(50) "
+                + " , " + V_BSC_MEM_1_NAME_MIDDLE_COL + " VARCHAR(50) "
+                + " , " + V_BSC_MEM_1_NAME_LAST_COL + " VARCHAR(50) "
+                + " , " + V_BSC_MEM_1_TITLE_COL + " VARCHAR(50) "
+                + " , " + V_BSC_MEM_2_NAME_FIRST_COL + " VARCHAR(50) "
+                + " , " + V_BSC_MEM_2_NAME_MIDDLE_COL + " VARCHAR(50) "
+                + " , " + V_BSC_MEM_2_NAME_LAST_COL + " VARCHAR(50) "
+                + " , " + V_BSC_MEM_2_TITLE_COL + " VARCHAR(50) "
+                + " , " + PROXY_DESIGNATION_COL + " VARCHAR(50) "
+                + " , " + PROXY_NAME_FIRST_COL + " VARCHAR(50) "
+                + " , " + PROXY_NAME_MIDDLE_COL + " VARCHAR(50) "
+                + " , " + PROXY_NAME_LAST_COL + " VARCHAR(50) "
+                + " , " + PROXY_BIRTH_YEAR_COL + " VARCHAR(20) "
+                + " , " + PROXY_PHOTO_COL + " BLOB "
+                + " , " + PROXY_TYPE_ID_COL + " VARCHAR(50) "
+                + " , " + PROXY_ID_NO_COL + " VARCHAR(50) "
+                + " , " + PROXY_BSC_MEM_1_NAME_FIRST_COL + " VARCHAR(50) "
+                + " , " + PROXY_BSC_MEM_1_NAME_MIDDLE_COL + " VARCHAR(50) "
+                + " , " + PROXY_BSC_MEM_1_NAME_LAST_COL + " VARCHAR(50) "
+                + " , " + PROXY_BSC_MEM_1_TITLE_COL + " VARCHAR(50) "
+                + " , " + PROXY_BSC_MEM_2_NAME_FIRST_COL + " VARCHAR(50) "
+                + " , " + PROXY_BSC_MEM_2_NAME_MIDDLE_COL + " VARCHAR(50) "
+                + " , " + PROXY_BSC_MEM_2_NAME_LAST_COL + " VARCHAR(50) "
+                + " , " + PROXY_BSC_MEM_2_TITLE_COL + " VARCHAR(50) "
                 + " , " + GROUP_CODE_COL + " VARCHAR(5) "
 
                 + " )";
@@ -300,7 +300,7 @@ public class Schema {
                 + SERVICE_CENTER_CODE_COL + " VARCHAR(7), "
                 + BTN_NEW_COL + " VARCHAR(5), "
                 + BTN_SAVE_COL + " VARCHAR(5), "
-                + BTN_DEL_COL + " VARCHAR(5) "                +
+                + BTN_DEL_COL + " VARCHAR(5) " +
                 " )";
     }
 
@@ -1883,7 +1883,7 @@ public class Schema {
                 + " , " + ACTIVE_COL + " VARCHAR(10) "
                 + " , " + TOTAL_DAYS_COL + " VARCHAR(10) "
                 + " , " + HOURS_PER_DAY_COL + " VARCHAR(10) "
-                + " , " + PRIMARY_KEY + " (" + COUNTRY_CODE_COL + ", " + EVENT_CODE_COL +  " ) "
+                + " , " + PRIMARY_KEY + " (" + COUNTRY_CODE_COL + ", " + EVENT_CODE_COL + " ) "
                 + " ) ";
     }
 
@@ -1895,7 +1895,7 @@ public class Schema {
                 + " , " + TA_CAT_CODE_COL + " VARCHAR(3) "
                 + " , " + TA_CAT_NAME_COL + " VARCHAR(50) "
                 + " , " + SRC_BEN_COL + " VARCHAR(3) "
-                + " , " + PRIMARY_KEY + " (" + COUNTRY_CODE_COL + ", " + TA_CAT_CODE_COL +  " ) "
+                + " , " + PRIMARY_KEY + " (" + COUNTRY_CODE_COL + ", " + TA_CAT_CODE_COL + " ) "
                 + " ) ";
     }
 
@@ -1906,7 +1906,7 @@ public class Schema {
                 + " , " + EVENT_CODE_COL + " VARCHAR(3) "
                 + " , " + TOPIC_MASTER_CODE_COL + " VARCHAR(50) "
                 + " , " + TOPIC_CHILD_CODE_COL + " VARCHAR(3) "
-                + " , " + PRIMARY_KEY + " (" + COUNTRY_CODE_COL + ", " + EVENT_CODE_COL + ", " + TOPIC_MASTER_CODE_COL + ", " + TOPIC_CHILD_CODE_COL +  " ) "
+                + " , " + PRIMARY_KEY + " (" + COUNTRY_CODE_COL + ", " + EVENT_CODE_COL + ", " + TOPIC_MASTER_CODE_COL + ", " + TOPIC_CHILD_CODE_COL + " ) "
                 + " ) ";
     }
 
@@ -1916,7 +1916,7 @@ public class Schema {
                 + COUNTRY_CODE_COL + " VARCHAR(4) "
                 + " , " + TOPIC_GROUP_COL + " VARCHAR(3) "
                 + " , " + TOPIC_GROUP_TITLE_COL + " VARCHAR(200) "
-                + " , " + PRIMARY_KEY + " (" + COUNTRY_CODE_COL + ", " + TOPIC_GROUP_COL +  " ) "
+                + " , " + PRIMARY_KEY + " (" + COUNTRY_CODE_COL + ", " + TOPIC_GROUP_COL + " ) "
                 + " ) ";
     }
 
@@ -1939,10 +1939,9 @@ public class Schema {
                 + " , " + TA_GROUP_COL + " VARCHAR(3) "
                 + " , " + ENTRY_BY + " VARCHAR(4) "
                 + " , " + ENTRY_DATE + " VARCHAR(20) "
-                + " , " + PRIMARY_KEY + " (" + COUNTRY_CODE_COL + ", " + EVENT_CODE_COL  + ", " + PART_ID_COL + ", " + ATDN_DATE_COL  +  " ) "
+                + " , " + PRIMARY_KEY + " (" + COUNTRY_CODE_COL + ", " + EVENT_CODE_COL + ", " + PART_ID_COL + ", " + ATDN_DATE_COL + " ) "
                 + " ) ";
     }
-
 
 
     public static String createTAPartOrgNTable() {
@@ -1952,7 +1951,7 @@ public class Schema {
                 + " , " + PART_ORG_N_CODE_COL + " VARCHAR(3) "
                 + " , " + PART_ORG_N_NAME_COL + " VARCHAR(200) "
                 + " , " + SRC_BEN_COL + " VARCHAR(1) "
-                + " , " + PRIMARY_KEY + " (" + COUNTRY_CODE_COL + ", " + PART_ORG_N_CODE_COL  +  " ) "
+                + " , " + PRIMARY_KEY + " (" + COUNTRY_CODE_COL + ", " + PART_ORG_N_CODE_COL + " ) "
                 + " ) ";
     }
 
@@ -1963,7 +1962,7 @@ public class Schema {
                 + " , " + POS_CODE_COL + " VARCHAR(3) "
                 + " , " + POS_TITLE_COL + " VARCHAR(100) "
 
-                + " , " + PRIMARY_KEY + " (" + COUNTRY_CODE_COL + ", " + POS_CODE_COL  +  " ) "
+                + " , " + PRIMARY_KEY + " (" + COUNTRY_CODE_COL + ", " + POS_CODE_COL + " ) "
                 + " ) ";
     }
 
@@ -1975,7 +1974,7 @@ public class Schema {
                 + " , " + TA_GROUP_COL + " VARCHAR(3) "
                 + " , " + TA_SUB_GROUP_COL + " VARCHAR(3) "
                 + " , " + TA_SUB_TITLE_COL + " VARCHAR(200) "
-                + " , " + PRIMARY_KEY + " (" + COUNTRY_CODE_COL + ", " + TA_GROUP_COL + ", " + TA_SUB_GROUP_COL  +  " ) "
+                + " , " + PRIMARY_KEY + " (" + COUNTRY_CODE_COL + ", " + TA_GROUP_COL + ", " + TA_SUB_GROUP_COL + " ) "
                 + " ) ";
     }
 
@@ -1986,7 +1985,7 @@ public class Schema {
                 + " , " + TOPIC_CHILD_CODE_COL + " VARCHAR(3) "
                 + " , " + TOPIC_SUB_TITLE_COL + " VARCHAR(200) "
 
-                + " , " + PRIMARY_KEY + " (" + TOPIC_MASTER_CODE_COL + ", " + TOPIC_CHILD_CODE_COL   +  " ) "
+                + " , " + PRIMARY_KEY + " (" + TOPIC_MASTER_CODE_COL + ", " + TOPIC_CHILD_CODE_COL + " ) "
                 + " ) ";
     }
 
@@ -1996,20 +1995,20 @@ public class Schema {
                 + TOPIC_MASTER_CODE_COL + " VARCHAR(4) "
                 + " , " + TOPIC_TITLE_COL + " VARCHAR(200) "
 
-                + " , " + PRIMARY_KEY + " (" + TOPIC_MASTER_CODE_COL    +  " ) "
+                + " , " + PRIMARY_KEY + " (" + TOPIC_MASTER_CODE_COL + " ) "
                 + " ) ";
     }
 
-public static  String crateLUP_TAParticipantCat(){
-    return CREATE_TABLE_IF_NOT_EXISTS +LUP_TA_PATICIPANT_CAT_TABLE
-            +" ( "
-            +COUNTRY_CODE_COL  + " VARCHAR(4) "
-            +" , "+TA_GROUP_COL+  " VARCHAR(3) "
-            +" , "+PART_CAT_CODE_COL+  " VARCHAR(3) "
-            +" , "+PART_CAT_TITLE_COL+  " VARCHAR(3) "
-            + " , " + PRIMARY_KEY + " (" + COUNTRY_CODE_COL +" , "+  TA_GROUP_COL  +" , "+  PART_CAT_CODE_COL+  " ) "
-            + " ) ";
-}
+    public static String crateLUP_TAParticipantCat() {
+        return CREATE_TABLE_IF_NOT_EXISTS + LUP_TA_PATICIPANT_CAT_TABLE
+                + " ( "
+                + COUNTRY_CODE_COL + " VARCHAR(4) "
+                + " , " + TA_GROUP_COL + " VARCHAR(3) "
+                + " , " + PART_CAT_CODE_COL + " VARCHAR(3) "
+                + " , " + PART_CAT_TITLE_COL + " VARCHAR(3) "
+                + " , " + PRIMARY_KEY + " (" + COUNTRY_CODE_COL + " , " + TA_GROUP_COL + " , " + PART_CAT_CODE_COL + " ) "
+                + " ) ";
+    }
 
 
 }

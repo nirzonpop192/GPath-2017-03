@@ -14,7 +14,8 @@ import com.siddiquinoor.restclient.R;
 import java.util.ArrayList;
 
 /**
- * Created by Faisal on 10/16/2015.
+ * Created by Faisal on
+ * 10/16/2015.
  */
 public class SummaryOfMemberAssignedListAdapter extends BaseAdapter{
     private ArrayList<SummaryOfMemberAssignedListModel> arrayList=new ArrayList<SummaryOfMemberAssignedListModel>();

@@ -61,11 +61,7 @@ public class IdTypeSelection extends BaseActivity {
 
     private void viewReference() {
         radioGrp_Categories = (RadioGroup) findViewById(R.id.rdGrp_categories);
-//        rbtnBeneficiary_card = (RadioButton) findViewById(R.id.rbtnBeneficiary_card);
-//        rbtnNational_id_card = (RadioButton) findViewById(R.id.rbtnNational_id_card);
-//        rbtnEmail_address = (RadioButton) findViewById(R.id.rbtnEmail_address);
-//        rbtnCell_phone = (RadioButton) findViewById(R.id.rbtnCell_phone);
-//        rbtnLicence = (RadioButton) findViewById(R.id.rbtnLicence);
+
         tv_taTitle = (TextView) findViewById(R.id.ta_index_row_tv_taTitle);
         tv_startNEndDate = (TextView) findViewById(R.id.ta_index_row_tv_StartEndDate);
         tv_venue = (TextView) findViewById(R.id.ta_index_row_tv_Venue);
@@ -150,7 +146,6 @@ public class IdTypeSelection extends BaseActivity {
                     iAddPati.putExtra(KEY.IDCATEGORY_OBJECT_KEY, mTaCategoriesList.get(radioGrp_Categories.getCheckedRadioButtonId()).getTaCatCode());
                     startActivity(iAddPati);
                     break;
-
 
             }
         }

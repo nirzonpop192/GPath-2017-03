@@ -27,6 +27,7 @@ public class TrainingActivity extends BaseActivity {
     private Button btnHome, btnDTSearch;
     private TrainingNActivityIndexAdapter adapter;
     private ListView listView;
+
     private static ProgressDialog pDialog;
     private EditText edtEventName;
 
@@ -153,11 +154,5 @@ public class TrainingActivity extends BaseActivity {
         LoadListView loadListView= new LoadListView(idCountry,"");
         loadListView.execute();
     }
-
-
-
-
-
-
 
 }

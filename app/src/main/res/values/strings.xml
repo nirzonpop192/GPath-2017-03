@@ -193,7 +193,7 @@
     <string name="srv_summary_TitleLable">Service Summary </string>
     <string name="tv_criteria">Criteria</string>
     <!-- LOG IN SCREEN -->
-    <string name="log_in_version_lable">GPath-LIV-14</string>
+    <string name="log_in_version_lable">GPath-UAT-15</string>
     <!-- VERSION -->
 
 
@@ -571,7 +571,7 @@ Otherwise, initiate to sync and login again.</string>
     <string name="title_grp_summary">Group Summary</string>
     <string name="group_name">Group Name</string>
     <string name="group">Group</string>
-    <string name="category">Category</string>
+    <string name="category">ID Type</string>
     <string name="srv_name">Srv Name</string>
     <string name="count_lable">Count</string>
     <!-- ID List in Group   Summary page resource-->

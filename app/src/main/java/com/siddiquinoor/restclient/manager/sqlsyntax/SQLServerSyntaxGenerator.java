@@ -2567,6 +2567,7 @@ public class SQLServerSyntaxGenerator {
                 "           ,[MemAge]" +
                 "           ,[EntryBy]" +
                 "           ,[EntryDate]" +
+                "           ,[RegNDate]" +
                 "            )" +
                 "     VALUES " +
                 "           ( " + getAdmCountryCode() +
@@ -2582,6 +2583,7 @@ public class SQLServerSyntaxGenerator {
                 "           , " + getMmMemAge() +
                 "           , " + getEntryBy() +
                 "           , " + getEntryDate() +
+                "           , " + getRegNDate() +
 
                 " )";
 

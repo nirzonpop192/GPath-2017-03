@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.wifi.WifiManager;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.widget.TextView;
 
@@ -32,25 +34,30 @@ public class UtilClass {
      * Registration Mode
      */
     public static final int REGISTRATION_OPERATION_MODE = 1;
+    public static final String REGISTRATION_OPERATION_MODE_NAME = "Registration";
     /**
      * Distribution Mode
      */
     public static final int DISTRIBUTION_OPERATION_MODE = 2;
+    public static final String DISTRIBUTION_OPERATION_MODE_NAME = "Distribution";
     /**
      * Service Mode
      */
     public static final int SERVICE_OPERATION_MODE = 3;
+    public static final String SERVICE_OPERATION_MODE_NAME = "Service";
 
 
     /**
      * OTHER Mode or dynamic  mode
      */
     public static final int OTHER_OPERATION_MODE = 4;
+    public static final String OTHER_OPERATION_MODE_NAME = "Other";
 
     /**
      * OTHER Mode or dynamic  mode
      */
     public static final int TRANING_n_ACTIVITY_OPERATION_MODE = 5;
+    public static final String TRANING_N_ACTIVITY_OPERATION_MODE_NAME = "Training Activity";
 
     /**
      * Class Tag for Debug
@@ -326,9 +333,24 @@ public class UtilClass {
 
     public static int getMaxNumberFromList(Integer[] surveyNumbers) {
         Arrays.sort(surveyNumbers);
-        int surveyNumber = surveyNumbers[surveyNumbers.length - 1] + 1;
-        return surveyNumber;
+        return surveyNumbers[surveyNumbers.length - 1] + 1;
+
+    }
+
+    public static String getIMEINumber(Context context) {
+        TelephonyManager teMg = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+        return teMg.getDeviceId();
     }
 
 
+    /**
+     *
+     * @param context invoking context class
+     * @return mac address of device
+     */
+    public static String getMacAddress(Context context) {
+        WifiManager m_wm = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
+        return m_wm.getConnectionInfo().getMacAddress();
+
+    }
 }

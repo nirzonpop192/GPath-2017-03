@@ -127,32 +127,43 @@ public class SyncDatabase {
                 }
                 pDialogUpload.show();
 
-                SharedPreferences settings;
-// TODO: 11/28/2016   orther
-                settings = my_activity.getSharedPreferences(MainActivity.APP_PREFERENCES, Context.MODE_PRIVATE); //1
-                int operationMode = settings.getInt(UtilClass.OPERATION_MODE, 0);
+//                SharedPreferences settings;
+
+//                settings = my_activity.getSharedPreferences(MainActivity.APP_PREFERENCES, Context.MODE_PRIVATE); //1
+//                String operationModeName = settings.getInt(UtilClass.OPERATION_MODE, 0);
+                String operationModeName = sqlH.getDeviceOperationMode();
                 /** for sefty rea JSON*/
                 JSONArray array = UtilClass.layR4CodeJSONConverter("SyncDatabase", sqlH.getSelectedVillageList(), sqlH);
 
-                switch (operationMode) {
-                    case UtilClass.REGISTRATION_OPERATION_MODE:
+                switch (operationModeName) {
+                    case UtilClass.REGISTRATION_OPERATION_MODE_NAME:
                         array = UtilClass.layR4CodeJSONConverter("SyncDatabase", sqlH.getSelectedVillageList(), sqlH);
                         break;
-                    case UtilClass.DISTRIBUTION_OPERATION_MODE:
+                    case UtilClass.DISTRIBUTION_OPERATION_MODE_NAME:
 
                         array = UtilClass.fdpCodeJSONConverter("SyncDatabase", sqlH.getSelectedFDPList(), sqlH);
                         break;
 
-                    case UtilClass.SERVICE_OPERATION_MODE:
+                    case UtilClass.SERVICE_OPERATION_MODE_NAME:
 
                         array = UtilClass.srvCenterCodeJSONConverter("SyncDatabase", sqlH.getSelectedServiceCenterList(), sqlH);
                         break;
+
+
+                    case UtilClass. OTHER_OPERATION_MODE_NAME :
+                     //
+                        break;
+
+                    case UtilClass. TRANING_N_ACTIVITY_OPERATION_MODE_NAME :
+                        array = UtilClass.layR4CodeJSONConverter("SyncDatabase", sqlH.getSelectedVillageList(), sqlH);
+                        break;
+
 
                     default:
                         break;
                 }
 
-                checkLoginAndDowenReftData(username, password, array, String.valueOf(operationMode));
+                checkLoginAndDowenReferenceData(username, password, array, String.valueOf(operationModeName));
 
 
             }
@@ -299,33 +310,42 @@ public class SyncDatabase {
                             /** set json array for selected village */
 
 
-                            SharedPreferences settings;
+//                            SharedPreferences settings;
 
-                            settings = my_activity.getSharedPreferences(MainActivity.APP_PREFERENCES, Context.MODE_PRIVATE); //1
-                            int operationMode = settings.getInt(UtilClass.OPERATION_MODE, 0);
+//                            settings = my_activity.getSharedPreferences(MainActivity.APP_PREFERENCES, Context.MODE_PRIVATE); //1
+                            String operationModeName = sqlH.getDeviceOperationMode();
                             /** for sefty rea SON*/
                             JSONArray array = UtilClass.layR4CodeJSONConverter("SyncDatabase", sqlH.getSelectedVillageList(), sqlH);
 
-                            switch (operationMode) {
-                                case UtilClass.REGISTRATION_OPERATION_MODE:
+                            switch (operationModeName) {
+                                case UtilClass.REGISTRATION_OPERATION_MODE_NAME:
                                     array = UtilClass.layR4CodeJSONConverter("SyncDatabase", sqlH.getSelectedVillageList(), sqlH);
                                     break;
-                                case UtilClass.DISTRIBUTION_OPERATION_MODE:
+                                case UtilClass.DISTRIBUTION_OPERATION_MODE_NAME:
 
                                     array = UtilClass.fdpCodeJSONConverter("SyncDatabase", sqlH.getSelectedFDPList(), sqlH);
                                     break;
 
-                                case UtilClass.SERVICE_OPERATION_MODE:
+                                case UtilClass.SERVICE_OPERATION_MODE_NAME:
 
                                     array = UtilClass.srvCenterCodeJSONConverter("SyncDatabase", sqlH.getSelectedServiceCenterList(), sqlH);
                                     break;
+
+                                case UtilClass. OTHER_OPERATION_MODE_NAME :
+                                    //
+                                    break;
+
+                                case UtilClass. TRANING_N_ACTIVITY_OPERATION_MODE_NAME :
+                                    array = UtilClass.layR4CodeJSONConverter("SyncDatabase", sqlH.getSelectedVillageList(), sqlH);
+                                    break;
+
 
 // // TODO: 11/28/2016  for Other operation
                                 default:
                                     break;
                             }
 
-                            checkLoginAndDowenReftData(username, password, array, String.valueOf(operationMode));
+                            checkLoginAndDowenReferenceData(username, password, array, String.valueOf(operationModeName));
 
 
                         }
@@ -389,7 +409,7 @@ public class SyncDatabase {
     /**
      * function to verify login details in online sql server  db
      */
-    public void checkLoginAndDowenReftData(final String user_name, final String password, final JSONArray selectedVilJArry, final String operationMode) {
+    public void checkLoginAndDowenReferenceData(final String user_name, final String password, final JSONArray selectedVilJArry, final String operationMode) {
         // Tag used to cancel the request
 
         String tag_string_req = "req_login";
@@ -418,39 +438,39 @@ public class SyncDatabase {
 
 
                         // Adding data into Country Table
-                        if (!jObj.isNull(Parser.COUNTRIES_JSON_A)) {
-                            JSONArray countries = jObj.getJSONArray(Parser.COUNTRIES_JSON_A);
-                            size = countries.length();
-                            //   lunchBarDialog("countries",size);
-                            for (int i = 0; i < size; i++) {
-                                JSONObject country = countries.getJSONObject(i);
+//                        if (!jObj.isNull(Parser.COUNTRIES_JSON_A)) {
+//                            JSONArray countries = jObj.getJSONArray(Parser.COUNTRIES_JSON_A);
+//                            size = countries.length();
+//                            //   lunchBarDialog("countries",size);
+//                            for (int i = 0; i < size; i++) {
+//                                JSONObject country = countries.getJSONObject(i);
+//
+//                                String AdmCountryCode = country.getString(Parser.ADM_COUNTRY_CODE);
+//                                String AdmCountryName = country.getString(Parser.ADM_COUNTRY_NAME);
+//
+//                                sqlH.addCountry(AdmCountryCode, AdmCountryName);
+//
+//
+//                            }
+//                        }
 
-                                String AdmCountryCode = country.getString(Parser.ADM_COUNTRY_CODE);
-                                String AdmCountryName = country.getString(Parser.ADM_COUNTRY_NAME);
-
-                                sqlH.addCountry(AdmCountryCode, AdmCountryName);
-
-
-                            }
-                        }
-
-                        pDialogUpload.setProgress(1);
-
-                        // Adding data into Valid Registration Date Table
-                        if (!jObj.isNull(Parser.VALID_DATES_JSON_A)) {
-                            JSONArray valid_dates = jObj.getJSONArray(Parser.VALID_DATES_JSON_A);
-                            size = valid_dates.length();
-                            // lunchBarDialog("valid_dates",size);
-                            for (int i = 0; i < size; i++) {
-                                JSONObject valid_date = valid_dates.getJSONObject(i);
-                                String AdmCountryCode = valid_date.getString(Parser.ADM_COUNTRY_CODE);
-                                String StartDate = valid_date.getString(Parser.START_DATE);
-                                String EndDate = valid_date.getString(Parser.END_DATE);
-
-                                sqlH.addValidDateRange(AdmCountryCode, StartDate, EndDate);
-
-                            }
-                        }
+//                        pDialogUpload.setProgress(1);
+//
+//                        // Adding data into Valid Registration Date Table
+//                        if (!jObj.isNull(Parser.VALID_DATES_JSON_A)) {
+//                            JSONArray valid_dates = jObj.getJSONArray(Parser.VALID_DATES_JSON_A);
+//                            size = valid_dates.length();
+//                            // lunchBarDialog("valid_dates",size);
+//                            for (int i = 0; i < size; i++) {
+//                                JSONObject valid_date = valid_dates.getJSONObject(i);
+//                                String AdmCountryCode = valid_date.getString(Parser.ADM_COUNTRY_CODE);
+//                                String StartDate = valid_date.getString(Parser.START_DATE);
+//                                String EndDate = valid_date.getString(Parser.END_DATE);
+//
+//                                sqlH.addValidDateRange(AdmCountryCode, StartDate, EndDate);
+//
+//                            }
+//                        }
 
 
 //                        if (!jObj.isNull(Parser.GPS_GROUP_JSON_A)) {
@@ -505,54 +525,54 @@ public class SyncDatabase {
 
 
 
-                        if (!jObj.isNull(Parser.ADM_DONOR_JSON_A)) {
-
-                            JSONArray adm_donors = jObj.getJSONArray(Parser.ADM_DONOR_JSON_A);
-                            size = adm_donors.length();
-                            for (int i = 0; i < size; i++) {
-                                JSONObject adm_donor = adm_donors.getJSONObject(i);
-
-                                String AdmDonorCode = adm_donor.getString(Parser.ADM_DONOR_CODE);
-                                String AdmDonorName = adm_donor.getString("AdmDonorName");
-                                sqlH.addDonorName(AdmDonorCode, AdmDonorName);
-
-
-                            }
-                        }
-                        if (!jObj.isNull(Parser.ADM_PROGRAM_MASTER_JSON_A)) {
-                            JSONArray adm_program_masters = jObj.getJSONArray(Parser.ADM_PROGRAM_MASTER_JSON_A);
-                            size = adm_program_masters.length();
-                            for (int i = 0; i < size; i++) {
-                                JSONObject adm_program_master = adm_program_masters.getJSONObject(i);
-
-                                String AdmProgCode = adm_program_master.getString(Parser.ADM_PROG_CODE);
-                                String AdmAwardCode = adm_program_master.getString(Parser.ADM_AWARD_CODE);
-                                String AdmDonorCode = adm_program_master.getString(Parser.ADM_DONOR_CODE);
-                                String ProgName = adm_program_master.getString(Parser.PROG_NAME);
-                                String ProgShortName = adm_program_master.getString(Parser.PROG_SHORT_NAME);
-                                String MultipleSrv = adm_program_master.getString(Parser.MULTIPLE_SRV);
-                                sqlH.addAdmProgramMaster(AdmProgCode, AdmAwardCode, AdmDonorCode, ProgName, ProgShortName, MultipleSrv);
-
-
-                            }
-                        }
-                        if (!jObj.isNull(Parser.ADM_SERVICE_MASTER_JSON_A)) {
-                            JSONArray adm_service_masters = jObj.getJSONArray(Parser.ADM_SERVICE_MASTER_JSON_A);
-                            size = adm_service_masters.length();
-                            for (int i = 0; i < size; i++) {
-                                JSONObject adm_service_master = adm_service_masters.getJSONObject(i);
-
-                                String AdmProgCode = adm_service_master.getString(Parser.ADM_PROG_CODE);
-                                String AdmSrvCode = adm_service_master.getString(Parser.ADM_SRV_CODE);
-                                String AdmSrvName = adm_service_master.getString("AdmSrvName");
-                                String AdmSrvShortName = adm_service_master.getString("AdmSrvShortName");
-
-                                sqlH.addServiceMaster(AdmProgCode, AdmSrvCode, AdmSrvName, AdmSrvShortName);
-
-
-                            }
-                        }
-
+//                        if (!jObj.isNull(Parser.ADM_DONOR_JSON_A)) {
+//
+//                            JSONArray adm_donors = jObj.getJSONArray(Parser.ADM_DONOR_JSON_A);
+//                            size = adm_donors.length();
+//                            for (int i = 0; i < size; i++) {
+//                                JSONObject adm_donor = adm_donors.getJSONObject(i);
+//
+//                                String AdmDonorCode = adm_donor.getString(Parser.ADM_DONOR_CODE);
+//                                String AdmDonorName = adm_donor.getString("AdmDonorName");
+//                                sqlH.addDonorName(AdmDonorCode, AdmDonorName);
+//
+//
+//                            }
+//                        }
+//                        if (!jObj.isNull(Parser.ADM_PROGRAM_MASTER_JSON_A)) {
+//                            JSONArray adm_program_masters = jObj.getJSONArray(Parser.ADM_PROGRAM_MASTER_JSON_A);
+//                            size = adm_program_masters.length();
+//                            for (int i = 0; i < size; i++) {
+//                                JSONObject adm_program_master = adm_program_masters.getJSONObject(i);
+//
+//                                String AdmProgCode = adm_program_master.getString(Parser.ADM_PROG_CODE);
+//                                String AdmAwardCode = adm_program_master.getString(Parser.ADM_AWARD_CODE);
+//                                String AdmDonorCode = adm_program_master.getString(Parser.ADM_DONOR_CODE);
+//                                String ProgName = adm_program_master.getString(Parser.PROG_NAME);
+//                                String ProgShortName = adm_program_master.getString(Parser.PROG_SHORT_NAME);
+//                                String MultipleSrv = adm_program_master.getString(Parser.MULTIPLE_SRV);
+//                                sqlH.addAdmProgramMaster(AdmProgCode, AdmAwardCode, AdmDonorCode, ProgName, ProgShortName, MultipleSrv);
+//
+//
+//                            }
+//                        }
+//                        if (!jObj.isNull(Parser.ADM_SERVICE_MASTER_JSON_A)) {
+//                            JSONArray adm_service_masters = jObj.getJSONArray(Parser.ADM_SERVICE_MASTER_JSON_A);
+//                            size = adm_service_masters.length();
+//                            for (int i = 0; i < size; i++) {
+//                                JSONObject adm_service_master = adm_service_masters.getJSONObject(i);
+//
+//                                String AdmProgCode = adm_service_master.getString(Parser.ADM_PROG_CODE);
+//                                String AdmSrvCode = adm_service_master.getString(Parser.ADM_SRV_CODE);
+//                                String AdmSrvName = adm_service_master.getString("AdmSrvName");
+//                                String AdmSrvShortName = adm_service_master.getString("AdmSrvShortName");
+//
+//                                sqlH.addServiceMaster(AdmProgCode, AdmSrvCode, AdmSrvName, AdmSrvShortName);
+//
+//
+//                            }
+//                        }
+//
 
                         if (!jObj.isNull(Parser.ADM_OP_MONTH_JSON_A)) {
                             JSONArray adm_op_months = jObj.getJSONArray(Parser.ADM_OP_MONTH_JSON_A);
@@ -639,161 +659,161 @@ public class SyncDatabase {
 //                        }
 
 
-                        if (!jObj.isNull(Parser.LB_REG_HH_CATEGORY_JSON_A)) {
-                            JSONArray lb_reg_hh_categorys = jObj.getJSONArray(Parser.LB_REG_HH_CATEGORY_JSON_A);
-                            size = lb_reg_hh_categorys.length();
-                            for (int i = 0; i < size; i++) {
-                                JSONObject lb_reg_hh_category = lb_reg_hh_categorys.getJSONObject(i);
+//                        if (!jObj.isNull(Parser.LB_REG_HH_CATEGORY_JSON_A)) {
+//                            JSONArray lb_reg_hh_categorys = jObj.getJSONArray(Parser.LB_REG_HH_CATEGORY_JSON_A);
+//                            size = lb_reg_hh_categorys.length();
+//                            for (int i = 0; i < size; i++) {
+//                                JSONObject lb_reg_hh_category = lb_reg_hh_categorys.getJSONObject(i);
+//
+//
+//                                String AdmCountryCode = lb_reg_hh_category.getString(Parser.ADM_COUNTRY_CODE);
+//                                String HHHeadCatCode = lb_reg_hh_category.getString(Parser.HH_HEAD_CAT_CODE);
+//                                String CatName = lb_reg_hh_category.getString(Parser.CAT_NAME);
+//
+//                                sqlH.addHHCategory(AdmCountryCode, HHHeadCatCode, CatName);
+//
+//
+//                            }
+//                        }
+//
+
+//                        if (!jObj.isNull(Parser.REG_LUP_GRADUATION_JSON_A)) {
+//                            JSONArray reg_lup_graduations = jObj.getJSONArray(Parser.REG_LUP_GRADUATION_JSON_A);
+//                            size = reg_lup_graduations.length();
+//                            for (int i = 0; i < size; i++) {
+//                                JSONObject reg_lup_graduation = reg_lup_graduations.getJSONObject(i);
+//
+//                                String AdmProgCode = reg_lup_graduation.getString(Parser.ADM_PROG_CODE);
+//                                String AdmSrvCode = reg_lup_graduation.getString(Parser.ADM_SRV_CODE);
+//                                String GRDCode = reg_lup_graduation.getString(Parser.GRD_CODE);
+//                                String GRDTitle = reg_lup_graduation.getString(Parser.GRD_TITLE);
+//                                String DefaultCatActive = reg_lup_graduation.getString(Parser.DEFAULT_CAT_ACTIVE);
+//                                String DefaultCatExit = reg_lup_graduation.getString(Parser.DEFAULT_CAT_EXIT);
+//
+//
+//                                sqlH.addGraduation(AdmProgCode, AdmSrvCode, GRDCode, GRDTitle, DefaultCatActive, DefaultCatExit);
+//
+//
+//                            }
+//                        }
+//
+//                        // Adding data into Layer Label Table
+//                        if (!jObj.isNull(Parser.LAYER_LABELS_JSON_A)) {
+//                            JSONArray layer_labels = jObj.getJSONArray(Parser.LAYER_LABELS_JSON_A);
+//                            size = layer_labels.length();
+//                            for (int i = 0; i < size; i++) {
+//                                JSONObject layer_label = layer_labels.getJSONObject(i);
+//
+//                                String AdmCountryCode = layer_label.getString(Parser.ADM_COUNTRY_CODE);
+//                                String GeoLayRCode = layer_label.getString(Parser.GEO_LAY_R_CODE);
+//                                String GeoLayRName = layer_label.getString(Parser.GEO_LAY_R_NAME);
+//                                sqlH.addLayerLabel(AdmCountryCode, GeoLayRCode, GeoLayRName);
+//
+//
+//                            }
+//                        }
+//
 
 
-                                String AdmCountryCode = lb_reg_hh_category.getString(Parser.ADM_COUNTRY_CODE);
-                                String HHHeadCatCode = lb_reg_hh_category.getString(Parser.HH_HEAD_CAT_CODE);
-                                String CatName = lb_reg_hh_category.getString(Parser.CAT_NAME);
 
-                                sqlH.addHHCategory(AdmCountryCode, HHHeadCatCode, CatName);
+//                        // Adding data into Relation Table
+//                        if (!jObj.isNull(Parser.RELATION_JSON_A)) {
+//
+//                            JSONArray relation = jObj.getJSONArray(Parser.RELATION_JSON_A);
+//
+//                            size = relation.length();
+//
+//                            for (int i = 0; i < size; i++) {
+//
+//                                JSONObject rel = relation.getJSONObject(i);
+//
+//
+//                                String Relation_Code = rel.getString(Parser.HH_RELATION_CODE);
+//                                String RelationName = rel.getString(Parser.RELATION_NAME);
+//
+//                                sqlH.addRelation(Relation_Code, RelationName);
+//
+//
+//                            }
+//                        }
+//
 
-
-                            }
-                        }
-
-
-                        if (!jObj.isNull(Parser.REG_LUP_GRADUATION_JSON_A)) {
-                            JSONArray reg_lup_graduations = jObj.getJSONArray(Parser.REG_LUP_GRADUATION_JSON_A);
-                            size = reg_lup_graduations.length();
-                            for (int i = 0; i < size; i++) {
-                                JSONObject reg_lup_graduation = reg_lup_graduations.getJSONObject(i);
-
-                                String AdmProgCode = reg_lup_graduation.getString(Parser.ADM_PROG_CODE);
-                                String AdmSrvCode = reg_lup_graduation.getString(Parser.ADM_SRV_CODE);
-                                String GRDCode = reg_lup_graduation.getString(Parser.GRD_CODE);
-                                String GRDTitle = reg_lup_graduation.getString(Parser.GRD_TITLE);
-                                String DefaultCatActive = reg_lup_graduation.getString(Parser.DEFAULT_CAT_ACTIVE);
-                                String DefaultCatExit = reg_lup_graduation.getString(Parser.DEFAULT_CAT_EXIT);
-
-
-                                sqlH.addGraduation(AdmProgCode, AdmSrvCode, GRDCode, GRDTitle, DefaultCatActive, DefaultCatExit);
-
-
-                            }
-                        }
-
-                        // Adding data into Layer Label Table
-                        if (!jObj.isNull(Parser.LAYER_LABELS_JSON_A)) {
-                            JSONArray layer_labels = jObj.getJSONArray(Parser.LAYER_LABELS_JSON_A);
-                            size = layer_labels.length();
-                            for (int i = 0; i < size; i++) {
-                                JSONObject layer_label = layer_labels.getJSONObject(i);
-
-                                String AdmCountryCode = layer_label.getString(Parser.ADM_COUNTRY_CODE);
-                                String GeoLayRCode = layer_label.getString(Parser.GEO_LAY_R_CODE);
-                                String GeoLayRName = layer_label.getString(Parser.GEO_LAY_R_NAME);
-                                sqlH.addLayerLabel(AdmCountryCode, GeoLayRCode, GeoLayRName);
-
-
-                            }
-                        }
-
-
-
-
-                        // Adding data into Relation Table
-                        if (!jObj.isNull(Parser.RELATION_JSON_A)) {
-
-                            JSONArray relation = jObj.getJSONArray(Parser.RELATION_JSON_A);
-
-                            size = relation.length();
-
-                            for (int i = 0; i < size; i++) {
-
-                                JSONObject rel = relation.getJSONObject(i);
+//                        if (!jObj.isNull(Parser.REPORT_TEMPLATE)) {
+//                            JSONArray report_templates = jObj.getJSONArray(Parser.REPORT_TEMPLATE);
+//                            size = report_templates.length();
+//                            for (int i = 0; i < size; i++) {
+//                                JSONObject report_template = report_templates.getJSONObject(i);
+//
+//                                String AdmCountryCode = report_template.getString(Parser.ADM_COUNTRY_CODE);
+//                                String RptLabel = report_template.getString(Parser.RPT_LABEL);
+//                                String Code = report_template.getString(Parser.RPT_G_N_CODE);
+//
+//                                sqlH.addCardType(AdmCountryCode, RptLabel, Code);
+//
+//
+//                            }
+//                        }
+//
+//
+//                        if (!jObj.isNull(Parser.CARD_PRINT_REASON)) {
+//                            JSONArray card_print_reasons = jObj.getJSONArray(Parser.CARD_PRINT_REASON);
+//                            size = card_print_reasons.length();
+//                            for (int i = 0; i < size; i++) {
+//                                JSONObject card_print_reason = card_print_reasons.getJSONObject(i);
+//
+//                                String ReasonCode = card_print_reason.getString(Parser.REASON_CODE);
+//                                String ReasonTitle = card_print_reason.getString(Parser.REASON_TITLE);
+//
+//                                sqlH.addCardPrintReason(ReasonCode, ReasonTitle);
+//
+//
+//                            }
+//                        }
 
 
-                                String Relation_Code = rel.getString(Parser.HH_RELATION_CODE);
-                                String RelationName = rel.getString(Parser.RELATION_NAME);
-
-                                sqlH.addRelation(Relation_Code, RelationName);
-
-
-                            }
-                        }
-
-
-                        if (!jObj.isNull(Parser.REPORT_TEMPLATE)) {
-                            JSONArray report_templates = jObj.getJSONArray(Parser.REPORT_TEMPLATE);
-                            size = report_templates.length();
-                            for (int i = 0; i < size; i++) {
-                                JSONObject report_template = report_templates.getJSONObject(i);
-
-                                String AdmCountryCode = report_template.getString(Parser.ADM_COUNTRY_CODE);
-                                String RptLabel = report_template.getString(Parser.RPT_LABEL);
-                                String Code = report_template.getString(Parser.RPT_G_N_CODE);
-
-                                sqlH.addCardType(AdmCountryCode, RptLabel, Code);
-
-
-                            }
-                        }
-
-
-                        if (!jObj.isNull(Parser.CARD_PRINT_REASON)) {
-                            JSONArray card_print_reasons = jObj.getJSONArray(Parser.CARD_PRINT_REASON);
-                            size = card_print_reasons.length();
-                            for (int i = 0; i < size; i++) {
-                                JSONObject card_print_reason = card_print_reasons.getJSONObject(i);
-
-                                String ReasonCode = card_print_reason.getString(Parser.REASON_CODE);
-                                String ReasonTitle = card_print_reason.getString(Parser.REASON_TITLE);
-
-                                sqlH.addCardPrintReason(ReasonCode, ReasonTitle);
-
-
-                            }
-                        }
-
-
-                        if (!jObj.isNull(Parser.STAFF_FDP_ACCESS_JSON_A)) {
-                            JSONArray staff_fdp_accesses = jObj.getJSONArray(Parser.STAFF_FDP_ACCESS_JSON_A);
-                            size = staff_fdp_accesses.length();
-                            for (int i = 0; i < size; i++) {
-                                JSONObject staff_fdp_access = staff_fdp_accesses.getJSONObject(i);
-
-                                String StfCode = staff_fdp_access.getString(Parser.STF_CODE);
-                                String AdmCountryCode = staff_fdp_access.getString(Parser.ADM_COUNTRY_CODE);
-                                String FDPCode = staff_fdp_access.getString(Parser.FDP_CODE);
-                                String btnNew = staff_fdp_access.getString(Parser.BTN_NEW);
-                                String btnSave = staff_fdp_access.getString(Parser.BTN_SAVE);
-                                String btnDel = staff_fdp_access.getString(Parser.BTN_DEL);
-
-
-                                sqlH.addStaffFDPAccess(StfCode, AdmCountryCode, FDPCode, btnNew, btnSave, btnDel);
-
-                           /*     Log.d(TAG, "In addStaff FDP Access : StfCode : " + AdmCountryCode + " StfCode : " + StfCode + " LayR1ListCode : " + FDPCode + " btnNew : "
-                                        + btnNew + " btnDel : " + btnDel);*/
-                            }
-                        }
-
-
-                        if (!jObj.isNull(Parser.FDP_MASTER_JSON_A)) {
-                            JSONArray fdp_masters = jObj.getJSONArray(Parser.FDP_MASTER_JSON_A);
-                            size = fdp_masters.length();
-                            for (int i = 0; i < size; i++) {
-                                JSONObject fdp_master = fdp_masters.getJSONObject(i);
-
-                                String AdmCountryCode = fdp_master.getString(Parser.ADM_COUNTRY_CODE);
-                                String FDPCode = fdp_master.getString(Parser.FDP_CODE);
-                                String FDPName = fdp_master.getString(Parser.FDP_NAME);
-                                String FDPCatCode = fdp_master.getString(Parser.FDP_CAT_CODE);
-                                String WHCode = fdp_master.getString(Parser.WH_CODE);
-                                String LayR1Code = fdp_master.getString(Parser.LAY_R_1_CODE);
-                                String LayR2Code = fdp_master.getString(Parser.LAY_R_2_CODE);
-
-
-                                sqlH.addFDPMaster(AdmCountryCode, FDPCode, FDPName, FDPCatCode, WHCode, LayR1Code, LayR2Code);
-
-                                //  Log.d(TAG, "In Reg Mem Card Request Table: AdmCountryCode : " + AdmCountryCode + " AdmDonorCode : " + AdmDonorCode + " LayR1ListCode : " + LayR1ListCode + " LayR2ListCode : "
-                                //        + LayR2ListCode + " LayR3ListCode : " + LayR3ListCode + " LayR4ListCode : " + LayR4ListCode+ " HHID : " + HHID);
-                            }
-                        }
+//                        if (!jObj.isNull(Parser.STAFF_FDP_ACCESS_JSON_A)) {
+//                            JSONArray staff_fdp_accesses = jObj.getJSONArray(Parser.STAFF_FDP_ACCESS_JSON_A);
+//                            size = staff_fdp_accesses.length();
+//                            for (int i = 0; i < size; i++) {
+//                                JSONObject staff_fdp_access = staff_fdp_accesses.getJSONObject(i);
+//
+//                                String StfCode = staff_fdp_access.getString(Parser.STF_CODE);
+//                                String AdmCountryCode = staff_fdp_access.getString(Parser.ADM_COUNTRY_CODE);
+//                                String FDPCode = staff_fdp_access.getString(Parser.FDP_CODE);
+//                                String btnNew = staff_fdp_access.getString(Parser.BTN_NEW);
+//                                String btnSave = staff_fdp_access.getString(Parser.BTN_SAVE);
+//                                String btnDel = staff_fdp_access.getString(Parser.BTN_DEL);
+//
+//
+//                                sqlH.addStaffFDPAccess(StfCode, AdmCountryCode, FDPCode, btnNew, btnSave, btnDel);
+//
+//                           /*     Log.d(TAG, "In addStaff FDP Access : StfCode : " + AdmCountryCode + " StfCode : " + StfCode + " LayR1ListCode : " + FDPCode + " btnNew : "
+//                                        + btnNew + " btnDel : " + btnDel);*/
+//                            }
+//                        }
+//
+//
+//                        if (!jObj.isNull(Parser.FDP_MASTER_JSON_A)) {
+//                            JSONArray fdp_masters = jObj.getJSONArray(Parser.FDP_MASTER_JSON_A);
+//                            size = fdp_masters.length();
+//                            for (int i = 0; i < size; i++) {
+//                                JSONObject fdp_master = fdp_masters.getJSONObject(i);
+//
+//                                String AdmCountryCode = fdp_master.getString(Parser.ADM_COUNTRY_CODE);
+//                                String FDPCode = fdp_master.getString(Parser.FDP_CODE);
+//                                String FDPName = fdp_master.getString(Parser.FDP_NAME);
+//                                String FDPCatCode = fdp_master.getString(Parser.FDP_CAT_CODE);
+//                                String WHCode = fdp_master.getString(Parser.WH_CODE);
+//                                String LayR1Code = fdp_master.getString(Parser.LAY_R_1_CODE);
+//                                String LayR2Code = fdp_master.getString(Parser.LAY_R_2_CODE);
+//
+//
+//                                sqlH.addFDPMaster(AdmCountryCode, FDPCode, FDPName, FDPCatCode, WHCode, LayR1Code, LayR2Code);
+//
+//                                //  Log.d(TAG, "In Reg Mem Card Request Table: AdmCountryCode : " + AdmCountryCode + " AdmDonorCode : " + AdmDonorCode + " LayR1ListCode : " + LayR1ListCode + " LayR2ListCode : "
+//                                //        + LayR2ListCode + " LayR3ListCode : " + LayR3ListCode + " LayR4ListCode : " + LayR4ListCode+ " HHID : " + HHID);
+//                            }
+//                        }
 
                         /**
                          * SrvTable for Service Data
@@ -851,24 +871,24 @@ public class SyncDatabase {
                         }
 
 
-                        if (!jObj.isNull("lup_srv_option_list")) {
-                            JSONArray lup_srv_option_listDatas = jObj.getJSONArray("lup_srv_option_list");
-                            size = lup_srv_option_listDatas.length();
-                            for (int i = 0; i < size; i++) {
-                                JSONObject lup_srv_option_listData = lup_srv_option_listDatas.getJSONObject(i);
-                                //AGR_DataModel data = new AGR_DataModel();
-                                String countryCode = lup_srv_option_listData.getString(Parser.ADM_COUNTRY_CODE);
-
-                                String programCode = lup_srv_option_listData.getString(Parser.PROG_CODE);
-                                String serviceCode = lup_srv_option_listData.getString(Parser.SRV_CODE);
-                                String LUPOptionCode = lup_srv_option_listData.getString(Parser.LUP_OPTION_CODE);
-                                String LUPOptionName = lup_srv_option_listData.getString(Parser.LUP_OPTION_NAME);
-
-                                sqlH.addInLupSrvOptionListFromOnline(countryCode, programCode, serviceCode, LUPOptionCode, LUPOptionName);
-
-
-                            }
-                        }
+//                        if (!jObj.isNull("lup_srv_option_list")) {
+//                            JSONArray lup_srv_option_listDatas = jObj.getJSONArray("lup_srv_option_list");
+//                            size = lup_srv_option_listDatas.length();
+//                            for (int i = 0; i < size; i++) {
+//                                JSONObject lup_srv_option_listData = lup_srv_option_listDatas.getJSONObject(i);
+//                                //AGR_DataModel data = new AGR_DataModel();
+//                                String countryCode = lup_srv_option_listData.getString(Parser.ADM_COUNTRY_CODE);
+//
+//                                String programCode = lup_srv_option_listData.getString(Parser.PROG_CODE);
+//                                String serviceCode = lup_srv_option_listData.getString(Parser.SRV_CODE);
+//                                String LUPOptionCode = lup_srv_option_listData.getString(Parser.LUP_OPTION_CODE);
+//                                String LUPOptionName = lup_srv_option_listData.getString(Parser.LUP_OPTION_NAME);
+//
+//                                sqlH.addInLupSrvOptionListFromOnline(countryCode, programCode, serviceCode, LUPOptionCode, LUPOptionName);
+//
+//
+//                            }
+//                        }
 
 
                         if (pDialogUpload.isShowing())

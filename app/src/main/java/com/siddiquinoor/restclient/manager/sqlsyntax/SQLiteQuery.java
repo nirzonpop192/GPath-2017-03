@@ -4525,11 +4525,15 @@ public class SQLiteQuery {
     }
 
     public static String loadTaSummaryOrganization_sql(final String cCode, final String eventCode) {
-        return " select " + TA_PART_ORG_N_TABLE + "." + PART_ORG_N_CODE_COL + " AS code "
+        return " select  " + TA_PART_ORG_N_TABLE + "." + PART_ORG_N_CODE_COL + " AS code "
                 + " , " + TA_PART_ORG_N_TABLE + "." + PART_ORG_N_NAME_COL + " AS title " +
-                "    , " + "   (Select count(*)  from " + TA_PARTICIPANTS_LIST_TABLE + " where " + TA_PARTICIPANTS_LIST_TABLE + "." + COUNTRY_CODE_COL + "='" + cCode + "' " +
+                "    , " + "   (Select   count( distinct "+TA_PARTICIPANTS_LIST_TABLE + "." + PART_ORG_N_CODE_COL+")  " +
+                " from " + TA_PARTICIPANTS_LIST_TABLE
+                + " where " + TA_PARTICIPANTS_LIST_TABLE + "." + COUNTRY_CODE_COL + "='" + cCode + "' " +
                 "    and  " + TA_PARTICIPANTS_LIST_TABLE + "." + EVENT_CODE_COL + " = '" + eventCode + "'  " +
-                "   and " + TA_PARTICIPANTS_LIST_TABLE + "." + PART_ORG_N_CODE_COL + " = " + TA_PART_ORG_N_TABLE + "." + PART_ORG_N_CODE_COL + " )  AS count " +
+                "   and " + TA_PARTICIPANTS_LIST_TABLE + "." + PART_ORG_N_CODE_COL + " = " + TA_PART_ORG_N_TABLE + "." + PART_ORG_N_CODE_COL +
+
+                 " )  AS count " +
                 "    from " + TA_PARTICIPANTS_LIST_TABLE + " " +
                 "    inner join " + TA_PART_ORG_N_TABLE + "  ON " +
                 "    " + TA_PART_ORG_N_TABLE + "." + COUNTRY_CODE_COL + " = " + TA_PARTICIPANTS_LIST_TABLE + "." + COUNTRY_CODE_COL + " " +
@@ -4543,7 +4547,7 @@ public class SQLiteQuery {
     public static String loadTaSummaryCategory_sql(final String cCode, final String eventCode) {
         return " select " + TA_CATEGORY_TABLE + "." + TA_CAT_CODE_COL + " AS code "
                 + " , " + TA_CATEGORY_TABLE + "." + TA_CAT_NAME_COL + " AS title " +
-                "    , " + "   (Select count(*)  from " + TA_PARTICIPANTS_LIST_TABLE + " where " + TA_PARTICIPANTS_LIST_TABLE + "." + COUNTRY_CODE_COL + "='" + cCode + "' " +
+                "    , " + "   (Select count( distinct "+TA_PARTICIPANTS_LIST_TABLE + "." + PART_CAT_CODE_COL+" )  from " + TA_PARTICIPANTS_LIST_TABLE + " where " + TA_PARTICIPANTS_LIST_TABLE + "." + COUNTRY_CODE_COL + "='" + cCode + "' " +
                 "    and  " + TA_PARTICIPANTS_LIST_TABLE + "." + EVENT_CODE_COL + " = '" + eventCode + "'  " +
                 "   and " + TA_PARTICIPANTS_LIST_TABLE + "." + PART_CAT_CODE_COL + " = " + TA_CATEGORY_TABLE + "." + TA_CAT_CODE_COL + " )  AS count " +
                 "    from " + TA_PARTICIPANTS_LIST_TABLE + " " +
@@ -4558,7 +4562,7 @@ public class SQLiteQuery {
     public static String loadTaSummaryPosition_sql(final String cCode, final String eventCode) {
         return " select " + TA_POS_PARTICIPANTS_TABLE + "." + POS_CODE_COL + " AS code "
                 + " , " + TA_POS_PARTICIPANTS_TABLE + "." + POS_TITLE_COL + " AS title " +
-                "    , " + "   (Select count(*)  from " + TA_PARTICIPANTS_LIST_TABLE + " where " + TA_PARTICIPANTS_LIST_TABLE + "." + COUNTRY_CODE_COL + "='" + cCode + "' " +
+                "    , " + "   (Select count( distinct "+ TA_PARTICIPANTS_LIST_TABLE + "." + POS_CODE_COL +" )  from " + TA_PARTICIPANTS_LIST_TABLE + " where " + TA_PARTICIPANTS_LIST_TABLE + "." + COUNTRY_CODE_COL + "='" + cCode + "' " +
                 "    and  " + TA_PARTICIPANTS_LIST_TABLE + "." + EVENT_CODE_COL + " = '" + eventCode + "'  " +
                 "   and " + TA_PARTICIPANTS_LIST_TABLE + "." + POS_CODE_COL + " = " + TA_POS_PARTICIPANTS_TABLE + "." + POS_CODE_COL + " )  AS count " +
                 "    from " + TA_PARTICIPANTS_LIST_TABLE + " " +
@@ -4576,7 +4580,7 @@ public class SQLiteQuery {
 
         return " select " + SEX_COL + " AS code "
                 + " ,  CASE WHEN " + SEX_COL + " = 'F' THEN 'Female' ELSE 'Male' END  AS title " +
-                "    , " + "  count(*) AS count "+
+                "    , " + "  count( distinct "+ SEX_COL+" ) AS count "+
                 "    from " + TA_PARTICIPANTS_LIST_TABLE + " " +
                 "    where " + TA_PARTICIPANTS_LIST_TABLE + "." + COUNTRY_CODE_COL + " = '" + cCode + "' " +
                 "    and  " + TA_PARTICIPANTS_LIST_TABLE + "." + EVENT_CODE_COL + " = '" + eventCode + "' " +

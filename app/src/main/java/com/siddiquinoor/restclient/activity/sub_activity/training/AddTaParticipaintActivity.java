@@ -202,7 +202,6 @@ public class AddTaParticipaintActivity extends BaseActivity {
 
             gender = mEligiableBenef.getMember_sex();
 
-            restoreThePreviousSavedValue();
 
         }
     }
@@ -513,12 +512,15 @@ public class AddTaParticipaintActivity extends BaseActivity {
         initial();
 
         dateGenerator();
+
+        setText();
         loadGender();
+
         setListener();
         loadOrdinationRadioButtons();
         loadCategoriesRadioButtons();
         loadPositionRadioButtons();
-
-        setText();
+        if (mEligiableBenef != null)
+            restoreThePreviousSavedValue();
     }
 }

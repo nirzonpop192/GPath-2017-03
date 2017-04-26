@@ -300,11 +300,11 @@ public class Parser extends Parse {
     public static final String C_36_CT_PR = "C36_CT_PR";
     public static final String C_37_CT_PR = "C37_CT_PR";
     public static final String C_38_CT_PR = "C38_CT_PR";
-   private static final String EXTRA_ELDERLY_PERSON_BECAUSE_EBOLA = "ExtraElderlyPersonBecauseEbola";
-   private static final String EXTRA_CHILD_BECAUSE_EBOLA = "ExtraChildBecauseEbola";
-   private static final String AFT_VAL_CATTLE = "AFTValCattle";
-   private static final String BRF_CNT_SHEEP_GOATS = "BRFCntSheepGoats";
-   private static final String BRF_VAL_SHEEP_GOATS = "BRFValSheepGoats";
+    private static final String EXTRA_ELDERLY_PERSON_BECAUSE_EBOLA = "ExtraElderlyPersonBecauseEbola";
+    private static final String EXTRA_CHILD_BECAUSE_EBOLA = "ExtraChildBecauseEbola";
+    private static final String AFT_VAL_CATTLE = "AFTValCattle";
+    private static final String BRF_CNT_SHEEP_GOATS = "BRFCntSheepGoats";
+    private static final String BRF_VAL_SHEEP_GOATS = "BRFValSheepGoats";
     public static final String MULTIPLE_SRV = "MultipleSrv";
     public static final String DISTRIBUTION_EXT_TABLE_JSON_A = "distribution_ext_table";
     public static final String VO_ITM_SPEC = "VOItmSpec";
@@ -1328,9 +1328,6 @@ public class Parser extends Parse {
     }
 
 
-
-
-
     public static void DTA_Parser(JSONArray jsonArrayData, SQLiteHandler sqlH) {
 
         int size = jsonArrayData.length();
@@ -2011,6 +2008,7 @@ public class Parser extends Parse {
 
     /**
      * This method only used in LoginActivity
+     *
      * @param jsonArrayData json data
      * @return AdmCountryDataModel array list
      */
@@ -2055,7 +2053,7 @@ public class Parser extends Parse {
 
 
         String GeoLayRName, AdmCountryCode, LayRCode, LayR4ListName;
-       // ArrayList<AdmCountryDataModel> arrayList = new ArrayList<>();
+        // ArrayList<AdmCountryDataModel> arrayList = new ArrayList<>();
 
         for (int i = 0; i < size; i++) {
             try {
@@ -2067,7 +2065,7 @@ public class Parser extends Parse {
                 LayR4ListName = jsonObject.getString("LayR4ListName");
 
 
-                VillageItem villageItem = new VillageItem(AdmCountryCode,GeoLayRName,LayR4ListName,LayRCode);
+                VillageItem villageItem = new VillageItem(AdmCountryCode, GeoLayRName, LayR4ListName, LayRCode);
 
                 villageLists.add(villageItem);
 
@@ -2222,6 +2220,42 @@ public class Parser extends Parse {
     }
 
 
+    public static void admCountryProgramParser(JSONArray jsonArrayData, SQLiteHandler sqlH) {
+        int size = jsonArrayData.length();
+        String AdmCountryCode, AdmDonorCode, AdmAwardCode, AdmProgCode, AdmSrvCode, ProgFlag, FoodFlag, NFoodFlag, CashFlag, VOFlag, DefaultFoodDays, DefaultNFoodDays, DefaultCashDays, DefaultVODays, SrvSpecific;
+
+        for (int i = 0; i < size; i++) {
+            try {
+                JSONObject jsonObject = jsonArrayData.getJSONObject(i);
+
+                 AdmCountryCode = jsonObject.getString(Parser.ADM_COUNTRY_CODE);
+                 AdmDonorCode = jsonObject.getString(Parser.ADM_DONOR_CODE);
+                 AdmAwardCode = jsonObject.getString(Parser.ADM_AWARD_CODE);
+                 AdmProgCode = jsonObject.getString(Parser.ADM_PROG_CODE);
+                 AdmSrvCode = jsonObject.getString(Parser.ADM_SRV_CODE);
+                 ProgFlag = jsonObject.getString("ProgFlag");
+                 FoodFlag = jsonObject.getString(Parser.FOOD_FLAG);
+                 NFoodFlag = jsonObject.getString(Parser.N_FOOD_FLAG);
+                 CashFlag = jsonObject.getString(Parser.CASH_FLAG);
+                 VOFlag = jsonObject.getString(Parser.VO_FLAG);
+                 DefaultFoodDays = jsonObject.getString(Parser.DEFAULT_FOOD_DAYS);
+                 DefaultNFoodDays = jsonObject.getString(Parser.DEFAULT_N_FOOD_DAYS);
+                 DefaultCashDays = jsonObject.getString(Parser.DEFAULT_CASH_DAYS);
+                 DefaultVODays = jsonObject.getString(Parser.DEFAULT_VO_DAYS);
+                 SrvSpecific = jsonObject.getString(Parser.SRV_SPECIFIC);
+
+                sqlH.insertAdmCountryProgram(AdmCountryCode, AdmDonorCode, AdmAwardCode, AdmProgCode, AdmSrvCode, ProgFlag, FoodFlag, NFoodFlag, CashFlag, VOFlag, DefaultFoodDays, DefaultNFoodDays, DefaultCashDays, DefaultVODays, SrvSpecific);
+
+
+            } catch (Exception e) {
+                Log.e(TAG, "Exception : " + e);
+                e.printStackTrace();
+            }
+        }
+
+    }
+
+
     public static void lupProgGroupCropParser(JSONArray jsonArrayData, SQLiteHandler sqlH) {
 
         int size = jsonArrayData.length();
@@ -2314,7 +2348,7 @@ public class Parser extends Parse {
     public static void TA_Master_Parser(JSONArray jsonArrayData, SQLiteHandler sqlH) {
 
         int size = jsonArrayData.length();
-        String AdmCountryCode, EventCode, EventName, AdmDonorCode, AdmAwardCode, TAGroup, TASubGroup, OrgNCode,StartDate, EndDate, VenueName, VenueAddress, Active, TotalDays, HoursPerDay, MarkOnGrid;
+        String AdmCountryCode, EventCode, EventName, AdmDonorCode, AdmAwardCode, TAGroup, TASubGroup, OrgNCode, StartDate, EndDate, VenueName, VenueAddress, Active, TotalDays, HoursPerDay, MarkOnGrid;
 
         Log.d(TAG, "The Number of the data inserted in TA_Master :" + size);
 
@@ -2341,7 +2375,7 @@ public class Parser extends Parse {
                 HoursPerDay = jsonObject.getString("HoursPerDay");
 
 
-                sqlH.addTaMasterTable(AdmCountryCode, EventCode, EventName, AdmDonorCode, AdmAwardCode, TAGroup, TASubGroup, OrgNCode,StartDate, EndDate, VenueName, VenueAddress, Active, TotalDays, HoursPerDay);
+                sqlH.addTaMasterTable(AdmCountryCode, EventCode, EventName, AdmDonorCode, AdmAwardCode, TAGroup, TASubGroup, OrgNCode, StartDate, EndDate, VenueName, VenueAddress, Active, TotalDays, HoursPerDay);
 
 
             } catch (Exception e) {
@@ -2443,7 +2477,7 @@ public class Parser extends Parse {
     public static void T_A_partOrgN_Parser(JSONArray jsonArrayData, SQLiteHandler sqlH) {
 
         int size = jsonArrayData.length();
-        String AdmCountryCode, PartOrgNCode, PartOrgNName,SrcBen;
+        String AdmCountryCode, PartOrgNCode, PartOrgNName, SrcBen;
 
         Log.d(TAG, "The Number of the data inserted in TAPartOrgTable :" + size);
 
@@ -2460,7 +2494,7 @@ public class Parser extends Parse {
                 SrcBen = jsonObject.getString("SrcBen");
 
 
-                sqlH.addTAPartOrgTable(AdmCountryCode, PartOrgNCode, PartOrgNName,SrcBen);
+                sqlH.addTAPartOrgTable(AdmCountryCode, PartOrgNCode, PartOrgNName, SrcBen);
 
             } catch (Exception e) {
                 Log.e(TAG, "Exception : " + e);
@@ -2502,7 +2536,7 @@ public class Parser extends Parse {
     public static void T_A_subGroup_Parser(JSONArray jsonArrayData, SQLiteHandler sqlH) {
 
         int size = jsonArrayData.length();
-        String AdmCountryCode, TAGroup, TASubGroup,TASubTitle;
+        String AdmCountryCode, TAGroup, TASubGroup, TASubTitle;
 
         Log.d(TAG, "The Number of the data inserted in T_A_posParticipants :" + size);
 
@@ -2519,7 +2553,7 @@ public class Parser extends Parse {
                 TASubTitle = jsonObject.getString("TASubTitle");
 
 
-                sqlH.addTASubGroupTable(AdmCountryCode, TAGroup, TASubGroup,TASubTitle);
+                sqlH.addTASubGroupTable(AdmCountryCode, TAGroup, TASubGroup, TASubTitle);
 
             } catch (Exception e) {
                 Log.e(TAG, "Exception : " + e);
@@ -2585,10 +2619,11 @@ public class Parser extends Parse {
         }
 
     }
+
     public static void LUP_TAParticipantCat_Parser(JSONArray jsonArrayData, SQLiteHandler sqlH) {
 
         int size = jsonArrayData.length();
-        String AdmCountryCode, TAGroup,PartCatCode,PartCatTitle;
+        String AdmCountryCode, TAGroup, PartCatCode, PartCatTitle;
 
         Log.d(TAG, "The Number of the data inserted in T_A_posParticipants :" + size);
 
@@ -2605,7 +2640,7 @@ public class Parser extends Parse {
                 PartCatTitle = jsonObject.getString("PartCatTitle");
 
 
-                sqlH.addLUP_TAParticipantCat(AdmCountryCode, TAGroup,PartCatCode,PartCatTitle);
+                sqlH.addLUP_TAParticipantCat(AdmCountryCode, TAGroup, PartCatCode, PartCatTitle);
 
             } catch (Exception e) {
                 Log.e(TAG, "Exception : " + e);

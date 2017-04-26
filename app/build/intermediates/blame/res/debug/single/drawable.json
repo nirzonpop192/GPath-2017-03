@@ -368,6 +368,10 @@
         "source": "D:\\WorkSpace\\AndroidStudioProject\\Jan-2017\\GPath\\GPath-LOC-02040215\\app\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\9.0.1\\res\\drawable\\common_plus_signin_btn_icon_light.xml"
     },
     {
+        "merged": "D:\\WorkSpace\\AndroidStudioProject\\Jan-2017\\GPath\\GPath-LOC-02040215\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\training_activity_1.png",
+        "source": "D:\\WorkSpace\\AndroidStudioProject\\Jan-2017\\GPath\\GPath-LOC-02040215\\app\\src\\main\\res\\drawable\\training_activity_1.png"
+    },
+    {
         "merged": "D:\\WorkSpace\\AndroidStudioProject\\Jan-2017\\GPath\\GPath-LOC-02040215\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\mr_ic_cast_light.xml",
         "source": "D:\\WorkSpace\\AndroidStudioProject\\Jan-2017\\GPath\\GPath-LOC-02040215\\app\\build\\intermediates\\exploded-aar\\com.android.support\\mediarouter-v7\\23.0.0\\res\\drawable\\mr_ic_cast_light.xml"
     },
@@ -482,6 +486,10 @@
     {
         "merged": "D:\\WorkSpace\\AndroidStudioProject\\Jan-2017\\GPath\\GPath-LOC-02040215\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\mr_ic_media_route_mono_light.xml",
         "source": "D:\\WorkSpace\\AndroidStudioProject\\Jan-2017\\GPath\\GPath-LOC-02040215\\app\\build\\intermediates\\exploded-aar\\com.android.support\\mediarouter-v7\\23.0.0\\res\\drawable\\mr_ic_media_route_mono_light.xml"
+    },
+    {
+        "merged": "D:\\WorkSpace\\AndroidStudioProject\\Jan-2017\\GPath\\GPath-LOC-02040215\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\training_activity_2.png",
+        "source": "D:\\WorkSpace\\AndroidStudioProject\\Jan-2017\\GPath\\GPath-LOC-02040215\\app\\src\\main\\res\\drawable\\training_activity_2.png"
     },
     {
         "merged": "D:\\WorkSpace\\AndroidStudioProject\\Jan-2017\\GPath\\GPath-LOC-02040215\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_cab_background_internal_bg.xml",

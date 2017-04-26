@@ -270,8 +270,8 @@
                         android:layout_marginEnd="4dp"
                         android:layout_marginRight="4dp"
 
-                        android:drawableLeft="@drawable/summession_b"
-                        android:drawableStart="@drawable/summession_b"
+                        android:drawableLeft="@drawable/training_activity_2"
+                        android:drawableStart="@drawable/training_activity_2"
                         android:gravity="center_vertical"
                         android:paddingLeft="15dp"
                         android:text="@string/training_n_activity" />
@@ -414,6 +414,34 @@
                         android:gravity="center_vertical"
                         android:paddingLeft="15dp"
                         android:text="  Restore DB" />
+                    <Button
+                        android:id="@+id/btnImport"
+                        style="@style/btn_main_page"
+                        android:layout_width="match_parent"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginEnd="4dp"
+                        android:layout_marginRight="4dp"
+                        android:layout_marginTop="30dp"
+                        android:drawableLeft="@drawable/database_import_32"
+                        android:drawableStart="@drawable/database_import_32"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="15dp"
+                        android:paddingStart="15dp"
+                        android:text="  Import DB" />
+
+                    <Button
+                        android:id="@+id/btnEXTDB"
+                        style="@style/btn_main_page"
+                        android:layout_width="match_parent"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginEnd="4dp"
+                        android:layout_marginRight="4dp"
+                        android:layout_marginTop="30dp"
+                        android:drawableLeft="@drawable/database_import_32"
+                        android:drawableStart="@drawable/database_import_32"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="15dp"
+                        android:text="  EXPORT DB" />
 
                 </LinearLayout>
             </LinearLayout>
@@ -450,6 +478,7 @@
                     android:text="  Logout"
 
                     android:textSize="15sp" />
+
             </LinearLayout>
 
 

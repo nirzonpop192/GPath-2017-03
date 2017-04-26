@@ -24,15 +24,15 @@ public final class R {
 		public static final int next = 0x7f0200e1;
 		public static final int person = 0x7f0200e4;
 		public static final int previous = 0x7f0200e9;
-		public static final int zoom_in = 0x7f020104;
-		public static final int zoom_out = 0x7f020105;
+		public static final int zoom_in = 0x7f020106;
+		public static final int zoom_out = 0x7f020107;
 	}
 	public static final class id {
-		public static final int bubble_description = 0x7f1003d8;
-		public static final int bubble_image = 0x7f1003d5;
-		public static final int bubble_moreinfo = 0x7f1003d7;
-		public static final int bubble_subdescription = 0x7f1003d9;
-		public static final int bubble_title = 0x7f1003d6;
+		public static final int bubble_description = 0x7f1003da;
+		public static final int bubble_image = 0x7f1003d7;
+		public static final int bubble_moreinfo = 0x7f1003d9;
+		public static final int bubble_subdescription = 0x7f1003db;
+		public static final int bubble_title = 0x7f1003d8;
 	}
 	public static final class layout {
 		public static final int bonuspack_bubble = 0x7f040050;

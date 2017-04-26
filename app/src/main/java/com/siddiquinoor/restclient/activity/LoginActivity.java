@@ -18,6 +18,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
@@ -25,7 +26,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.Request.Method;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -50,10 +50,21 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.nio.channels.FileChannel;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static com.siddiquinoor.restclient.utils.UtilClass.DISTRIBUTION_OPERATION_MODE_NAME;
+import static com.siddiquinoor.restclient.utils.UtilClass.OTHER_OPERATION_MODE_NAME;
+import static com.siddiquinoor.restclient.utils.UtilClass.REGISTRATION_OPERATION_MODE_NAME;
+import static com.siddiquinoor.restclient.utils.UtilClass.SERVICE_OPERATION_MODE_NAME;
+import static com.siddiquinoor.restclient.utils.UtilClass.TRANING_N_ACTIVITY_OPERATION_MODE_NAME;
 
 //import java.util.logging.Handler;
 
@@ -91,7 +102,7 @@ public class LoginActivity extends BaseActivity {
 
     String[] villageNameStringArray;
     String[] countryNameStringArray;
-    private final String[] operationModeStringArray = {"Registration", "Distribution", "Service", "Other", "Training N Activity"};
+    private final String[] operationModeStringArray = {REGISTRATION_OPERATION_MODE_NAME, DISTRIBUTION_OPERATION_MODE_NAME, SERVICE_OPERATION_MODE_NAME, OTHER_OPERATION_MODE_NAME, TRANING_N_ACTIVITY_OPERATION_MODE_NAME};
 
 
     // Login Button
@@ -101,7 +112,7 @@ public class LoginActivity extends BaseActivity {
     //password input box
     private EditText inputPassword;
     //progress mdialog wigedt
-    private ProgressDialog barPDialog; //Bar Progress Dialog
+    //private ProgressDialog barPDialog; //Bar Progress Dialog
     //progress handler
     private Handler barPDialogHandler;
     //sqlLite Database handler
@@ -118,10 +129,10 @@ public class LoginActivity extends BaseActivity {
     private ProgressDialog pDialog;
     // size  = 0, int type
     private int size = 0;
-    //mContext
-    private final Context mContext = LoginActivity.this;
-    //exit button
-    private Button btnExit;
+
+    private final Context mContext = LoginActivity.this;                                             //mContext
+
+    private Button btnExit;                                                                          //exit button
     SharedPreferences settings;
     SharedPreferences.Editor editor;
     private Button btnClean;
@@ -130,6 +141,14 @@ public class LoginActivity extends BaseActivity {
     String temSelectedProgram;
 
     String tem;
+
+    /**
+     * {@link #temValue}  variable is only used for {@link #getOperationModeAlert(String, String)} method
+     * Clicking on an item  store the value in {@link #temValue}
+     * which is used in positive Button
+     */
+    private String temValue;
+
 
     /**
      * function to verify login details & select 2 FDP
@@ -155,7 +174,7 @@ public class LoginActivity extends BaseActivity {
         btnExit = (Button) findViewById(R.id.btnExit);
         btnClean = (Button) findViewById(R.id.btnClean);
 
-        settings = getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE); //1
+        settings = getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
         editor = settings.edit(); //2
 
 
@@ -169,14 +188,47 @@ public class LoginActivity extends BaseActivity {
         // connectivity manager
         cd = new ConnectionDetector(getApplicationContext());
 
+        createDeviceIDFile();
 
         setListener();
 
 
     }
 
+    private void createDeviceIDFile() {
+        String macAddress = "";
+        macAddress = UtilClass.getMacAddress(LoginActivity.this);
+        try {
+
+            FileOutputStream fOut = openFileOutput("EMI.txt", MODE_WORLD_READABLE);
+            fOut.write(macAddress.getBytes());
+            fOut.close();
+
+
+            File sd = Environment.getExternalStorageDirectory();                                    // get the internal root directories
+
+            if (sd.canWrite()) {
+                File currentDB = new File("/data/data/" + getPackageName() + "/files/EMI.txt");
+                File backupDB = new File(sd, "EMI.txt");
+
+                if (currentDB.exists()) {
+                    FileChannel src = new FileInputStream(currentDB).getChannel();
+                    FileChannel dst = new FileOutputStream(backupDB).getChannel();
+                    dst.transferFrom(src, 0, src.size());
+                    src.close();
+                    dst.close();
+
+                }
+            }
+        } catch (Exception e) {
+
+            e.printStackTrace();
+        }
+
+    }
+
     private void setListener() {
-// todo: move the code ANNotification class
+
         btnExit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -301,11 +353,8 @@ public class LoginActivity extends BaseActivity {
                                 pDialog.setCancelable(false);
                                 pDialog.setMessage("Loading..");
                                 pDialog.show();
-                                /**
-                                 * for selecting operation Mood
-                                 *
-                                 */
-                                getOperationModeAlert(user_name, password);
+
+                                getOperationModeAlert(user_name, password);                         //for selecting operation Mood
                             }
 
 
@@ -354,6 +403,13 @@ public class LoginActivity extends BaseActivity {
                     for (int mode_index = 0; mode_index < itemCheckedOpearationMode.length; mode_index++) {
                         if (operationModeStringArray[mode_index].equals(strOperationMode)) {
 
+                            // remove shred preference dependence from app
+
+                            try {
+                                db.insertIntoDeviceOperationMode((mode_index + 1), strOperationMode, user_name, getDateTime());
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
                             pDialog = new ProgressDialog(mContext);
                             pDialog.setCancelable(false);
                             pDialog.setMessage("Downloading  data .");
@@ -409,8 +465,6 @@ public class LoginActivity extends BaseActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 hideDialog();
-
-
                 mdialog.dismiss();
             }
         });
@@ -420,21 +474,18 @@ public class LoginActivity extends BaseActivity {
 
 
     private void gotoHomePage() {
-        setLogin(true);        // login success
+        setLogin(true);                                                                             // login success
 
         // Getting local User information
         HashMap<String, String> user = db.getUserDetails();
-        setUserName(user.get("name"));  // Setting Username into session
-        setStaffID(user.get("code"));   // Setting StaffCode into session
+        setUserName(user.get("name"));                                                              // Setting Username into session
+        setStaffID(user.get("code"));                                                               // Setting StaffCode into session
         setUserID(user.get("username"));
         setUserPassword(user.get("password"));
+        setUserCountryCode(user.get("c_code"));                                                     // Setting Country Code into session
 
-        setUserCountryCode(user.get("c_code")); // Setting Country Code into session
 
-        /**
-         *  Launch main activity
-         *  */
-        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+        Intent intent = new Intent(LoginActivity.this, MainActivity.class);                         //  Launch main activity
         startActivity(intent);
 
         finish();
@@ -447,8 +498,8 @@ public class LoginActivity extends BaseActivity {
 
 
     public void checkServiceCenterSelection(final String user_name, final String password, final String cCode, final String donorCode, final String awardCode, final String progCode, final String opMothCode, final String distFlag) {
-        // Tag used to cancel the request
-        String tag_string_req = "req_login";
+
+        String tag_string_req = "req_login";                                                        // Tag used to cancel the request
 
 
         StringRequest strReq = new StringRequest(Method.POST,
@@ -456,10 +507,8 @@ public class LoginActivity extends BaseActivity {
 
             @Override
             public void onResponse(String response) {
-                /***
-                 * @deis: IN THIS STRING RESPONSE WRITE THE JSON DATA
-                 *
-                 */
+                //IN THIS STRING RESPONSE WRITE THE JSON DATA
+
                 AppController.getInstance().getRequestQueue().getCache().clear();
 
                 String CountryNo = "0";
@@ -471,7 +520,7 @@ public class LoginActivity extends BaseActivity {
                     if (!error) {
 
                         int size = 0;
-                        // count no countries assigne
+                        // count no countries assign
                         if (!jObj.isNull(Parser.COUNTRIE_NO)) {
 
                             JSONArray village = jObj.getJSONArray(Parser.COUNTRIE_NO);
@@ -1004,7 +1053,10 @@ public class LoginActivity extends BaseActivity {
                             getVillageAlert(user_name, password, false, operationMode);
                         } else {
                             selectedCountryList.clear();
-                            getCountryAlert(user_name, password, UtilClass.REGISTRATION_OPERATION_MODE);
+                            if (operationMode.equals("1"))
+                                getCountryAlert(user_name, password, UtilClass.REGISTRATION_OPERATION_MODE);
+                            else
+                                getCountryAlert(user_name, password, UtilClass.TRANING_n_ACTIVITY_OPERATION_MODE);
                         }
 
 
@@ -2330,8 +2382,8 @@ public class LoginActivity extends BaseActivity {
 
 
     public void downLoadEnuTable(final String user_Name, final String pass_word) {
-        // Tag used to cancel the request
-        String tag_string_req = "enu";
+
+        String tag_string_req = "enu";                                                               // Tag used to cancel the request
 
         StringRequest strReq = new StringRequest(Method.POST,
                 AppConfig.API_LINK_ENU, new Response.Listener<String>() {
@@ -2340,7 +2392,7 @@ public class LoginActivity extends BaseActivity {
             public void onResponse(String response) {
 
 
-                AppController.getInstance().getRequestQueue().getCache().clear();  // clear catch
+                AppController.getInstance().getRequestQueue().getCache().clear();                   // clear catch
                 writeJSONToTextFile(response, ENU_TABLE);
 
                 Log.d(TAG, " After Loading Dynamic Table in txt last stap :7");
@@ -2348,26 +2400,14 @@ public class LoginActivity extends BaseActivity {
 
                 hideDialog();
 
-
-                /**
-                 *  DOING STRING OPERATION TO AVOID ALLOCATE CACHE MEMORY
-                 */
-
-                String errorResult = response.substring(9, 14);
-
-/**
- * If Json String  get False than it return false
- */
-                boolean error = !errorResult.equals("false");
-
-                if (!error) {
+                String errorResult = response.substring(9, 14);                                     // DOING STRING OPERATION TO AVOID ALLOCATE CACHE MEMORY
 
 
-                    /**
-                     * IF GET NO ERROR  THAN GOTO THE MAIN ACTIVITY
-                     */
+                boolean error = !errorResult.equals("false");                                       //If Json String  get False than it return false
 
-                    setLogin(true);                                                                     // login success
+                if (!error) {                                                                        //IF GET NO ERROR  THAN GOTO THE MAIN ACTIVITY
+
+                    setLogin(true);                                                                 // login success
                     /**
                      *  Launch main activity
                      */

@@ -787,6 +787,7 @@ android/support/annotation/Size.class
 com/siddiquinoor/restclient/activity/sub_activity/summary_sub/SummaryServiceOrDistributionItemizeAttendance$1.class
 com/siddiquinoor/restclient/activity/sub_activity/assign_program/ddr/FFA.class
 com/siddiquinoor/restclient/data_model/adapters/DTQTableDataModel$1.class
+com/siddiquinoor/restclient/activity/MainActivity$4.class
 com/google/android/gms/wallet/fragment/WalletLogoImageType.class
 android/support/v7/graphics/drawable/DrawerArrowDrawable.class
 com/google/android/gms/internal/zzcb.class
@@ -1205,6 +1206,7 @@ com/google/android/gms/internal/zzjc.class
 com/google/android/gms/auth/api/signin/internal/SignInConfiguration.class
 com/siddiquinoor/restclient/activity/sub_activity/dynamic_table/DTResponseRecordingActivity$13.class
 com/google/android/gms/maps/SupportMapFragment.class
+com/siddiquinoor/restclient/activity/MainActivity$5.class
 net/danlew/android/joda/JodaTimeAndroid.class
 com/siddiquinoor/restclient/activity/sub_activity/service_sub/ServiceSpecification$10.class
 android/support/v4/media/session/MediaSessionCompat$Callback.class
@@ -1438,6 +1440,7 @@ com/siddiquinoor/restclient/activity/ServiceActivity$9.class
 com/siddiquinoor/restclient/views/notifications/AlertDialogManager.class
 com/google/android/gms/internal/zzby.class
 com/google/android/gms/location/places/personalized/PlaceAlias.class
+com/siddiquinoor/restclient/data_model/adapters/GPSLocationLatLong.class
 android/support/v4/widget/MaterialProgressDrawable$ProgressDrawableSize.class
 com/siddiquinoor/restclient/data_model/VillageItem.class
 android/support/v7/widget/LinearLayoutCompat$DividerMode.class
@@ -1555,7 +1558,6 @@ com/siddiquinoor/restclient/activity/sub_activity/summary_sub/SummaryServiceOrDi
 com/google/android/gms/auth/api/signin/internal/zzk.class
 android/support/annotation/RequiresPermission$Write.class
 com/siddiquinoor/restclient/activity/sub_activity/register_sub/RegisterMember$3.class
-com/siddiquinoor/restclient/views/adapters/GPSLocationLatLong.class
 com/siddiquinoor/restclient/activity/sub_activity/summary_sub/Summary$3.class
 android/support/v7/view/ActionMode.class
 org/osmdroid/tileprovider/tilesource/ITileSource.class
@@ -1682,6 +1684,7 @@ com/google/android/gms/internal/zzfe.class
 android/support/v7/widget/SimpleItemAnimator.class
 com/siddiquinoor/restclient/activity/sub_activity/training/AddTaParticipaintActivity$7.class
 com/siddiquinoor/restclient/activity/ServiceActivity$ServiceDataListAdapter.class
+com/siddiquinoor/restclient/activity/sub_activity/summary_sub/SummaryAssignCriteria$LoadListView.class
 android/support/v7/app/ActionBar$LayoutParams.class
 com/siddiquinoor/restclient/activity/LoginActivity$55.class
 com/google/firebase/messaging/zzb.class
@@ -1701,6 +1704,7 @@ com/siddiquinoor/restclient/activity/sub_activity/service_sub/ServiceVoucherDeta
 com/siddiquinoor/restclient/views/notifications/ADNotificationManager.class
 android/support/annotation/UiThread.class
 com/google/android/gms/ads/internal/zzr.class
+com/siddiquinoor/restclient/activity/sub_activity/summary_sub/SummaryAssignBaseCriteria$LoadListView.class
 com/google/android/gms/ads/internal/client/zzo.class
 com/siddiquinoor/restclient/activity/sub_activity/service_sub/ServiceSpecification$8.class
 com/google/android/gms/auth/api/signin/RevocationBoundService.class

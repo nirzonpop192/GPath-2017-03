@@ -22,7 +22,7 @@ public class SummaryCriteriaListAdapter extends BaseAdapter {
 
     private Activity activity;
     private LayoutInflater inflater;
-    ArrayList<SummaryCriteriaModel> criteriaData = new ArrayList<SummaryCriteriaModel>();
+    ArrayList<SummaryCriteriaModel> criteriaData = new ArrayList<>();
     ViewHolder holder;
     private String countryId;
     private String donorId;
