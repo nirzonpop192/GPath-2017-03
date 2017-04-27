@@ -30,7 +30,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.siddiquinoor.restclient.R;
-import com.siddiquinoor.restclient.activity.AllSummaryActivity;
+import com.siddiquinoor.restclient.activity.SummaryMenuActivity;
 import com.siddiquinoor.restclient.activity.OldAssignActivity;
 import com.siddiquinoor.restclient.activity.DistributionActivity;
 import com.siddiquinoor.restclient.activity.MainActivity;
@@ -41,8 +41,6 @@ import com.siddiquinoor.restclient.manager.SQLiteHandler;
 import com.siddiquinoor.restclient.utils.KEY;
 import com.siddiquinoor.restclient.data_model.RegN_MM_libDataModel;
 import com.siddiquinoor.restclient.manager.sqlsyntax.SQLServerSyntaxGenerator;
-import com.siddiquinoor.restclient.manager.sqlsyntax.SQLiteQuery;
-import com.siddiquinoor.restclient.views.helper.SpinnerHelper;
 import com.siddiquinoor.restclient.views.notifications.ADNotificationManager;
 
 import java.io.ByteArrayOutputStream;
@@ -51,7 +49,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 import java.util.Locale;
 
 public class RegisterMemberLiberia extends BaseActivity implements View.OnClickListener {
@@ -1452,7 +1449,7 @@ public class RegisterMemberLiberia extends BaseActivity implements View.OnClickL
                         break;
                     case 4:
                         finish();
-                        intent = new Intent(RegisterMemberLiberia.this,AllSummaryActivity.class);
+                        intent = new Intent(RegisterMemberLiberia.this,SummaryMenuActivity.class);
                         intent.putExtra(KEY.COUNTRY_ID,sqlH.selectCountryCode());
                         startActivity(intent);
                         break;

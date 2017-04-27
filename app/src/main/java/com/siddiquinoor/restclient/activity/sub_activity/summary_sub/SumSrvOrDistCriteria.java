@@ -163,7 +163,7 @@ public class SumSrvOrDistCriteria extends BaseActivity implements AdapterView.On
         }
 
         if (flag.equals(KEY.DIST_FLAG)) {
-            tvPageTitle.setText("Summary");
+            tvPageTitle.setText("SumRegLay4TotalHHRecords");
 
         }
 
@@ -183,7 +183,7 @@ public class SumSrvOrDistCriteria extends BaseActivity implements AdapterView.On
 
         rl_dist_table_title= (RelativeLayout) findViewById(R.id.dist_table_title);
         ll_table_title= (LinearLayout) findViewById(R.id.table_title);
-        btn_sammary.setText("Service Summary");
+        btn_sammary.setText("Service SumRegLay4TotalHHRecords");
 
         setUpGoBackButton();
         setUpHomeButton();
@@ -505,7 +505,7 @@ public class SumSrvOrDistCriteria extends BaseActivity implements AdapterView.On
 
 
     /**
-     * LOAD :: Summary of Criteria for Service
+     * LOAD :: SumRegLay4TotalHHRecords of Criteria for Service
      */
     public void loadServiceSummaryCriteriaList(String idCountry, String idDonor, String idAwarad, String idOpMonth, String idProg,String distFlag, String srvDistFlag) {
         Log.d(TAG, "In load service List ");

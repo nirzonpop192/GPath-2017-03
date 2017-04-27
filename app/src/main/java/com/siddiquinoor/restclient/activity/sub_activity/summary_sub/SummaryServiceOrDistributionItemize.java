@@ -168,7 +168,7 @@ public class SummaryServiceOrDistributionItemize extends BaseActivity implements
 
 
     /**
-     * LOAD :: Summary of Criteria
+     * LOAD :: SumRegLay4TotalHHRecords of Criteria
      */
     public void loadServiceSummaryCriteriaList(String idCountry, String idDonor, String idAwarad, String idOpMonth, String idProg, String srvDistFlag) {
         Log.d(TAG, "In load service List ");

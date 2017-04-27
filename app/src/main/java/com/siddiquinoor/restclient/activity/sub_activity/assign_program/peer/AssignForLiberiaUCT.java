@@ -19,7 +19,7 @@ import android.widget.Toast;
 //import android.widget.Toast;
 
 import com.siddiquinoor.restclient.R;
-import com.siddiquinoor.restclient.activity.AllSummaryActivity;
+import com.siddiquinoor.restclient.activity.SummaryMenuActivity;
 import com.siddiquinoor.restclient.activity.AssignActivity;
 import com.siddiquinoor.restclient.activity.DistributionActivity;
 import com.siddiquinoor.restclient.activity.MainActivity;
@@ -400,7 +400,7 @@ public class AssignForLiberiaUCT extends BaseActivity implements View.OnClickLis
         btnHome = (Button) findViewById(R.id.btnHomeFooter);
         btnHome.setText("Go To ");
         btnSummary = (Button) findViewById(R.id.btnRegisterFooter);
-        btnSummary.setText("Summary");
+        btnSummary.setText("SumRegLay4TotalHHRecords");
 
         choiceGroup = (RadioGroup) findViewById(R.id.choice_uct);
 
@@ -662,7 +662,7 @@ public class AssignForLiberiaUCT extends BaseActivity implements View.OnClickLis
                         break;
                     case 3:
                         finish();
-                        intent = new Intent(AssignForLiberiaUCT.this,AllSummaryActivity.class);
+                        intent = new Intent(AssignForLiberiaUCT.this,SummaryMenuActivity.class);
                         intent.putExtra(KEY.COUNTRY_ID,sqlH.selectCountryCode());
                         startActivity(intent);
                         break;

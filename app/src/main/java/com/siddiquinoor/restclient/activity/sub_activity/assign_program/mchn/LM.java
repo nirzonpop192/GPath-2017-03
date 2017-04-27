@@ -20,7 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 //import android.widget.Toast;
 
-import com.siddiquinoor.restclient.activity.AllSummaryActivity;
+import com.siddiquinoor.restclient.activity.SummaryMenuActivity;
 import com.siddiquinoor.restclient.activity.AssignActivity;
 import com.siddiquinoor.restclient.activity.MainActivity;
 import com.siddiquinoor.restclient.R;
@@ -168,7 +168,7 @@ public class LM extends BaseActivity {
 
     private void goToSummaryPage() {
 
-        Intent iAssignSummary = new Intent(mContext, AllSummaryActivity.class);
+        Intent iAssignSummary = new Intent(mContext, SummaryMenuActivity.class);
         iAssignSummary.putExtra(KEY.COUNTRY_ID, assignMem.getCountryCode());
         finish();
 

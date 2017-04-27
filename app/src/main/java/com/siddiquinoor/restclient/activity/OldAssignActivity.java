@@ -7,7 +7,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 
-import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -285,7 +284,7 @@ public class OldAssignActivity extends BaseActivity implements AdapterView.OnIte
                 goToAlert();
                 break;
             case R.id.btnRegisterFooter:
-                Intent iSummary = new Intent(mcontext, AllSummaryActivity.class);
+                Intent iSummary = new Intent(mcontext, SummaryMenuActivity.class);
                 iSummary.putExtra(KEY.COUNTRY_ID, idCountry);
                 startActivity(iSummary);
                 break;
@@ -692,7 +691,7 @@ public class OldAssignActivity extends BaseActivity implements AdapterView.OnIte
                         break;
                     case 3:
                         finish();
-                        intent = new Intent(OldAssignActivity.this, AllSummaryActivity.class);
+                        intent = new Intent(OldAssignActivity.this, SummaryMenuActivity.class);
                         intent.putExtra(KEY.COUNTRY_ID, sqlH.selectCountryCode());
                         startActivity(intent);
                         break;

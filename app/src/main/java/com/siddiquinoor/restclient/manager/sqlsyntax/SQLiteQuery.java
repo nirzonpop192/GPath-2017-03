@@ -4453,29 +4453,32 @@ public class SQLiteQuery {
     }
 
     public static String loadLayR4CodeForRegisterRecordView_sql(String cCode) {
-        return "SELECT " + " v." + SQLiteHandler.COUNTRY_CODE_COL + " || '' ||  v." + SQLiteHandler.LAY_R1_LIST_CODE_COL + " || '' || v." + SQLiteHandler.LAY_R2_LIST_CODE_COL + " || '' || v." +
-                SQLiteHandler.LAY_R3_LIST_CODE_COL + " || '' || v." + SQLiteHandler.LAY_R4_LIST_CODE_COL + " AS v_code," +
-                " v." + SQLiteHandler.VILLAGE_NAME_COL + " AS Vill_Name " +
-                     /*   " COUNT("+PID_COL+") AS records"*/" FROM " + SQLiteHandler.VILLAGE_TABLE + " AS v" +
-                " LEFT JOIN " + SQLiteHandler.REGISTRATION_TABLE + " AS r" +
-                " ON r." + SQLiteHandler.COUNTRY_CODE_COL + "= v." + SQLiteHandler.COUNTRY_CODE_COL + " AND " +
-                "r." + SQLiteHandler.DISTRICT_NAME_COL + "= v." + SQLiteHandler.LAY_R1_LIST_CODE_COL + " AND " +
-                "r." + SQLiteHandler.UPZILLA_NAME_COL + "= v." + SQLiteHandler.LAY_R2_LIST_CODE_COL + " AND " +
-                "r." + SQLiteHandler.UNITE_NAME_COL + "= v." + SQLiteHandler.LAY_R3_LIST_CODE_COL + " AND " +
-                "r." + SQLiteHandler.VILLAGE_NAME_COL + "= v." + SQLiteHandler.LAY_R4_LIST_CODE_COL +
-                " Inner join " + SQLiteHandler.SELECTED_VILLAGE_TABLE + " AS s"
-                + " on " + " s." + SQLiteHandler.COUNTRY_CODE_COL + "= v." + SQLiteHandler.COUNTRY_CODE_COL + " AND " +
-                "s." + SQLiteHandler.LAY_R1_LIST_CODE_COL + "= v." + SQLiteHandler.LAY_R1_LIST_CODE_COL + " AND " +
-                "s." + SQLiteHandler.LAY_R2_LIST_CODE_COL + "= v." + SQLiteHandler.LAY_R2_LIST_CODE_COL + " AND " +
-                "s." + SQLiteHandler.LAY_R3_LIST_CODE_COL + "= v." + SQLiteHandler.LAY_R3_LIST_CODE_COL + " AND " +
-                "s." + SQLiteHandler.LAY_R4_LIST_CODE_COL + "= v." + SQLiteHandler.LAY_R4_LIST_CODE_COL +
+        return "SELECT " + " v." + COUNTRY_CODE_COL
+                + " || '' ||  v." + LAY_R1_LIST_CODE_COL
+                + " || '' || v." + LAY_R2_LIST_CODE_COL
+                + " || '' || v." + LAY_R3_LIST_CODE_COL
+                + " || '' || v." + LAY_R4_LIST_CODE_COL + " AS v_code," +
+                " v." + VILLAGE_NAME_COL + " AS Vill_Name " +
+                     /*   " COUNT("+PID_COL+") AS records"*/" FROM " + VILLAGE_TABLE + " AS v" +
+                " LEFT JOIN " + REGISTRATION_TABLE + " AS r" +
+                " ON r." + COUNTRY_CODE_COL + "= v." + COUNTRY_CODE_COL + " AND " +
+                "r." + DISTRICT_NAME_COL + "= v." + LAY_R1_LIST_CODE_COL + " AND " +
+                "r." + UPZILLA_NAME_COL + "= v." + LAY_R2_LIST_CODE_COL + " AND " +
+                "r." + UNITE_NAME_COL + "= v." + LAY_R3_LIST_CODE_COL + " AND " +
+                "r." + VILLAGE_NAME_COL + "= v." + LAY_R4_LIST_CODE_COL +
+                " Inner join " + SELECTED_VILLAGE_TABLE + " AS s"
+                + " on " + " s." + COUNTRY_CODE_COL + "= v." + COUNTRY_CODE_COL + " AND " +
+                "s." + LAY_R1_LIST_CODE_COL + "= v." + LAY_R1_LIST_CODE_COL + " AND " +
+                "s." + LAY_R2_LIST_CODE_COL + "= v." + LAY_R2_LIST_CODE_COL + " AND " +
+                "s." + LAY_R3_LIST_CODE_COL + "= v." + LAY_R3_LIST_CODE_COL + " AND " +
+                "s." + LAY_R4_LIST_CODE_COL + "= v." + LAY_R4_LIST_CODE_COL +
 
-                " WHERE v." + SQLiteHandler.COUNTRY_CODE_COL + "='" + cCode + "'" + /** send the no of village for selected country added by Faisal Mohammad*/
-                "  GROUP BY v." + SQLiteHandler.COUNTRY_CODE_COL +
-                ",v." + SQLiteHandler.LAY_R1_LIST_CODE_COL +
-                ",v." + SQLiteHandler.LAY_R2_LIST_CODE_COL +
-                ",v." + SQLiteHandler.LAY_R3_LIST_CODE_COL +
-                ",v." + SQLiteHandler.LAY_R4_LIST_CODE_COL;
+                " WHERE v." + COUNTRY_CODE_COL + "='" + cCode + "'" + /** send the no of village for selected country added by Faisal Mohammad*/
+                "  GROUP BY v." + COUNTRY_CODE_COL +
+                ",v." + LAY_R1_LIST_CODE_COL +
+                ",v." + LAY_R2_LIST_CODE_COL +
+                ",v." + LAY_R3_LIST_CODE_COL +
+                ",v." + LAY_R4_LIST_CODE_COL;
 
     }
 
@@ -4527,13 +4530,13 @@ public class SQLiteQuery {
     public static String loadTaSummaryOrganization_sql(final String cCode, final String eventCode) {
         return " select  " + TA_PART_ORG_N_TABLE + "." + PART_ORG_N_CODE_COL + " AS code "
                 + " , " + TA_PART_ORG_N_TABLE + "." + PART_ORG_N_NAME_COL + " AS title " +
-                "    , " + "   (Select   count( distinct "+TA_PARTICIPANTS_LIST_TABLE + "." + PART_ORG_N_CODE_COL+")  " +
+                "    , " + "   (Select   count( distinct " + TA_PARTICIPANTS_LIST_TABLE + "." + PART_ORG_N_CODE_COL + ")  " +
                 " from " + TA_PARTICIPANTS_LIST_TABLE
                 + " where " + TA_PARTICIPANTS_LIST_TABLE + "." + COUNTRY_CODE_COL + "='" + cCode + "' " +
                 "    and  " + TA_PARTICIPANTS_LIST_TABLE + "." + EVENT_CODE_COL + " = '" + eventCode + "'  " +
                 "   and " + TA_PARTICIPANTS_LIST_TABLE + "." + PART_ORG_N_CODE_COL + " = " + TA_PART_ORG_N_TABLE + "." + PART_ORG_N_CODE_COL +
 
-                 " )  AS count " +
+                " )  AS count " +
                 "    from " + TA_PARTICIPANTS_LIST_TABLE + " " +
                 "    inner join " + TA_PART_ORG_N_TABLE + "  ON " +
                 "    " + TA_PART_ORG_N_TABLE + "." + COUNTRY_CODE_COL + " = " + TA_PARTICIPANTS_LIST_TABLE + "." + COUNTRY_CODE_COL + " " +
@@ -4547,7 +4550,7 @@ public class SQLiteQuery {
     public static String loadTaSummaryCategory_sql(final String cCode, final String eventCode) {
         return " select " + TA_CATEGORY_TABLE + "." + TA_CAT_CODE_COL + " AS code "
                 + " , " + TA_CATEGORY_TABLE + "." + TA_CAT_NAME_COL + " AS title " +
-                "    , " + "   (Select count( distinct "+TA_PARTICIPANTS_LIST_TABLE + "." + PART_CAT_CODE_COL+" )  from " + TA_PARTICIPANTS_LIST_TABLE + " where " + TA_PARTICIPANTS_LIST_TABLE + "." + COUNTRY_CODE_COL + "='" + cCode + "' " +
+                "    , " + "   (Select count( distinct " + TA_PARTICIPANTS_LIST_TABLE + "." + PART_CAT_CODE_COL + " )  from " + TA_PARTICIPANTS_LIST_TABLE + " where " + TA_PARTICIPANTS_LIST_TABLE + "." + COUNTRY_CODE_COL + "='" + cCode + "' " +
                 "    and  " + TA_PARTICIPANTS_LIST_TABLE + "." + EVENT_CODE_COL + " = '" + eventCode + "'  " +
                 "   and " + TA_PARTICIPANTS_LIST_TABLE + "." + PART_CAT_CODE_COL + " = " + TA_CATEGORY_TABLE + "." + TA_CAT_CODE_COL + " )  AS count " +
                 "    from " + TA_PARTICIPANTS_LIST_TABLE + " " +
@@ -4562,7 +4565,7 @@ public class SQLiteQuery {
     public static String loadTaSummaryPosition_sql(final String cCode, final String eventCode) {
         return " select " + TA_POS_PARTICIPANTS_TABLE + "." + POS_CODE_COL + " AS code "
                 + " , " + TA_POS_PARTICIPANTS_TABLE + "." + POS_TITLE_COL + " AS title " +
-                "    , " + "   (Select count( distinct "+ TA_PARTICIPANTS_LIST_TABLE + "." + POS_CODE_COL +" )  from " + TA_PARTICIPANTS_LIST_TABLE + " where " + TA_PARTICIPANTS_LIST_TABLE + "." + COUNTRY_CODE_COL + "='" + cCode + "' " +
+                "    , " + "   (Select count( distinct " + TA_PARTICIPANTS_LIST_TABLE + "." + POS_CODE_COL + " )  from " + TA_PARTICIPANTS_LIST_TABLE + " where " + TA_PARTICIPANTS_LIST_TABLE + "." + COUNTRY_CODE_COL + "='" + cCode + "' " +
                 "    and  " + TA_PARTICIPANTS_LIST_TABLE + "." + EVENT_CODE_COL + " = '" + eventCode + "'  " +
                 "   and " + TA_PARTICIPANTS_LIST_TABLE + "." + POS_CODE_COL + " = " + TA_POS_PARTICIPANTS_TABLE + "." + POS_CODE_COL + " )  AS count " +
                 "    from " + TA_PARTICIPANTS_LIST_TABLE + " " +
@@ -4580,15 +4583,13 @@ public class SQLiteQuery {
 
         return " select " + SEX_COL + " AS code "
                 + " ,  CASE WHEN " + SEX_COL + " = 'F' THEN 'Female' ELSE 'Male' END  AS title " +
-                "    , " + "  count( distinct "+ SEX_COL+" ) AS count "+
+                "    , " + "  count( distinct " + SEX_COL + " ) AS count " +
                 "    from " + TA_PARTICIPANTS_LIST_TABLE + " " +
                 "    where " + TA_PARTICIPANTS_LIST_TABLE + "." + COUNTRY_CODE_COL + " = '" + cCode + "' " +
                 "    and  " + TA_PARTICIPANTS_LIST_TABLE + "." + EVENT_CODE_COL + " = '" + eventCode + "' " +
-                " and " + SEX_COL + " =  case when "+SEX_COL+" = 'M' then 'M' else 'F' end " +
+                " and " + SEX_COL + " =  case when " + SEX_COL + " = 'M' then 'M' else 'F' end " +
                 "    group by  code ";
     }
-
-
 
 
     public static String loadTaSummarySession_sql(final String cCode, final String eventCode) {
@@ -4601,11 +4602,11 @@ public class SQLiteQuery {
 
         return " select " + AM_SESSION_COL + " AS code "
                 + " ,  CASE WHEN " + AM_SESSION_COL + " = '1' THEN 'AM' ELSE 'PM' END  AS title " +
-                "    , " + "  count(*) AS count "+
+                "    , " + "  count(*) AS count " +
                 "    from " + TA_PARTICIPANTS_LIST_TABLE + " " +
                 "    where " + TA_PARTICIPANTS_LIST_TABLE + "." + COUNTRY_CODE_COL + " = '" + cCode + "' " +
                 "    and  " + TA_PARTICIPANTS_LIST_TABLE + "." + EVENT_CODE_COL + " = '" + eventCode + "' " +
-           //     " and " + SEX_COL + " =  case when "+SEX_COL+" = 'M' then 'M' else 'F' end " +
+                //     " and " + SEX_COL + " =  case when "+SEX_COL+" = 'M' then 'M' else 'F' end " +
                 "    group by  title ";
     }
 

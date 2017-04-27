@@ -36,7 +36,7 @@ public class SummaryServiceOrDistributionItemizeAttendance extends BaseActivity 
     private final String TAG = "SummaryServiceItemizeAttendance";
     private SQLiteHandler sqlH;
     // private  int position;
-    private Spinner spItemName;// spinner Criteria Summary
+    private Spinner spItemName;// spinner Criteria SumRegLay4TotalHHRecords
     private String idItemSpec;
     private String strItemSpec;
     private boolean isComeThroughIntent;

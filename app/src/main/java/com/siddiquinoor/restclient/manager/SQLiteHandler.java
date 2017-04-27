@@ -5226,7 +5226,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
      * @since : 2015-10-15 m:2015-10-19
      * <p/>
      * <p/>
-     * this method load Assign  Criteria for Assigne Summary Criteria
+     * this method load Assign  Criteria for Assigne SumRegLay4TotalHHRecords Criteria
      */
 
     public List<SummaryCriteriaModel> getAssignCriteriaList(String cCode, String distCode, String upCode, String unCode, String vCode, String donorCode, String awardCode, String progCode) {//, String opMCode) {
@@ -5817,7 +5817,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
         db.close();
     }/*REG_N_AGR_TABLE*/
 
-    /* this method load Service  Criteria for Service Summary Criteria  or Distribution */
+    /* this method load Service  Criteria for Service SumRegLay4TotalHHRecords Criteria  or Distribution */
     public List<SummaryCriteriaModel> getServiceSummaryCriteriaList(String cCode, String donorCode, String awardCord, String opMCode, String progCode, String distFlag) {
         List<SummaryCriteriaModel> criteriaList = new ArrayList<SummaryCriteriaModel>();//List<SummaryCriteriaModel>();
 

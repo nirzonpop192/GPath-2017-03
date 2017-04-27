@@ -35,7 +35,7 @@ public class SumSrvOrDistAttendance extends BaseActivity {
     private final String TAG = SumSrvOrDistAttendance.class.getName();
     private SQLiteHandler sqlH;
     // private  int position;
-    private Spinner spCriteriaS;// spinner Criteria Summary
+    private Spinner spCriteriaS;// spinner Criteria SumRegLay4TotalHHRecords
     private String idCriteria;
     private String strCriteria;
     private boolean isComeThroughIntent;

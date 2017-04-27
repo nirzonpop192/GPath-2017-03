@@ -17,7 +17,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.siddiquinoor.restclient.activity.AllSummaryActivity;
+import com.siddiquinoor.restclient.activity.SummaryMenuActivity;
 import com.siddiquinoor.restclient.activity.MainActivity;
 import com.siddiquinoor.restclient.R;
 import com.siddiquinoor.restclient.activity.ServiceActivity;
@@ -117,7 +117,7 @@ public class ServiceRecordDetails extends BaseActivity implements AdapterView.On
             @Override
             public void onClick(View v) {
                 finish();
-                startActivity(new Intent(mcontext, AllSummaryActivity.class));
+                startActivity(new Intent(mcontext, SummaryMenuActivity.class));
             }
         });
         btnGoToService.setOnClickListener(new View.OnClickListener() {

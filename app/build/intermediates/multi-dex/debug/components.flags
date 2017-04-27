@@ -30,7 +30,7 @@
     <init>();
 }
 
--keep class com.siddiquinoor.restclient.activity.sub_activity.summary_sub.Summary {
+-keep class com.siddiquinoor.restclient.activity.sub_activity.summary_sub.SumRegLay4TotalHHRecords {
     <init>();
 }
 
@@ -54,7 +54,7 @@
     <init>();
 }
 
--keep class com.siddiquinoor.restclient.activity.AllSummaryActivity {
+-keep class com.siddiquinoor.restclient.activity.SummaryMenuActivity {
     <init>();
 }
 

@@ -15,11 +15,9 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.wifi.WifiManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
-import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -479,7 +477,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 }
                 break;
             case R.id.btnSummaryReport:
-                Intent iSumm = new Intent(getApplicationContext(), AllSummaryActivity.class);
+                Intent iSumm = new Intent(getApplicationContext(), SummaryMenuActivity.class);
                 // // TODO: 4/4/2017  check intent  then remove the object parameter
                 iSumm.putExtra(KEY.COUNTRY_ID, idCountry);
                 iSumm.putExtra(KEY.STR_COUNTRY, strCountry);

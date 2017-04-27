@@ -264,7 +264,7 @@ public class GDistributionActivity {
             btnSummary = (Button) findViewById(R.id.btnRegisterFooter);
 
 
-            btnSummary.setText("Summary");
+            btnSummary.setText("SumRegLay4TotalHHRecords");
             mListView = (ListView) findViewById(R.id.lv_dist);
             btnDistSave = (Button) findViewById(R.id.btn_dist_save);
             btnDistQR = (Button) findViewById(R.id.btn_dist_qr);
@@ -1394,7 +1394,7 @@ public class GDistributionActivity {
                         case 1:
 
                             finish();
-                            intent = new Intent(DistributionActivity.this, AllSummaryActivity.class);
+                            intent = new Intent(DistributionActivity.this, SummaryMenuActivity.class);
                             intent.putExtra(KEY.COUNTRY_ID, sqlH.selectCountryCode());
                             startActivity(intent);
 
@@ -1415,7 +1415,7 @@ public class GDistributionActivity {
                             break;
                         case 3:
                             finish();
-                            intent = new Intent(DistributionActivity.this, AllSummaryActivity.class);
+                            intent = new Intent(DistributionActivity.this, SummaryMenuActivity.class);
                             intent.putExtra(KEY.COUNTRY_ID, sqlH.selectCountryCode());
                             startActivity(intent);
                             break;

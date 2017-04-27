@@ -14,7 +14,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.siddiquinoor.restclient.R;
-import com.siddiquinoor.restclient.activity.AllSummaryActivity;
+import com.siddiquinoor.restclient.activity.SummaryMenuActivity;
 
 import com.siddiquinoor.restclient.fragments.BaseActivity;
 import com.siddiquinoor.restclient.manager.SQLiteHandler;
@@ -65,7 +65,7 @@ public class ServiceSummaryMenu extends BaseActivity {
         flag = intent.getStringExtra(KEY.FLAG);
         String dir;
          dir=intent.getStringExtra(KEY.DIR_CLASS_NAME_KEY);
-       if(dir.equals("AllSummaryActivity")){
+       if(dir.equals("SummaryMenuActivity")){
            loadAward(idCountry);
        }
         else {
@@ -85,7 +85,7 @@ public class ServiceSummaryMenu extends BaseActivity {
             @Override
             public void onClick(View v) {
                 finish();
-                Intent iSummary = new Intent(ServiceSummaryMenu.this, AllSummaryActivity.class);
+                Intent iSummary = new Intent(ServiceSummaryMenu.this, SummaryMenuActivity.class);
                 iSummary.putExtra(KEY.COUNTRY_ID, idCountry);
                 startActivity(iSummary);
             }
@@ -110,8 +110,8 @@ public class ServiceSummaryMenu extends BaseActivity {
 
 
         if (flag.equals(KEY.DIST_FLAG)){
-            tvPageTitle.setText("Distribution Summary");
-            rbServiceSummary.setText("Summary");
+            tvPageTitle.setText("Distribution SumRegLay4TotalHHRecords");
+            rbServiceSummary.setText("SumRegLay4TotalHHRecords");
             rbServiceAttendance.setText("Distribution Attendance");
         }
 

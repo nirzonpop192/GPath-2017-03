@@ -2802,7 +2802,7 @@ ADDED from D:\WorkSpace\AndroidStudioProject\Jan-2017\GPath\GPath-LOC-02040215\a
 		ADDED from D:\WorkSpace\AndroidStudioProject\Jan-2017\GPath\GPath-LOC-02040215\app\src\main\AndroidManifest.xml:68:13-48
 	android:name
 		ADDED from D:\WorkSpace\AndroidStudioProject\Jan-2017\GPath\GPath-LOC-02040215\app\src\main\AndroidManifest.xml:67:13-46
-activity#com.siddiquinoor.restclient.activity.sub_activity.summary_sub.Summary
+activity#com.siddiquinoor.restclient.activity.sub_activity.summary_sub.SumRegLay4TotalHHRecords
 ADDED from D:\WorkSpace\AndroidStudioProject\Jan-2017\GPath\GPath-LOC-02040215\app\src\main\AndroidManifest.xml:73:9-79:55
 	android:screenOrientation
 		ADDED from D:\WorkSpace\AndroidStudioProject\Jan-2017\GPath\GPath-LOC-02040215\app\src\main\AndroidManifest.xml:78:13-49
@@ -2815,7 +2815,7 @@ ADDED from D:\WorkSpace\AndroidStudioProject\Jan-2017\GPath\GPath-LOC-02040215\a
 	android:configChanges
 		ADDED from D:\WorkSpace\AndroidStudioProject\Jan-2017\GPath\GPath-LOC-02040215\app\src\main\AndroidManifest.xml:75:13-48
 	android:name
-		ADDED from D:\WorkSpace\AndroidStudioProject\Jan-2017\GPath\GPath-LOC-02040215\app\src\main\AndroidManifest.xml:74:13-70
+		ADDED from D:\WorkSpace\AndroidStudioProject\Jan-2017\GPath\GPath-LOC-02040215\app\src\main\AndroidManifest.xml:74:13-87
 activity#com.siddiquinoor.restclient.activity.sub_activity.summary_sub.RegisterRecordView
 ADDED from D:\WorkSpace\AndroidStudioProject\Jan-2017\GPath\GPath-LOC-02040215\app\src\main\AndroidManifest.xml:80:9-86:70
 	android:screenOrientation
@@ -2882,7 +2882,7 @@ ADDED from D:\WorkSpace\AndroidStudioProject\Jan-2017\GPath\GPath-LOC-02040215\a
 		ADDED from D:\WorkSpace\AndroidStudioProject\Jan-2017\GPath\GPath-LOC-02040215\app\src\main\AndroidManifest.xml:110:13-48
 	android:name
 		ADDED from D:\WorkSpace\AndroidStudioProject\Jan-2017\GPath\GPath-LOC-02040215\app\src\main\AndroidManifest.xml:109:13-70
-activity#com.siddiquinoor.restclient.activity.AllSummaryActivity
+activity#com.siddiquinoor.restclient.activity.SummaryMenuActivity
 ADDED from D:\WorkSpace\AndroidStudioProject\Jan-2017\GPath\GPath-LOC-02040215\app\src\main\AndroidManifest.xml:113:9-117:52
 	android:screenOrientation
 		ADDED from D:\WorkSpace\AndroidStudioProject\Jan-2017\GPath\GPath-LOC-02040215\app\src\main\AndroidManifest.xml:117:13-49
@@ -2891,7 +2891,7 @@ ADDED from D:\WorkSpace\AndroidStudioProject\Jan-2017\GPath\GPath-LOC-02040215\a
 	android:configChanges
 		ADDED from D:\WorkSpace\AndroidStudioProject\Jan-2017\GPath\GPath-LOC-02040215\app\src\main\AndroidManifest.xml:115:13-48
 	android:name
-		ADDED from D:\WorkSpace\AndroidStudioProject\Jan-2017\GPath\GPath-LOC-02040215\app\src\main\AndroidManifest.xml:114:13-56
+		ADDED from D:\WorkSpace\AndroidStudioProject\Jan-2017\GPath\GPath-LOC-02040215\app\src\main\AndroidManifest.xml:114:13-57
 activity#com.siddiquinoor.restclient.activity.sub_activity.summary_sub.SumSrvOrDistCriteria
 ADDED from D:\WorkSpace\AndroidStudioProject\Jan-2017\GPath\GPath-LOC-02040215\app\src\main\AndroidManifest.xml:118:9-123:63
 	android:screenOrientation

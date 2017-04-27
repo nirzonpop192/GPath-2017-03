@@ -22,7 +22,7 @@
     <statePointEntry>
       <state      
         class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
-        className = "com.siddiquinoor.restclient.activity.sub_activity.summary_sub.Summary"/>
+        className = "com.siddiquinoor.restclient.activity.sub_activity.summary_sub.SumRegLay4TotalHHRecords"/>
       <point      
         x = "459"      
         y = "-202"/>
@@ -126,7 +126,7 @@
     <statePointEntry>
       <state      
         class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
-        className = "com.siddiquinoor.restclient.activity.AllSummaryActivity"/>
+        className = "com.siddiquinoor.restclient.activity.SummaryMenuActivity"/>
       <point      
         x = "1200"      
         y = "2820"/>

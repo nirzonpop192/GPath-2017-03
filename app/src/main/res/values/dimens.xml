@@ -50,7 +50,7 @@
 
     <!-- lable height of distribution -->
     <dimen name="lable_height">40dp</dimen>
-    <!-- Summary report lable Fore liberria -->
+    <!-- SumRegLay4TotalHHRecords report lable Fore liberria -->
     <dimen name="lable_tv_height">40dp</dimen>
     <dimen name="txt_size_list_row_15sp">15sp</dimen>
     <dimen name="txt_size_list_row_14sp">14sp</dimen>

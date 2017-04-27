@@ -6,7 +6,6 @@ import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
@@ -504,7 +503,7 @@ public class ServiceActivity extends BaseActivity implements View.OnClickListene
                 break;
             case R.id.btnRegisterFooter:
                 finish();
-                Intent iSummary = new Intent(mContext, AllSummaryActivity.class);
+                Intent iSummary = new Intent(mContext, SummaryMenuActivity.class);
                 iSummary.putExtra("ID_COUNTRY", idCountry);
                 startActivity(iSummary);
                 break;

@@ -416,7 +416,7 @@ public class SpinnerLoader {
 
     }
 
-    // // TODO: 2/13/2017   implement it on Summary page
+    // // TODO: 2/13/2017   implement it on SumRegLay4TotalHHRecords page
     public void loadLayR4CodeForRegisterRecordViewLoader(Context context, SQLiteHandler sqlH, Spinner spVillage, String cCode) {
         String criteria = "SELECT " + " v." + SQLiteHandler.COUNTRY_CODE_COL + " || '' ||  v." + LAY_R1_LIST_CODE_COL + " || '' || v." + LAY_R2_LIST_CODE_COL + " || '' || v." +
                 LAY_R3_LIST_CODE_COL + " || '' || v." + LAY_R4_LIST_CODE_COL + " AS v_code," +

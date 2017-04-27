@@ -5,7 +5,7 @@ import android.os.Parcelable;
 
 /**
  * Created by Faisal on 9/5/2016.
- * For Group Summary
+ * For Group SumRegLay4TotalHHRecords
  */
 public class SummaryGroupListDataModel implements   Parcelable {
     private String cCode;
