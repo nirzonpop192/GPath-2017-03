@@ -3,7 +3,7 @@ package com.siddiquinoor.restclient.manager;
 /**
  * This class is the Base Handler of all SQL operation
  *
- * @author Siddiqui Noor
+ * @author Siddiqui Noor, Faisal Mohammad
  * @desc Technical Director, TechnoDhaka.
  * @link www.SiddiquiNoor.com
  * @version 1.3.0
@@ -106,7 +106,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
     // All Static variables
 
     // Database Version
-    private static final int DATABASE_VERSION = 20;
+    private static final int DATABASE_VERSION = 21;
     // Database Name
     public static final String DATABASE_NAME = "pci";
     public static final String EXTERNAL_DATABASE_NAME = "pci_ex";
@@ -202,6 +202,9 @@ public class SQLiteHandler extends SQLiteOpenHelper {
     public static final String LUP_COMMUNITY_ANIMAL_TABLE = "LUP_CommnityAnimalList";
     public static final String LUP_PROG_GROUP_CROP_TABLE = "LUP_ProgGroupCropList";
     public static final String LUP_COMMUNITY_LOAN_SOURCE_TABLE = "LUP_CommnityLoanSource";
+    public static final String LUP_COMMUNITY_FUND_SOURCE_TABLE = "LUP_CommnityFundSource";
+    public static final String LUP_COMMUNITY_IRRIGATION_SYSTEM_TABLE = "LUP_CommunityIrrigationSystem";
+
     public static final String REG_N_MEM_PROG_GRP_TABLE = "RegNMemProgGrp";
     public static final String COMMUNITY_GROUP_CATEGORY_TABLE = "CommunityGroupCategory";
     public static final String DTQRES_MODE_TABLE = "DTQResMode";
@@ -974,11 +977,19 @@ public class SQLiteHandler extends SQLiteOpenHelper {
      * LUP_COMMUNITY_LOAN_SOURCE_TABLE FOR COLMN
      */
     public static final String LOAN_CODE_COL = "LoanCode";
+    public static final String FUND_CODE_COL = "FundCode";
+    public static final String FUND_SOURCE_COL = "FundSource";
+
+    public static final String IRRI_SYS_CODE_COL = "IrriSysCode";
+    public static final String IRRI_SYS_NAME_COL = "IrriSysName";
 
     /**
      * LUP_COMMUNITY_LEAD_POSITION_TABLE FOR COLMN
      */
-    public static final String LEAD_POSITION_COL = "LoanCode";
+    /**
+     * {@link #LUP_COMMUNITY_LEAD_POSITION_TABLE 's  column }
+     */
+    public static final String LEAD_POSITION_COL = "LeadPosition";
 
 
     public static final String CONTENT_CODE_COL = "ContentCode";
@@ -1152,7 +1163,9 @@ public class SQLiteHandler extends SQLiteOpenHelper {
         db.execSQL(DROP_TABLE_IF_EXISTS + LUP_COMMUNITY_ANIMAL_TABLE);
         db.execSQL(DROP_TABLE_IF_EXISTS + LUP_PROG_GROUP_CROP_TABLE);
         db.execSQL(DROP_TABLE_IF_EXISTS + LUP_COMMUNITY_LOAN_SOURCE_TABLE);
+        db.execSQL(DROP_TABLE_IF_EXISTS + LUP_COMMUNITY_FUND_SOURCE_TABLE);
         db.execSQL(DROP_TABLE_IF_EXISTS + LUP_COMMUNITY_LEAD_POSITION_TABLE);
+        db.execSQL(DROP_TABLE_IF_EXISTS + LUP_COMMUNITY_IRRIGATION_SYSTEM_TABLE);
         db.execSQL(DROP_TABLE_IF_EXISTS + REG_N_MEM_PROG_GRP_TABLE);
         db.execSQL(DROP_TABLE_IF_EXISTS + COMMUNITY_GROUP_CATEGORY_TABLE);
         db.execSQL(DROP_TABLE_IF_EXISTS + GPS_LOCATION_CONTENT_TABLE);
@@ -1202,6 +1215,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
         db.execSQL(DROP_TABLE_IF_EXISTS + LAST_SYNC_TYRACE_TABLE);
         db.execSQL(DROP_TABLE_IF_EXISTS + LUP_SRV_OPTION_LIST_TABLE);
         db.execSQL(DROP_TABLE_IF_EXISTS + LUP_REGN_ADDRESS_LOOKUP_TABLE);
+
 
     }
 
@@ -1281,12 +1295,14 @@ public class SQLiteHandler extends SQLiteOpenHelper {
         db.execSQL(Schema.sqlCreateLUP_CommunityAnimalList_Table());
         db.execSQL(Schema.sqlCreateLUP_ProgramGroupCrop_Table());
         db.execSQL(Schema.sqlCreateLUP_CommunityLoanSource_Table());
+        db.execSQL(Schema.sqlCreateLUP_CommunityFundSource_Table());
         db.execSQL(Schema.sqlCreateLUP_CommunityLeadPosition_Table());
+        db.execSQL(Schema.sqlCreateLUP_CommunityIrrigationSystem_Table());
         db.execSQL(Schema.sqlCreateRegNmemProgGrp_Table());
         db.execSQL(Schema.sqlCreateCommunityGroupCategoryes_Table());
         db.execSQL(Schema.sqlCreate_Gps_Location_Content_Table());
-        // TODO: 11/13/2016  redesign  last sync time
-        db.execSQL(Schema.createTableLastSyncTime());
+
+        db.execSQL(Schema.createTableLastSyncTime());                                               // TODO: 11/13/2016  redesign  last sync time
         db.execSQL(Schema.createTableRegN_FFA());
         db.execSQL(Schema.createTableRegN_WE());
         db.execSQL(Schema.sqlCreateDistNPlanBasic());
@@ -1295,7 +1311,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
         db.execSQL(Schema.createTableProgOrgNRole());
         db.execSQL(Schema.createTableProgOrgN());
         db.execSQL(Schema.sqlCreateLUP_GpsList());
-        db.execSQL(Schema.createTableDTATable()); /**         * for Dynamic Module         */
+        db.execSQL(Schema.createTableDTATable());                                                   // for Dynamic Module         */
         db.execSQL(Schema.createTableDTBasic());
         db.execSQL(Schema.createTableDTCategory());
         db.execSQL(Schema.createTableDTCountryProgram());
@@ -1409,7 +1425,9 @@ public class SQLiteHandler extends SQLiteOpenHelper {
             db.execSQL(DROP_TABLE_IF_EXISTS + LUP_COMMUNITY_ANIMAL_TABLE);
             db.execSQL(DROP_TABLE_IF_EXISTS + LUP_PROG_GROUP_CROP_TABLE);
             db.execSQL(DROP_TABLE_IF_EXISTS + LUP_COMMUNITY_LOAN_SOURCE_TABLE);
+            db.execSQL(DROP_TABLE_IF_EXISTS + LUP_COMMUNITY_FUND_SOURCE_TABLE);
             db.execSQL(DROP_TABLE_IF_EXISTS + LUP_COMMUNITY_LEAD_POSITION_TABLE);
+            db.execSQL(DROP_TABLE_IF_EXISTS + LUP_COMMUNITY_IRRIGATION_SYSTEM_TABLE);
             db.execSQL(DROP_TABLE_IF_EXISTS + REG_N_MEM_PROG_GRP_TABLE);
             db.execSQL(DROP_TABLE_IF_EXISTS + COMMUNITY_GROUP_CATEGORY_TABLE);
             db.execSQL(DROP_TABLE_IF_EXISTS + GPS_LOCATION_CONTENT_TABLE);
@@ -1633,7 +1651,9 @@ public class SQLiteHandler extends SQLiteOpenHelper {
             db.delete(LUP_COMMUNITY_ANIMAL_TABLE, null, null);
             db.delete(LUP_PROG_GROUP_CROP_TABLE, null, null);
             db.delete(LUP_COMMUNITY_LOAN_SOURCE_TABLE, null, null);
+            db.delete(LUP_COMMUNITY_FUND_SOURCE_TABLE, null, null);
             db.delete(LUP_COMMUNITY_LEAD_POSITION_TABLE, null, null);
+            db.delete(LUP_COMMUNITY_IRRIGATION_SYSTEM_TABLE, null, null);
             db.delete(REG_N_MEM_PROG_GRP_TABLE, null, null);
             db.delete(COMMUNITY_GROUP_CATEGORY_TABLE, null, null);
             db.delete(GPS_LOCATION_CONTENT_TABLE, null, null);
@@ -1867,7 +1887,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
 
         flag = (cursor.getCount() > 0);
 
-        if(cursor !=null)
+        if (cursor != null)
             cursor.close();
 
         db.close();
@@ -2361,7 +2381,6 @@ public class SQLiteHandler extends SQLiteOpenHelper {
         values.put(CROP_CAT_COL, cropCatCode);
 
 
-        //  long id =
         db.insert(LUP_PROG_GROUP_CROP_TABLE, null, values);
         db.close();
 
@@ -2382,6 +2401,43 @@ public class SQLiteHandler extends SQLiteOpenHelper {
         values.put(LOAN_SOURCE_COL, loanSource);
 
         db.insert(LUP_COMMUNITY_LOAN_SOURCE_TABLE, null, values);
+        db.close();
+
+
+    }
+
+    public void addLUP_CommunityFundSource(String cCode, String donorCode, String awardCode,
+                                           String progCode, String fundCode, String fundSource) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(COUNTRY_CODE_COL, cCode);
+        values.put(DONOR_CODE_COL, donorCode);
+        values.put(AWARD_CODE_COL, awardCode);
+        values.put(PROGRAM_CODE_COL, progCode);
+        values.put(FUND_CODE_COL, fundCode);
+        values.put(FUND_SOURCE_COL, fundSource);
+
+        db.insert(LUP_COMMUNITY_FUND_SOURCE_TABLE, null, values);
+        db.close();
+
+
+    }
+
+
+    public void addLUP_CommunityIrrigationSystem(String cCode, String donorCode, String awardCode,
+                                           String progCode, String irriSysCode, String irriSystemName) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(COUNTRY_CODE_COL, cCode);
+        values.put(DONOR_CODE_COL, donorCode);
+        values.put(AWARD_CODE_COL, awardCode);
+        values.put(PROGRAM_CODE_COL, progCode);
+        values.put(IRRI_SYS_CODE_COL, irriSysCode);
+        values.put(IRRI_SYS_NAME_COL, irriSystemName);
+
+        db.insert(LUP_COMMUNITY_IRRIGATION_SYSTEM_TABLE, null, values);
         db.close();
 
 
@@ -6649,15 +6705,15 @@ public class SQLiteHandler extends SQLiteOpenHelper {
     }
 
 
-    public long insertIntoProgOrgN(String OrgNCode, String orgNName, String orgNShortName) {
+    public void insertIntoProgOrgN(String OrgNCode, String orgNName, String orgNShortName) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(ORG_CODE_COL, OrgNCode);
         values.put(ORGANIZATION_NAME, orgNName);
         values.put(ORGANIZATION_SHORT_NAME, orgNShortName);
-        long id = db.insert(PROGRAM_ORGANIZATION_NAME_TABLE, null, values);
+        db.insert(PROGRAM_ORGANIZATION_NAME_TABLE, null, values);
 //        Log.d(TAG, "NEW Insert into " + PROGRAM_ORGANIZATION_NAME_TABLE + " Table: " + id);
-        return id;
+//        return id;
     }
 
 
@@ -7023,48 +7079,26 @@ public class SQLiteHandler extends SQLiteOpenHelper {
 
     /**
      * Todo: use it in assgne  get_MemOthCriteriaLive
-     *
-     * @param cCode
-     * @param distCode
-     * @param upCode
-     * @param unCode
-     * @param vCode
-     * @param hhId
-     * @param mmId
-     * @param donorCode
-     * @param awardCode
-     * @param progCode
-     * @param srvCode
-     * @return
      */
 
-    public boolean get_MemOthCriteriaLive(String cCode, String distCode, String upCode, String unCode, String vCode, String hhId, String mmId, String donorCode, String awardCode, String progCode, String srvCode) {
+    public boolean get_MemOthCriteriaLive(String cCode, String distCode, String upCode,
+                                          String unCode, String vCode, String hhId, String mmId,
+                                          String donorCode, String awardCode, String progCode,
+                                          String srvCode) {
         boolean memHave = false;
         SQLiteDatabase db = this.getReadableDatabase();
-        String sql = "SELECT " + HH_MEM_ID +
-                " FROM " + REG_N_ASSIGN_PROG_SRV_TABLE +
-                " WHERE " + COUNTRY_CODE_COL + " = '" + cCode + "' " +
-                " AND " + LAY_R1_LIST_CODE_COL + " = '" + distCode + "' " +
-                " AND " + LAY_R2_LIST_CODE_COL + " = '" + upCode + "' " +
-                " AND " + LAY_R3_LIST_CODE_COL + " = '" + unCode + "' " +
-                " AND " + LAY_R4_LIST_CODE_COL + " = '" + vCode + "' " +
-                " AND " + DONOR_CODE_COL + " = '" + donorCode + "' " +
-                " AND " + AWARD_CODE_COL + " = '" + awardCode + "' " +
-                " AND " + HHID_COL + " = '" + hhId + "' " +
-                " AND " + HH_MEM_ID + " = '" + mmId + "' " +
-                " AND " + PROGRAM_CODE_COL + " = '" + progCode + "' " +
-                " AND " + SERVICE_CODE_COL + " <> '" + srvCode + "' " +
-                " AND " + GRD_CODE_COL + " = (" + SQLiteQuery.getGraduationDefaultActiveReason_Select_Query(progCode, srvCode) + ") ";
-
+        String sql = SQLiteQuery.get_MemOthCriteriaLive_sql(
+                cCode, distCode, upCode, unCode, vCode, hhId, mmId, donorCode, awardCode, progCode,
+                srvCode);
         //  Cursor cursor = db.rawQuery(sql, null);
 
-        Cursor m = db.rawQuery(sql, null);
+        Cursor cursor = db.rawQuery(sql, null);
 
 
-        if (m != null) {
+        if (cursor != null) {
 
 
-            if (m.getCount() > 0) {
+            if (cursor.getCount() > 0) {
 
                 memHave = true;
 
@@ -7072,7 +7106,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
 
                 memHave = false;
             }
-            m.close();
+            cursor.close();
             db.close();
 
         }

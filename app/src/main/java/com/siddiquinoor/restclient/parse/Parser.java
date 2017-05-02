@@ -465,8 +465,8 @@ public class Parser extends Parse {
                     String Sync = "1";
 
 
-                    sqlH.addRegistrationFromOnline(AdmCountryCode, DistrictName, UpazillaName, UnitName, VillageName, RegistrationID, RegNDate, PersonName, SEX, HHSize, Latitude, Longitude, AGLand, VStatus, MStatus, EntryBy, EntryDate, VSLAGroup, GPSLongSwap, RegNAddLookupCode, HHHeadCat, LT2yrsM, LT2yrsF, M2to5yrs, F2to5yrs
-                            , M6to12yrs, F6to12yrs, M13to17yrs, F13to17yrs, Orphn_LT18yrsM, Orphn_LT18yrsF, Adlt_18to59M, Adlt_18to59F, Eld_60pM, Eld_60pF, PLW, ChronicallyIll, LivingDeceasedContractEbola, ExtraChildBecauseEbola, ExtraElderlyPersonBecauseEbola, ExtraChronicallyIllDisabledPersonBecauseEbola
+                    sqlH.addRegistrationFromOnline(AdmCountryCode, DistrictName, UpazillaName, UnitName, VillageName, RegistrationID, RegNDate, PersonName, sex, HHSize, Latitude, Longitude, AGLand, VStatus, MStatus, EntryBy, EntryDate, VSLAGroup, GPSLongSwap, RegNAddLookupCode, HHHeadCat, LT2yrsM, LT2yrsF, M2to5yrs, F2to5yrs
+                            , M6to12yrs, F6to12yrs, M13to17yrs, F13to17yrs, Orphn_LT18yrsM, Orphn_LT18yrsF, Adlt_18to59M, Adlt_18to59F, Eld_60pM, Eld_60pF, plw, ChronicallyIll, LivingDeceasedContractEbola, ExtraChildBecauseEbola, ExtraElderlyPersonBecauseEbola, ExtraChronicallyIllDisabledPersonBecauseEbola
                             , BRFCntCattle, BRFValCattle, AFTCntCattle, AFTValCattle, BRFCntSheepGoats, BRFValSheepGoats, AFTCntSheepGoats, AFTValSheepGoats, BRFCntPoultry, BRFValPoultry, AFTCntPoultry, AFTValPoultry, BRFCntOther, BRFValOther, AFTCntOther, AFTValOther, BRFAcreCultivable
                             , BRFValCultivable, AFTAcreCultivable, AFTValCultivable, BRFAcreNonCultivable, BRFValNonCultivable, AFTAcreNonCultivable, AFTValNonCultivable, BRFAcreOrchards, BRFValOrchards, AFTAcreOrchards, AFTValOrchards, BRFValCrop, AFTValCrop, BRFValLivestock, AFTValLivestock, BRFValSmallBusiness
                             , AFTValSmallBusiness, BRFValEmployment, AFTValEmployment, BRFValRemittances, AFTValRemittances, BRFCntWageEnr, AFTCntWageEnr, Sync, WRank
@@ -1371,12 +1371,7 @@ public class Parser extends Parse {
     public static void DTEnu_Parser(JSONArray jsonArrayData, SQLiteHandler sqlH) {
 
         int size = jsonArrayData.length();
-        String dtStfCoe;
-        String admCountryCode;
-        String dtBasicCol;
-        String dtBtnSave;
-        String entryBy;
-        String usaEntryDate;
+        String dtStfCoe, admCountryCode, dtBasicCol, dtBtnSave, entryBy, usaEntryDate;
 
         for (int i = 0; i < size; i++) {
             try {
@@ -1390,19 +1385,9 @@ public class Parser extends Parse {
                 entryBy = jsonObject.getString("EntryBy");
                 usaEntryDate = jsonObject.getString("UsaEntryDate");
 
-           /*     Log.d("NIR_192",
-                        "in DTA table  StfCode :" + dtStfCoe +
-                                " AdmCountryCode :" + admCountryCode +
-                                " DTBasic :" + dtBasicCol +
-                                " btnSave :" + dtBtnSave +
-                                " EntryBy :" + entryBy +
-                                " UsaEntryDate :" + usaEntryDate
-                );*/
-
 
                 sqlH.addIntoDtEnuTable(dtStfCoe, admCountryCode, dtBasicCol, dtBtnSave, entryBy, usaEntryDate);
 
-                //  Log.d(TAG, "DT Enu Table index " + i);
 
             } catch (Exception e) {
                 Log.e(TAG, "Exception : " + e);
@@ -2050,10 +2035,8 @@ public class Parser extends Parse {
         int size = jsonArrayData.length();
 
         List<VillageItem> villageLists = new ArrayList<>();
-
-
         String GeoLayRName, AdmCountryCode, LayRCode, LayR4ListName;
-        // ArrayList<AdmCountryDataModel> arrayList = new ArrayList<>();
+
 
         for (int i = 0; i < size; i++) {
             try {
@@ -2092,7 +2075,6 @@ public class Parser extends Parse {
 
                 sqlH.addGpsGroup(GrpCode, GrpName, Description);
 
-//                        Log.d(TAG, " GroupCode : " + GrpCode + " GrpName : " + GrpName + " Description : " + Description);
             } catch (Exception e) {
                 Log.e(TAG, "Exception : " + e);
                 e.printStackTrace();
@@ -2228,21 +2210,21 @@ public class Parser extends Parse {
             try {
                 JSONObject jsonObject = jsonArrayData.getJSONObject(i);
 
-                 AdmCountryCode = jsonObject.getString(Parser.ADM_COUNTRY_CODE);
-                 AdmDonorCode = jsonObject.getString(Parser.ADM_DONOR_CODE);
-                 AdmAwardCode = jsonObject.getString(Parser.ADM_AWARD_CODE);
-                 AdmProgCode = jsonObject.getString(Parser.ADM_PROG_CODE);
-                 AdmSrvCode = jsonObject.getString(Parser.ADM_SRV_CODE);
-                 ProgFlag = jsonObject.getString("ProgFlag");
-                 FoodFlag = jsonObject.getString(Parser.FOOD_FLAG);
-                 NFoodFlag = jsonObject.getString(Parser.N_FOOD_FLAG);
-                 CashFlag = jsonObject.getString(Parser.CASH_FLAG);
-                 VOFlag = jsonObject.getString(Parser.VO_FLAG);
-                 DefaultFoodDays = jsonObject.getString(Parser.DEFAULT_FOOD_DAYS);
-                 DefaultNFoodDays = jsonObject.getString(Parser.DEFAULT_N_FOOD_DAYS);
-                 DefaultCashDays = jsonObject.getString(Parser.DEFAULT_CASH_DAYS);
-                 DefaultVODays = jsonObject.getString(Parser.DEFAULT_VO_DAYS);
-                 SrvSpecific = jsonObject.getString(Parser.SRV_SPECIFIC);
+                AdmCountryCode = jsonObject.getString(Parser.ADM_COUNTRY_CODE);
+                AdmDonorCode = jsonObject.getString(Parser.ADM_DONOR_CODE);
+                AdmAwardCode = jsonObject.getString(Parser.ADM_AWARD_CODE);
+                AdmProgCode = jsonObject.getString(Parser.ADM_PROG_CODE);
+                AdmSrvCode = jsonObject.getString(Parser.ADM_SRV_CODE);
+                ProgFlag = jsonObject.getString("ProgFlag");
+                FoodFlag = jsonObject.getString(Parser.FOOD_FLAG);
+                NFoodFlag = jsonObject.getString(Parser.N_FOOD_FLAG);
+                CashFlag = jsonObject.getString(Parser.CASH_FLAG);
+                VOFlag = jsonObject.getString(Parser.VO_FLAG);
+                DefaultFoodDays = jsonObject.getString(Parser.DEFAULT_FOOD_DAYS);
+                DefaultNFoodDays = jsonObject.getString(Parser.DEFAULT_N_FOOD_DAYS);
+                DefaultCashDays = jsonObject.getString(Parser.DEFAULT_CASH_DAYS);
+                DefaultVODays = jsonObject.getString(Parser.DEFAULT_VO_DAYS);
+                SrvSpecific = jsonObject.getString(Parser.SRV_SPECIFIC);
 
                 sqlH.insertAdmCountryProgram(AdmCountryCode, AdmDonorCode, AdmAwardCode, AdmProgCode, AdmSrvCode, ProgFlag, FoodFlag, NFoodFlag, CashFlag, VOFlag, DefaultFoodDays, DefaultNFoodDays, DefaultCashDays, DefaultVODays, SrvSpecific);
 
@@ -2256,7 +2238,7 @@ public class Parser extends Parse {
     }
 
 
-    public static void lupProgGroupCropParser(JSONArray jsonArrayData, SQLiteHandler sqlH) {
+    public static void lupProgramGroupCropParser(JSONArray jsonArrayData, SQLiteHandler sqlH) {
 
         int size = jsonArrayData.length();
         String AdmCountryCode, AdmDonorCode, AdmAwardCode, AdmProgCode, CropCode, CropList, CropCatCode;
@@ -2275,6 +2257,187 @@ public class Parser extends Parse {
 
                 sqlH.addLUP_ProgramGroupCrop(AdmCountryCode, AdmDonorCode, AdmAwardCode, AdmProgCode, CropCode, CropList, CropCatCode);
 
+
+            } catch (Exception e) {
+                Log.e(TAG, "Exception : " + e);
+                e.printStackTrace();
+            }
+        }
+
+    }
+
+
+    public static void lupCommunityLoanSourceParser(JSONArray jsonArrayData, SQLiteHandler sqlH) {
+
+        int size = jsonArrayData.length();
+
+        String AdmCountryCode, AdmDonorCode, AdmAwardCode, AdmProgCode, LoanCode, LoanSource;
+
+        for (int i = 0; i < size; i++) {
+            try {
+                JSONObject jsonObject = jsonArrayData.getJSONObject(i);
+
+
+                AdmCountryCode = jsonObject.getString("AdmCountryCode");
+                AdmDonorCode = jsonObject.getString("AdmDonorCode");
+                AdmAwardCode = jsonObject.getString("AdmAwardCode");
+                AdmProgCode = jsonObject.getString("AdmProgCode");
+                LoanCode = jsonObject.getString("LoanCode");
+                LoanSource = jsonObject.getString("LoanSource");
+
+
+                sqlH.addLUP_CommunityLoanSource(AdmCountryCode, AdmDonorCode, AdmAwardCode, AdmProgCode, LoanCode, LoanSource);
+
+
+            } catch (Exception e) {
+                Log.e(TAG, "Exception : " + e);
+                e.printStackTrace();
+            }
+        }
+
+    }
+
+
+    public static void lupCommunityFundSourceParser(JSONArray jsonArrayData, SQLiteHandler sqlH) {
+
+        int size = jsonArrayData.length();
+
+        String AdmCountryCode, AdmDonorCode, AdmAwardCode, AdmProgCode, FundCode, FundSource;
+
+        for (int i = 0; i < size; i++) {
+            try {
+                JSONObject lup_community_loan_source_Data = jsonArrayData.getJSONObject(i);
+
+                AdmCountryCode = lup_community_loan_source_Data.getString("AdmCountryCode");
+                AdmDonorCode = lup_community_loan_source_Data.getString("AdmDonorCode");
+                AdmAwardCode = lup_community_loan_source_Data.getString("AdmAwardCode");
+                AdmProgCode = lup_community_loan_source_Data.getString("AdmProgCode");
+                FundCode = lup_community_loan_source_Data.getString("FundCode");
+                FundSource = lup_community_loan_source_Data.getString("FundSource");
+
+                sqlH.addLUP_CommunityFundSource(AdmCountryCode, AdmDonorCode, AdmAwardCode, AdmProgCode, FundCode, FundSource);
+
+
+            } catch (Exception e) {
+                Log.e(TAG, "Exception : " + e);
+                e.printStackTrace();
+            }
+        }
+
+    }
+
+
+    public static void lupCommunityIrrigationSystemParser(JSONArray jsonArrayData, SQLiteHandler sqlH) {
+
+        int size = jsonArrayData.length();
+
+        String AdmCountryCode, AdmDonorCode, AdmAwardCode, AdmProgCode, IrriSysCode, IrriSysName;
+
+        for (int i = 0; i < size; i++) {
+            try {
+                JSONObject lup_community_loan_source_Data = jsonArrayData.getJSONObject(i);
+
+
+                AdmCountryCode = lup_community_loan_source_Data.getString("AdmCountryCode");
+                AdmDonorCode = lup_community_loan_source_Data.getString("AdmDonorCode");
+                AdmAwardCode = lup_community_loan_source_Data.getString("AdmAwardCode");
+                AdmProgCode = lup_community_loan_source_Data.getString("AdmProgCode");
+                IrriSysCode = lup_community_loan_source_Data.getString("IrriSysCode");
+                IrriSysName = lup_community_loan_source_Data.getString("IrriSysName");
+
+
+                sqlH.addLUP_CommunityIrrigationSystem(AdmCountryCode, AdmDonorCode, AdmAwardCode, AdmProgCode, IrriSysCode, IrriSysName);
+
+
+            } catch (Exception e) {
+                Log.e(TAG, "Exception : " + e);
+                e.printStackTrace();
+            }
+        }
+
+    }
+
+
+    public static void lupCommunityLeadPositionParser(JSONArray jsonArrayData, SQLiteHandler sqlH) {
+
+        int size = jsonArrayData.length();
+
+        String AdmCountryCode, AdmDonorCode, AdmAwardCode, AdmProgCode, LeadCode, LeadPosition;
+
+        for (int i = 0; i < size; i++) {
+            try {
+                JSONObject jsonObject = jsonArrayData.getJSONObject(i);
+
+
+                AdmCountryCode = jsonObject.getString("AdmCountryCode");
+                AdmDonorCode = jsonObject.getString("AdmDonorCode");
+                AdmAwardCode = jsonObject.getString("AdmAwardCode");
+                AdmProgCode = jsonObject.getString("AdmProgCode");
+                LeadCode = jsonObject.getString("LeadCode");
+                LeadPosition = jsonObject.getString("LeadPosition");
+
+
+                sqlH.addLUP_CommunityLeadPostition(AdmCountryCode, AdmDonorCode, AdmAwardCode, AdmProgCode, LeadCode, LeadPosition);
+
+            } catch (Exception e) {
+                Log.e(TAG, "Exception : " + e);
+                e.printStackTrace();
+            }
+        }
+
+    }
+
+    public static void lupCommunityGroupCategoryParser(JSONArray jsonArrayData, SQLiteHandler sqlH) {
+
+        int size = jsonArrayData.length();
+
+        String AdmCountryCode, AdmDonorCode, AdmAwardCode, AdmProgCode, GrpCatCode, GrpCatName, GrpCatShortName;
+
+        for (int i = 0; i < size; i++) {
+            try {
+                JSONObject jsonObject = jsonArrayData.getJSONObject(i);
+
+
+                AdmCountryCode = jsonObject.getString("AdmCountryCode");
+                AdmDonorCode = jsonObject.getString("AdmDonorCode");
+                AdmAwardCode = jsonObject.getString("AdmAwardCode");
+                AdmProgCode = jsonObject.getString("AdmProgCode");
+                GrpCatCode = jsonObject.getString("GrpCatCode");
+                GrpCatName = jsonObject.getString("GrpCatName");
+                GrpCatShortName = jsonObject.getString("GrpCatShortName");
+
+
+                sqlH.addCommunityGroupCategoryFromOnline(AdmCountryCode, AdmDonorCode, AdmAwardCode, AdmProgCode, GrpCatCode, GrpCatName, GrpCatShortName);
+
+            } catch (Exception e) {
+                Log.e(TAG, "Exception : " + e);
+                e.printStackTrace();
+            }
+        }
+
+    }
+
+
+    public static void lupCommunityAnimalParser(JSONArray jsonArrayData, SQLiteHandler sqlH) {
+//lup_community_animal
+        int size = jsonArrayData.length();
+
+        String AdmCountryCode, AdmDonorCode, AdmAwardCode, AdmProgCode, AnimalCode, AnimalType;
+
+        for (int i = 0; i < size; i++) {
+            try {
+                JSONObject lup_community_animal_Data = jsonArrayData.getJSONObject(i);
+
+
+                AdmCountryCode = lup_community_animal_Data.getString("AdmCountryCode");
+                AdmDonorCode = lup_community_animal_Data.getString("AdmDonorCode");
+                AdmAwardCode = lup_community_animal_Data.getString("AdmAwardCode");
+                AdmProgCode = lup_community_animal_Data.getString("AdmProgCode");
+                AnimalCode = lup_community_animal_Data.getString("AnimalCode");
+                AnimalType = lup_community_animal_Data.getString("AnimalType");
+
+
+                sqlH.addLUP_AnimalTypeFromOnline(AdmCountryCode, AdmDonorCode, AdmAwardCode, AdmProgCode, AnimalCode, AnimalType);
 
             } catch (Exception e) {
                 Log.e(TAG, "Exception : " + e);

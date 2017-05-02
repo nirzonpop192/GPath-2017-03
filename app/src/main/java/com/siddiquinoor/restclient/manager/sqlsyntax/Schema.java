@@ -1324,15 +1324,15 @@ public class Schema {
 
     public static String sqlCreateLUP_CommunityAnimalList_Table() {
 
-        return CREATE_TABLE_IF_NOT_EXISTS + SQLiteHandler.LUP_COMMUNITY_ANIMAL_TABLE + " ("
+        return CREATE_TABLE_IF_NOT_EXISTS + LUP_COMMUNITY_ANIMAL_TABLE + " ("
 
 
                 + COUNTRY_CODE_COL + " VARCHAR(4) "
                 + " , " + DONOR_CODE_COL + " VARCHAR(4) "
                 + " , " + AWARD_CODE_COL + " VARCHAR(4) "
                 + " , " + PROGRAM_CODE_COL + " VARCHAR(4) "
-                + " , " + SQLiteHandler.ANIMAL_CODE_COL + " VARCHAR(4) "
-                + " , " + SQLiteHandler.ANIMAL_TYPE_COL + " VARCHAR(100) "
+                + " , " + ANIMAL_CODE_COL + " VARCHAR(4) "
+                + " , " + ANIMAL_TYPE_COL + " VARCHAR(100) "
 
                 + " )";
 
@@ -1342,16 +1342,16 @@ public class Schema {
 
     public static String sqlCreateLUP_ProgramGroupCrop_Table() {
 
-        return CREATE_TABLE_IF_NOT_EXISTS + SQLiteHandler.LUP_PROG_GROUP_CROP_TABLE + " ("
+        return CREATE_TABLE_IF_NOT_EXISTS + LUP_PROG_GROUP_CROP_TABLE + " ("
 
 
                 + COUNTRY_CODE_COL + " VARCHAR(4) "
                 + " , " + DONOR_CODE_COL + " VARCHAR(4) "
                 + " , " + AWARD_CODE_COL + " VARCHAR(4) "
                 + " , " + PROGRAM_CODE_COL + " VARCHAR(4) "
-                + " , " + SQLiteHandler.CROP_CODE_COL + " VARCHAR(4) "
-                + " , " + SQLiteHandler.CROP_NAME_COL + " VARCHAR(100) "
-                + " , " + SQLiteHandler.CROP_CAT_COL + " VARCHAR(10) "
+                + " , " + CROP_CODE_COL + " VARCHAR(4) "
+                + " , " + CROP_NAME_COL + " VARCHAR(100) "
+                + " , " + CROP_CAT_COL + " VARCHAR(10) "
 
                 + " )";
 
@@ -1360,34 +1360,75 @@ public class Schema {
 
     public static String sqlCreateLUP_CommunityLoanSource_Table() {
 
-        return CREATE_TABLE_IF_NOT_EXISTS + SQLiteHandler.LUP_COMMUNITY_LOAN_SOURCE_TABLE + " ("
+        return CREATE_TABLE_IF_NOT_EXISTS + LUP_COMMUNITY_LOAN_SOURCE_TABLE + " ("
 
 
                 + COUNTRY_CODE_COL + " VARCHAR(4) "
                 + " , " + DONOR_CODE_COL + " VARCHAR(4) "
                 + " , " + AWARD_CODE_COL + " VARCHAR(4) "
                 + " , " + PROGRAM_CODE_COL + " VARCHAR(4) "
-                + " , " + SQLiteHandler.LOAN_CODE_COL + " VARCHAR(4) "
-                + " , " + SQLiteHandler.LOAN_SOURCE_COL + " VARCHAR(100) "
-
-
+                + " , " + LOAN_CODE_COL + " VARCHAR(4) "
+                + " , " + LOAN_SOURCE_COL + " VARCHAR(100) "
                 + " )";
 
 
     }
 
 
-    public static String sqlCreateLUP_CommunityLeadPosition_Table() {
+    public static String sqlCreateLUP_CommunityFundSource_Table() {
 
-        return CREATE_TABLE_IF_NOT_EXISTS + SQLiteHandler.LUP_COMMUNITY_LEAD_POSITION_TABLE + " ("
+        return CREATE_TABLE_IF_NOT_EXISTS + LUP_COMMUNITY_FUND_SOURCE_TABLE + " ("
 
 
                 + COUNTRY_CODE_COL + " VARCHAR(4) "
                 + " , " + DONOR_CODE_COL + " VARCHAR(4) "
                 + " , " + AWARD_CODE_COL + " VARCHAR(4) "
                 + " , " + PROGRAM_CODE_COL + " VARCHAR(4) "
-                + " , " + SQLiteHandler.LEAD_CODE_COL + " VARCHAR(4) "
-                + " , " + SQLiteHandler.LEAD_POSITION_COL + " VARCHAR(100) "
+                + " , " + FUND_CODE_COL + " VARCHAR(4) "
+                + " , " + FUND_SOURCE_COL + " VARCHAR(100) "
+                + " )";
+
+
+    }
+
+
+    public static String sqlCreateLUP_CommunityIrrigationSystem_Table() {
+
+        return CREATE_TABLE_IF_NOT_EXISTS + LUP_COMMUNITY_IRRIGATION_SYSTEM_TABLE + " ("
+
+
+                + COUNTRY_CODE_COL + " VARCHAR(4) "
+                + " , " + DONOR_CODE_COL + " VARCHAR(4) "
+                + " , " + AWARD_CODE_COL + " VARCHAR(4) "
+                + " , " + PROGRAM_CODE_COL + " VARCHAR(4) "
+                + " , " + IRRI_SYS_CODE_COL + " VARCHAR(3) "
+                + " , " + IRRI_SYS_NAME_COL + " VARCHAR(100) "
+                + " )";
+
+
+
+//        SELECT [AdmCountryCode]
+//        ,[AdmDonorCode]
+//        ,[AdmAwardCode]
+//        ,[AdmProgCode]
+//        ,[IrriSysCode]
+//        ,[IrriSysName]
+//        ,[EntryBy]
+//        ,[EntryDate]
+//        FROM [dbo].[LUP_CommunityIrrigationSystem]
+    }
+
+    public static String sqlCreateLUP_CommunityLeadPosition_Table() {
+
+        return CREATE_TABLE_IF_NOT_EXISTS + LUP_COMMUNITY_LEAD_POSITION_TABLE + " ("
+
+
+                + COUNTRY_CODE_COL + " VARCHAR(4) "
+                + " , " + DONOR_CODE_COL + " VARCHAR(4) "
+                + " , " + AWARD_CODE_COL + " VARCHAR(4) "
+                + " , " + PROGRAM_CODE_COL + " VARCHAR(4) "
+                + " , " + LEAD_CODE_COL + " VARCHAR(4) "
+                + " , " + LEAD_POSITION_COL + " VARCHAR(100) "
 
 
                 + " )";

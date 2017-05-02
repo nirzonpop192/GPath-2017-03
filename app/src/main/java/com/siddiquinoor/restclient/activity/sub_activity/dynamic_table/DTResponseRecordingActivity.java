@@ -106,6 +106,7 @@ public class DTResponseRecordingActivity extends BaseActivity implements Compoun
     public static final String RADIO_BUTTON_N_TEXTBOX = "Radio Button, Textbox";
     public static final String CHECKBOX_N_TEXTBOX = "Checkbox, Textbox";
     public static final String LOOKUP_LIST = "Lookup List";
+    public static final String COMMNITY_ANIMAL = "Commnity Animal";
 
     private CustomToast cusToast;
 
@@ -390,9 +391,9 @@ public class DTResponseRecordingActivity extends BaseActivity implements Compoun
     private void getPreviousQuestion() {
 
         --mQusIndex;
-        hideViews();                            // hide all previous view
+        hideViews();                                                                                // hide all previous view
 
-        if (mQusIndex >= 1) {                   // to check does index exceed the minimum  value
+        if (mQusIndex >= 1) {                                                                       // to check does index exceed the minimum  value
 
             DTQTableDataModel nextQus = loadPreviousQuestion(dyIndex.getDtBasicCode(), mQusIndex);
             displayQuestion(nextQus);
@@ -401,7 +402,7 @@ public class DTResponseRecordingActivity extends BaseActivity implements Compoun
                 btnPreviousQus.setVisibility(View.INVISIBLE);
             }
         } else
-            mQusIndex = 1;                         // set index at initial stage
+            mQusIndex = 1;                                                                          // set index at initial stage
 
 
     }
@@ -420,10 +421,10 @@ public class DTResponseRecordingActivity extends BaseActivity implements Compoun
             btnPreviousQus.setVisibility(View.VISIBLE);
 
 
-        ++mQusIndex;                                                        // increments the question no index
+        ++mQusIndex;                                                                                // increments the question no index
 
-        if (mQusIndex <= totalQuestion)                                     //to check does index exceed the maximum value
-            hideViews();                                                    // hide all views
+        if (mQusIndex <= totalQuestion)                                                             //to check does index exceed the maximum value
+            hideViews();                                                                            // hide all views
 
 
         if (mQusIndex < totalQuestion) {
@@ -822,7 +823,7 @@ public class DTResponseRecordingActivity extends BaseActivity implements Compoun
                     hideSoftKayPad(dt_spinner);                             //hide the key pad when spinner Appears
 
 
-                    if (dtResponse != null)                                 //if data exist get the Spinner String  set position •
+                    if (dtResponse != null)                                                         //if data exist get the Spinner String  set position •
                         strSpinner = dtResponse.getDtaValue();
                     else
                         strSpinner = null;
@@ -835,7 +836,7 @@ public class DTResponseRecordingActivity extends BaseActivity implements Compoun
                     parent_layout_onlyFor_CB.setVisibility(View.VISIBLE);
 
 
-                    hideSoftKayPad(dt_spinner);                             //hide the key pad when spinner Appears
+                    hideSoftKayPad(dt_spinner);                                                     //hide the key pad when spinner Appears
 
                     if (mDTATables.size() > 0)
                         loadDynamicCheckBox(mDTATables);
@@ -926,11 +927,11 @@ public class DTResponseRecordingActivity extends BaseActivity implements Compoun
                                     errorIndicator();
                                     displayError("Out of range input! ");
                                 }
-                            } else {                                                // else the input method would  be the text
+                            } else {                                                                // else the input method would  be the text
                                 normalIndicator();
                                 saveData(edtInput, "", mDTATables.get(0), calling4TerminalPoint);
 
-                                getNextQuestion();                                               // load next Question
+                                getNextQuestion();                                                   // load next Question
                             }
 
 
@@ -964,7 +965,7 @@ public class DTResponseRecordingActivity extends BaseActivity implements Compoun
                 case COMBO_BOX:
 
 
-                    if (idSpinner != null) {            // here it get null point reference if spinner get no values
+                    if (idSpinner != null) {                                                        // here it get null point reference if spinner get no values
                         if (idSpinner.equals("00")) {
 
                             errorIndicator();
@@ -978,7 +979,7 @@ public class DTResponseRecordingActivity extends BaseActivity implements Compoun
 //                            Toast.makeText(mContext, "idSpinner : "+idSpinner, Toast.LENGTH_SHORT).show();
 
 
-                            getNextQuestion();       // load  next question
+                            getNextQuestion();                                                      // load  next question
                         }
                     }
                     break;
@@ -991,7 +992,8 @@ public class DTResponseRecordingActivity extends BaseActivity implements Compoun
                     } else {
                         normalIndicator();
                         /**
-                         *check the combination in ascending order and create the combination separated by commas
+                         *check the combination in ascending order and create the combination
+                         * separated by commas
                          */
                         String dtaCombinationCode = "";
                         i = 0;
@@ -1001,20 +1003,21 @@ public class DTResponseRecordingActivity extends BaseActivity implements Compoun
                                 dtaCombinationCode = dtaCombinationCode + mDTATables.get(i).getDt_AValue() + ",";
                                 saveData("", "", mDTATables.get(i), calling4TerminalPoint);
 
-                            }       // end of if condition
+                            }                                                                       // end of if condition
 
                             i++;
-                        }           // end of for each loop
+                        }                                                                           // end of for each loop
 
 
                         dtaCombinationCode = dtaCombinationCode.substring(0, dtaCombinationCode.length() - 1);  //remove the last character from a string
 
-                        // skip rules for test
-                        skipRules(responseControl, i, dtaCombinationCode);
-                        // for test  u may delete the below code
-//                        Toast.makeText(mContext, "dtaCombinationCode: " + dtaCombinationCode, Toast.LENGTH_SHORT).show();
 
-                        getNextQuestion();       // load  next question
+                        skipRules(responseControl, i, dtaCombinationCode);                          // skip rules for test
+
+//                        Toast.makeText(mContext, "dtaCombinationCode: " + dtaCombinationCode,     // for test  u may delete the below code
+//                          Toast.LENGTH_SHORT).show();
+
+                        getNextQuestion();                                                          // load  next question
                     }// end of else
 
 
@@ -1144,12 +1147,12 @@ public class DTResponseRecordingActivity extends BaseActivity implements Compoun
         //ekhane control type  check kore skipe rule tta deoya  hoy
         // this block chek the control type then determine the skipe rules for controls
         switch (controlType) {
-            case RADIO_BUTTON:
+            case RADIO_BUTTON:                                                                      //  get index of radio button which is clicked by user
 
                 // initialize  mSkipDTATable
                 mSkipDTATable = null;
 
-                //  get index of radio button which is clicked by user
+
                 // and check  for skip rules . does it have any dt_SkipDTQCode
                 String dt_SkipDTQCode = mDTATables.get(indexOfControl).getDt_SkipDTQCode();
 
@@ -1470,16 +1473,16 @@ public class DTResponseRecordingActivity extends BaseActivity implements Compoun
             initialWithFirstQues();
         else {
 
-            // initiate the question index
-            mQusIndex = 1;
 
-            // get the new survey sequence number
-            getSurveySequenceNumber();
+            mQusIndex = 1;                                                                          // initiate the question index
+
+
+            getSurveySequenceNumber();                                                               // get the new survey sequence number
             for (int i = 0; i < mBufferingList.size(); i++) {
-                String msg = "";
+//                String msg = "";
 
-                // set new sequence number   to the old values
-                mBufferingList.get(i).setDTRSeq(mDTRSeq);
+
+                mBufferingList.get(i).setDTRSeq(mDTRSeq);                                            // set new sequence number   to the old values
 
 
                 String DTBasic = mBufferingList.get(i).getDTBasic();

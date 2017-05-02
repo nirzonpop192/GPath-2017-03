@@ -2,6 +2,7 @@ package com.siddiquinoor.restclient.manager.sqlsyntax;
 
 import android.util.Log;
 
+import com.siddiquinoor.restclient.activity.sub_activity.dynamic_table.DTResponseRecordingActivity;
 import com.siddiquinoor.restclient.data_model.RegNAssgProgSrv;
 import com.siddiquinoor.restclient.data_model.adapters.AssignDataModel;
 import com.siddiquinoor.restclient.manager.SQLiteHandler;
@@ -3924,7 +3925,82 @@ public class SQLiteQuery {
 
                 break;
 
+            case DTResponseRecordingActivity.COMMNITY_ANIMAL:
 
+                udf = "SELECT " + ANIMAL_CODE_COL +
+                        " , " + ANIMAL_TYPE_COL
+                        + " FROM " + LUP_COMMUNITY_ANIMAL_TABLE
+                        + " WHERE " + COUNTRY_CODE_COL + " = '" + dyBasic.getcCode() + "' "
+                        + " AND " + DONOR_CODE_COL + " = '" + dyBasic.getDonorCode() + "' "
+                        + " AND " + AWARD_CODE_COL + " = '" + dyBasic.getAwardCode() + "' "
+                        + " AND " + PROGRAM_CODE_COL + " = '" + dyBasic.getProgramActivityCode() + "' ";
+
+
+                break;
+
+            case "Community Lead Position":
+
+                udf = "SELECT " + LEAD_CODE_COL +
+                        " , " + LEAD_POSITION_COL
+                        + " FROM " + LUP_COMMUNITY_LEAD_POSITION_TABLE
+                        + " WHERE " + COUNTRY_CODE_COL + " = '" + dyBasic.getcCode() + "' "
+                        + " AND " + DONOR_CODE_COL + " = '" + dyBasic.getDonorCode() + "' "
+                        + " AND " + AWARD_CODE_COL + " = '" + dyBasic.getAwardCode() + "' "
+                        + " AND " + PROGRAM_CODE_COL + " = '" + dyBasic.getProgramActivityCode() + "' ";
+
+
+                break;
+
+            case "Commnity Loan Source":
+
+                udf = "SELECT " + LOAN_CODE_COL +
+                        " , " + LOAN_SOURCE_COL
+                        + " FROM " + LUP_COMMUNITY_LOAN_SOURCE_TABLE
+                        + " WHERE " + COUNTRY_CODE_COL + " = '" + dyBasic.getcCode() + "' "
+                        + " AND " + DONOR_CODE_COL + " = '" + dyBasic.getDonorCode() + "' "
+                        + " AND " + AWARD_CODE_COL + " = '" + dyBasic.getAwardCode() + "' "
+                        + " AND " + PROGRAM_CODE_COL + " = '" + dyBasic.getProgramActivityCode() + "' ";
+
+
+                break;
+
+
+            case "Commnity Fund Source":
+
+                udf = "SELECT " + FUND_CODE_COL +
+                        " , " + FUND_SOURCE_COL
+                        + " FROM " + LUP_COMMUNITY_FUND_SOURCE_TABLE
+                        + " WHERE " + COUNTRY_CODE_COL + " = '" + dyBasic.getcCode() + "' "
+                        + " AND " + DONOR_CODE_COL + " = '" + dyBasic.getDonorCode() + "' "
+                        + " AND " + AWARD_CODE_COL + " = '" + dyBasic.getAwardCode() + "' "
+                        + " AND " + PROGRAM_CODE_COL + " = '" + dyBasic.getProgramActivityCode() + "' ";
+
+
+                break;
+            case "Community Irrigation System":
+                udf = "SELECT " + IRRI_SYS_CODE_COL +
+                        " , " + IRRI_SYS_NAME_COL
+                        + " FROM " + LUP_COMMUNITY_IRRIGATION_SYSTEM_TABLE
+                        + " WHERE " + COUNTRY_CODE_COL + " = '" + dyBasic.getcCode() + "' "
+                        + " AND " + DONOR_CODE_COL + " = '" + dyBasic.getDonorCode() + "' "
+                        + " AND " + AWARD_CODE_COL + " = '" + dyBasic.getAwardCode() + "' "
+                        + " AND " + PROGRAM_CODE_COL + " = '" + dyBasic.getProgramActivityCode() + "' ";
+
+
+                break;
+
+
+            case "Prog Group Crop List":
+                udf = "SELECT " + CROP_CODE_COL +
+                        " , " + CROP_NAME_COL
+                        + " FROM " + LUP_PROG_GROUP_CROP_TABLE
+                        + " WHERE " + COUNTRY_CODE_COL + " = '" + dyBasic.getcCode() + "' "
+                        + " AND " + DONOR_CODE_COL + " = '" + dyBasic.getDonorCode() + "' "
+                        + " AND " + AWARD_CODE_COL + " = '" + dyBasic.getAwardCode() + "' "
+                        + " AND " + PROGRAM_CODE_COL + " = '" + dyBasic.getProgramActivityCode() + "' ";
+
+
+                break;
         }
 
         //Log.d("toma", udf);
@@ -4000,22 +4076,22 @@ public class SQLiteQuery {
         String sql = "";
         switch (appOpMode) {
             case UtilClass.REGISTRATION_OPERATION_MODE:
-                sql = " INNER JOIN " + SQLiteHandler.SELECTED_VILLAGE_TABLE + " ON "
-                        + SQLiteHandler.COUNTRY_TABLE + "." + SQLiteHandler.COUNTRY_CODE_COL + " = "
-                        + SQLiteHandler.SELECTED_VILLAGE_TABLE + "." + SQLiteHandler.COUNTRY_CODE_COL;
+                sql = " INNER JOIN " + SELECTED_VILLAGE_TABLE + " ON "
+                        + COUNTRY_TABLE + "." + COUNTRY_CODE_COL + " = "
+                        + SELECTED_VILLAGE_TABLE + "." + COUNTRY_CODE_COL;
 
 
                 break;
             case UtilClass.DISTRIBUTION_OPERATION_MODE:
-                sql = " INNER JOIN " + SQLiteHandler.SELECTED_FDP_TABLE + " ON "
-                        + SQLiteHandler.COUNTRY_TABLE + "." + SQLiteHandler.COUNTRY_CODE_COL + " = "
-                        + SQLiteHandler.SELECTED_FDP_TABLE + "." + SQLiteHandler.COUNTRY_CODE_COL;
+                sql = " INNER JOIN " + SELECTED_FDP_TABLE + " ON "
+                        + COUNTRY_TABLE + "." + COUNTRY_CODE_COL + " = "
+                        + SELECTED_FDP_TABLE + "." + COUNTRY_CODE_COL;
 
                 break;
             case UtilClass.SERVICE_OPERATION_MODE:
-                sql = " INNER JOIN " + SQLiteHandler.SELECTED_SERVICE_CENTER_TABLE + " ON "
-                        + SQLiteHandler.COUNTRY_TABLE + "." + SQLiteHandler.COUNTRY_CODE_COL + " = "
-                        + SQLiteHandler.SELECTED_SERVICE_CENTER_TABLE + "." + SQLiteHandler.COUNTRY_CODE_COL;
+                sql = " INNER JOIN " + SELECTED_SERVICE_CENTER_TABLE + " ON "
+                        + COUNTRY_TABLE + "." + COUNTRY_CODE_COL + " = "
+                        + SELECTED_SERVICE_CENTER_TABLE + "." + COUNTRY_CODE_COL;
 
 
                 break;
@@ -4023,9 +4099,9 @@ public class SQLiteQuery {
             case UtilClass.OTHER_OPERATION_MODE:
                 /**                 * check  user  has access in multiple countries                 */
                 if (multipleCountryAccessUserFlag) {
-                    sql = " INNER JOIN " + SQLiteHandler.SELECTED_COUNTRY_TABLE + " ON "
-                            + SQLiteHandler.COUNTRY_TABLE + "." + SQLiteHandler.COUNTRY_CODE_COL + " = "
-                            + SQLiteHandler.SELECTED_COUNTRY_TABLE + "." + SQLiteHandler.COUNTRY_CODE_COL;
+                    sql = " INNER JOIN " + SELECTED_COUNTRY_TABLE + " ON "
+                            + COUNTRY_TABLE + "." + COUNTRY_CODE_COL + " = "
+                            + SELECTED_COUNTRY_TABLE + "." + COUNTRY_CODE_COL;
 
 
                 } else {
@@ -4611,4 +4687,21 @@ public class SQLiteQuery {
     }
 
 
+    public static String get_MemOthCriteriaLive_sql(String cCode, String distCode, String upCode, String unCode, String vCode, String hhId, String mmId, String donorCode, String awardCode, String progCode, String srvCode) {
+        return "SELECT " + HH_MEM_ID +
+                " FROM " + REG_N_ASSIGN_PROG_SRV_TABLE +
+                " WHERE " + COUNTRY_CODE_COL + " = '" + cCode + "' " +
+                " AND " + LAY_R1_LIST_CODE_COL + " = '" + distCode + "' " +
+                " AND " + LAY_R2_LIST_CODE_COL + " = '" + upCode + "' " +
+                " AND " + LAY_R3_LIST_CODE_COL + " = '" + unCode + "' " +
+                " AND " + LAY_R4_LIST_CODE_COL + " = '" + vCode + "' " +
+                " AND " + DONOR_CODE_COL + " = '" + donorCode + "' " +
+                " AND " + AWARD_CODE_COL + " = '" + awardCode + "' " +
+                " AND " + HHID_COL + " = '" + hhId + "' " +
+                " AND " + HH_MEM_ID + " = '" + mmId + "' " +
+                " AND " + PROGRAM_CODE_COL + " = '" + progCode + "' " +
+                " AND " + SERVICE_CODE_COL + " <> '" + srvCode + "' " +
+                " AND " + GRD_CODE_COL + " = (" + SQLiteQuery.getGraduationDefaultActiveReason_Select_Query(progCode, srvCode) + ") ";
+
+    }
 }//end of class

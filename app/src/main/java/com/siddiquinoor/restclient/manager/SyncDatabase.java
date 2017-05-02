@@ -114,6 +114,7 @@ public class SyncDatabase {
 
                 /** set json array for selected village */
 
+/*
 
                 pDialogUpload.setMessage("Downloading data ");
 
@@ -132,7 +133,9 @@ public class SyncDatabase {
 //                settings = my_activity.getSharedPreferences(MainActivity.APP_PREFERENCES, Context.MODE_PRIVATE); //1
 //                String operationModeName = settings.getInt(UtilClass.OPERATION_MODE, 0);
                 String operationModeName = sqlH.getDeviceOperationMode();
-                /** for sefty rea JSON*/
+                */
+/** for sefty rea JSON*//*
+
                 JSONArray array = UtilClass.layR4CodeJSONConverter("SyncDatabase", sqlH.getSelectedVillageList(), sqlH);
 
                 switch (operationModeName) {
@@ -163,7 +166,8 @@ public class SyncDatabase {
                         break;
                 }
 
-                checkLoginAndDowenReferenceData(username, password, array, String.valueOf(operationModeName));
+               checkLoginAndDowenReferenceData(username, password, array, String.valueOf(operationModeName));
+*/
 
 
             }
@@ -296,7 +300,7 @@ public class SyncDatabase {
                         ac.updateRecord();
 
                         pDialogUpload.setProgress(ac.getCurrentRecord());
-                        // when all the unsync data upload  than it wiil dowenload
+                        // when all the unsync data upload  than it will download
                         if (counter > data_size) {
                             AppController.getInstance().getRequestQueue().getCache().clear();
                             Log.d(TAG, "Finally  Registration Task Completed");
