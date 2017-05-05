@@ -2419,7 +2419,7 @@ public class Parser extends Parse {
 
 
     public static void lupCommunityAnimalParser(JSONArray jsonArrayData, SQLiteHandler sqlH) {
-//lup_community_animal
+
         int size = jsonArrayData.length();
 
         String AdmCountryCode, AdmDonorCode, AdmAwardCode, AdmProgCode, AnimalCode, AnimalType;

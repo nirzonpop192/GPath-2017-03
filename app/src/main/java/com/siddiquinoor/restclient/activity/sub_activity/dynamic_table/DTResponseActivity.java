@@ -386,7 +386,7 @@ public class DTResponseActivity extends BaseActivity {
 
 
     private void loadDtMonth(final String cCode, String opCode) {
-        SpinnerLoader.loadDtMonthLoader(mContext,sqlH,spDtMonth, cCode,opCode,idMonth,strMonth);
+        SpinnerLoader.loadDtMonthLoader(mContext,sqlH,spDtMonth, cCode,"5",idMonth,strMonth);
 
 
         spDtMonth.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {

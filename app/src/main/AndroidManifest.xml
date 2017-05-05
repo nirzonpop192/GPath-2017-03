@@ -323,28 +323,39 @@
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".activity.DynamicTable"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize" />
-        <activity android:name=".activity.sub_activity.dynamic_table.DTResponseActivity" />
+        <activity
+            android:name=".activity.sub_activity.dynamic_table.DTResponseActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.sub_activity.dynamic_table.DTResponseRecordingActivity"
             android:label="@string/title_activity_dt__qustion"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".activity.sub_activity.dynamic_table.DT_ReportActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
             android:name=".activity.TrainingActivity"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".activity.sub_activity.training.IdTypeSelection"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".activity.sub_activity.training.TABeneficiaryCardListActivity"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".activity.sub_activity.training.AddTaParticipaintActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize" />
-        <activity android:name=".activity.sub_activity.training.TaSummaryPage"></activity>
+        <activity
+            android:name=".activity.sub_activity.training.TaSummaryPage"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>
